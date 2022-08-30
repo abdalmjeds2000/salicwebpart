@@ -1,0 +1,36 @@
+.boc-light {
+  height: calc(100vh - 50px);
+  background-color: transparent !important;
+}
+.boc-edit-form-instruments {
+  min-height: 0px !important;
+}
+[data-n-id] rect {
+  fill: var(--second-color);
+}
+.boc-edit-form-header {
+  border-radius: 0px !important;
+  background-color: var(--second-color) !important;
+}
+.boc-edit-form-title {
+  color: #fff !important;
+}
+.boc-edit-form-avatar {
+  width: 120px;
+  height: 120px;
+  top: 55px;
+}
+
+[data-n-id] rect {
+  fill: var(--second-color);
+}
+[data-n-id='1'] rect {
+  fill: var(--main-color);
+}
+
+/* [data-n-id='2'] rect {
+  fill: var(--main-color);
+} */
+/* [data-l-id] path {
+  stroke: var(--third-color);
+} */

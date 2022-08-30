@@ -1,0 +1,10 @@
+.folder-explorer-container {
+  padding: 0;
+  min-height: calc(100vh - 85px);
+  top: 85px;
+  position: relative;
+}
+.folder-explorer-container iframe {
+  min-height: calc(100vh - 85px);
+  border: 0 !important;
+}

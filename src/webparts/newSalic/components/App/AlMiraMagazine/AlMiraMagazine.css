@@ -1,0 +1,77 @@
+.almira-magazine-container {
+  padding: 25px;
+  min-height: calc(100vh - 85px);
+  position: relative;
+  top: 85px;
+  display: flex;
+  gap: 25px;
+  justify-content: space-between;
+}
+.almira-magazine-container .image {
+  width: 40%;
+}
+.almira-magazine-container .image img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.almira-magazine-container .content {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.almira-magazine-container .content .header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.almira-magazine-container .content .header h1 {
+  line-height: 1.1;
+  font-size: 2rem;  
+}
+.almira-magazine-container .content .header p {
+  color: #b7b7b7 !important;
+}
+.almira-magazine-container .content .description p {
+  color: #000 !important;
+}
+.almira-magazine-container .content .description p:nth-child(2) {
+  font-size: 0.7rem;
+}
+
+.almira-magazine-container .content .en-ar-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.almira-magazine-container .content .en-ar-btns a {
+  padding: 10px 15px;
+  background-color: #d7b360;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  transition: 0.3s;
+  border: 2px solid #fff;
+  min-width: 60%;
+  text-align: center;
+}
+.almira-magazine-container .content .en-ar-btns a:hover {
+  color: #d7b360 !important;
+  background-color: #fff;
+  border: 2px solid #d7b360;
+}
+
+@media screen and (max-width: 990px) {
+  .almira-magazine-container {
+    padding: 10px;
+    flex-direction: column;
+  }
+  .almira-magazine-container .image {
+    width: 100%;
+  }
+  .almira-magazine-container .content {
+    width: 100%;
+  }
+}

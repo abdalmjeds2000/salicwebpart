@@ -1,0 +1,110 @@
+@import '~antd/dist/antd.css';
+
+/* Basics */
+:root{
+  --main-color: #0C508C;
+  --second-color: #3A9BCC;
+  --third-color: #E7F0FE;
+  --text-color: #6477AA;
+  --link-text-color: #4098FF;
+  --main-animation-duration: 0.3s;
+  --page-tb-padding: 50px 0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+ul {
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+}
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 0 !important;
+  color: var(--text-color) !important;
+  line-height: 1;
+}
+p {
+  line-height: normal;
+}
+a { text-decoration: none; }
+a:hover, a:focus, a:active { color: var(--text-color) !important; }
+body {
+  font-family: Helvetica, Arial;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+.content-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 2560px;
+  position: relative;
+  top: 50px;
+  margin-bottom: 50px;
+}
+
+
+
+
+/* App Loader */
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.loader div {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid var(--link-text-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 30px auto;
+  animation: spin 2s linear infinite;
+}
+/* Section Loader */
+.loader.small {
+  position: relative;
+}
+.loader.small div {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--link-text-color);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 10px auto;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* world Background in pages */
+img.img-bg {
+  width: 150vh;
+  position: absolute;
+  top: 0vh;
+  right: -50vh;
+  opacity: 0.15;
+  z-index: 0;
+}
+img.img-bg.img-bg-form {
+  z-index: -1;
+}
