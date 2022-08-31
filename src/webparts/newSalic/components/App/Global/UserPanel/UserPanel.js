@@ -20,9 +20,9 @@ const UserPanel = (props) => {
         </a> */}
         
         
-        <a href={`tel:${props.mobile}`}>
+        <NavLink to="/book-meeting-room">
           <img src={BookingIcon} alt="" />
-        </a>
+        </NavLink>
         
         <a href={props.mailTo} target='blank'>
           <img src={MessageIcon} alt="" />

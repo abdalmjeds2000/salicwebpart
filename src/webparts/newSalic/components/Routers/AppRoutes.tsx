@@ -22,6 +22,12 @@ import FolderExplorerPage from '../App/FolderExplorer/FolderExplorer';
 import EInvoicing from '../App/9Boxs/EInvoicing/EInvoicing';
 import Performance from '../App/9Boxs/Performance/Performance';
 import AlMiraMagazine from '../App/AlMiraMagazine/AlMiraMagazine';
+import MeetingCenter from '../App/MeetingCenter/MeetingCenter';
+import NewMeeting from '../App/MeetingCenter/NewMeeting/NewMeeting';
+import MyMeetings from '../App/MeetingCenter/MyMeetings/MyMeetings';
+import RoomsCalender from '../App/MeetingCenter/RoomsCalender/RoomsCalender';
+
+
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   React.useEffect(() => {
@@ -60,6 +66,13 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       
       <Route path="/hr-self-services" element={<HRSelf />} />
       <Route path="/notification-center" element={<NotificationCenter />} />
+      <Route path="/book-meeting-room">
+        <Route index element={<MeetingCenter />} />
+        <Route path="/book-meeting-room/new-meeting" element={<NewMeeting />} />
+        <Route path="/book-meeting-room/my-meetings" element={<MyMeetings />} />
+        <Route path="/book-meeting-room/rooms-calender" element={<RoomsCalender />} />
+      </Route>
+      
     </Routes>
   );
 }

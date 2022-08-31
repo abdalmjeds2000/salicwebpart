@@ -1,14 +1,15 @@
 .services-page-container {
   width: 100%;
   padding: 25px 25px;
-  min-height: calc(100% + 110px);
-  background: rgb(224,233,255);
-  background: linear-gradient(0deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 100%);
+  min-height: calc(100vh - 85px);
+  background: #e0e9ff;
+  background: linear-gradient(0deg,#e0e9ff,#fff);
   position: relative;
   top: 85px;
+  margin-bottom: 85px;
 }
 .services-body-container .services-boxs-container:last-child {
-  margin-bottom: 100px;
+  margin-bottom: 75px;
 }
 
 .services-page-container > .header {
