@@ -54,11 +54,15 @@
   font-size: 1.5rem;
   border-radius: 10px;
   transition: 0.3s;
-  border: 2px solid #fff;
+  border: 2px solid transparent;
   min-width: 60%;
   text-align: center;
 }
-.almira-magazine-container .content .en-ar-btns a:hover {
+
+.almira-magazine-container .content .en-ar-btns a:hover,
+.almira-magazine-container .content .en-ar-btns a:active,
+.almira-magazine-container .content .en-ar-btns a:visited,
+.almira-magazine-container .content .en-ar-btns a:focus {
   color: #d7b360 !important;
   background-color: #fff;
   border: 2px solid #d7b360;

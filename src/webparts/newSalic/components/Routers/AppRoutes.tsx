@@ -26,6 +26,7 @@ import MeetingCenter from '../App/MeetingCenter/MeetingCenter';
 import NewMeeting from '../App/MeetingCenter/NewMeeting/NewMeeting';
 import MyMeetings from '../App/MeetingCenter/MyMeetings/MyMeetings';
 import RoomsCalender from '../App/MeetingCenter/RoomsCalender/RoomsCalender';
+import OracleReports from '../App/OracleReports/OracleReports';
 
 
 
@@ -36,10 +37,10 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   return (
     <Routes>
       <Route path="/home" element={<Home />} />
-      <Route path="/" element={<h1>Home Page</h1>} />
       <Route path="/communication" element={<Communication />} />
       <Route path="/dms" element={<FolderExplorerPage {...props}/>} />
       <Route path="/almira-magazine" element={<AlMiraMagazine />} />
+      <Route path="/oracle-reports" element={<OracleReports />} />
       <Route path="/attendance" element={<Attendance />} />
       <Route path="/community-news" element={<CommunityNews />} />
       <Route path="/admin-services">
@@ -63,7 +64,6 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path="/performance-managment">
         <Route index element={<Performance />} />
       </Route>
-      
       <Route path="/hr-self-services" element={<HRSelf />} />
       <Route path="/notification-center" element={<NotificationCenter />} />
       <Route path="/book-meeting-room">
@@ -72,7 +72,6 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path="/book-meeting-room/my-meetings" element={<MyMeetings />} />
         <Route path="/book-meeting-room/rooms-calender" element={<RoomsCalender />} />
       </Route>
-      
     </Routes>
   );
 }

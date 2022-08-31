@@ -8,7 +8,6 @@
 }
 
 .meetings-center-container .content {
-  padding: 25px;
   background-color: #fff;
   border-radius: 15px;
   position: relative;
@@ -39,9 +38,6 @@
     padding: 15px;
     margin-bottom: 85px;
   }
-  .meetings-center-container .content {
-    padding: 15px;
-  }
   .meetings-center-container .content .header {
     padding: 10px;
     border-radius: 10px 10px 0 0;
@@ -54,9 +50,6 @@
 
 @media screen and (min-width: 0px) and (max-width: 799px) {
   .meetings-center-container {
-    padding: 10px;
-  }
-  .meetings-center-container .content {
     padding: 10px;
   }
   .meetings-center-container .content .header {

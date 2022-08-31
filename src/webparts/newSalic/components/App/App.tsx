@@ -25,81 +25,84 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [newsList, setNewsList] = React.useState([]);
   const [globeData, setGlobeData] = React.useState({});
   const [isGlobeReady, setIsGlobeReady] = React.useState(false);
+  const [oracleReports, setOracleReports] = React.useState({})
   
+
   React.useEffect(() => {
     // Get Current Login User
-    pnp.sp.web.currentUser.get()
-    .then(user => {
-      console.log(user)
-      return user
-    })
+      pnp.sp.web.currentUser.get()
+      .then(user => {
+        console.log(user)
+        return user
+      })
     // Get Current User Data
-    .then((user) => {
-      axios({
-        method: 'GET',
-        url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
-      })
-      .then((response) => {
-        console.log(response.data)
-        setUserData(response.data)
-        return response
-      })
-      // Get Globe Data 
-      .then((response) => {
+      .then((user) => {
         axios({
           method: 'GET',
-          url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
         })
-        .then(res => setGlobeData(res.data))
-        .catch((error) => { console.log(error) })
-        return response
-      })
-      // Disable Loader
-      .then((response) => {setIsLoading(false); return response})
-      // Get Latest Attendance
-      .then((response) => {
-        axios({ method: 'POST', url: `https://salicapi.com/api/attendance/Get`, 
-          data: {
-            Email: response.data.Data.Mail,
-            Month: new Date().getMonth()+1,
-            Year: new Date().getUTCFullYear(),
-            status: -1
-          }})
-        .then((res) => setLatestAttendance(res.data.Data))
-        .catch((error) => { console.log(error) })
-        return response
-      })
-      // GetNotifications Count #1
-      .then((response) => {
-        axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}`})
-        .then((res) => { setNotificationsCount(res.data.Data) })
-        .catch((error) => { console.log(error) })
-        return response
-      })
-      // Get Notifications Count #2
-      .then((response) => {
-        axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}`})
-        .then((res) => { setNotificationsCount(prev => prev + res.data.Data) })
-        .catch((error) => { console.log(error) })
-        return response
-      })
-      // Get Mail Count
-      .then((response) => {
-        axios({ method: 'GET', url: `https://salicapi.com/api/User/GetUnReadMessags?UserId=${response.data.Data?.GraphId}`})
-        .then((res) => { setMailCount(res.data.Data) })
-        .catch((error) => { console.log(error) })
-        return response
+        .then((response) => {
+          console.log(response.data)
+          setUserData(response.data)
+          return response
+        })
+        // Get Globe Data 
+        .then((response) => {
+          axios({
+            method: 'GET',
+            url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
+          })
+          .then(res => setGlobeData(res.data))
+          .catch((error) => { console.log(error) })
+          return response
+        })
+        // Disable Loader
+        .then((response) => {setIsLoading(false); return response})
+        // Get Latest Attendance
+        .then((response) => {
+          axios({ method: 'POST', url: `https://salicapi.com/api/attendance/Get`, 
+            data: {
+              Email: response.data.Data.Mail,
+              Month: new Date().getMonth()+1,
+              Year: new Date().getUTCFullYear(),
+              status: -1
+            }})
+          .then((res) => setLatestAttendance(res.data.Data))
+          .catch((error) => { console.log(error) })
+          return response
+        })
+        // GetNotifications Count #1
+        .then((response) => {
+          axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}`})
+          .then((res) => { setNotificationsCount(res.data.Data) })
+          .catch((error) => { console.log(error) })
+          return response
+        })
+        // Get Notifications Count #2
+        .then((response) => {
+          axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}`})
+          .then((res) => { setNotificationsCount(prev => prev + res.data.Data) })
+          .catch((error) => { console.log(error) })
+          return response
+        })
+        // Get Mail Count
+        .then((response) => {
+          axios({ method: 'GET', url: `https://salicapi.com/api/User/GetUnReadMessags?UserId=${response.data.Data?.GraphId}`})
+          .then((res) => { setMailCount(res.data.Data) })
+          .catch((error) => { console.log(error) })
+          return response
+        })
+        .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
-    })
-    .catch(err => console.log(err))
 
 
     // Get Communication List
       axios({ method: 'GET', url: 'https://salicapi.com/api/User/GetCommunicationList'})
       .then((res) => { setCommunicationList(res.data.Data) })
       .catch((error) => { console.log(error) })
-    //Get Notification Center Data
+    
+      //Get Notification Center Data
       axios({ 
         method: 'GET', 
         url: 'https://salicapi.com/api/notificationcenter/Get?Email=stsadmin@salic.onmicrosoft.com&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191'
@@ -118,8 +121,17 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         })
         setNotificationCenterData(notifi_data);
       }).catch(err => console.log(err))
-    // Get All News
+    
+      // Get All News
       GetAllNews().then(res => setNewsList(res)).catch((err) => {console.log(err)})
+    
+      // Get Oracle Reports Data
+      axios({
+        method: 'GET',
+        url: 'https://salicapi.com/api/reports/get?Email=stsadmin@salic.onmicrosoft.com',
+      }).then(res => {
+        setOracleReports(JSON.parse(res.data.Data))
+      }).catch(err => console.log(err))
   }, [])
 
 
@@ -135,6 +147,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     globe_data: globeData,
     isGlobeReady,
     toggleGlobeReady,
+    oracle_reports: oracleReports
   };
 
 
