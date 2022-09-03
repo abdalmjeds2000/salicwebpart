@@ -13,6 +13,7 @@ import Image3 from '../../../../assets/images/media_center/gallery4.png'
 import Image4 from '../../../../assets/images/media_center/gallery5.png'
 
 import DefualtUserIcon from '../../../../assets/images/default-profile-icon.svg'
+import { includes } from 'lodash';
 const boxsIcons = {
   Policies: <svg xmlns="http://www.w3.org/2000/svg" width="18.165" height="19.91" viewBox="0 0 18.165 19.91">
               <g id="Document" transform="translate(-0.001 0)">
@@ -77,11 +78,14 @@ function getWindowSize() {
 
 
 const ThreeDivisions = (props) => {
-  const { news_list } = useContext(AppCtx);
+  const { news_list, media_center } = useContext(AppCtx);
+
   // Image Viewer Code
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = [Image1, Image2, Image3, Image4];
+  const images = media_center.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
+  const videos = media_center.Row?.filter(r => ['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
+
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
@@ -111,10 +115,13 @@ const ThreeDivisions = (props) => {
         <div className="gallerys">
           {/* Video Section */}
           <div className="gallery gallery1">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RB0k4KlehYE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RB0k4KlehYE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+            <video controls poster={VideoPoster}>
+              <source src={videos[0]}></source>
+            </video>
           </div>
           {/* Images Section */}
-          {images.map((src, index) => (
+          {images.slice(-4).reverse().map((src, index) => (
             <div
               src={src}
               onClick={ () => openImageViewer(index) }
@@ -125,7 +132,7 @@ const ThreeDivisions = (props) => {
           ))}
           {isViewerOpen && (
             <ImageViewer
-              src={ images }
+              src={ images.reverse() }
               currentIndex={ currentImage }
               disableScroll={ true }
               closeOnClickOutside={ true }

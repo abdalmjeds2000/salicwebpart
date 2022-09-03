@@ -31,9 +31,7 @@ import OracleReports from '../App/OracleReports/OracleReports';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
-  React.useEffect(() => {
-    console.log('router props', props)
-  }, [])
+
   return (
     <Routes>
       <Route path="/home" element={<Home />} />

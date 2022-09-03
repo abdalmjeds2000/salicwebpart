@@ -115,6 +115,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
       </div>
 
       <ul style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {display: 'none'} : {}}>
+
         {listItems.map((item, i) => {
           return <li key={i}>
             <NavLink
@@ -329,6 +330,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
             {isNavBarLarge && <p>Communication</p>}
           </NavLink>
         </li>
+
 
         <li>
           <a 

@@ -35,11 +35,11 @@
   margin-bottom: 10px;
 }
 .cards .card-container div:nth-child(1) img {
-  width: 60px;
+  width: 50px;
 }
 .cards .card-container div:nth-child(1) div h3 {
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .cards .card-container div:nth-child(1) div p {
   font-weight: 400;
@@ -47,8 +47,8 @@
 }
 .cards .card-container div:nth-child(2) p {
   font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 0.9rem;
+  line-height: 1.1;
 }
 .cards .card-container ul {
   display: flex;
@@ -64,7 +64,7 @@
 
 @media screen and (max-width: 1750px) and (min-width: 1500px) {
   .cards .card-container div:nth-child(1) img {
-    width: 50px;
+    width: 40px;
   }
   .cards .card-container div:nth-child(1) div h3 {
     font-size: 1.1rem;
@@ -73,27 +73,27 @@
     font-size: 0.9rem;
   }
   .cards .card-container div:nth-child(2) p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 }
 @media screen and (max-width: 1499px) and (min-width: 1200px) {
   .cards .card-container div:nth-child(1) img {
-    width: 40px;
+    width: 30px;
   }
   .cards .card-container div:nth-child(1) div h3 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .cards .card-container div:nth-child(1) div p {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
   .cards .card-container div:nth-child(2) p {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     line-height: 1.1;
   }
 }
 @media screen and (max-width: 1199px) and (min-width: 990px) {
   .cards .card-container div:nth-child(1) img {
-    width: 30px;
+    width: 25px;
   }
   .cards .card-container div:nth-child(1) div h3 {
     font-size: 0.8rem;
@@ -102,7 +102,7 @@
     font-size: 0.6rem;
   }
   .cards .card-container div:nth-child(2) p {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     line-height: 1.2;
   }
 }

@@ -8,9 +8,6 @@ import App from './App/App';
 
 export default class NewSalic extends React.Component<INewSalicProps, {}> {
 
-  componentDidMount(): void {
-    console.log('asd', this.props)
-  }
   public render(): React.ReactElement<INewSalicProps> {
     const {
       description,
