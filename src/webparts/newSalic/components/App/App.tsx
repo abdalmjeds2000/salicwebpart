@@ -9,6 +9,7 @@ import pnp from 'sp-pnp-js';
 import { createContext } from "react";
 import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
+import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
 
 
@@ -29,6 +30,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [isGlobeReady, setIsGlobeReady] = React.useState(false);
   const [oracleReports, setOracleReports] = React.useState({})
   const [mediaCenter, setMediaCenter] = React.useState({})
+  const [notesList, setNotesList] = React.useState([])
   
 
   React.useEffect(() => {
@@ -124,6 +126,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       }).catch(err => console.log(err))
     // Get All News
       GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => {console.log(err)});
+    // Get All Notes
+    GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => {console.log(err)});
     // Get All Images for Media Center
       GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => {console.log(err)})
     // Get Oracle Reports Data
@@ -149,7 +153,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     isGlobeReady,
     toggleGlobeReady,
     oracle_reports: oracleReports,
-    media_center: mediaCenter
+    media_center: mediaCenter,
+    notes_list: notesList
   };
 
 

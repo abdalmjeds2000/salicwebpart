@@ -68,7 +68,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     
   }
   let listItems = [
-    {to: '/home', icon: svgIcons.home, text: <p>Home</p>}, 
+    {to: '/sites/newSalic/_layouts/15/workbench.aspx/home', icon: svgIcons.home, text: <p>Home</p>}, 
     {to: '/community-news', icon: svgIcons.news, text: <p>Salic News</p>},
   ];
   let activeStyle = {

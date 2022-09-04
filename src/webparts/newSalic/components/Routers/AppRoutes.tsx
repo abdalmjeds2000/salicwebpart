@@ -34,7 +34,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
   return (
     <Routes>
-      <Route path="/home" element={<Home />} />
+      <Route path="/sites/newSalic/_layouts/15/workbench.aspx/home" element={<Home />} />
       <Route path="/communication" element={<Communication />} />
       <Route path="/dms" element={<FolderExplorerPage {...props}/>} />
       <Route path="/almira-magazine" element={<AlMiraMagazine />} />

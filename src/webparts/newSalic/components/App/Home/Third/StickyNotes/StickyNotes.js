@@ -1,67 +1,118 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './StickyNotes.css';
+import pnp from 'sp-pnp-js';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-
+import { AppCtx } from '../../../App';
 
 
 
 const StickyNotes = () => {
+  const { notes_list } = useContext(AppCtx);
 
-
-  const [notes, setNotes] = useState([
-    {id: 0, title: 'Hello World 0', description: 'It is a long established fact that a reader will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using'},
-    {id: 1, title: 'Hello World 1', description: 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using'},
-    {id: 2, title: 'Hello World 2', description: 'The readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using'},
-    {id: 3, title: 'Hello World 3', description: 'will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using'},
-  ])
-  const [currentNote, setCurrentNote] = useState(0);
+  const [notes, setNotes] = useState(notes_list)
+  const [currentNote, setCurrentNote] = useState(notes[0].Id);
   const [isActiveEditMode, setIsActiveEditMode] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState(notes.filter(n => n.id === currentNote)[0]?.title);
   const [newNoteDescription, setNewNoteDescription] = useState(notes.filter(n => n.id === currentNote)[0]?.description);
 
 
   const saveEdits = () => {
-    if(newNoteTitle === '' && newNoteDescription === ''){
+    if(newNoteTitle === '' || newNoteDescription === ''){
       Swal.fire({
         icon: 'error',
         title: 'Error...',
-        text: 'Please, edit any text above and try again.',
+        text: 'Please, edit Title and Description above and try again.',
         timer: 1500,
         showConfirmButton: false
       })
     } else {
       if(currentNote === -1) {
-        setNotes(prev => [...prev, {id: prev.length, title: newNoteTitle, description: newNoteDescription}]);
-        setCurrentNote(notes.length)
+        pnp.sp.web.lists.getByTitle('Sticky Notes').items.add({
+          Title: newNoteTitle,
+          NoteDescription: newNoteDescription, 
+        }).then((res) => {
+          setNotes(prev => [res.data, ...prev]);
+          Swal.fire({
+            icon: 'success',
+            title: 'Done!',
+            timer: 1000,
+            showConfirmButton: false
+          })
+          setCurrentNote(res.data.Id)
+        }).catch(err => Swal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: 'Please try again.',
+          timer: 1000,
+          showConfirmButton: false
+        }))
+        
       } else{
-        const updatedNotes = notes.map(obj => {
-          if (obj.id === currentNote) {
-            obj.title = newNoteTitle;
-            obj.description = newNoteDescription;
-            return {...obj};
-          }
-          return obj;
-        });
-        setNotes(updatedNotes);
+        pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(currentNote).update({
+          Title: newNoteTitle,
+          NoteDescription: newNoteDescription, 
+        }).then(() => {
+          const updatedNotes = notes.map(obj => {
+            if (obj.Id === currentNote) {
+              obj.Title = newNoteTitle;
+              obj.NoteDescription = newNoteDescription;
+              return {...obj};
+            }
+            return obj;
+          });
+          Swal.fire({
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          setNotes(updatedNotes);
+        }).catch((err) => console.log(err))
+        
       }
       setIsActiveEditMode(false)
-      Swal.fire({
-        icon: 'success',
-        title: 'Done!',
-        timer: 1000,
-        showConfirmButton: false
-      })
-    }
-  }
-  const cancelEdits = () => {
-    setIsActiveEditMode(false)
-    if(currentNote === -1) {
-      setCurrentNote(0)
+      
     }
   }
 
+
+  const cancelEdits = () => {
+    setIsActiveEditMode(false)
+    if(currentNote === -1) {
+      setCurrentNote(notes[0].Id)
+    }
+  }
+
+
+  const onDeleteHandler = (Id) => {
+    const newArray = notes.filter(r => r.Id !== Id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0C508C',
+      cancelButtonColor: '#ff272b',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(Id).delete()
+        .then(() => {
+          setNotes(newArray);
+          Swal.fire(
+            'Deleted!',
+            'Your Note has been deleted.',
+            'success'
+          )
+          .then(() => setCurrentNote(newArray[0].Id))
+        })
+        .catch((err) => console.log(err))
+        
+      }
+    })
+    
+  }
 
   useEffect(() => {
     setNewNoteTitle('')
@@ -87,8 +138,8 @@ const StickyNotes = () => {
               <button className='action-btn cancel-btn' onClick={cancelEdits}>Cancel</button>
             </div>
           : <div className='action-btns'>
-              <span className='action-btn'><FontAwesomeIcon icon={faTrash} style={{cursor: 'pointer'}} /></span>
-              <span className='action-btn'><FontAwesomeIcon icon={faPlus} onClick={() => setCurrentNote(-1)} style={{cursor: 'pointer'}} /></span>
+              <span className='action-btn' onClick={() => onDeleteHandler(currentNote)}><FontAwesomeIcon icon={faTrash} style={{cursor: 'pointer'}} /></span>
+              <span className='action-btn' onClick={() => setCurrentNote(-1)}><FontAwesomeIcon icon={faPlus} style={{cursor: 'pointer'}} /></span>
             </div>
         }
       </div>
@@ -98,7 +149,7 @@ const StickyNotes = () => {
           currentNote === -1
           ? <div className='add-new-form'>
               <input type="Note Title" placeholder='Note Title' onChange={e => setNewNoteTitle(e.target.value)} />
-              <textarea name="Note Description" placeholder='Note Description' rows={5} onChange={e => setNewNoteDescription(e.target.value)}></textarea>
+              <textarea name="Note Description" placeholder='Note Description' rows={7} onChange={e => setNewNoteDescription(e.target.value)}></textarea>
             </div>
           : null
         }
@@ -107,19 +158,19 @@ const StickyNotes = () => {
         {
           notes.map((n) => {
             return (
-              n.id === currentNote && <>
+              n.Id === currentNote && <>
                 {
                   isActiveEditMode
                   ? <div className='add-new-form'>
-                      <input type="Note Title" onChange={e => setNewNoteTitle(e.target.value)} defaultValue={n.title} />
-                      <textarea name="Note Description" rows={5} onChange={e => setNewNoteDescription(e.target.value)} defaultValue={n.description} ></textarea>
+                      <input type="Note Title" onChange={e => setNewNoteTitle(e.target.value)} defaultValue={n.Title} />
+                      <textarea name="Note Description" rows={5} onChange={e => setNewNoteDescription(e.target.value)} defaultValue={n.NoteDescription} ></textarea>
                     </div>
                   : <div onClick={() => setIsActiveEditMode(true)}>
                       <h4 className="note-title">
-                        {n.title}
+                        {n.Title}
                       </h4>
                       <p className="note-description">
-                        {n.description}
+                        {n.NoteDescription}
                       </p>
                     </div>
                 }
@@ -134,8 +185,8 @@ const StickyNotes = () => {
           notes.map((n) => {
             return (
               <span 
-                className={`note3 ${currentNote === n.id ? 'active' : ''}`}
-                onClick={(() => setCurrentNote(n.id))}
+                className={`note3 ${currentNote === n.Id ? 'active' : ''}`}
+                onClick={(() => setCurrentNote(n.Id))}
                 style={{pointerEvents: isActiveEditMode && currentNote !== -1 ? 'none' : ''}}
               ></span>
             )
