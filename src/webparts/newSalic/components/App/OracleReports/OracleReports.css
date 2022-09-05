@@ -9,7 +9,7 @@
 }
 
 .oracle-reports-container .departments-container {
-  width: 30%;
+  width: 20%;
 }
 
 .oracle-reports-container .departments-container ul.departments {
@@ -60,7 +60,7 @@
 
 
 .oracle-reports-container .departments-content {
-  width: 70%;
+  width: 80%;
 }
 .oracle-reports-container .departments-content .links-container {
   display: grid;
