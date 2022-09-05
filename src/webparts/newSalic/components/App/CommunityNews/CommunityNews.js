@@ -47,7 +47,7 @@ function CommunityNews() {
           return (
             <NewsBox 
               key={i}
-              AuthorImg={box.Photos !== null ? box.Photos : DefualtUserIcon}
+              AuthorImg={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${box.Author?.EMail}`}
               AuthorName={box.Author.Title}
               AuthorTitle='HR Manager'
               NewTitle={box.Subject}
@@ -58,7 +58,7 @@ function CommunityNews() {
       </div>
 
 
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: '0'}}>
         <Pagination current={currentPage} onChange={p => {
           setCurrentPage(p)
           setFilteredNewslist(getDataByPageNo(news_list, p))

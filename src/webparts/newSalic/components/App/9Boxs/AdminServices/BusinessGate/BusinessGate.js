@@ -14,13 +14,13 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function BusinessGate() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
   const [dataSource, setDataSource] = useState([]);
 
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Business Gate Request</p>
       </HistoryNavigation>
       

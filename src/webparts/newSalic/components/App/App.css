@@ -108,3 +108,85 @@ img.img-bg {
 img.img-bg.img-bg-form {
   z-index: -1;
 }
+
+
+
+/* Custom Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #D1E5FD;
+  border-radius: 50px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9EBEE6;
+  border-radius: 50px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #809dc0;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Hide Sharepoint elements */
+#sp-appBar, #SuiteNavWrapper {
+  display: none !important;
+}
+.CanvasComponent.LCS .CanvasZone:not(.CanvasZone--fullWidth) .ControlZone {
+  padding: 0px !important;
+}
+.CanvasComponent.LCS .CanvasSection--read:not(.CanvasSection--fullWidth) .ControlZone {
+  margin-top: 0px !important;
+}
+.CanvasComponent.LCS .CanvasSection-col {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.CanvasComponent.LCS .CanvasZone {
+  padding: 0 0 !important;
+}
+.CanvasComponent.LCS .CanvasZone {
+  max-width: 100% !important;
+  padding: 0 0 !important;
+}
+.CanvasComponent.LCS .grid {
+  padding: 0 0 !important;
+}
+.b_b_8474018e {
+  padding: 0 0 !important;
+}
+.j_b_8474018e {
+  overflow-y: unset !important;
+}
+#workbenchPageContent {
+  border: none !important;
+  margin: 0 0 !important;
+  max-width: 100% !important;
+}
+[dir=ltr] .ak_j_8474018e {
+  left: 0 !important;
+}
+[dir=ltr] .ak_j_8474018e {
+  left: 0 !important;
+}
+.root-42 {
+  display: none !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+.ah_j_8474018e {
+  overflow-x: unset !important;
+}

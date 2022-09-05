@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styles from './NewSalic.module.scss';
 import { INewSalicProps } from './INewSalicProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import axios from 'axios';

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import './UserPanel.css';
 import { NavLink } from 'react-router-dom'
 import UserSettingsPanel from '../UserSettingsPanel/UserSettingsPanel';
@@ -7,9 +7,11 @@ import MessageIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Me
 import DocumentIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Document.svg';
 import CallingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Calling.svg';
 import BookingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Booking.svg';
+import { AppCtx } from '../../App';
 
 const UserPanel = (props) => {
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const { defualt_route } = useContext(AppCtx);
 
   return (
     <div className='user-panel-container'>
@@ -20,7 +22,7 @@ const UserPanel = (props) => {
         </a> */}
         
         
-        <NavLink to="/book-meeting-room">
+        <NavLink to={`${defualt_route}/book-meeting-room`}>
           <img src={BookingIcon} alt="" />
         </NavLink>
         
@@ -34,7 +36,7 @@ const UserPanel = (props) => {
           }
         </a>
         
-        <NavLink to="/notification-center">
+        <NavLink to={`${defualt_route}/notification-center`}>
           <img src={NotificationIcon} alt="" />
           { 
             props.notificationsCount > 0 && 

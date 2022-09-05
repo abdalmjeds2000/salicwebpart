@@ -68,7 +68,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     
   }
   let listItems = [
-    {to: '/sites/newSalic/_layouts/15/workbench.aspx/home', icon: svgIcons.home, text: <p>Home</p>}, 
+    {to: '/home', icon: svgIcons.home, text: <p>Home</p>}, 
     {to: '/community-news', icon: svgIcons.news, text: <p>Salic News</p>},
   ];
   let activeStyle = {
@@ -88,7 +88,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     };
   }, []);
 
-  const appContext = React.useContext(AppCtx);
+  const defualt_route = '/sites/newSalic/_layouts/15/workbench.aspx';
 
   return (
     <nav 
@@ -119,7 +119,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         {listItems.map((item, i) => {
           return <li key={i}>
             <NavLink
-              to={item.to} 
+              to={defualt_route + item.to} 
               className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
               style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
             >
@@ -233,7 +233,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
 
         <li>
           <NavLink 
-            to='/oracle-reports'
+            to={`${defualt_route}/oracle-reports`}
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
             style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
           >
@@ -312,7 +312,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
 
         <li>
           <NavLink
-            to='/almira-magazine'
+            to={`${defualt_route}/almira-magazine`}
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
             style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
           >
@@ -322,7 +322,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         </li>
         <li>
           <NavLink
-            to='/communication'
+            to={`${defualt_route}/communication`}
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
             style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
           >

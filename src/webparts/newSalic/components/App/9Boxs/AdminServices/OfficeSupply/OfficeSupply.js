@@ -15,7 +15,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function OfficeSupply() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
 
   let getDateAndTime = () => {
     const today = new Date();
@@ -30,7 +30,7 @@ function OfficeSupply() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Office Supply</p>
       </HistoryNavigation>
       

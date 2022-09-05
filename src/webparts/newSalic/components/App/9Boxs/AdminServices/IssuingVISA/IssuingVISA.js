@@ -14,7 +14,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function IssuingVISA() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
   const [serivceType, setSerivceType] = useState('');
   
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -46,7 +46,7 @@ function IssuingVISA() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Issuing VISA</p>
       </HistoryNavigation>
       

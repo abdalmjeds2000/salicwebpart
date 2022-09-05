@@ -3,6 +3,7 @@ import './ThreeDivisions.css';
 import { NavLink } from 'react-router-dom';
 import { Timeline, Tweet } from 'react-twitter-widgets';
 import ImageViewer from 'react-simple-image-viewer';
+import ImgsViewer from "react-images-viewer";
 import { AlertFilled } from '@ant-design/icons';
 import { AppCtx } from '../../App';
 
@@ -13,7 +14,6 @@ import Image3 from '../../../../assets/images/media_center/gallery4.png'
 import Image4 from '../../../../assets/images/media_center/gallery5.png'
 
 import DefualtUserIcon from '../../../../assets/images/default-profile-icon.svg'
-import { includes } from 'lodash';
 const boxsIcons = {
   Policies: <svg xmlns="http://www.w3.org/2000/svg" width="18.165" height="19.91" viewBox="0 0 18.165 19.91">
               <g id="Document" transform="translate(-0.001 0)">
@@ -81,9 +81,10 @@ const ThreeDivisions = (props) => {
   const { news_list, media_center } = useContext(AppCtx);
 
   // Image Viewer Code
+  const { defualt_route } = useContext(AppCtx)
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = media_center.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
+  const images = media_center.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl} });
   const videos = media_center.Row?.filter(r => ['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
 
   const openImageViewer = useCallback((index) => {
@@ -103,34 +104,32 @@ const ThreeDivisions = (props) => {
   }, []);
 
 
-  
-
   return (
     <div className="three-divisions">
       <div className="media-center">
         <div className="header">
           <h3>Media Center</h3>
-          <a href="/">See All</a>
+          <NavLink to={`${defualt_route}/`}>See All</NavLink>
         </div>
         <div className="gallerys">
           {/* Video Section */}
           <div className="gallery gallery1">
             {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RB0k4KlehYE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
-            <video controls poster={VideoPoster}>
-              <source src={videos[0]}></source>
+            <video controls poster={VideoPoster} width="100%">
+              <source src={typeof(videos) === "object" ? videos[0] : ''}></source>
             </video>
           </div>
           {/* Images Section */}
-          {images.slice(-4).reverse().map((src, index) => (
+          {images?.slice(-4).reverse().map((img, index) => (
             <div
-              src={src}
+              src={img.src}
               onClick={ () => openImageViewer(index) }
               key={ index }
               className={`gallery gallery${index+2}`}
-              style={{backgroundImage: `url(${src})`}}
+              style={{backgroundImage: `url(${img.src})`}}
             ></div>
           ))}
-          {isViewerOpen && (
+          {/* {isViewerOpen && (
             <ImageViewer
               src={ images.reverse() }
               currentIndex={ currentImage }
@@ -138,47 +137,66 @@ const ThreeDivisions = (props) => {
               closeOnClickOutside={ true }
               onClose={ closeImageViewer }
             />
-          )}
+          )} */}
+          {
+            typeof(images) === 'object'
+            ? <ImgsViewer
+                imgs={images?.reverse()}
+                isOpen={isViewerOpen}
+                onClose={closeImageViewer}
+                currImg={currentImage}
+                onClickPrev={() => setCurrentImage(prev => prev - 1)}
+                onClickNext={() => setCurrentImage(prev => prev + 1)}
+                showThumbnails
+                onClickThumbnail={(i) => setCurrentImage(i)}
+                backdropCloseable
+              />
+            : ''
+          }
         </div>
       </div>
 
       <div className="community-news">
         <div className="news_organization_container">
           <div className="news">
-            <div className="header">
-              <h3>Community News</h3>
-              <NavLink to="/community-news">See All</NavLink>
-            </div>
-            {
-              news_list?.slice(0, windowSize.innerWidth > 1750 ? 3 : 2).map((row, i) => {
-                return (
-                  <div className="box" key={i}>
-                    <h3 className="title">{row.Subject}</h3>
-                    <p className="description">{row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}</p>
-                    <div className="by">
-                    <img src={row.Photos !== null? row.Photos : DefualtUserIcon} alt="" />
-                      <div>
-                        <p>{row.Author.Title}</p>
-                        <p>HR Manager</p>
+            <div className='content'>
+              <div className='last-news-container'>
+                <div className="header">
+                  <h3>Community News</h3>
+                  <NavLink to={`${defualt_route}/community-news`}>See All</NavLink>
+                </div>
+                {
+                  news_list?.slice(0, windowSize.innerWidth > 1750 ? 3 : 2).map((row, i) => {
+                    return (
+                      <div className="box" key={i}>
+                        <h3 className="title">{row.Subject}</h3>
+                        <p className="description">{row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}</p>
+                        <div className="by">
+                        <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${row.Author?.EMail}`} alt="" />
+                          <div>
+                            <p>{row.Author.Title}</p> 
+                            <p>HR Manager</p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                )
-              })
-            }
-            <div className="organization-documents-container">
-              <div className="header">
-                <h3>Organization Documents</h3>
+                    )
+                  })
+                }
               </div>
-              <div className="boxs">
-                {communityNewsBoxs.map(box => {
-                  return <div key={box.id} className="oranization-documents">
-                    <div>
-                      {box.icon}
+              <div className="organization-documents-container">
+                <div className="header">
+                  <h3>Organization Documents</h3>
+                </div>
+                <div className="boxs">
+                  {communityNewsBoxs.map(box => {
+                    return <div key={box.id} className="oranization-documents">
+                      <div>
+                        {box.icon}
+                      </div>
+                      <p>{box.name}</p>
                     </div>
-                    <p>{box.name}</p>
-                  </div>
-                })}
+                  })}
+                </div>
               </div>
             </div>
           </div>
@@ -195,7 +213,7 @@ const ThreeDivisions = (props) => {
             screenName: 'KSA_SALIC'
           }}
           options={{
-            height: 'calc(100vh - 125px)'
+            height: '550px'
           }}
         />
       </div>

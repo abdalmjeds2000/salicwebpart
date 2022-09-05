@@ -13,7 +13,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function Visitor() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -43,7 +43,7 @@ function Visitor() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Visitor VISA Request</p>
       </HistoryNavigation>
       

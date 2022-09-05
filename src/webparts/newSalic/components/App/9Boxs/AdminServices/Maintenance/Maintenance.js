@@ -13,7 +13,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function Maintenance() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
 
   let getDateAndTime = () => {
     const today = new Date();
@@ -26,7 +26,7 @@ function Maintenance() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Maintenance Request</p>
       </HistoryNavigation>
       

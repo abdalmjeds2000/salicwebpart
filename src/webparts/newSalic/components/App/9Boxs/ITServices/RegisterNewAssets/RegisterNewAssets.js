@@ -14,7 +14,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function RegisterNewAssets() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
   
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -43,7 +43,7 @@ function RegisterNewAssets() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/it-services">IT Service Center</NavLink>
+        <NavLink to={`${defualt_route}/it-services`}>IT Service Center</NavLink>
         <p>Register New Asset</p>
       </HistoryNavigation>
       

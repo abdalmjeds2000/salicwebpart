@@ -110,7 +110,7 @@ function NewMeeting() {
   
 
   // Start Transfer
-  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
   const [targetKeys, setTargetKeys] = useState(initialTargetKeys);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const onChange = (nextTargetKeys, direction, moveKeys) => {
@@ -136,7 +136,7 @@ function NewMeeting() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/book-meeting-room">Meetings Center</NavLink>
+        <NavLink to={`${defualt_route}/book-meeting-room`}>Meetings Center</NavLink>
         <p>Reserve Meeting Room</p>
       </HistoryNavigation>
       <div className='meetings-center-container'>

@@ -16,7 +16,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function TransportationRequest() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
   const [serivceType, setSerivceType] = useState('');
   const [dataSource, setDataSource] = useState([]);
   useEffect(() => {
@@ -27,7 +27,7 @@ function TransportationRequest() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/admin-services">Admin Service</NavLink>
+        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
         <p>Transportation Request</p>
       </HistoryNavigation>
       

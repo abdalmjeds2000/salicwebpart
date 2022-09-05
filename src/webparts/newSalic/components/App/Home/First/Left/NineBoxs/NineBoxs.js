@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './NineBoxs.css';
 import { NavLink } from "react-router-dom";
 
@@ -13,25 +13,31 @@ import ResearchCenter from '../../../../../../assets/icons/nine_boxs_icons/Resea
 import ESignatureTool from '../../../../../../assets/icons/nine_boxs_icons/E Signature Tool.svg';
 import Performance from '../../../../../../assets/icons/nine_boxs_icons/performance.svg';
 import DMS from '../../../../../../assets/icons/nine_boxs_icons/DMS.svg';
+import { AppCtx } from '../../../../App';
+
+
+
+const services = [
+  {icon: AdminServices, header: 'Admin Services', to: '/admin-services'},
+  {icon: ITServices, header: 'IT Services', to: '/it-services'},
+  {icon: EInvoicing, header: 'e-Invoicing', to: '/e-invoicing'},
+  {icon: HRSelfServices, header: 'HR Self Services', to: '/hr-self-services'},
+  {icon: IncidentsCenter, header: 'Incidents Center', to: '/incidents-center'},
+  {icon: CorrespondingSystem, header: 'Corresponding System', to: '/corresponding-system'},
+  {icon: ResearchCenter, header: 'Research Center', to: '/research-center'},
+  {icon: Performance, header: 'Performance Managment', to: '/performance-managment'},
+  {icon: DMS, header: 'DMS', to: '/dms'},
+];
 
 
 function NineBoxs() {
-  const services = [
-    {icon: AdminServices, header: 'Admin Services', to: '/admin-services'},
-    {icon: ITServices, header: 'IT Services', to: '/it-services'},
-    {icon: EInvoicing, header: 'e-Invoicing', to: '/e-invoicing'},
-    {icon: HRSelfServices, header: 'HR Self Services', to: '/hr-self-services'},
-    {icon: IncidentsCenter, header: 'Incidents Center', to: '/incidents-center'},
-    {icon: CorrespondingSystem, header: 'Corresponding System', to: '/corresponding-system'},
-    {icon: ResearchCenter, header: 'Research Center', to: '/research-center'},
-    {icon: Performance, header: 'Performance Managment', to: '/performance-managment'},
-    {icon: DMS, header: 'DMS', to: '/dms'},
-  ];
+  const { defualt_route } = useContext(AppCtx);
+  
 
   return (
     <div className="services-container">
       {services.map((service, i) => {
-        return <NavLink to={service.to} key={i}>
+        return <NavLink to={defualt_route + service.to} key={i}>
           <div className="service-box">
             <div>
               <img src={service.icon} alt='' />

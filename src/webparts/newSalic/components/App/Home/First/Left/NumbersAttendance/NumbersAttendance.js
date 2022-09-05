@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './NumbersAttendance.css';
 import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
+import { Empty } from 'antd';
 
 
 function NumbersAttendance() {
   const { latest_attendance } = useContext(AppCtx);
+  const [isNoData, setIsNoData] = useState(false);
+
+  useEffect(() => {
+    setTimeout(function () {
+      if(latest_attendance.length === 0) {
+        setIsNoData(true);
+      }
+    }, 8000);
+  }, []);
 
   return (
     <div className="numbers-attendance-container">
@@ -62,7 +72,10 @@ function NumbersAttendance() {
         {
           latest_attendance.length > 0 
           ? <Attendance latestAttendance={latest_attendance} />
-          : <div className="loader small"><div></div></div>
+          : !isNoData && <div className="loader small"><div></div></div>
+        }
+        {
+          isNoData && <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div>
         }
       </div>
     </div>

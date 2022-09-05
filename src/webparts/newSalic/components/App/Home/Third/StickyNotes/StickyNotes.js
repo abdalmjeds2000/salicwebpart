@@ -12,7 +12,7 @@ const StickyNotes = () => {
   const { notes_list } = useContext(AppCtx);
 
   const [notes, setNotes] = useState(notes_list)
-  const [currentNote, setCurrentNote] = useState(notes[0].Id);
+  const [currentNote, setCurrentNote] = useState(notes[0]?.Id);
   const [isActiveEditMode, setIsActiveEditMode] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState(notes.filter(n => n.id === currentNote)[0]?.title);
   const [newNoteDescription, setNewNoteDescription] = useState(notes.filter(n => n.id === currentNote)[0]?.description);
@@ -105,7 +105,7 @@ const StickyNotes = () => {
             'Your Note has been deleted.',
             'success'
           )
-          .then(() => setCurrentNote(newArray[0].Id))
+          .then(() => setCurrentNote(newArray[0]?.Id))
         })
         .catch((err) => console.log(err))
         
@@ -156,9 +156,9 @@ const StickyNotes = () => {
 
 
         {
-          notes.map((n) => {
+          notes?.map((n) => {
             return (
-              n.Id === currentNote && <>
+              n?.Id === currentNote && <>
                 {
                   isActiveEditMode
                   ? <div className='add-new-form'>
@@ -185,8 +185,8 @@ const StickyNotes = () => {
           notes.map((n) => {
             return (
               <span 
-                className={`note3 ${currentNote === n.Id ? 'active' : ''}`}
-                onClick={(() => setCurrentNote(n.Id))}
+                className={`note3 ${currentNote === n?.Id ? 'active' : ''}`}
+                onClick={(() => setCurrentNote(n?.Id))}
                 style={{pointerEvents: isActiveEditMode && currentNote !== -1 ? 'none' : ''}}
               ></span>
             )

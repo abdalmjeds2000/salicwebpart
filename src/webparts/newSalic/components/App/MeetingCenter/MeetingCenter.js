@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 
 
 function MeetingCenter() {
-  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
   const Icons = {
     NewMeeting: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" fill="#fff">
                   <g>
@@ -78,7 +78,7 @@ function MeetingCenter() {
 
         <div className='services-body-container'>
           <div className="services-boxs-container">
-            <NavLink to='/book-meeting-room/new-meeting' className='box'>
+            <NavLink to={`${defualt_route}/book-meeting-room/new-meeting`} className='box'>
               <div style={{backgroundColor: '#6edb72'}}>
                 {Icons.NewMeeting}
               </div>

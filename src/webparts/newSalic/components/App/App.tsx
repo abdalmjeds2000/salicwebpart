@@ -11,6 +11,7 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
+import * as strings from 'NewSalicWebPartStrings';
 
 
 interface AppContext {} 
@@ -43,7 +44,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
         })
         .then((response) => {
           setUserData(response.data)
@@ -60,7 +61,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           return response
         })
         // Disable Loader
-        .then((response) => {setIsLoading(false); return response})
         // Get Latest Attendance
         .then((response) => {
           axios({ method: 'POST', url: `https://salicapi.com/api/attendance/Get`, 
@@ -95,6 +95,27 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           .catch((error) => { console.log(error) })
           return response
         })
+        //Get Notification Center Data
+        .then((response) => {
+          axios({ 
+            method: 'GET', 
+            url: `https://salicapi.com/api/notificationcenter/Get?Email=${response.data.Data?.Mail}&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191`
+          }).then((res) => { 
+            const notifi_data = res.data?.Data?.map((n: any, i: any) => {
+              const newRow = {
+                key: i,
+                id: `${i+1}`,
+                subject: <><h3>{n.Title}</h3>{n.BodyPreview}</>,
+                dateTime: n.Created.slice(0, -3).replace('T', ' '),
+                status: n.Status,
+                From: n.From,
+                action: <a href="/">View Document</a>
+              }
+              return newRow
+            })
+            setNotificationCenterData(notifi_data);
+          }).catch(err => console.log(err))
+        })
         .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
@@ -104,30 +125,11 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       axios({ method: 'GET', url: 'https://salicapi.com/api/User/GetCommunicationList'})
       .then((res) => { setCommunicationList(res.data.Data) })
       .catch((error) => { console.log(error) })
-    
-    //Get Notification Center Data
-      axios({ 
-        method: 'GET', 
-        url: 'https://salicapi.com/api/notificationcenter/Get?Email=stsadmin@salic.onmicrosoft.com&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191'
-      }).then((res) => { 
-        const notifi_data = res.data?.Data?.map((n: any, i: any) => {
-          const newRow = {
-            key: i,
-            id: `${i+1}`,
-            subject: <><h3>{n.Title}</h3>{n.BodyPreview}</>,
-            dateTime: n.Created.slice(0, -3).replace('T', ' '),
-            status: n.Status,
-            From: n.From,
-            action: <a href="/">View Document</a>
-          }
-          return newRow
-        })
-        setNotificationCenterData(notifi_data);
-      }).catch(err => console.log(err))
+
     // Get All News
       GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => {console.log(err)});
     // Get All Notes
-    GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => {console.log(err)});
+      GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => {console.log(err)});
     // Get All Images for Media Center
       GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => {console.log(err)})
     // Get Oracle Reports Data
@@ -136,7 +138,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         url: 'https://salicapi.com/api/reports/get?Email=stsadmin@salic.onmicrosoft.com',
       }).then(res => {
         setOracleReports(JSON.parse(res.data.Data))
-      }).catch(err => console.log(err))
+      })
+      .then((response) => {setIsLoading(false)})
+      .catch(err => console.log(err))
+
+      
+
   }, [])
 
 
@@ -154,7 +161,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     toggleGlobeReady,
     oracle_reports: oracleReports,
     media_center: mediaCenter,
-    notes_list: notesList
+    notes_list: notesList,
+    defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
   };
 
 

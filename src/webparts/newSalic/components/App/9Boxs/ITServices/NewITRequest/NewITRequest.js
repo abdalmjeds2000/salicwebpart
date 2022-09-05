@@ -13,7 +13,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 function NewITRequest() {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, defualt_route } = useContext(AppCtx);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -52,7 +52,7 @@ function NewITRequest() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to="/it-services">IT Service Center</NavLink>
+        <NavLink to={`${defualt_route}/it-services`}>IT Service Center</NavLink>
         <p>New Service Request</p>
       </HistoryNavigation>
       <FormPageTemplate

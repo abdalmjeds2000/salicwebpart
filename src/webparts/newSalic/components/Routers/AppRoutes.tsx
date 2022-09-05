@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RoutersProps } from './RoutersProps';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../App/Home/Home.js';
 import Communication from '../App/Communication/Communication.js';
 import AdminServices from '../App/9Boxs/AdminServices/AdminServices';
@@ -31,44 +31,45 @@ import OracleReports from '../App/OracleReports/OracleReports';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
-
+  const defualtRoute: string = '/sites/newSalic/_layouts/15/workbench.aspx';
   return (
     <Routes>
-      <Route path="/sites/newSalic/_layouts/15/workbench.aspx/home" element={<Home />} />
-      <Route path="/communication" element={<Communication />} />
-      <Route path="/dms" element={<FolderExplorerPage {...props}/>} />
-      <Route path="/almira-magazine" element={<AlMiraMagazine />} />
-      <Route path="/oracle-reports" element={<OracleReports />} />
-      <Route path="/attendance" element={<Attendance />} />
-      <Route path="/community-news" element={<CommunityNews />} />
-      <Route path="/admin-services">
+      <Route path={`${defualtRoute}/home`} element={<Home />} />
+      <Route path={`${defualtRoute}`} element={<Navigate replace to={`${defualtRoute}/home`}/>} />
+      <Route path={`${defualtRoute}/communication`} element={<Communication />} />
+      <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage {...props}/>} />
+      <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />
+      <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
+      <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
+      <Route path={`${defualtRoute}/community-news`} element={<CommunityNews />} />
+      <Route path={`${defualtRoute}/admin-services`}>
         <Route index element={<AdminServices />} />
-        <Route path='/admin-services/issuing-VISA' element={<IssuingVISA />} />
-        <Route path='/admin-services/shipment' element={<ShipmentRequest />} />
-        <Route path='/admin-services/maintenance' element={<Maintenance />} />
-        <Route path='/admin-services/visitor' element={<Visitor />} />
-        <Route path='/admin-services/transportation' element={<Transportation />} />
-        <Route path='/admin-services/business-gate' element={<BusinessGate />} />
-        <Route path='/admin-services/office-supply' element={<OfficeSupply />} />
+        <Route path={`${defualtRoute}/admin-services/issuing-VISA`} element={<IssuingVISA />} />
+        <Route path={`${defualtRoute}/admin-services/shipment`} element={<ShipmentRequest />} />
+        <Route path={`${defualtRoute}/admin-services/maintenance`} element={<Maintenance />} />
+        <Route path={`${defualtRoute}/admin-services/visitor`} element={<Visitor />} />
+        <Route path={`${defualtRoute}/admin-services/transportation`} element={<Transportation />} />
+        <Route path={`${defualtRoute}/admin-services/business-gate`} element={<BusinessGate />} />
+        <Route path={`${defualtRoute}/admin-services/office-supply`} element={<OfficeSupply />} />
       </Route>
-      <Route path="/it-services">
+      <Route path={`${defualtRoute}/it-services`}>
         <Route index element={<ITServices />} />
-        <Route path="/it-services/services-request" element={<NewITRequest />} />
-        <Route path="/it-services/new-asset" element={<RegisterNewAssets />} />
+        <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
+        <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
       </Route>
-      <Route path="/e-invoicing">
+      <Route path={`${defualtRoute}/e-invoicing`}>
         <Route index element={<EInvoicing />} />
       </Route>
-      <Route path="/performance-managment">
+      <Route path={`${defualtRoute}/performance-managment`}>
         <Route index element={<Performance />} />
       </Route>
-      <Route path="/hr-self-services" element={<HRSelf />} />
-      <Route path="/notification-center" element={<NotificationCenter />} />
-      <Route path="/book-meeting-room">
+      <Route path={`${defualtRoute}/hr-self-services`} element={<HRSelf />} />
+      <Route path={`${defualtRoute}/notification-center`} element={<NotificationCenter />} />
+      <Route path={`${defualtRoute}/book-meeting-room`}>
         <Route index element={<MeetingCenter />} />
-        <Route path="/book-meeting-room/new-meeting" element={<NewMeeting />} />
-        <Route path="/book-meeting-room/my-meetings" element={<MyMeetings />} />
-        <Route path="/book-meeting-room/rooms-calender" element={<RoomsCalender />} />
+        <Route path={`${defualtRoute}/book-meeting-room/new-meeting`} element={<NewMeeting />} />
+        <Route path={`${defualtRoute}/book-meeting-room/my-meetings`} element={<MyMeetings />} />
+        <Route path={`${defualtRoute}/book-meeting-room/rooms-calender`} element={<RoomsCalender />} />
       </Route>
     </Routes>
   );

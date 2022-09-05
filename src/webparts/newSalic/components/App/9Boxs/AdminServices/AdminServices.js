@@ -37,7 +37,7 @@ const services = [
 
 
 const AdminServices = (props) => {
-  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
 
   return (
     <>
@@ -63,7 +63,7 @@ const AdminServices = (props) => {
         <div className='services-body-container'>
           <div className="services-boxs-container">
             {services.map((service, i) => {
-              return <NavLink to={service.to} className='box' key={i}>
+              return <NavLink to={defualt_route + service.to} className='box' key={i}>
                 <div style={{backgroundColor: service.bgColor}}>
                   {service.icon}
                 </div>
