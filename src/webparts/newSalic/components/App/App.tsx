@@ -11,7 +11,6 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
-import * as strings from 'NewSalicWebPartStrings';
 
 
 interface AppContext {} 

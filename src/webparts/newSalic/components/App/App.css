@@ -149,7 +149,10 @@ img.img-bg.img-bg-form {
   padding: 0px !important;
 }
 .CanvasComponent.LCS .CanvasSection--read:not(.CanvasSection--fullWidth) .ControlZone {
-  margin-top: 0px !important;
+  margin: 0px !important;
+}
+.CanvasComponent.LCS .CanvasSection--read:not(.CanvasSection--fullWidth) .ControlZone:last-of-type {
+  margin: 0 !important;
 }
 .CanvasComponent.LCS .CanvasSection-col {
   padding-left: 0px !important;
@@ -183,10 +186,16 @@ img.img-bg.img-bg-form {
   left: 0 !important;
 }
 .root-42 {
-  display: none !important;
+  /* display: none !important;
   padding: 0 !important;
-  height: 0 !important;
+  height: 0 !important; */
+  position: absolute !important;
+  z-index: 99 !important;
+  bottom: -100vh !important;
 }
 .ah_j_8474018e {
   overflow-x: unset !important;
+}
+.e_a_8474018e {
+  padding: 0 !important;
 }
