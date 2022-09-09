@@ -310,8 +310,7 @@ function HRSelf() {
 
         <div className="header">
           <div style={{backgroundColor: '#0A89C1'}}>
-            {/* <HRSelfServicesIcon /> */}
-            {icons.BusinessTrip}
+            {icons.HRSelfServices}
           </div>
           <h2>HR Self Services</h2>
         </div>

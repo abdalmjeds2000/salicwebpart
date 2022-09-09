@@ -64,12 +64,19 @@ const boxsIcons = {
                   </svg>,
 }
 const communityNewsBoxs = [
-  {id: 0, name: 'Policies', icon: boxsIcons.Policies},
-  {id: 1, name: 'Circulations', icon: boxsIcons.Circulations},
-  {id: 2, name: 'Offers', icon: boxsIcons.Offers},
-  {id: 3, name: 'User Guides', icon: boxsIcons.UserGuides},
-  {id: 4, name: 'Research', icon: boxsIcons.Research},
-  {id: 5, name: 'SALIC Templates', icon: boxsIcons.SALICTemplates},
+  {id: 0, to: '/org-doc-investment', name: 'Investment', icon: boxsIcons.Policies},
+  {id: 1, to: '/org-doc-finance', name: 'Finance', icon: boxsIcons.Circulations},
+  {id: 2, to: '/org-doc-corporate-services', name: 'Corporate Services', icon: boxsIcons.Offers},
+  {id: 3, to: '/org-doc-legal', name: 'Legal', icon: boxsIcons.UserGuides},
+  {id: 4, to: '/org-doc-risk-strategy', name: 'Risk Strategy', icon: boxsIcons.Research},
+  {id: 5, to: '/org-doc-corporate-communication', name: 'Corporate Communication', icon: boxsIcons.SALICTemplates},
+  // {id: 0, name: 'Policies', icon: boxsIcons.Policies},
+  // {id: 1, name: 'Circulations', icon: boxsIcons.Circulations},
+  // {id: 2, name: 'Offers', icon: boxsIcons.Offers},
+  // {id: 3, name: 'User Guides', icon: boxsIcons.UserGuides},
+  // {id: 4, name: 'Research', icon: boxsIcons.Research},
+  // {id: 5, name: 'SALIC Templates', icon: boxsIcons.SALICTemplates},
+
 ];
 function getWindowSize() {
   const {innerWidth, innerHeight} = typeof window !== "undefined" ? window : null;
@@ -78,10 +85,9 @@ function getWindowSize() {
 
 
 const ThreeDivisions = (props) => {
-  const { news_list, media_center } = useContext(AppCtx);
+  const { news_list, media_center, defualt_route } = useContext(AppCtx);
 
   // Image Viewer Code
-  const { defualt_route } = useContext(AppCtx)
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = media_center.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl} });
@@ -175,7 +181,7 @@ const ThreeDivisions = (props) => {
                         <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${row.Author?.EMail}`} alt="" />
                           <div>
                             <p>{row.Author.Title}</p> 
-                            <p>HR Manager</p>
+                            <p>{row.Author.JobTitle}</p>
                           </div>
                         </div>
                       </div>
@@ -189,12 +195,12 @@ const ThreeDivisions = (props) => {
                 </div>
                 <div className="boxs">
                   {communityNewsBoxs.map(box => {
-                    return <div key={box.id} className="oranization-documents">
+                    return <NavLink to={defualt_route + box.to} key={box.id} className="oranization-documents">
                       <div>
                         {box.icon}
                       </div>
                       <p>{box.name}</p>
-                    </div>
+                    </NavLink>
                   })}
                 </div>
               </div>

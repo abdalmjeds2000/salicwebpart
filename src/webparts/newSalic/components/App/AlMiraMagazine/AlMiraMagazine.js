@@ -36,10 +36,10 @@ const AlMiraMagazine = () => {
             <p>Quartely magazine published Saudi Agricultural and Livestock Company "SALIC" under Corporate Communication Department.</p>
           </div>
           <div className='en-ar-btns'>
-            <a href="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/almira/magazine/en/en.aspx">
+            <a target='blank' href="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/almira/magazine/en/en.aspx">
               English Version
             </a>
-            <a href="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/almira/magazine/ar/ar.aspx">
+            <a target='blank' href="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/almira/magazine/ar/ar.aspx">
               النسخة العربية
             </a>
           </div>

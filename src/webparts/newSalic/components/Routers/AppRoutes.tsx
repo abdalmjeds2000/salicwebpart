@@ -27,6 +27,14 @@ import NewMeeting from '../App/MeetingCenter/NewMeeting/NewMeeting';
 import MyMeetings from '../App/MeetingCenter/MyMeetings/MyMeetings';
 import RoomsCalender from '../App/MeetingCenter/RoomsCalender/RoomsCalender';
 import OracleReports from '../App/OracleReports/OracleReports';
+import ESignatureTool from '../App/9Boxs/ESignatureTool/ESignatureTool';
+
+import Investment from '../App/6Boxs/Investment/Investment';
+import Finance from '../App/6Boxs/Finance/Finance';
+import CorporateServices from '../App/6Boxs/CorporateServices/CorporateServices';
+import Legal from '../App/6Boxs/Legal/Legal';
+import RiskStrategy from '../App/6Boxs/RiskStrategy/RiskStrategy';
+import CorporateCommunication from '../App/6Boxs/CorporateCommunication/CorporateCommunication';
 
 
 
@@ -71,6 +79,15 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/book-meeting-room/my-meetings`} element={<MyMeetings />} />
         <Route path={`${defualtRoute}/book-meeting-room/rooms-calender`} element={<RoomsCalender />} />
       </Route>
+      <Route path={`${defualtRoute}/eSignature-document`} element={<ESignatureTool />} />
+
+      <Route path={`${defualtRoute}/org-doc-investment`} element={<Investment />} />
+      <Route path={`${defualtRoute}/org-doc-finance`} element={<Finance />} />
+      <Route path={`${defualtRoute}/org-doc-corporate-services`} element={<CorporateServices />} />
+      <Route path={`${defualtRoute}/org-doc-legal`} element={<Legal />} />
+      <Route path={`${defualtRoute}/org-doc-risk-strategy`} element={<RiskStrategy />} />
+      <Route path={`${defualtRoute}/org-doc-corporate-communication`} element={<CorporateCommunication />} />
+
     </Routes>
   );
 }

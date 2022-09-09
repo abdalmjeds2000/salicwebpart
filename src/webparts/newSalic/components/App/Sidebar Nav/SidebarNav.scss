@@ -89,11 +89,15 @@
 .nav-container ul li a {
   color: #fff !important;
   width: 100%;
-  padding: 10px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 0.9rem;
+}
+.nav-container-large ul li a {
+  padding: 4px 12px;
+  line-height: 1rem;
 }
 .nav-container ul li:last-child a:hover {
   color: #ffffff !important;
@@ -102,14 +106,13 @@
   padding: 3px;
 }
 .nav-container ul li a p {
-  font-size: 1.2em;
   transition: var(--main-animation-duration);
   color: #fff !important;
-  overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+  // overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   display: -webkit-box;
+  //   -webkit-line-clamp: 1;
+  //   -webkit-box-orient: vertical;
 }
 
 .centered-icons-disktop {
@@ -120,7 +123,7 @@
 }
 
 .centered-icons-disktop svg {
-  padding: 3px;
+  padding: 4px;
 }
 
 
@@ -145,5 +148,12 @@
   .nav-container {
     margin-top: 80px;
     padding: 10px;
+  }
+}
+
+
+@media screen and (max-width: 425px) {
+  .nav-container ul li a {
+    padding: 3px 11px;
   }
 }

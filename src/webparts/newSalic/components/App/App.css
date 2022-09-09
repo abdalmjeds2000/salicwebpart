@@ -104,6 +104,7 @@ img.img-bg {
   right: -50vh;
   opacity: 0.15;
   z-index: 0;
+  pointer-events: none;
 }
 img.img-bg.img-bg-form {
   z-index: -1;

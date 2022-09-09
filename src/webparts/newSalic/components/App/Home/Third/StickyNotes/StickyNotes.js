@@ -40,7 +40,7 @@ const StickyNotes = () => {
             timer: 1000,
             showConfirmButton: false
           })
-          setCurrentNote(res.data.Id)
+          setCurrentNote(res.data?.Id)
         }).catch(err => Swal.fire({
           icon: 'error',
           title: 'Failed',
@@ -80,7 +80,7 @@ const StickyNotes = () => {
   const cancelEdits = () => {
     setIsActiveEditMode(false)
     if(currentNote === -1) {
-      setCurrentNote(notes[0].Id)
+      setCurrentNote(notes[0]?.Id)
     }
   }
 

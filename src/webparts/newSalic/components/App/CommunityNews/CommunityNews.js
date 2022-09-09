@@ -48,10 +48,10 @@ function CommunityNews() {
             <NewsBox 
               key={i}
               AuthorImg={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${box.Author?.EMail}`}
-              AuthorName={box.Author.Title}
-              AuthorTitle='HR Manager'
+              AuthorName={box.Author?.Title}
+              AuthorTitle={box.Author?.JobTitle}
               NewTitle={box.Subject}
-              NewDescription ={box.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
+              NewDescription ={box.Description?.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
             />
           )
         })}

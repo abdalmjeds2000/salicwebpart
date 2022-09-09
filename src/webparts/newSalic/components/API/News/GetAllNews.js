@@ -1,6 +1,6 @@
 import pnp from 'sp-pnp-js';
 
-const GetAllNews = () => pnp.sp.web.lists.getByTitle('News').items.select('Author/Title,Author/EMail,Title,CreatedOn,Description,Subject,Photos').expand('Author').orderBy("CreatedOn", false).get()
+const GetAllNews = () => pnp.sp.web.lists.getByTitle('News').items.select('Author/Title,Author/EMail,Author/JobTitle,Title,CreatedOn,Description,Subject,Photos').expand('Author').orderBy("CreatedOn", false).get()
     .then((res) => {
         return res
     })

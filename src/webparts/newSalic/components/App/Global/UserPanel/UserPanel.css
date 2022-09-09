@@ -16,17 +16,19 @@
 }
 .user-panel-container .icons a {
   position: relative;
+  display: flex;
 }
 .user-panel-container .icons a .badge {
   max-height: 15px;
   font-size: 0.65rem;
   font-weight: 600;
 }
-.user-panel-container .icons img {
+.user-panel-container .icons svg {
   width: 20px;
+  height: 20px;
   transition: var(--main-animation-duration);
 }
-.user-panel-container .icons img:hover {
+.user-panel-container .icons svg:hover {
   opacity: 0.7;
 }
 

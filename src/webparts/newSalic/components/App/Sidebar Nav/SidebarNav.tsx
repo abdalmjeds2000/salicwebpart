@@ -3,6 +3,11 @@ import './SidebarNav.scss';
 import { SidebarNavProps } from './SidebarNavProps';
 import { NavLink } from 'react-router-dom';
 import { AppCtx } from '../App';
+let activeStyle = {
+  borderLeft: "4px solid var(--second-color)",
+  padding: '4px 8px',
+  fontSize: '0.9rem'
+};
 
 
 function getWindowSize() {
@@ -65,17 +70,13 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
             </g>
           </svg>,
     almira: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="35px"  viewBox="0 0 511.999 511.999" fill="#fff"><g><g xmlns="http://www.w3.org/2000/svg"><path d="m312.506 174.017c-8.057 1.93-13.023 10.025-11.094 18.081 1.93 8.057 10.027 13.024 18.081 11.094 19.481-4.666 38.661-7.032 57.006-7.032 18.346 0 37.525 2.366 57.005 7.032 1.175.281 2.35.416 3.506.416 6.779 0 12.927-4.628 14.575-11.509 1.93-8.057-3.037-16.152-11.093-18.082-21.767-5.213-43.297-7.857-63.994-7.857-20.694 0-42.225 2.644-63.992 7.857z" fill="#FFFFFF" data-original="#000000"></path><path d="m440.493 234.02c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.643-63.994 7.856c-8.056 1.929-13.023 10.024-11.094 18.081 1.929 8.056 10.025 13.025 18.081 11.094 19.482-4.665 38.662-7.031 57.006-7.031 18.345 0 37.524 2.366 57.006 7.031 1.174.281 2.349.416 3.506.416 6.779 0 12.927-4.627 14.575-11.51 1.93-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m440.493 294.023c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.643-63.994 7.856c-8.056 1.929-13.023 10.024-11.094 18.081 1.929 8.056 10.025 13.026 18.081 11.094 19.482-4.665 38.662-7.031 57.006-7.031 18.345 0 37.524 2.366 57.006 7.031 1.174.281 2.349.416 3.506.416 6.779 0 12.927-4.627 14.575-11.51 1.93-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m440.493 354.026c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.644-63.994 7.856c-8.056 1.929-13.023 10.025-11.094 18.081s10.025 13.022 18.081 11.094c19.482-4.665 38.662-7.031 57.006-7.031 18.345 0 37.524 2.366 57.006 7.031 1.174.281 2.349.416 3.506.416 6.779 0 12.927-4.628 14.575-11.51 1.93-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m71.506 174.017c-8.057 1.93-13.023 10.025-11.094 18.081 1.93 8.057 10.029 13.024 18.081 11.094 19.481-4.666 38.661-7.032 57.006-7.032 18.346 0 37.525 2.366 57.005 7.032 1.175.281 2.35.416 3.506.416 6.779 0 12.927-4.628 14.575-11.509 1.93-8.057-3.037-16.152-11.093-18.082-21.767-5.213-43.297-7.857-63.994-7.857-20.694 0-42.225 2.644-63.992 7.857z" fill="#FFFFFF" data-original="#000000"></path><path d="m199.493 234.02c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.643-63.994 7.856c-8.056 1.929-13.023 10.024-11.094 18.081 1.929 8.056 10.021 13.025 18.081 11.094 19.482-4.665 38.662-7.031 57.006-7.031s37.524 2.366 57.006 7.031c1.174.281 2.35.416 3.506.416 6.779 0 12.927-4.627 14.575-11.51 1.931-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m199.493 294.023c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.643-63.994 7.856c-8.056 1.929-13.023 10.024-11.094 18.081 1.929 8.055 10.021 13.026 18.081 11.094 19.482-4.665 38.662-7.031 57.006-7.031s37.524 2.366 57.006 7.031c1.174.281 2.35.416 3.506.416 6.779 0 12.927-4.627 14.575-11.51 1.931-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m199.493 354.026c-21.768-5.213-43.298-7.856-63.993-7.856s-42.226 2.644-63.994 7.856c-8.056 1.929-13.023 10.025-11.094 18.081s10.021 13.025 18.081 11.094c19.482-4.665 38.662-7.031 57.006-7.031s37.524 2.366 57.006 7.031c1.174.281 2.35.416 3.506.416 6.779 0 12.927-4.628 14.575-11.51 1.931-8.057-3.037-16.152-11.093-18.081z" fill="#FFFFFF" data-original="#000000"></path><path d="m504.101 131.945c-.857-.46-8.877-4.711-22.104-9.915v-51.207c0-5.974-3.545-11.378-9.025-13.758-1.433-.623-35.789-15.241-96.473-15.241-60.613 0-94.207 27.211-111.714 50.038-3.371 4.396-6.275 8.796-8.786 13.071-2.51-4.275-5.414-8.676-8.785-13.071-17.507-22.827-51.101-50.038-111.714-50.038-60.684 0-95.041 14.619-96.473 15.241-5.479 2.38-9.024 7.784-9.024 13.758v51.207c-13.228 5.203-21.248 9.455-22.104 9.915-4.865 2.615-7.899 7.69-7.899 13.212v310.015c0 5.27 2.775 10.149 7.295 12.859 4.519 2.71 10.14 2.845 14.789.362.51-.272 51.693-27.222 113.416-27.222s112.906 26.95 113.397 27.212c2.26 1.214 4.692 1.791 7.089 1.791h.013v-.017c2.432.001 4.868-.581 7.084-1.764.51-.272 51.693-27.222 113.416-27.222 61.516 0 112.562 26.769 113.409 27.218 2.218 1.189 4.655 1.782 7.09 1.782 2.667 0 5.331-.711 7.697-2.125 4.53-2.708 7.304-7.597 7.304-12.875v-310.014c0-5.522-3.034-10.597-7.898-13.212zm-127.601-60.121c36.881 0 62.761 5.93 75.498 9.704v30.444c-21.082-5.902-47.142-10.815-75.498-10.815-36.835 0-69.793 8.287-92.994 16.268 1.521-2.41 3.207-4.859 5.084-7.306 19.49-25.411 49.067-38.295 87.91-38.295zm-316.498 9.706c12.76-3.782 38.633-9.706 75.498-9.706 52.768 0 79.698 24.482 93.121 45.646-23.208-7.995-56.218-16.313-93.121-16.313-28.356 0-54.416 4.912-75.498 10.815zm180.998 350.517c-22.898-9.009-61.419-20.875-105.499-20.875-44.07 0-82.598 11.864-105.5 20.873v-277.439c16.713-7.477 57.983-23.448 105.5-23.448 47.522 0 88.79 15.974 105.499 23.449zm240.999-.002c-22.902-9.008-61.43-20.873-105.499-20.873-44.07 0-82.598 11.864-105.5 20.873v-277.44c16.713-7.476 57.983-23.448 105.5-23.448 47.524 0 88.8 15.977 105.499 23.447z" fill="#FFFFFF" data-original="#000000"></path></g></g></svg>,
-    
+    performance: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="35px" x="0" y="0" viewBox="0 0 512 512"><g><g xmlns="http://www.w3.org/2000/svg"><path d="m241 35.154c-57.822 3.319-112.046 25.788-155.327 64.361l66.936 66.936c25.19-20.971 55.776-33.644 88.391-36.624z" fill="#FFFFFF" ></path><path d="m131.389 187.657-66.935-66.935c-38.606 43.269-61.103 97.497-64.443 155.333h94.677c3-32.621 15.7-63.21 36.701-88.398z" fill="#FFFFFF" ></path><path d="m417.312 276.055h94.677c-3.34-57.836-25.836-112.064-64.443-155.333l-66.935 66.935c21.001 25.187 33.701 55.777 36.701 88.398z" fill="#FFFFFF" ></path><path d="m417.291 306.055c-2.103 23.103-8.696 42.373-16.494 57.83 7.607 11.731 13.949 21.645 18.139 28.229 11.41 17.932 8.884 40.95-6.144 55.979-3.649 3.649-7.817 6.589-12.334 8.762l15.589 15.59c2.934 2.934 6.78 4.401 10.625 4.401 3.846 0 7.691-1.467 10.624-4.401 44.924-44.919 71.119-103.534 74.704-166.39z" fill="#FFFFFF" ></path><path d="m94.71 306.055h-94.71c3.585 62.856 29.78 121.471 74.703 166.391 2.934 2.934 6.779 4.401 10.624 4.401s7.691-1.468 10.625-4.401l45.512-45.515c5.867-5.868 5.867-15.382 0-21.25-11.877-11.877-41.794-45.129-46.754-99.626z" fill="#FFFFFF" ></path><path d="m426.327 99.515c-43.281-38.574-97.505-61.042-155.327-64.361v94.673c32.614 2.98 63.201 15.653 88.391 36.624z" fill="#FFFFFF" ></path><path d="m289.33 257.977c-18.377-18.377-48.279-18.377-66.656 0s-18.377 48.279 0 66.656c23.216 23.216 137.311 96.066 150.245 104.296 5.931 3.775 13.688 2.923 18.66-2.048 4.971-4.971 5.823-12.728 2.048-18.66-8.231-12.933-81.081-127.029-104.297-150.244z" fill="#FFFFFF" ></path></g></g></svg>,
   }
   let listItems = [
     {to: '/home', icon: svgIcons.home, text: <p>Home</p>}, 
     {to: '/community-news', icon: svgIcons.news, text: <p>Salic News</p>},
   ];
-  let activeStyle = {
-    borderLeft: "4px solid var(--second-color)",
-    padding: '7px'
-  };
-
+  
   const [windowSize, setWindowSize] = React.useState(getWindowSize());
   const [isNavBarLarge, setIsNavBarLarge] = React.useState(false);
   React.useEffect(() => {
@@ -121,10 +122,10 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
             <NavLink
               to={defualt_route + item.to} 
               className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-              style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
+              style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"}}
             >
               {item.icon}
-              {isNavBarLarge && item.text}
+              {isNavBarLarge && <p>{item.text}</p>}
             </NavLink>
           </li>
         })}
@@ -134,7 +135,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         <li>
           <a 
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-            style={{fontSize: '1.05rem', opacity: '0.7'}} 
+            style={{fontSize: '0.9rem', opacity: '0.7'}} 
             href="https://www.salic.com"
             target='_blank'
           >
@@ -177,14 +178,14 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                 </g>
               </g>
             </svg>
-            {isNavBarLarge && 'SALIC Website'}
+            {isNavBarLarge && <p>SALIC Website</p>}
           </a>
         </li>
 
         <li>
           <a 
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-            style={{fontSize: '1.05rem', opacity: '0.7'}} 
+            style={{fontSize: '0.9rem', opacity: '0.7'}} 
             href="https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication"
             target='_blank'
           >
@@ -227,7 +228,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                 </g>
               </g>
             </svg>
-            {isNavBarLarge && 'Oracle ERP'}
+            {isNavBarLarge && <p>Oracle ERP</p>}
           </a>
         </li>
 
@@ -249,7 +250,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                 </g>
               </g>
             </svg>
-            {isNavBarLarge && 'Oracle Reports'}
+            {isNavBarLarge && <p>Oracle Reports</p>}
           </NavLink>
         </li>
 
@@ -257,7 +258,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         <li>
           <a 
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-            style={{fontSize: '1.05rem', opacity: '0.7'}} 
+            style={{fontSize: '0.9rem', opacity: '0.7'}} 
             href="https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication"
             target='_blank'
           >
@@ -306,9 +307,23 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                 </g>
               </g>
             </svg>
-            {isNavBarLarge && 'Power Bi'}
+            {isNavBarLarge && <p>Power Bi</p>}
           </a>
         </li>
+        
+        <li>
+          <a 
+            className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
+            style={{fontSize: '0.9rem', opacity: '0.7'}} 
+            href="https://salic.sharepoint.com/sites/newsalic/SitePages/ManageNews.aspx"
+            target='_blank'
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width='35px' height='35px' viewBox="0 0 512 512"><g><path xmlns="http://www.w3.org/2000/svg" d="m100 113c0-11.046875 8.953125-20 20-20h272c11.046875 0 20 8.953125 20 20s-8.953125 20-20 20h-272c-11.046875 0-20-8.953125-20-20zm312 80c0-11.046875-8.953125-20-20-20h-272c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h272c11.046875 0 20-8.953125 20-20zm-292 60c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h92c11.046875 0 20-8.953125 20-20s-8.953125-20-20-20zm374.441406 156.589844c23.378906 23.378906 23.378906 61.441406-.015625 84.835937-11.695312 11.695313-27.0625 17.546875-42.425781 17.546875s-30.730469-5.851562-42.425781-17.546875l-109.367188-109.570312c-2.4375-2.441407-4.199219-5.46875-5.117187-8.792969l-22.363282-80.722656c-1.945312-7.03125.085938-14.5625 5.308594-19.65625 5.21875-5.089844 12.796875-6.941406 19.777344-4.820313l78.726562 23.914063c3.152344.957031 6.019532 2.675781 8.34375 5.007812zm-162.210937-49.273438 73.515625 73.652344 28.289062-28.289062-73.925781-74.089844-39.128906-11.886719zm133.910156 77.542969-3.851563-3.863281-28.285156 28.285156 3.867188 3.875c7.785156 7.785156 20.472656 7.785156 28.269531-.015625 7.800781-7.796875 7.800781-20.484375 0-28.28125zm-34.140625-437.859375h-352c-44.113281 0-80 35.886719-80 80v352c0 44.113281 35.886719 80 80 80h245c11.046875 0 20-8.953125 20-20s-8.953125-20-20-20h-245c-22.054688 0-40-17.945312-40-40v-352c0-22.054688 17.945312-40 40-40h352c22.054688 0 40 17.945312 40 40v246c0 11.046875 8.953125 20 20 20s20-8.953125 20-20v-246c0-44.113281-35.886719-80-80-80zm0 0" fill="#FFFFFF" ></path></g></svg>
+            {isNavBarLarge && <p>Manage News Content</p>}
+          </a>
+        </li>
+
+
 
         <li>
           <NavLink
@@ -320,6 +335,19 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
             {isNavBarLarge && <p>Almira</p>}
           </NavLink>
         </li>
+
+        <li>
+          <NavLink
+            to={`${defualt_route}/performance-managment`}
+            className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
+            style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
+          >
+            {svgIcons.performance}
+            {isNavBarLarge && <p>Performance Managment</p>}
+          </NavLink>
+        </li>
+
+        
         <li>
           <NavLink
             to={`${defualt_route}/communication`}
@@ -335,11 +363,11 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         <li>
           <a 
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-            style={{fontSize: '1.05rem', opacity: '0.7'}} 
+            style={{fontSize: '0.9rem', opacity: '0.7'}} 
             href="https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/dev"
           >
             <svg fill='#fff' width='35px' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M554.666667 128l-85.333333 0 0 426.666667 85.333333 0L554.666667 128zM760.746667 220.586667l-60.586667 60.586667C767.573333 335.36 810.666667 418.56 810.666667 512c0 165.12-133.546667 298.666667-298.666667 298.666667s-298.666667-133.546667-298.666667-298.666667c0-93.44 43.093333-176.64 110.08-231.253333L263.253333 220.586667C180.48 290.986667 128 395.093333 128 512c0 212.053333 171.946667 384 384 384 212.053333 0 384-171.946667 384-384C896 395.093333 843.52 290.986667 760.746667 220.586667z"  /></svg>
-            {isNavBarLarge && 'Sign Out'}
+            {isNavBarLarge && <p>Sign Out</p>}
           </a>
         </li>
       </ul>
