@@ -36,13 +36,12 @@ function Attendance() {
           </ul>
         </div>
         <div className='attendance-sections-container'>
-          {
-            activeId === 1 
-            ? <Statistics />
-            : activeId === 2 
-            ? <DailyAttendance />
-            : null
-          }
+          <div style={{display: activeId !== 1 ? 'none' : ''}}>
+            <Statistics />
+          </div>
+          <div style={{display: activeId !== 2 ? 'none' : ''}}>
+            <DailyAttendance />
+          </div>
         </div>
       </div>
     </div>

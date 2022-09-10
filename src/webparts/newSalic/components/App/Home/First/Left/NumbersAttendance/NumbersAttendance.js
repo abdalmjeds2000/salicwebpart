@@ -12,10 +12,10 @@ function NumbersAttendance() {
 
   useEffect(() => {
     setTimeout(function () {
-      if(latest_attendance?.length === 0) {
+      if(latest_attendance.length === 0) {
         setIsNoData(true);
       }
-    }, 5000);
+    }, 8000);
   }, []);
 
   return (
@@ -69,15 +69,11 @@ function NumbersAttendance() {
         />
       </div>
       <div className="div5">
-        <Attendance latestAttendance={latest_attendance}>
-          <tr>
-            {
-              !isNoData 
-              ? <td colSpan={5} rowSpan={3} style={{paddingTop: '25px'}}><div className="loader small"><div></div></div></td>
-              : <td colSpan={5} rowSpan={3} style={{paddingTop: '0'}}><div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div></td>
-            }
-          </tr> 
-        </Attendance>
+        {
+          latest_attendance.length > 0 
+          ? <Attendance latestAttendance={latest_attendance} />
+          : !isNoData ? <div className="loader small"><div></div></div> : <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div>
+        }
       </div>  
     </div>
   )

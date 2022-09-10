@@ -4,15 +4,13 @@ import { CheckOutlined, DeleteOutlined, DownOutlined, SearchOutlined, StopOutlin
 import { Button, Dropdown, Input, Menu, message, Modal, Popconfirm, Space, Table } from 'antd'
 import { AppCtx } from '../../../App';
 import axios from 'axios';
-
+import VerifySignatureModal from './VerifySignatureModal'
 
 
 
 function ESignRequests() {
   const { eSign_requests, setESignRequests } = useContext(AppCtx)
   
-
-
   const confirmWithdrawOrEnable = (Id, IsActive) => {
     axios({
       method: 'POST',
@@ -37,7 +35,6 @@ function ESignRequests() {
       setESignRequests(setESignRequestsUpdated)
     }).catch(() => message.error('Failed', 3))
   }
-
   const confirmDelete = (Id) => {
     axios({
       method: 'GET',
@@ -49,7 +46,6 @@ function ESignRequests() {
       setESignRequests(setESignRequestsUpdated)
     }).catch(() => message.error('Failed', 3))
   }
-
   const menu = (Id, IsActive, Status) => {
     const Items = [
       {
@@ -101,7 +97,6 @@ function ESignRequests() {
       />
     )
   };
-  
   const columns = [
     {
       title: '#',
@@ -174,6 +169,8 @@ function ESignRequests() {
   ];
 
 
+
+
   
   return (
     <div className='eSign-requests-container'>
@@ -181,7 +178,7 @@ function ESignRequests() {
         <h1>eSign Requests</h1>
         <div className='controls'>
           <Input placeholder="type to search" prefix={<SearchOutlined />} />
-          <Button type="primary">Verify Signature</Button>
+          <VerifySignatureModal />
           <Button href='https://salic.sharepoint.com/sites/newsalic/SitePages/eSign/NewRequest.aspx' target='blank'>New Request</Button>
         </div>
       </div>

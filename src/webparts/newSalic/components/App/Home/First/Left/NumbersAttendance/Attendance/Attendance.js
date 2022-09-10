@@ -24,19 +24,17 @@ function Attendance(props) {
             <th>Working Time</th>
           </tr>
 
-        {
-          props.latest_attendance?.length > 0 
-          ? props.latestAttendance?.slice(0, 3).map((day, i) => {
+          {
+            props.latestAttendance?.slice(0, 3).map((day, i) => {
               return <tr key={i} style={{background: `linear-gradient(270deg, transparent 0%, ${day.IsDelayed ? '#fff0dd' : ''} 100%)`}}>
                 <td><span style={{color: day.IsAbsent ? 'rgb(255, 39, 43)' : (day.IsDelayed ? 'rgb(233 155 77)' : 'rgb(39, 124, 98)') }}>•</span>{day.Day}</td>
-                <td>{day.Date || '-'}</td>
+                  <td>{day.Date || '-'}</td>
                 <td>{day.CheckInTime || '-'}</td>
                 <td>{day.CheckOutTime || '-'}</td>
                 <td>{day.ActualHours || '-'}</td>
               </tr>
             })
-          : props.children
-        }
+          }
 
 
         </tbody>

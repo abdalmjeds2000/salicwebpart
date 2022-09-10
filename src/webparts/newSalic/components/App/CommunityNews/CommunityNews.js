@@ -43,7 +43,7 @@ function CommunityNews() {
       />
       <h1>Community News</h1>
       <div className='news-boxs'>
-        {filteredNewslist.map((box, i) => {
+        {filteredNewslist?.map((box, i) => {
           return (
             <NewsBox 
               key={i}

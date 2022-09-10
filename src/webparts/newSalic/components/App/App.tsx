@@ -43,6 +43,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [notesList, setNotesList] = React.useState([])
   const [eSignRequests, setESignRequests] = React.useState([])
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
+  const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
   
 
   React.useEffect(() => {
@@ -55,7 +56,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
         })
         .then((response) => {
           setUserData(response.data)
@@ -178,6 +180,20 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             setESignRequestsYouSignedIt(eSignRequestsYouSignedIt)
             console.log('eSignRequestsYouSignedIt', eSignRequestsYouSignedIt)
           }).catch(err => console.log(err))
+          return response
+        })
+        // Get Departments Information for Daily Attendance
+        .then((response) => {
+          axios({ 
+            method: 'GET', 
+            url: `https://salicapi.com/api/leave/GetEmployeeByPINALL?UserId=${response.data?.Data?.GraphId}&PIN=${response.data?.Data?.PIN}`, 
+          })
+          .then((res) => {
+            setDepartmentsInfo(res.data.Data)
+            console.log(res.data.Data)
+          })
+          .catch((error) => { console.log(error) })
+          return response
         })
 
         .catch(err => console.log(err))
@@ -228,7 +244,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
     eSign_requests: eSignRequests,
     setESignRequests,
-    eSign_requests_you_signed_it: eSignRequestsYouSignedIt
+    eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
+    departments_info: departmentsInfo
   };
 
 

@@ -1,40 +1,37 @@
-import React, { useState } from 'react';
-import './DailyAttendance.css';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { AppCtx } from '../../App'; 
 import CustomSelect from '../components/CustomSelect';
+import './DailyAttendance.css';
 
 
 function DailyAttendance() {
-  const [tableData, setTableData] = useState([
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '08/07/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '02/05/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '05/06/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '20/07/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '23/01/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '25/03/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '15/02/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '26/05/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '10/05/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'AbdAlmjed Skaik', Date: '02/06/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '07/09/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '15/02/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '19/01/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '27/03/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '17/03/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '05/04/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Al-Ahmad', Date: '02/07/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '28/08/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '12/01/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '13/11/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '18/12/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '12/05/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '09/03/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '20/01/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '01/04/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '25/08/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '22/09/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-    {EmployeeName: 'Mohammad Ali', Date: '15/02/2022', Day: 'Sat', CheckIn: '01/07/2022', CheckOut: '01/09/2022', WTime: '08:00 AM', WTime8_16: '02:00 PM', Late: 'false', EarlyLeave: 'false', Overtime: '1', AttendanceStatus: 'came', EmpJustification: '-', ManagerFeedback: 'Empty', ApprovalStatus: 'true'},
-  ])
+  const [departmentName, setDepartmentName] = useState('');
+  const [status, setStatus] = useState('-1');
 
+  const { departments_info } = useContext(AppCtx)
+  const departmentsNames = Array.from(new Set(departments_info.filter(e => e.Department !== "").map(r => r.Department)))
+  const employeesNames = departments_info.filter(d => d.Department === departmentName ).filter(e => {if(status === '-1') { return e } else if(status === 'true') { return e.Enabled === true } else if(status === 'false') { return e.Enabled === false }}).map(e => {return {value: e.Mail, name: e.DisplayName}})
+
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [employees, setEmployees] = useState(employeesNames.map(e => e.value));
+  
+  useEffect(() => {
+    setEmployees(employeesNames.map(e => e.value))
+  }, [departmentName, status])
+
+  const [tableData, setTableData] = useState([])
+
+  let filterResultsHandler = () => {
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${employees.join()}&startDate=${startDate}&EndDate=${endDate}&month=${startDate !== '' || endDate !== '' ? 0 : (new Date().getMonth() + 1)}&year=${startDate !== '' || endDate !== '' ? 0 : (new Date().getFullYear())}`
+    }).then((res) => {
+      console.log(res.data);
+      setTableData(res.data.Data);
+    }).catch((err) => console.log(err))
+  }
 
   return (
     <div className='daily-attendance-container'>
@@ -44,44 +41,37 @@ function DailyAttendance() {
             <CustomSelect 
               name='department' 
               label='Department'
-              options={[
-                {value: 'd1', name: 'D1'},
-                {value: 'd2', name: 'D2'},
-                {value: 'd3', name: 'D3'},
-              ]}
-              onChange={(e) => alert(e.target.value)}
+              options={departmentsNames.map(d => {return {value: d, name: d}})}
+              onChange={(e) => setDepartmentName(e.target.value)}
             />
             <CustomSelect 
               name='status' 
               label='Status'
               options={[
-                {value: 'active', name: 'Active'},
-                {value: 'non-active', name: 'non-Active'},
+                {value: '-1', name: 'All'},
+                {value: 'true', name: 'Active'},
+                {value: 'false', name: 'In-Active'},
               ]}
-              onChange={(e) => alert(e.target.value)}
+              onChange={(e) => setStatus(e.target.value)}
             />
             <CustomSelect 
               name='employee' 
               label='Employee'
-              options={[
-                {value: 'AbdAlmjed Skaik', name: 'AbdAlmjed Skaik'},
-                {value: 'Mohammed Ali', name: 'Mohammed Ali'},
-                {value: 'Mohammad Al-Ahmad', name: 'Mohammad Al-Ahmad'},
-              ]}
-              onChange={(e) => alert(e.target.value)}
+              options={[{value: '-1', name: 'All'}, ...employeesNames]}
+              onChange={(e) => setEmployees(e.target.value === '-1' ? employeesNames.map(e => e.value) : [e.target.value])}
             />
             <div className='custom-select-container'>
               <label htmlFor="start-date">Start Date</label>
-              <input type="date" name="start-date" id="start-date" />
+              <input type="date" name="start-date" id="start-date" onChange={e => setStartDate(e.target.value)} />
             </div>
             <div className='custom-select-container'>
               <label htmlFor="end-date">End Date</label>
-              <input type="date" name="end-date" id="end-date" />
+              <input type="date" name="end-date" id="end-date" onChange={e => setEndDate(e.target.value)} />
             </div>
           </div>
           <div className="btns">
             <button>Export Data</button>
-            <button>Filter Results</button>
+            <button onClick={filterResultsHandler}>Filter Results</button>
           </div>
         </div>
         <div className="table">
@@ -106,24 +96,25 @@ function DailyAttendance() {
               {
                 tableData.map((row, i) => {
                   return <tr key={i}>
-                    <td>{row.EmployeeName}</td>
-                    <td>{row.Date}</td>
-                    <td>{row.Day}</td>
-                    <td>{row.CheckIn}</td>
-                    <td>{row.CheckOut}</td>
-                    <td>{row.WTime}</td>
-                    <td>{row.WTime8_16}</td>
+                    <td>{row.Name}</td>
+                    <td>{row.Date || ' - '}</td>
+                    <td>{row.Day  || ' - '}</td>
+                    <td>{row.CheckInTime || ' - '}</td>
+                    <td>{row.CheckOutTime || ' - '}</td>
+                    <td>{row.ActualHours || ' - '}</td>
+                    <td>{row.Working8_16 || ' - '}</td>
                     <td>{row.Late}</td>
-                    <td>{row.EarlyLeave}</td>
-                    <td>{row.Overtime}</td>
-                    <td>{row.AttendanceStatus}</td>
-                    <td>{row.EmpJustification}</td>
-                    <td>{row.ManagerFeedback}</td>
-                    <td>{row.ApprovalStatus}</td>
+                    <td>{row.EarlyLeave || ' - '}</td>
+                    <td>{row.OverTime}</td>
+                    <td>{row.IsAbsent ? 'Absent' : 'Delayed or Early Leave'}</td>
+                    <td>{row.Justification || ' - '}</td>
+                    <td>{row.ManagerFeedback || ' - '}</td>
+                    <td>{row.JustificationStatus || ' - '}</td>
                   </tr>
                 })
               }
             </tbody>
+
           </table>
         </div>
       </div>
