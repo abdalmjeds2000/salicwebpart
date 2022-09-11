@@ -32,7 +32,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.user-details .header img {
+.user-details .header img.logo {
   width: 120px;
 }
 .user-details .header a {

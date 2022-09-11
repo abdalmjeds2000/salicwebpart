@@ -7,7 +7,7 @@ function UserSettingsPanel(props) {
     <div className="user-setting-panel">
       <div className='user-details' onclick={e => e.preventDefault()}>
         <div className='header'>
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className='logo' />
           <a href="https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/dev">Sign Out</a>
         </div>
         <div className='details'>
@@ -22,7 +22,6 @@ function UserSettingsPanel(props) {
             <a target='_blank' href="https://account.activedirectory.windowsazure.com/ChangePassword.aspx">Change Password</a>
           </div>
         </div>
-        {/* <div className='gradient-bg-ud' onClick={props.onClickGradient}></div> */}
       </div>
       <div style={{
         width: '100%',

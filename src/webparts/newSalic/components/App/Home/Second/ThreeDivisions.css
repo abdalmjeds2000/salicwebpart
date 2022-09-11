@@ -440,11 +440,11 @@
     height: 640px !important;
   }
 } */
-@media screen and (max-width: 1499px) and (min-width: 890px) {
+/* @media screen and (max-width: 1499px) and (min-width: 890px) {
   iframe.twitter-timeline-rendered {
     height: calc(100vh - 35px) !important;
   }
-}
+} */
 
 
 

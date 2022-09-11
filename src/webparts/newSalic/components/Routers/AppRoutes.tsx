@@ -35,8 +35,17 @@ import CorporateServices from '../App/6Boxs/CorporateServices/CorporateServices'
 import Legal from '../App/6Boxs/Legal/Legal';
 import RiskStrategy from '../App/6Boxs/RiskStrategy/RiskStrategy';
 import CorporateCommunication from '../App/6Boxs/CorporateCommunication/CorporateCommunication';
+import PowerBIInteractiveDashboards from '../App/PowerBI/PowerBIInteractiveDashboards';
+import HumanCapital from '../App/PowerBI/HumanCapital/HumanCapital';
+import Research from '../App/PowerBI/Research/Research';
 
-
+import CountryOutlook from '../App/PowerBI/Research/CountryOutlook/CountryOutlook'
+import DelegationVisit from '../App/PowerBI/Research/DelegationVisit/DelegationVisit'
+import CrisisPlan from '../App/PowerBI/Research/CrisisPlan/CrisisPlan'
+import DemandForecast from '../App/PowerBI/Research/DemandForecast/DemandForecast'
+import DomesticPrices from '../App/PowerBI/Research/DomesticPrices/DomesticPrices'
+import InternationalPrices from '../App/PowerBI/Research/InternationalPrices/InternationalPrices'
+import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboard'
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   const defualtRoute: string = '/sites/newSalic/_layouts/15/workbench.aspx';
@@ -88,6 +97,22 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/org-doc-risk-strategy`} element={<RiskStrategy />} />
       <Route path={`${defualtRoute}/org-doc-corporate-communication`} element={<CorporateCommunication />} />
 
+
+      <Route path={`${defualtRoute}/power-bi-dashboards`}>
+        <Route index element={<PowerBIInteractiveDashboards />} />
+        <Route path={`${defualtRoute}/power-bi-dashboards/human-capital`} element={<HumanCapital />} />
+        <Route path={`${defualtRoute}/power-bi-dashboards/research`}>
+          <Route index element={<Research />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/country-outlook`} element={<CountryOutlook />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/delegation-visit`} element={<DelegationVisit />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/crisis-plan`} element={<CrisisPlan />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/demand-forecast`} element={<DemandForecast />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/domestic-prices`} element={<DomesticPrices />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/international-prices`} element={<InternationalPrices />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/research/daily-dashboard`} element={<DailyDashboard />} />
+        </Route>
+      </Route>
+      
     </Routes>
   );
 }

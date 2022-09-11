@@ -10,6 +10,8 @@ import VerifySignatureModal from './VerifySignatureModal'
 
 function ESignRequests() {
   const { eSign_requests, setESignRequests } = useContext(AppCtx)
+  const [typeToSearch, setTypeToSearch] = useState('');
+  const filterESign_requests = eSign_requests.filter(e => e.Subject.toLowerCase().includes(typeToSearch.toLowerCase().trim()))
   
   const confirmWithdrawOrEnable = (Id, IsActive) => {
     axios({
@@ -177,7 +179,7 @@ function ESignRequests() {
       <div className='header'>
         <h1>eSign Requests</h1>
         <div className='controls'>
-          <Input placeholder="type to search" prefix={<SearchOutlined />} />
+          <Input placeholder="type to search" prefix={<SearchOutlined />} onChange={(e) => setTypeToSearch(e.target.value)} />
           <VerifySignatureModal />
           <Button href='https://salic.sharepoint.com/sites/newsalic/SitePages/eSign/NewRequest.aspx' target='blank'>New Request</Button>
         </div>
@@ -188,7 +190,7 @@ function ESignRequests() {
           eSign_requests.length > 0 
           ? <Table 
               columns={columns} 
-              dataSource={eSign_requests} 
+              dataSource={filterESign_requests} 
               pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
             />
           : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>

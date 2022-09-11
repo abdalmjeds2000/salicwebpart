@@ -1,13 +1,12 @@
 .attendance-page-container {
   width: 100%;
   padding: 25px;
-  min-height: calc(100vh - 50px);
-  background: rgb(224,233,255);
-  background: linear-gradient(0deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 100%);
+  min-height: calc(100vh - 85px);
+  background: #e0e9ff;
+  background: linear-gradient(0deg,#e0e9ff,#fff);
   position: relative;
-  top: 50px;
-  margin-bottom: 25px;
-  /* z-index: 3; */
+  top: 85px;
+  margin-bottom: 60px;
 }
 .attendance-page-container .header {
   display: flex;

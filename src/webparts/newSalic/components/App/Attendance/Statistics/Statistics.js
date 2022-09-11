@@ -192,7 +192,7 @@ function Statistics() {
           <h3>Employees Availability Attendance</h3>
           <p>SALIC Employees Ava.</p>
         </div>
-        <div className="body">
+        {/* <div className="body">
           <div className="buttons">
             <CustomSelect 
               name='by-organization' 
@@ -219,9 +219,8 @@ function Statistics() {
               onChange={(e) => alert(e.target.value)}
             />
           </div>
-
           <div className='column-chart-container'>
-            {/* <Column {...config} /> */}
+            <Column {...config} />
             <div className="index">
               <ul>
                 <li><p>Sick Leave</p></li>
@@ -232,25 +231,7 @@ function Statistics() {
               </ul>
             </div>
           </div>
-          {/* <div className="custom-column-chart-container">
-            <div className="data">
-              <div className="col col-1"></div>
-              <div className="col col-2"></div>
-              <div className="col col-3"></div>
-              <div className="col col-4"></div>
-              <div className="col col-5"></div>
-            </div>
-            <div className="index">
-              <ul>
-                <li><p>Sick Leave</p></li>
-                <li><p>Leave</p></li>
-                <li><p>Trips</p></li>
-                <li><p>Shortages</p></li>
-                <li><p>Availabilities</p></li>
-              </ul>
-            </div>
-          </div> */}
-        </div>
+        </div> */}
       </div>
     </div>
   )

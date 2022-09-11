@@ -256,11 +256,10 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
 
 
         <li>
-          <a 
+          <NavLink 
+            to={`${defualt_route}/power-bi-dashboards`}
             className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-            style={{fontSize: '0.9rem', opacity: '0.7'}} 
-            href="https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication"
-            target='_blank'
+            style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"} }
           >
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" fill='#fff' width='35px' viewBox="0 0 512 512">
               <g>
@@ -308,7 +307,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
               </g>
             </svg>
             {isNavBarLarge && <p>Power Bi</p>}
-          </a>
+          </NavLink>
         </li>
         
         <li>

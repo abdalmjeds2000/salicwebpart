@@ -219,7 +219,7 @@ const ThreeDivisions = (props) => {
             screenName: 'KSA_SALIC'
           }}
           options={{
-            height: '550px'
+            height: '850'
           }}
         />
       </div>

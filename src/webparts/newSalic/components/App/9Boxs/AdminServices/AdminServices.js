@@ -29,7 +29,7 @@ const services = [
   {icon: srvsIcons.maintenance, to: '/admin-services/maintenance', bgColor: '#70CFAF', text: 'Maintenance'},
   {icon: srvsIcons.visitor, to: '/admin-services/visitor', bgColor: '#FD96A6', text: 'Visitor VISA'},
   {icon: srvsIcons.purchaseRequisition, to: '/', bgColor: '#FBBE82', text: 'Purchase Requisition'},
-  {icon: srvsIcons.receiveOrderItems, to: '/', bgColor: '#70CFAF', text: 'Receive Order Items'},
+  {icon: srvsIcons.receiveOrderItems, to: '/', bgColor: 'c', text: 'Receive Order Items'},
   {icon: srvsIcons.receiptConfitmation, to: '/', bgColor: '#9BC9ED', text: 'Receipt Confitmation'},
   {icon: srvsIcons.transportation, to: '/admin-services/transportation', bgColor: '#FBBE82', text: 'Transportation Request'},
 ];
