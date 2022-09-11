@@ -8,15 +8,6 @@ import { Empty } from 'antd';
 
 function NumbersAttendance() {
   const { latest_attendance } = useContext(AppCtx);
-  const [isNoData, setIsNoData] = useState(false);
-
-  useEffect(() => {
-    setTimeout(function () {
-      if(latest_attendance.length === 0) {
-        setIsNoData(true);
-      }
-    }, 8000);
-  }, []);
 
   return (
     <div className="numbers-attendance-container">
@@ -69,11 +60,7 @@ function NumbersAttendance() {
         />
       </div>
       <div className="div5">
-        {
-          latest_attendance.length > 0 
-          ? <Attendance latestAttendance={latest_attendance} />
-          : !isNoData ? <div className="loader small"><div></div></div> : <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div>
-        }
+        <Attendance latestAttendance={latest_attendance} />
       </div>  
     </div>
   )
