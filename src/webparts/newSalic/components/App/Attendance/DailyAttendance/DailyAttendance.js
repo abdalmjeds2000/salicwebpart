@@ -6,32 +6,34 @@ import './DailyAttendance.css';
 
 
 function DailyAttendance() {
-  const [departmentName, setDepartmentName] = useState('');
+  const { departments_info, user_data } = useContext(AppCtx)
+
+  const [departmentName, setDepartmentName] = useState(user_data?.Data?.Department);
   const [status, setStatus] = useState('-1');
-
-  const { departments_info } = useContext(AppCtx)
-  const departmentsNames = Array.from(new Set(departments_info.filter(e => e.Department !== "").map(r => r.Department)))
-  const employeesNames = departments_info.filter(d => d.Department === departmentName ).filter(e => {if(status === '-1') { return e } else if(status === 'true') { return e.Enabled === true } else if(status === 'false') { return e.Enabled === false }}).map(e => {return {value: e.Mail, name: e.DisplayName}})
-
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
+  const departmentsNames = Array.from(new Set(departments_info.filter(e => e.Department !== "").map(r => r.Department)))
+  const employeesNames = departments_info.filter(d => d.Department === departmentName ).filter(e => {if(status === '-1') { return e } else if(status === 'true') { return e.Enabled === true } else if(status === 'false') { return e.Enabled === false }}).map(e => {return {value: e.Mail, name: e.DisplayName}})
   const [employees, setEmployees] = useState(employeesNames.map(e => e.value));
-  
+
+
   useEffect(() => {
     setEmployees(employeesNames.map(e => e.value))
   }, [departmentName, status])
-
   const [tableData, setTableData] = useState([])
-
   let filterResultsHandler = () => {
     axios({
       method: 'GET',
       url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${employees.join()}&startDate=${startDate}&EndDate=${endDate}&month=${startDate !== '' || endDate !== '' ? 0 : (new Date().getMonth() + 1)}&year=${startDate !== '' || endDate !== '' ? 0 : (new Date().getFullYear())}`
     }).then((res) => {
-      console.log(res.data);
       setTableData(res.data.Data);
     }).catch((err) => console.log(err))
   }
+
+
+
+
 
   return (
     <div className='daily-attendance-container'>
@@ -43,6 +45,7 @@ function DailyAttendance() {
               label='Department'
               options={departmentsNames.map(d => {return {value: d, name: d}})}
               onChange={(e) => setDepartmentName(e.target.value)}
+              selectedBy={user_data?.Data?.Department}
             />
             <CustomSelect 
               name='status' 
@@ -56,9 +59,9 @@ function DailyAttendance() {
             />
             <CustomSelect 
               name='employee' 
-              label='Employee'
-              options={[{value: '-1', name: 'All'}, ...employeesNames]}
-              onChange={(e) => setEmployees(e.target.value === '-1' ? employeesNames.map(e => e.value) : [e.target.value])}
+              label='Employee' 
+              options={[{value: '-1', name: 'All'}, ...employeesNames]} 
+              onChange={(e) => setEmployees(e.target.value === '-1' ? employeesNames.map(e => e.value) : [e.target.value])} 
             />
             <div className='custom-select-container'>
               <label htmlFor="start-date">Start Date</label>

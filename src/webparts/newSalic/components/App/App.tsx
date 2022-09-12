@@ -61,6 +61,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         })
         .then((response) => {
           setUserData(response.data)
+          console.log(response.data)
           return response
         })
         // Get Globe Data 
@@ -141,6 +142,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
                 Number: `${i+1}`,
                 Key: row.Key,
                 Id: row.Id,
+                key: i,
+                id: i,
                 Subject: `${row.EmailSubject}__KEY__${row.Key}`,
                 RequestDate: row.Created.replace('T', ' ').slice(0, -1),
                 Recipients: row.NumOfRecipients,
@@ -155,7 +158,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               return newRow
             })
             setESignRequests(eSignRequestsData)
-            console.log('eSignRequestsData', eSignRequestsData)
           }).catch(err => console.log(err))
           return response
         })
@@ -178,7 +180,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               return newRow
             })
             setESignRequestsYouSignedIt(eSignRequestsYouSignedIt)
-            console.log('eSignRequestsYouSignedIt', eSignRequestsYouSignedIt)
           }).catch(err => console.log(err))
           return response
         })
@@ -190,7 +191,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           })
           .then((res) => {
             setDepartmentsInfo(res.data.Data)
-            console.log(res.data.Data)
           })
           .catch((error) => { console.log(error) })
           return response

@@ -1,17 +1,17 @@
 .attendance-page-container {
   width: 100%;
-  padding: 25px;
   min-height: calc(100vh - 85px);
   background: #e0e9ff;
   background: linear-gradient(0deg,#e0e9ff,#fff);
   position: relative;
   top: 85px;
-  margin-bottom: 60px;
+  margin-bottom: 85px;
 }
 .attendance-page-container .header {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 25px 0 0 25px;
 }
 .attendance-page-container .header img {
   width: 60px;
@@ -49,10 +49,8 @@
 
 .attendance-sections-container {
   background-color: #EBF1FF;
-  width: calc(100% + 50px);
-  min-height: 300px;
+  width: 100%;
   position: relative;
-  left: -25px;
 }
 
 
@@ -87,12 +85,14 @@
 
   .attendance-page-container .buttons ul {
     display: flex;
-    padding: 25px 0 10px 0;
+    padding: 25px 10px 0 10px;
     flex-wrap: wrap;
   }
   .attendance-page-container .buttons ul li {
-    border-radius: 5px;
     font-size: 0.7rem;
     padding: 5px 10px;
+  }
+  .attendance-page-container .header {
+    padding: 25px 10px 0 10px;
   }
 }

@@ -11,7 +11,7 @@ import { AppCtx } from '../App'
 
 
 function Attendance() {
-  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count, departments_info } = useContext(AppCtx);
 
   const subMenuItems = [
     { id: 1, text: "Statistics" },
@@ -55,7 +55,13 @@ function Attendance() {
               <Statistics />
             </div>
             <div style={{display: activeId !== 2 ? 'none' : ''}}>
-              <DailyAttendance />
+              {
+                departments_info.length > 0
+                ? <DailyAttendance />
+                : <div className='daily-attendance-container' style={{height: '200px'}}>
+                    <div className='loader' style={{position: 'relative'}}><div></div></div>
+                  </div>
+              }
             </div>
           </div>
         </div>

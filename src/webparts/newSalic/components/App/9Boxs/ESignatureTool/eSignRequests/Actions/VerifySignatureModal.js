@@ -1,5 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Modal, Popover, Table } from 'antd';
+import { Button, Input, message, Modal, Popover, Table } from 'antd';
 import axios from 'axios';
 import React, { useState } from 'react'
 
@@ -8,10 +8,8 @@ function VerifySignatureModal() {
   const [open, setOpen] = useState(false);
   const [signatureKey, setSignatureKey] = useState('');
   const [kaySignatureData, setKaySignatureData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const hide = () => {
-    setOpen(!open);
-  };
 
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
@@ -53,12 +51,22 @@ function VerifySignatureModal() {
     }
   ];
   let verifySignatureHandlr = () => {
+    setLoading(true);
     axios({
       method: 'GET',
       url: `https://salicapi.com/api/Signature/Verify?key=${signatureKey}`
     }).then((res) => {
-      setKaySignatureData(res.data.Data)
-      setSignatureKey('')
+      if(res.data.Data.length > 0){
+        setKaySignatureData(res.data.Data)
+        setSignatureKey('')
+      } else {
+        message.error('Invalid Key, Try Again!');
+      }
+      setLoading(false)
+    }).catch(err => {
+      console.log(err)
+      setLoading(false)
+      message.error('Error!');
     })
   }
   return (
@@ -67,7 +75,13 @@ function VerifySignatureModal() {
         <>
           <Input placeholder='enter signature key' onChange={(e) => setSignatureKey(e.target.value)} value={signatureKey} />
           {kaySignatureData.length > 0 ? <Table columns={columnsSignatureKey} dataSource={kaySignatureData} /> : null}
-          <Button onClick={verifySignatureHandlr} disabled={signatureKey.length === 0 ? true : false} type="primary" icon={<SearchOutlined />}>
+          <Button 
+            onClick={verifySignatureHandlr} 
+            disabled={signatureKey.length === 0 ? true : false} 
+            type="primary" 
+            icon={<SearchOutlined />}
+            loading={loading}
+          >
             Verify
           </Button>
         </>

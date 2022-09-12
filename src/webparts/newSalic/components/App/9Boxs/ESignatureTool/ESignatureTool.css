@@ -97,6 +97,11 @@
   .eSign-page-container .content .buttons {
     padding: 0px 15px;
   }
+  .eSign-page-container .content .eSign-tables {
+    background-color: #ebf1ff;
+    padding: 15px;
+  }
+  
 }
 @media screen and (max-width: 799px) and (min-width: 426px) {
   .eSign-page-container .buttons ul {
@@ -114,6 +119,10 @@
   .eSign-page-container .content .buttons {
     padding: 0px 15px;
   }
+  .eSign-page-container .content .eSign-tables {
+    background-color: #ebf1ff;
+    padding: 10px;
+  }
 }
 @media screen and (max-width: 425px) {
   .eSign-page-container .header {
@@ -126,6 +135,10 @@
     padding: 5px;
     text-align: center;
     font-size: 0.8rem;
+  }
+  .eSign-page-container .content .eSign-tables {
+    background-color: #ebf1ff;
+    padding: 10px;
   }
 }
 
