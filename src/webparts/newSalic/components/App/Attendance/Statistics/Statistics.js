@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Statistics.css';
-import { RadialBar, Area, Column } from '@ant-design/plots';
-import CustomSelect from '../components/CustomSelect';
+import { RadialBar, Column } from '@ant-design/plots';
 import axios from 'axios';
 import { AppCtx } from '../../App';
 
@@ -50,24 +49,26 @@ function Statistics() {
   }
   useEffect(() => {
     fetchData();
-  }, [monthlyYear, user_data, monthlyAttendanceDates])
+  }, [monthlyYear, user_data])
   let [dataRadialBar, setDataRadialBar] = useState([
     {name: 'Annual Leave', star: 10,},
     {name: 'Working Days', star: 10,},
   ])
   const fetchData = () => {
     setMonthlyAttendanceLoader(true);
-    axios({
-      method: 'GET',
-      url: `https://salicapi.com/api/attendance/GetStatistics?email=${user_data.Data?.PIN}&Year=${monthlyYear.split(' ')[1]}&Month=${returnNumberOfMonth(monthlyYear.split(' ')[0])}`
-    }).then((res) => {
-        setDataRadialBar([
-          {name: 'Annual Leave', star: res.data?.Data[0]?.AnnualLeave},
-          {name: 'Working Days', star: res.data?.Data[0]?.WorkingDays},
-        ])
-    }).then(() =>{
-      setMonthlyAttendanceLoader(false);
-    }).catch(err => console.log(err))
+    if(Object.keys(user_data).length > 0) {
+      axios({
+        method: 'GET',
+        url: `https://salicapi.com/api/attendance/GetStatistics?email=${user_data.Data?.PIN}&Year=${monthlyYear.split(' ')[1]}&Month=${returnNumberOfMonth(monthlyYear.split(' ')[0])}`
+      }).then((res) => {
+          setDataRadialBar([
+            {name: 'Annual Leave', star: res.data?.Data[0]?.AnnualLeave},
+            {name: 'Working Days', star: res.data?.Data[0]?.WorkingDays},
+          ])
+      }).then(() =>{
+        setMonthlyAttendanceLoader(false);
+      }).catch(err => console.log(err))
+    }
   }
   const configRadialBar = {
     data: dataRadialBar,
@@ -92,6 +93,11 @@ function Statistics() {
       }
       return '#43A2CC';
     },
+    animation: {
+      appear: {
+        animation: 'none',
+      },
+    },
   };
   // End Monthly Attendance Code
 
@@ -99,23 +105,33 @@ function Statistics() {
 
 
   // Start Annual Attendance Code
+  const currentYear = new Date().getFullYear();
+  const years = (currentYear) => {
+    let yearsToNow = []
+    for(let i=2018; i <= currentYear; i++) {
+      yearsToNow.push(i);
+    }
+    return yearsToNow;
+  }
   const [annualAttendanceLoader, setAnnualAttendanceLoader] = useState(true);
   const [annualYear, setAnnualYear] = useState('2022');
   const [data, setData] = useState([]);
   useEffect(() => {
     setAnnualAttendanceLoader(true)
-    axios({
-      method: 'GET',
-      url: `https://salicapi.com/api/attendance/GetStatistics1?email=${user_data.Data?.PIN}&Year=${annualYear}&Month=1`
-    }).then(res => {
-      let NormalChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Normal", "value": e.Status1}})
-      let AbsentChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Absent", "value": e.Status2}})
-      let DelayLeaveChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Delay & Early Leave", "value": e.Status3}})
-      let BusinessTripChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Leaves & Business Trip", "value": e.Status4}})
-      setData([...NormalChartData, ...AbsentChartData, ...DelayLeaveChartData, ...BusinessTripChartData])
-      setAnnualAttendanceLoader(false)
-    }).catch(err => console.log(err))
-  }, [annualYear])
+    if(Object.keys(user_data).length > 0) {
+      axios({
+        method: 'GET',
+        url: `https://salicapi.com/api/attendance/GetStatistics1?email=${user_data.Data?.PIN}&Year=${annualYear}&Month=1`
+      }).then(res => {
+        let NormalChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Normal", "value": e.Status1}})
+        let AbsentChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Absent", "value": e.Status2}})
+        let DelayLeaveChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Delay & Early Leave", "value": e.Status3}})
+        let BusinessTripChartData = res.data?.Data?.map(e =>  {return{"Month": e.Month, "type": "Leaves & Business Trip", "value": e.Status4}})
+        setData([...NormalChartData, ...AbsentChartData, ...DelayLeaveChartData, ...BusinessTripChartData])
+        setAnnualAttendanceLoader(false)
+      }).catch(err => console.log(err))
+    }
+  }, [annualYear, user_data])
   const config = {
     data,
     xField: 'Month',
@@ -134,6 +150,11 @@ function Statistics() {
         return 'rgb(39, 124, 98)';
       }
       return '#0C508C';
+    },
+    animation: {
+      appear: {
+        animation: 'none',
+      },
     },
   };
   // End Annual Attendance Code
@@ -157,19 +178,16 @@ function Statistics() {
             <span>Working Days</span>
             <span>Annual Leave</span>
           </div>
-          {
-            !monthlyAttendanceLoader
-            ? <div className='radialBar'>
-                <RadialBar 
-                  {...configRadialBar}
-                  style={{
-                    width: '100%',
-                    margin: '20px 0 40px 0',
-                  }} 
-                />
-              </div>
-            : <div className="loader small"><div></div></div>
-          }
+          <div className='radialBar' style={{ display: monthlyAttendanceLoader ? 'none' : '' }}>
+            <RadialBar 
+              {...configRadialBar}
+              style={{
+                width: '100%',
+                margin: '20px 0 40px 0',
+              }} 
+            />
+          </div>
+          {monthlyAttendanceLoader && <div className="loader small"><div></div></div>}
         </div>
       </div>
 
@@ -177,11 +195,19 @@ function Statistics() {
         <div className="head">
           <h3>Annual Attendance</h3>
           <select name="date" onChange={(e) => setAnnualYear(e.target.value)}>
-            <option value="2018">2018</option>
-            <option value="2019">2019</option>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option selected value="2022">2022</option>
+            {
+              years(currentYear).map((year, i) => {
+                return (
+                  <option 
+                    selected={year === currentYear ? true : false} 
+                    value={year} 
+                    key={i}
+                  >
+                    {year}
+                  </option>
+                )
+              })
+            }
           </select>
         </div>
         {!annualAttendanceLoader ? <Column {...config} /> : <div className="loader small"><div></div></div>}

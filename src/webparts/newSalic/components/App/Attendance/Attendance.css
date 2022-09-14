@@ -13,8 +13,17 @@
   gap: 10px;
   padding: 25px 0 0 25px;
 }
-.attendance-page-container .header img {
+.attendance-page-container .header div.icon {
   width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FA8181;
+  border-radius: 50%;
+}
+.attendance-page-container .header div.icon svg g * {
+  fill: #fff;
 }
 .attendance-page-container .header h2 {
   font-weight: 400;

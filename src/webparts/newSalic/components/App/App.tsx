@@ -224,9 +224,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .catch(err => console.log(err))
       
   }, [])
+  React.useEffect(() => {
+    console.log('isGlobeReady', isGlobeReady, new Date())
+  }, [isGlobeReady])
 
-
-  const toggleGlobeReady = (v: boolean) => {setIsGlobeReady(v)}
   const AppContextProviderSample: AppContext = {
     user_data: userData,
     notifications_count: notificationsCount,
@@ -237,7 +238,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     news_list: newsList,
     globe_data: globeData,
     isGlobeReady,
-    toggleGlobeReady,
+    setIsGlobeReady,
     oracle_reports: oracleReports,
     media_center: mediaCenter,
     notes_list: notesList,

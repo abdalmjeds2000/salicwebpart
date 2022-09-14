@@ -5,8 +5,8 @@ import logo from '../../../../assets/images/logo.jpg';
 function UserSettingsPanel(props) {
   return (
     <div className="user-setting-panel">
-      <div className='user-details' onclick={e => e.preventDefault()}>
-        <div className='header'>
+      <div id='user-details' onclick={e => e.preventDefault()}>
+        <div className='user-details-header'>
           <img src={logo} alt="logo" className='logo' />
           <a href="https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/dev">Sign Out</a>
         </div>

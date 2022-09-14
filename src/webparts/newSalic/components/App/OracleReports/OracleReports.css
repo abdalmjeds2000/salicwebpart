@@ -64,7 +64,7 @@
 }
 .oracle-reports-container .departments-content .links-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(48%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   gap: 10px;
   position: relative;
 }
@@ -101,14 +101,20 @@
 }
 
 
+
+
 @media screen and (max-width: 800px) {
   .oracle-reports-container {
     flex-direction: column;
+    padding: 10px;
   }
   .oracle-reports-container .departments-container {
     width: 100%;
   }
   .oracle-reports-container .departments-content {
     width: 100%;
+  }
+  .oracle-reports-container .departments-content .links-container {
+    grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
   }
 }

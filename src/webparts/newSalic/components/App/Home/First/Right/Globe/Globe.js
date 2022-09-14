@@ -40,7 +40,7 @@ function SalicGlobe() {
   const ourCountry = ['Canada', 'Barzil', 'United Kingdom', 'Ukraine', 'Saudi Arabia', 'India', 'Australia'];
   const [rotation, setRotation] = useState(true);
   const [currentCountry, setCurrentCountry] = useState('Saudi Arabia');
-  const { globe_data, isGlobeReady, toggleGlobeReady } = useContext(AppCtx)
+  const { globe_data, isGlobeReady, setIsGlobeReady } = useContext(AppCtx)
   const [hover, setHover] = useState();
 
     // Get Window Size
@@ -53,7 +53,7 @@ function SalicGlobe() {
   // No Load in Mobile
   useEffect(() => {
     if(windowSize.innerWidth < 990) {
-      toggleGlobeReady(true)
+      setIsGlobeReady(true)
     }
   }, [])
 
@@ -306,7 +306,7 @@ function SalicGlobe() {
           globeImageUrl={globeBG}
           hexPolygonAltitude={0.02}
           hexPolygonMargin={0.1}
-          onGlobeReady={toggleGlobeReady(true)}
+          onGlobeReady={() => setIsGlobeReady(true)}
           // onHexPolygonClick={(polygon, event, { lat, lng, altitude }) => console.log((polygon, event, { lat, lng, altitude }))}
           hexPolygonLabel={({ properties: d }) => {
             if(ourCountry.includes(d.ADMIN)){

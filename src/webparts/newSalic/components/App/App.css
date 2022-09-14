@@ -200,3 +200,9 @@ img.img-bg.img-bg-form {
 .e_a_8474018e {
   padding: 0 !important;
 }
+[dir=ltr] .t_e_8474018e, [dir=rtl] .t_e_8474018e {
+  right: 0;
+}
+[dir=ltr] .t_e_8474018e {
+  left: 0;
+}
