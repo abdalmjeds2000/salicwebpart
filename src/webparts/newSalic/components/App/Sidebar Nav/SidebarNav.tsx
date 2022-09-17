@@ -2,11 +2,10 @@ import * as React from 'react';
 import './SidebarNav.scss';
 import { SidebarNavProps } from './SidebarNavProps';
 import { NavLink } from 'react-router-dom';
-import { AppCtx } from '../App';
 import { Tooltip } from 'antd';
 let activeStyle = {
   borderLeft: "4px solid var(--second-color)",
-  padding: '4px 8px',
+  padding: '6px 12px 6px 8px',
   fontSize: '0.9rem'
 };
 
@@ -15,6 +14,8 @@ function getWindowSize() {
   const {innerWidth, innerHeight} = window;
   return {innerWidth, innerHeight};
 }
+
+
 const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
   const svgIcons = {
     home: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="35px" viewBox="0 0 512.004 512.004"><g><path xmlns="http://www.w3.org/2000/svg" d="m448.897 312.242c-37.286-19.766-88.483-33.248-144.693-38.162l1.297-15.564c11.991-3.931 20.675-15.229 20.675-28.517v-80c0-26.888-15.239-50.284-37.533-62.005 34.966-29.6 13.916-87.993-32.467-87.994-46.383.002-67.433 58.402-32.466 87.995-22.294 11.721-37.533 35.116-37.533 62.005v80c0 13.288 8.684 24.586 20.674 28.517l1.297 15.564c-80.408 7.485-202.675 37.704-207.974 117.919 6.84 92.453 165.16 120.206 256.001 120.003 67.087-.001 130.313-11.753 178.032-33.091 95.279-40.586 105.959-119.348 14.69-166.67zm-232.686 58.588c1.385 16.629 14.267 29.17 29.965 29.17h20.001c15.698 0 28.58-12.541 29.965-29.169l2.578-30.938c60.94 6.996 97.082 27.482 97.082 44.045-5.768 34.915-99.486 47.389-139.625 46.437-40.054.985-133.959-11.579-139.627-46.437.001-16.563 36.143-37.049 97.083-44.045zm9.966-320.83c0-16.542 13.458-30 30-30 39.744 1.508 39.734 58.498 0 60-16.542 0-30-13.458-30-30zm-20 180v-80c2.504-66.216 97.487-66.245 100 .001 0-.001 0 80 0 80 0 5.514-4.486 10-10 10-5.201 0-9.534 3.987-9.965 9.169l-10 120c-.449 5.382-4.039 10.83-10.034 10.83h-20.001c-5.995 0-9.586-5.448-10.034-10.831l-10-120c-.432-5.183-4.765-9.169-9.965-9.169-5.516 0-10.001-4.486-10.001-10zm219.866 230.655c-88.556 41.486-251.179 41.487-339.733-.002-42.029-18.792-66.134-43.815-66.134-68.651 5.507-64.896 121.706-92.119 189.634-97.99l2.162 25.941c-30.857 3.483-57.694 10.423-77.968 20.195-60.106 29.975-42.822 72.629 12.843 93.054 57.627 22.727 161.036 22.728 218.662 0 55.724-20.444 72.902-63.098 12.843-93.055-20.275-9.771-47.112-16.71-77.968-20.194l2.162-25.941c53.558 4.687 102.025 17.369 136.986 35.902 76.978 40.215 65.919 95.851-13.489 130.741z" fill="#FFFFFF"    ></path></g></svg>,
@@ -212,8 +213,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     SignOut: <svg fill='#fff' width='35px' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M554.666667 128l-85.333333 0 0 426.666667 85.333333 0L554.666667 128zM760.746667 220.586667l-60.586667 60.586667C767.573333 335.36 810.666667 418.56 810.666667 512c0 165.12-133.546667 298.666667-298.666667 298.666667s-298.666667-133.546667-298.666667-298.666667c0-93.44 43.093333-176.64 110.08-231.253333L263.253333 220.586667C180.48 290.986667 128 395.093333 128 512c0 212.053333 171.946667 384 384 384 212.053333 0 384-171.946667 384-384C896 395.093333 843.52 290.986667 760.746667 220.586667z"  /></svg>
   }
 
-
-  let listItems = [
+  const listItems = [
     {to: '/home', icon: svgIcons.home, text: 'Home', link: false}, 
     {to: '/community-news', icon: svgIcons.news, text: 'Salic News', link: false},
     {icon: svgIcons.SALICWebsite, text: 'SALIC Website', link: true, to: 'https://www.salic.com'},
@@ -276,7 +276,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                   ? <NavLink
                       to={defualt_route + item.to} 
                       className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-                      style={({ isActive }) => isActive ? activeStyle : {opacity: "0.7"}}
+                      style={({ isActive }) => isActive ? activeStyle : {opacity: "0.4"}}
                     >
                       {item.icon}
                       {isNavBarLarge && <p>{item.text}</p>}
@@ -286,7 +286,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                       href={item.to} 
                       target={item.text !== "Sign Out" ? "_blank" : ""}
                       className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-                      style={{opacity: "0.7"}}
+                      style={{opacity: "0.4"}}
                     >
                       {item.icon}
                       {isNavBarLarge && <p>{item.text}</p>}

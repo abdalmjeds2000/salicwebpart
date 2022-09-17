@@ -44,6 +44,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [eSignRequests, setESignRequests] = React.useState([])
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
+
+  const [maintenanceData, setMaintenanceData] = React.useState([]);
   
 
   React.useEffect(() => {
@@ -108,29 +110,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           .catch((error) => { console.log(error) })
           return response
         })
-        //Get Notification Center Data
-        .then((response) => {
-          axios({ 
-            method: 'GET', 
-            url: `https://salicapi.com/api/notificationcenter/Get?Email=${response.data.Data?.Mail}&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191`
-          }).then((res) => { 
-            const notifi_data = res.data?.Data?.map((n: any, i: any) => {
-              const newRow = {
-                key: i,
-                id: `${i+1}`,
-                subject: <><h3>{n.Title}</h3>{n.BodyPreview}</>,
-                dateTime: n.Created.slice(0, -3).replace('T', ' '),
-                status: n.Status,
-                From: n.From,
-                action: <a href="/">View Document</a>
-              }
-              return newRow
-            })
-            setNotificationCenterData(notifi_data);
-          }).catch(err => console.log(err))
-          return response
-        })
-
         //Get eSign Requests
         .then((response) => {
           axios({
@@ -235,6 +214,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     latest_attendance: latestAttendance,
     communicationList: communicationList,
     notification_center_data: notificationCenterData,
+    setNotificationCenterData,
     news_list: newsList,
     globe_data: globeData,
     isGlobeReady,
@@ -246,7 +226,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
-    departments_info: departmentsInfo
+    departments_info: departmentsInfo,
+
+    maintenance_data: maintenanceData,
+    setMaintenanceData
   };
 
 

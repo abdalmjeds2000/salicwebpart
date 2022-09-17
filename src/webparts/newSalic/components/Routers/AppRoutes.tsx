@@ -12,12 +12,16 @@ import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
 import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
 import BusinessGate from '../App/9Boxs/AdminServices/BusinessGate/BusinessGate';
 import Maintenance from '../App/9Boxs/AdminServices/Maintenance/Maintenance';
+import UpdateMaintenance from '../App/9Boxs/AdminServices/Maintenance/UpdateMaintenance';
 import ShipmentRequest from '../App/9Boxs/AdminServices/ShipmentRequest/ShipmentRequest';
 import OfficeSupply from '../App/9Boxs/AdminServices/OfficeSupply/OfficeSupply';
 import Transportation from '../App/9Boxs/AdminServices/Transportation/Transportation';
+import AssignedRequests from '../App/9Boxs/AdminServices/AssignedRequests/AssignedRequests';
+
 import Visitor from '../App/9Boxs/AdminServices/Visitor/Visitor';
 import Attendance from '../App/Attendance/Attendance';
 import CommunityNews from '../App/CommunityNews/CommunityNews';
+import NewsDetails from '../App/CommunityNews/NewsDetails/NewsDetails';
 import FolderExplorerPage from '../App/FolderExplorer/FolderExplorer';
 import EInvoicing from '../App/9Boxs/EInvoicing/EInvoicing';
 import Performance from '../App/9Boxs/Performance/Performance';
@@ -47,6 +51,7 @@ import DomesticPrices from '../App/PowerBI/Research/DomesticPrices/DomesticPrice
 import InternationalPrices from '../App/PowerBI/Research/InternationalPrices/InternationalPrices'
 import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboard'
 
+
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   const defualtRoute: string = '/sites/newSalic/_layouts/15/workbench.aspx';
   return (
@@ -58,16 +63,27 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />
       <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
       <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
-      <Route path={`${defualtRoute}/community-news`} element={<CommunityNews />} />
+
+      <Route path={`${defualtRoute}/community-news`}>
+        <Route index element={<CommunityNews />} />
+        <Route path={`${defualtRoute}/community-news/:id`} element={<NewsDetails />} />
+      </Route>
+
       <Route path={`${defualtRoute}/admin-services`}>
         <Route index element={<AdminServices />} />
         <Route path={`${defualtRoute}/admin-services/issuing-VISA`} element={<IssuingVISA />} />
         <Route path={`${defualtRoute}/admin-services/shipment`} element={<ShipmentRequest />} />
-        <Route path={`${defualtRoute}/admin-services/maintenance`} element={<Maintenance />} />
+        
+        <Route path={`${defualtRoute}/admin-services/maintenance`}>
+          <Route index element={<Maintenance />} />
+          <Route path={`${defualtRoute}/admin-services/maintenance/:id`} element={<UpdateMaintenance />} />
+        </Route>
+        
         <Route path={`${defualtRoute}/admin-services/visitor`} element={<Visitor />} />
         <Route path={`${defualtRoute}/admin-services/transportation`} element={<Transportation />} />
         <Route path={`${defualtRoute}/admin-services/business-gate`} element={<BusinessGate />} />
         <Route path={`${defualtRoute}/admin-services/office-supply`} element={<OfficeSupply />} />
+        <Route path={`${defualtRoute}/admin-services/assigned-requests`} element={<AssignedRequests />} />
       </Route>
       <Route path={`${defualtRoute}/it-services`}>
         <Route index element={<ITServices />} />

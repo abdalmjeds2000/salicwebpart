@@ -20,7 +20,7 @@
   /* width: 60%; */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 .almira-magazine-container .content .header {
   display: flex;
@@ -29,16 +29,21 @@
 }
 .almira-magazine-container .content .header h1 {
   line-height: 1;
-  font-size: 1.7rem;
+  font-size: 2rem;
 }
 .almira-magazine-container .content .header p {
   color: #b7b7b7 !important;
+  font-size: 1rem;
 }
 .almira-magazine-container .content .description p {
-  color: #000 !important;
+  color: #000!important;
+  font-size: 1.3rem;
+}
+.almira-magazine-container .content .description p:nth-child(1) {
+  font-size: 1rem;
 }
 .almira-magazine-container .content .description p:nth-child(2) {
-  font-size: 0.7rem;
+  font-size: 1rem;
 }
 
 .almira-magazine-container .content .en-ar-btns {
@@ -46,6 +51,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  margin-top: 25px;
 }
 .almira-magazine-container .content .en-ar-btns a:visited,
 .almira-magazine-container .content .en-ar-btns a:focus,
@@ -80,4 +86,26 @@
   .almira-magazine-container .content {
     width: 100%;
   }
+
+
+  .almira-magazine-container .image img {
+    width: 100%;
+    max-height: 100%;
+  }
+  .almira-magazine-container .content .header h1 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  .almira-magazine-container .content .description p {
+    font-size: 1rem;
+  }
+
+
+
+  .almira-magazine-container .content .en-ar-btns a:visited,
+  .almira-magazine-container .content .en-ar-btns a:focus,
+  .almira-magazine-container .content .en-ar-btns a {
+    min-width: 100%;
+  }
+
 }

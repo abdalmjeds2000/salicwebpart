@@ -6,22 +6,43 @@ import './DailyAttendance.css';
 
 
 function DailyAttendance() {
-  const { departments_info, user_data } = useContext(AppCtx)
+  const { user_data } = useContext(AppCtx)
 
   const [departmentName, setDepartmentName] = useState(user_data?.Data?.Department);
+  const [employees, setEmployees] = useState([]);
   const [status, setStatus] = useState('-1');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [tableData, setTableData] = useState([]);
+  
+  
 
-  const departmentsNames = Array.from(new Set(departments_info.filter(e => e.Department !== "").map(r => r.Department)))
-  const employeesNames = departments_info.filter(d => d.Department === departmentName ).filter(e => {if(status === '-1') { return e } else if(status === 'true') { return e.Enabled === true } else if(status === 'false') { return e.Enabled === false }}).map(e => {return {value: e.Mail, name: e.DisplayName}})
-  const [employees, setEmployees] = useState(employeesNames.map(e => e.value));
+  // ...user_data?.Data?.DirectUsers?.map(u => {
+  //   let nestedUsers = [{value: u.Mail, name: u.DisplayName}]
+  //   if(u.DirectUsers.length > 0) {
+  //     for(let i=0; i <= u.DirectUsers.length; i++) {
+  //       nestedUsers.push({value: u.DirectUsers[i]?.Mail, name: u.DirectUsers[i]?.DisplayName})
+  //     }
+  //   }
+  //   return nestedUsers
+  // })
 
 
+  
+  const [employeesOptions, setEmployeesOptions] = useState([]);
   useEffect(() => {
-    setEmployees(employeesNames.map(e => e.value))
-  }, [departmentName, status])
-  const [tableData, setTableData] = useState([])
+    const empOpt = [
+      {value: '-1', name: 'All'}, 
+      {value: user_data?.Data?.Mail, name: user_data?.Data?.DisplayName}, 
+      ...user_data?.Data?.DirectUsers?.map(u => {return {value: u.Mail, name: u.DisplayName} })
+    ];
+    setEmployeesOptions(empOpt);
+    setDepartmentName(user_data?.Data?.Department);
+    setEmployees([user_data?.Data?.Mail, ...user_data?.Data?.DirectUsers?.map(u => u.Mail)])
+  }, [user_data])
+
+
+
   let filterResultsHandler = () => {
     axios({
       method: 'GET',
@@ -34,16 +55,15 @@ function DailyAttendance() {
 
 
 
-
   return (
     <div className='daily-attendance-container'>
       <div className="content">
         <div className="form">
           <div className='inputs'>
-            <CustomSelect 
+          <CustomSelect 
               name='department' 
               label='Department'
-              options={departmentsNames.map(d => {return {value: d, name: d}})}
+              options={[{value: departmentName, name: departmentName}]}
               onChange={(e) => setDepartmentName(e.target.value)}
               selectedBy={user_data?.Data?.Department}
             />
@@ -60,8 +80,8 @@ function DailyAttendance() {
             <CustomSelect 
               name='employee' 
               label='Employee' 
-              options={[{value: '-1', name: 'All'}, ...employeesNames]} 
-              onChange={(e) => setEmployees(e.target.value === '-1' ? employeesNames.map(e => e.value) : [e.target.value])} 
+              options={employeesOptions} 
+              onChange={(e) => setEmployees(e.target.value === '-1' ? [user_data?.Data?.Mail, ...user_data?.Data?.DirectUsers?.map(u => u.Mail)] : [e.target.value])} 
             />
             <div className='custom-select-container'>
               <label htmlFor="start-date">Start Date</label>

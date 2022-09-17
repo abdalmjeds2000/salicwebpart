@@ -1,33 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './CommunityNews.css';
 import NewsBox from './NewsBox';
 import WorldBG from '../../../assets/images/world.svg';
 import { AppCtx } from '../App';
-import DefualtUserIcon from '../../../assets/images/default-profile-icon.svg'
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 import { Pagination } from 'antd';
 
 
 const getDataByPageNo = (list, pno) => {
-  if(list.length >= 9 && pno === 1) return list.slice(0, 10)
-  else if(list.length >= 19 && pno === 2) return list.slice(10, 20)
-  else if(list.length >= 29 && pno === 3) return list.slice(20, 30)
-  else if(list.length >= 39 && pno === 4) return list.slice(30, 40)
-  else if(list.length >= 49 && pno === 5) return list.slice(40, 50)
-  else if(list.length >= 59 && pno === 6) return list.slice(50, 60)
-  else if(list.length >= 69 && pno === 7) return list.slice(60, 70)
-  else if(list.length >= 79 && pno === 8) return list.slice(70, 80)
-  else if(list.length >= 89 && pno === 9) return list.slice(80, 90)
-  else if(list.length >= 99 && pno === 10) return list.slice(90, 100)
-  
+  if(list.length >= 19 && pno === 1) return list.slice(0, 20)
+  else if(list.length >= 39 && pno === 2) return list.slice(20, 40)
+  else if(list.length >= 59 && pno === 3) return list.slice(40, 60)
+  else if(list.length >= 79 && pno === 4) return list.slice(60, 80)
+  else if(list.length >= 99 && pno === 5) return list.slice(80, 100)
 }
-
 function CommunityNews() {
   const { news_list, user_data, notifications_count, mail_count } = useContext(AppCtx);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNewslist, setFilteredNewslist] = useState(getDataByPageNo(news_list, currentPage));
-
+  useEffect(() => {
+    setFilteredNewslist(getDataByPageNo(news_list, currentPage));
+  }, [news_list])
   
   return (
     <div className='community-news-page-container'>
@@ -52,6 +46,8 @@ function CommunityNews() {
               AuthorTitle={box.Author?.JobTitle}
               NewTitle={box.Subject}
               NewDescription ={box.Description?.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
+              Poster={box.AttachmentFiles[0]?.ServerRelativeUrl}
+              Id={box.Id}
             />
           )
         })}
@@ -62,7 +58,7 @@ function CommunityNews() {
         <Pagination current={currentPage} onChange={p => {
           setCurrentPage(p)
           setFilteredNewslist(getDataByPageNo(news_list, p))
-          }} total={news_list.length} />
+          }} total={news_list.length / 2} />
       </div>
     </div>
   )

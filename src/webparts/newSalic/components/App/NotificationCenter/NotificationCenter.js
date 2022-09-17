@@ -6,6 +6,7 @@ import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel'
 import Highlighter from 'react-highlight-words';
 import { AppCtx } from '../App'
+import axios from 'axios'
 
 
 function getWindowSize() {
@@ -16,12 +17,39 @@ function getWindowSize() {
 
 
 function NotificationCenter() {
-  const { user_data, notifications_count, mail_count, notification_center_data } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count, notification_center_data, setNotificationCenterData } = useContext(AppCtx);
   const [allData, setAllData] = useState(notification_center_data)
   const [filteredData, setFilteredData] = useState([])
   const [selectedType, setSelectedType] = useState(['Oracle', 'eSign', 'SharedServices', 'CS']);
   const [selectedStatus, setSelectedStatus] = useState(['Pending']);
   const [typeToSearchText, setTypeToSearchText] = useState('');
+
+
+  // Get Notification Center Data
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0 && notification_center_data.length === 0) {
+      axios({ 
+        method: 'GET', 
+        url: `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191`
+      }).then((res) => { 
+        const notifi_data = res.data?.Data?.map((n, i) => {
+          const newRow = {
+            key: i,
+            id: `${i+1}`,
+            subject: <><h3>{n.Title}</h3>{n.BodyPreview}</>,
+            dateTime: n.Created.slice(0, -3).replace('T', ' '),
+            status: n.Status,
+            From: n.From,
+            action: <a href="/">View Document</a>
+          }
+          return newRow
+        })
+        setNotificationCenterData(notifi_data);
+        console.log('notifi_data', notifi_data);
+      }).catch(err => console.log(err))
+    }
+  }, [user_data])
+
 
   
   // Get Window Size

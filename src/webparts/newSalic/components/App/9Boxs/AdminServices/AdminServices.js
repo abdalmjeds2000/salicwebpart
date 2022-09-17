@@ -29,7 +29,7 @@ const services = [
   {icon: srvsIcons.maintenance, to: '/admin-services/maintenance', bgColor: '#70CFAF', text: 'Maintenance'},
   {icon: srvsIcons.visitor, to: '/admin-services/visitor', bgColor: '#FD96A6', text: 'Visitor VISA'},
   {icon: srvsIcons.purchaseRequisition, to: '/', bgColor: '#FBBE82', text: 'Purchase Requisition'},
-  {icon: srvsIcons.receiveOrderItems, to: '/', bgColor: 'c', text: 'Receive Order Items'},
+  {icon: srvsIcons.receiveOrderItems, to: '/', bgColor: '#FD96A6', text: 'Receive Order Items'},
   {icon: srvsIcons.receiptConfitmation, to: '/', bgColor: '#9BC9ED', text: 'Receipt Confitmation'},
   {icon: srvsIcons.transportation, to: '/admin-services/transportation', bgColor: '#FBBE82', text: 'Transportation Request'},
 ];
@@ -81,12 +81,12 @@ const AdminServices = (props) => {
               </div>
               <h3>My Requests</h3>
             </a>
-            <a className='box'>
+            <NavLink to={`${defualt_route}/admin-services/assigned-requests`} className='box'>
               <div style={{backgroundColor: '#43A2CC'}}>
                 {srvsIcons.assignedRequests}
               </div>
               <h3>Assigned Requests</h3>
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>

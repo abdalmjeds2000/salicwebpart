@@ -31,9 +31,9 @@ function Home() {
     window.addEventListener('scroll', handleScrollY);
   }, []);
 
-  useEffect(() => {
-    setIsGlobeReady(false)
-  }, [])
+  // useEffect(() => {
+  //   setIsGlobeReady(false)
+  // }, [])
 
   return (
     <>

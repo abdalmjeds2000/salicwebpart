@@ -2,18 +2,11 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './ThreeDivisions.css';
 import { NavLink } from 'react-router-dom';
 import { Timeline, Tweet } from 'react-twitter-widgets';
-import ImageViewer from 'react-simple-image-viewer';
 import ImgsViewer from "react-images-viewer";
-import { AlertFilled } from '@ant-design/icons';
 import { AppCtx } from '../../App';
 
 import VideoPoster from '../../../../assets/images/media_center/gallery1.png'
-import Image1 from '../../../../assets/images/media_center/gallery2.png'
-import Image2 from '../../../../assets/images/media_center/gallery3.png'
-import Image3 from '../../../../assets/images/media_center/gallery4.png'
-import Image4 from '../../../../assets/images/media_center/gallery5.png'
 
-import DefualtUserIcon from '../../../../assets/images/default-profile-icon.svg'
 const boxsIcons = {
   Policies: <svg xmlns="http://www.w3.org/2000/svg" width="18.165" height="19.91" viewBox="0 0 18.165 19.91">
               <g id="Document" transform="translate(-0.001 0)">
@@ -125,6 +118,8 @@ const ThreeDivisions = (props) => {
               <source src={typeof(videos) === "object" ? videos[0] : ''}></source>
             </video>
           </div>
+
+
           {/* Images Section */}
           {images?.slice(-4).reverse().map((img, index) => (
             <div
@@ -172,18 +167,24 @@ const ThreeDivisions = (props) => {
                   <NavLink to={`${defualt_route}/community-news`}>See All</NavLink>
                 </div>
                 {
-                  news_list?.slice(0, windowSize.innerWidth > 1750 ? 3 : 2).map((row, i) => {
+                  news_list?.slice(0, windowSize.innerWidth > 1750 ? 4 : 3).map((row, i) => {
+                    const description = row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "");
                     return (
                       <div className="box" key={i}>
-                        <h3 className="title">{row.Subject}</h3>
-                        <p className="description">{row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}</p>
-                        <div className="by">
-                        <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${row.Author?.EMail}`} alt="" />
+                        <div className='img' style={{backgroundImage: `url("https://salic.sharepoint.com${row.AttachmentFiles[0]?.ServerRelativeUrl}")`, backgroundColor: 'var(--third-color)'}}></div>
+                        <div className='text'>
+                          <h3 className="title">
+                            <NavLink to={`${defualt_route}/community-news/${row.Id}`}>{row.Subject}</NavLink>
+                          </h3>
+                          <p className="description">{description}</p>
+                        </div>
+                        {/* <div className="by">
+                          <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${row.Author?.EMail}`} alt="" />
                           <div>
                             <p>{row.Author.Title}</p> 
                             <p>{row.Author.JobTitle}</p>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     )
                   })

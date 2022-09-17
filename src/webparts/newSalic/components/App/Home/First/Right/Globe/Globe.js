@@ -54,6 +54,8 @@ function SalicGlobe() {
   useEffect(() => {
     if(windowSize.innerWidth < 990) {
       setIsGlobeReady(true)
+    } else {
+      setIsGlobeReady(false)
     }
   }, [])
 

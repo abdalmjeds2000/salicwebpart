@@ -57,6 +57,15 @@
 .latest-attendance-table-container .latest-attendance-table td {
   color: var(--text-color) !important;
 }
+
+
+
+.latest-attendance-table .ant-empty-normal {
+  margin: 10px 0 0 0 !important;
+}
+
+
+
 @media screen and (max-width: 1090px) {
   .latest-attendance-table-container .latest-attendance-table {
     width: 100%;

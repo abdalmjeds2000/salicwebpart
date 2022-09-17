@@ -1,4 +1,4 @@
-.news-box {
+.news-boxs .news-box {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -8,30 +8,49 @@
   gap: 10px;
   box-shadow: 0 5px 12px #00000015;
 }
+.news-boxs .news-box:hover {
+  transition: 0.5s;
+  transform: scale(1.01);
+  background-color: var(--third-color);
+}
 
-.news-box .header {
+.news-boxs .news-box .header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
 }
-.news-box .header img {
+.news-boxs .news-box .header img {
   width: 50px;
   height: 50px;
   border: 3px solid #fff;
   border-radius: 50%;
   box-shadow: 0 5px 5px #ccc;
 }
-.news-box .header div h3 {
+.news-boxs .news-box .header div h3 {
   font-weight: 400;
   font-size: 1rem;
 }
-.news-box .header div p {
+.news-boxs .news-box .header div p {
   font-weight: 400;
   font-size: 0.8rem;
 }
-.news-box > h2 {
-  font-weight: 400;
+
+.news-boxs .news-box .img {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  width: 100%;
+  min-height: 15rem;
+}
+.news-boxs .news-box > h2 {
+  font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -40,8 +59,12 @@
   -webkit-box-orient: vertical;
   font-size: 1.2rem;
   line-height: 1.2;
+  cursor: pointer;
 }
-.news-box > p {
+.news-boxs .news-box > h2:hover {
+  color: var(--second-color) !important;
+}
+.news-boxs .news-box > p {
   font-weight: 400;
   font-size: 14px;
   overflow: hidden;
@@ -51,7 +74,7 @@
   line-clamp: 4;
   -webkit-box-orient: vertical;
 }
-.news-box > a {
+.news-boxs .news-box > a {
   font-weight: 400;
   font-size: 14px;
   text-decoration: underline;

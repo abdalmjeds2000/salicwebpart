@@ -1,28 +1,39 @@
-import React, { useContext } from 'react'
-import { Button, Col, Form, Input, message, Upload, Radio, Row, Select, Space, DatePicker, InputNumber } from 'antd';
+import React, { useContext, useState } from 'react'
+import { Form, Input, message } from 'antd';
 import { NavLink } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
+import moment from 'moment';
+import AddMaintenanceRequest from './API/AddMaintenanceRequest.js';
 
-const { Option } = Select;
-const { Dragger } = Upload;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
-
-
 function Maintenance() {
-  const { user_data, defualt_route } = useContext(AppCtx);
-
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+  const [form] = Form.useForm();
+  const { user_data, setMaintenanceData, defualt_route } = useContext(AppCtx);
+  const [btnLoader, setBtnLoader] = useState(false)
+  
+  async function CreateMaintenanceRequest(values) {
+    setBtnLoader(true);
+    const response = await AddMaintenanceRequest(values);
+    if(response.data) {
+      form.resetFields();
+      message.success("The request has been sent successfully.")
+      setBtnLoader(false);
+      setMaintenanceData(prev => [response.data, ...prev])
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
   }
 
+  const onFinishFailed = () => {
+    message.error("Please, fill out the form correctly.")
+  }
   
+
   return (
     <>
       <HistoryNavigation>
@@ -46,14 +57,16 @@ function Maintenance() {
       >
         <Form 
           {...layout} 
+          form={form}
           colon={false}
           labelWrap 
           name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
+          onFinish={CreateMaintenanceRequest} 
+          onFinishFailed={onFinishFailed}
           layout="horizontal"
         >
 
-          <Form.Item name={'date'} label="Date" rules={[{required: true,}]} initialValue={getDateAndTime()} >
+          <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
           
@@ -69,7 +82,7 @@ function Maintenance() {
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>

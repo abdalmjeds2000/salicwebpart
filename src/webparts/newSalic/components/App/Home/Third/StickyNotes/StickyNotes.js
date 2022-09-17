@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AppCtx } from '../../../App';
+import { message } from 'antd';
 
 
 
@@ -20,13 +21,7 @@ const StickyNotes = () => {
 
   const saveEdits = () => {
     if(newNoteTitle === '' || newNoteDescription === ''){
-      Swal.fire({
-        icon: 'error',
-        title: 'Error...',
-        text: 'Please, edit Title and Description above and try again.',
-        timer: 1500,
-        showConfirmButton: false
-      })
+      message.error("Please, edit Title and Description above and try again.")
     } else {
       if(currentNote === -1) {
         pnp.sp.web.lists.getByTitle('Sticky Notes').items.add({
@@ -34,20 +29,11 @@ const StickyNotes = () => {
           NoteDescription: newNoteDescription, 
         }).then((res) => {
           setNotes(prev => [res.data, ...prev]);
-          Swal.fire({
-            icon: 'success',
-            title: 'Done!',
-            timer: 1000,
-            showConfirmButton: false
-          })
+          message.success("Done!")
           setCurrentNote(res.data?.Id)
-        }).catch(err => Swal.fire({
-          icon: 'error',
-          title: 'Failed',
-          text: 'Please try again.',
-          timer: 1000,
-          showConfirmButton: false
-        }))
+        }).catch(err => message.success("Failed, Please try again."))
+        
+
         
       } else{
         pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(currentNote).update({
@@ -62,11 +48,7 @@ const StickyNotes = () => {
             }
             return obj;
           });
-          Swal.fire({
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1000
-          })
+          message.success("Done!")
           setNotes(updatedNotes);
         }).catch((err) => console.log(err))
         
@@ -100,11 +82,7 @@ const StickyNotes = () => {
         pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(Id).delete()
         .then(() => {
           setNotes(newArray);
-          Swal.fire(
-            'Deleted!',
-            'Your Note has been deleted.',
-            'success'
-          )
+          message.success("Your Note has been deleted.")
           .then(() => setCurrentNote(newArray[0]?.Id))
         })
         .catch((err) => console.log(err))
