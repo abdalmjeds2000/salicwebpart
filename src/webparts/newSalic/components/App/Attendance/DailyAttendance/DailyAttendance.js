@@ -3,6 +3,8 @@ import axios from 'axios';
 import { AppCtx } from '../../App'; 
 import CustomSelect from '../components/CustomSelect';
 import './DailyAttendance.css';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 
 function DailyAttendance() {
@@ -14,6 +16,7 @@ function DailyAttendance() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [tableData, setTableData] = useState([]);
+  const [loader, setLoader] = useState(false);
   
   
 
@@ -31,25 +34,41 @@ function DailyAttendance() {
   
   const [employeesOptions, setEmployeesOptions] = useState([]);
   useEffect(() => {
+    const users = user_data?.Data?.DirectUsers?.map(u => {
+      let subUsers = [{value: u.Mail, name: u.DisplayName}];
+      if(u.DirectUsers.length > 0) {
+        u.DirectUsers.map(s => {
+          subUsers.push({value: s.Mail, name: s.DisplayName})
+        })
+      }
+      return subUsers
+    }).flat()
+
     const empOpt = [
       {value: '-1', name: 'All'}, 
       {value: user_data?.Data?.Mail, name: user_data?.Data?.DisplayName}, 
-      ...user_data?.Data?.DirectUsers?.map(u => {return {value: u.Mail, name: u.DisplayName} })
+      ...users
     ];
     setEmployeesOptions(empOpt);
     setDepartmentName(user_data?.Data?.Department);
-    setEmployees([user_data?.Data?.Mail, ...user_data?.Data?.DirectUsers?.map(u => u.Mail)])
+    setEmployees(empOpt.map(u => u.value !== '-1' ? u.value : null).filter(n => n))
   }, [user_data])
 
 
 
   let filterResultsHandler = () => {
+    setLoader(true);
+
     axios({
       method: 'GET',
       url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${employees.join()}&startDate=${startDate}&EndDate=${endDate}&month=${startDate !== '' || endDate !== '' ? 0 : (new Date().getMonth() + 1)}&year=${startDate !== '' || endDate !== '' ? 0 : (new Date().getFullYear())}`
     }).then((res) => {
       setTableData(res.data.Data);
-    }).catch((err) => console.log(err))
+      setLoader(false);
+    }).catch((err) => {
+      console.log(err); 
+      setLoader(false);
+    })
   }
 
 
@@ -81,7 +100,7 @@ function DailyAttendance() {
               name='employee' 
               label='Employee' 
               options={employeesOptions} 
-              onChange={(e) => setEmployees(e.target.value === '-1' ? [user_data?.Data?.Mail, ...user_data?.Data?.DirectUsers?.map(u => u.Mail)] : [e.target.value])} 
+              onChange={(e) => setEmployees(e.target.value === '-1' ? employeesOptions.map(u => u.value !== '-1' ? u.value : null).filter(n => n) : [e.target.value])} 
             />
             <div className='custom-select-container'>
               <label htmlFor="start-date">Start Date</label>
@@ -94,7 +113,7 @@ function DailyAttendance() {
           </div>
           <div className="btns">
             <button>Export Data</button>
-            <button onClick={filterResultsHandler}>Filter Results</button>
+            <button onClick={filterResultsHandler} disabled={loader}>Filter Results</button>
           </div>
         </div>
         <div className="table">
@@ -117,24 +136,28 @@ function DailyAttendance() {
             </tr>
             <tbody>
               {
-                tableData.map((row, i) => {
-                  return <tr key={i}>
-                    <td>{row.Name}</td>
-                    <td>{row.Date || ' - '}</td>
-                    <td>{row.Day  || ' - '}</td>
-                    <td>{row.CheckInTime || ' - '}</td>
-                    <td>{row.CheckOutTime || ' - '}</td>
-                    <td>{row.ActualHours || ' - '}</td>
-                    <td>{row.Working8_16 || ' - '}</td>
-                    <td>{row.Late}</td>
-                    <td>{row.EarlyLeave || ' - '}</td>
-                    <td>{row.OverTime}</td>
-                    <td>{row.IsAbsent ? 'Absent' : 'Delayed or Early Leave'}</td>
-                    <td>{row.Justification || ' - '}</td>
-                    <td>{row.ManagerFeedback || ' - '}</td>
-                    <td>{row.JustificationStatus || ' - '}</td>
-                  </tr>
-                })
+                loader
+                ? <tr><td colSpan={14} style={{padding: '25px 0'}}>
+                    <Spin indicator={<LoadingOutlined spin />} />
+                  </td></tr>
+                : tableData.map((row, i) => {
+                    return <tr key={i}>
+                      <td>{row.Name}</td>
+                      <td>{row.Date || ' - '}</td>
+                      <td>{row.Day  || ' - '}</td>
+                      <td>{row.CheckInTime || ' - '}</td>
+                      <td>{row.CheckOutTime || ' - '}</td>
+                      <td>{row.ActualHours || ' - '}</td>
+                      <td>{row.Working8_16 || ' - '}</td>
+                      <td>{row.Late}</td>
+                      <td>{row.EarlyLeave || ' - '}</td>
+                      <td>{row.OverTime}</td>
+                      <td>{row.IsAbsent ? 'Absent' : 'Delayed or Early Leave'}</td>
+                      <td>{row.Justification || ' - '}</td>
+                      <td>{row.ManagerFeedback || ' - '}</td>
+                      <td>{row.JustificationStatus || ' - '}</td>
+                    </tr>
+                  })
               }
             </tbody>
 

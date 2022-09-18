@@ -189,7 +189,7 @@
   align-items: center;
 }
 .three-divisions .community-news .news .box:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .three-divisions .community-news .news .box .img {
@@ -209,9 +209,12 @@
     height: 70px;
   }
 }
-@media screen and (max-width: 800px) and (min-width: 500) {
+@media screen and (max-width: 800px) and (min-width: 500px) {
   .three-divisions .community-news .news .box .img {
-    height: 70px;
+    height: 50px;
+  }
+  .three-divisions .community-news .news .box:not(:last-child) {
+    margin-bottom: 8px;
   }
 }
 /* End set hight od news image responsive */

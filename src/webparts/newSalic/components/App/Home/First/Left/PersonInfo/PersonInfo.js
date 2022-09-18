@@ -45,8 +45,10 @@ function PersonInfo() {
           </div>
         </div>
       </div>
+
+
+
       <div className="person-control-buttons person-btns">
-        
         <a href="https://outlook.office.com/owa/" target='blank'>
           <svg id="Iconly_Bold_Message" data-name="Iconly/Bold/Message" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
             <g id="Message" transform="translate(3.521 5.28)">
@@ -90,8 +92,10 @@ function PersonInfo() {
             </g>
           </svg>
         </NavLink>
-
       </div>
+
+
+      
     </div>
   )
 }

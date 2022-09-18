@@ -6,6 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AppCtx } from '../../../App';
 import { message } from 'antd';
+import AddNote from './API/AddNote';
+import UpdateNote from './API/UpdateNote';
+
+
+
+
+
+
+
+
 
 
 
@@ -19,27 +29,22 @@ const StickyNotes = () => {
   const [newNoteDescription, setNewNoteDescription] = useState(notes.filter(n => n.id === currentNote)[0]?.description);
 
 
-  const saveEdits = () => {
+  async function saveEdits() {
     if(newNoteTitle === '' || newNoteDescription === ''){
       message.error("Please, edit Title and Description above and try again.")
     } else {
       if(currentNote === -1) {
-        pnp.sp.web.lists.getByTitle('Sticky Notes').items.add({
-          Title: newNoteTitle,
-          NoteDescription: newNoteDescription, 
-        }).then((res) => {
-          setNotes(prev => [res.data, ...prev]);
+        const response = await AddNote(newNoteTitle, newNoteDescription);
+        if(response.data) {
+          setNotes(prev => [response.data, ...prev]);
           message.success("Done!")
-          setCurrentNote(res.data?.Id)
-        }).catch(err => message.success("Failed, Please try again."))
-        
-
-        
-      } else{
-        pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(currentNote).update({
-          Title: newNoteTitle,
-          NoteDescription: newNoteDescription, 
-        }).then(() => {
+          setCurrentNote(response.data?.Id)
+        } else {
+          message.success("Failed, Please try again.")
+        }
+      } else {
+        const response = await UpdateNote(currentNote, newNoteTitle, newNoteDescription);
+        if(response.data) {
           const updatedNotes = notes.map(obj => {
             if (obj.Id === currentNote) {
               obj.Title = newNoteTitle;
@@ -48,24 +53,27 @@ const StickyNotes = () => {
             }
             return obj;
           });
-          message.success("Done!")
           setNotes(updatedNotes);
-        }).catch((err) => console.log(err))
-        
+          message.success("Done Update ***!")
+        } else {
+          message.success("Failed, Please try again.")
+        }
       }
       setIsActiveEditMode(false)
-      
     }
   }
 
 
+
+
+
+  
   const cancelEdits = () => {
     setIsActiveEditMode(false)
     if(currentNote === -1) {
       setCurrentNote(notes[0]?.Id)
     }
   }
-
 
   const onDeleteHandler = (Id) => {
     const newArray = notes.filter(r => r.Id !== Id);

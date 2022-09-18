@@ -56,6 +56,7 @@
   border: none;
   color: #fff;
   cursor: pointer;
+  transition: 0.7s;
 }
 .daily-attendance-container .content .form .btns button:first-child {
   background-color: #43A2CC;
@@ -64,11 +65,17 @@
   background-color: #70CFAF;
 }
 .daily-attendance-container .content .form .btns button:hover {
-  opacity: 0.9;
+  opacity: 0.7;
 }
 .daily-attendance-container .content .form .btns button:active {
-  opacity: 0.8;
+  opacity: 0.4;
 }
+.daily-attendance-container .content .form .btns button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
 
 .daily-attendance-container .content .table {
   overflow-x: auto;
@@ -84,6 +91,7 @@
 .daily-attendance-container .content .table table tr,
 .daily-attendance-container .content .table table td {
   padding: 5px;
+  transition: 0.3s;
 }
 .daily-attendance-container .content .table table td:not(:last-child) {
   border-right: 1px solid #E4E9FA60;
@@ -99,9 +107,14 @@
 .daily-attendance-container .content .table table tr:nth-child(odd) {
   background-color: #E4E9FA30;
 }
+.daily-attendance-container .content .table table tr:hover {
+  background-color: var(--third-color);
+}
 
 
-@media screen and (max-width: 1500px) and (min-width: 890px) {
+
+
+@media screen and (max-width: 1500px) and (min-width: 800px) {
   .daily-attendance-container .content .form .inputs {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -109,7 +122,7 @@
   }
 }
 
-@media screen and (max-width: 890px) {
+@media screen and (max-width: 800px) {
   .daily-attendance-container {
     padding: 20px 10px;
   }

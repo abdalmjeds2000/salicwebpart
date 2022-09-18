@@ -38,7 +38,6 @@
 .latest-attendance-table-container .latest-attendance-table tbody > tr h2 {
   font-weight: 400;
   font-size: 1.2rem;
-  margin: 10px 0 7px 0 !important;
 }
 
 .latest-attendance-table-container .latest-attendance-table tr:nth-child(3) {
@@ -80,7 +79,6 @@
   
   .latest-attendance-table-container .latest-attendance-table tbody > tr h2 {
     padding: 0;
-    margin-top: 0 !important;
   }
 }
 
