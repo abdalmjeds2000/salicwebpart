@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { AppProps } from './AppProps';
 import { BrowserRouter as Router } from 'react-router-dom';
-import SidebarNav from './Sidebar Nav/SidebarNav';
+import SidebarNav from './SidebarNav/SidebarNav';
 import AppRoutes from '../Routers/AppRoutes';
 import Header from '../App/Header/Header'
 import pnp from 'sp-pnp-js';
@@ -58,12 +58,13 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
         })
         .then((response) => {
           setUserData(response.data)
           console.log(response.data)
+          console.log(response)
           return response
         })
         // Get Globe Data 
