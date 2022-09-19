@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react';
 import { Select } from 'antd';
 import './CurrencyConverter.css';
 import 'antd/dist/antd.css';
-
 import CurrencyConverterLogo from '../../../../../assets/icons/translateConvertNotes/CurrencyConverter.svg';
 const { Option } = Select;
 

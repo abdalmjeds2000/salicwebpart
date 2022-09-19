@@ -5,7 +5,7 @@ import CurrencyConverter from './CurrencyConverter/CurrencyConverter'
 import StickyNotes from './StickyNotes/StickyNotes'
 
 
-const TranslateConverterNotes = (props) => {
+const TranslateConverterNotes = () => {
 
   return (
     <div className="translate-converter-notes-container">

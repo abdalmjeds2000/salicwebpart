@@ -240,7 +240,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     };
   }, []);
 
-  const defualt_route = '/sites/newSalic/_layouts/15/workbench.aspx';
+  const defualt_route = '/sites/dev/SitePages/Demo.aspx';
 
   return (
     <nav 

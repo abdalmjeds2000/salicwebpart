@@ -36,7 +36,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [communicationList, setCommunicationList] = React.useState([]);
   const [notificationCenterData, setNotificationCenterData] = React.useState([]);
   const [newsList, setNewsList] = React.useState([]);
-  const [globeData, setGlobeData] = React.useState({});
+  const [globeData, setGlobeData] = React.useState([]);
   const [isGlobeReady, setIsGlobeReady] = React.useState(false);
   const [oracleReports, setOracleReports] = React.useState({})
   const [mediaCenter, setMediaCenter] = React.useState({})
@@ -58,8 +58,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
         })
         .then((response) => {
           setUserData(response.data)
@@ -67,16 +67,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           console.log(response)
           return response
         })
-        // Get Globe Data 
-        .then((response) => {
-          axios({
-            method: 'GET',
-            url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
-          })
-          .then(res => setGlobeData(res.data))
-          .catch((error) => { console.log(error) })
-          return response
-        })
+
         // Get Latest Attendance
         .then((response) => {
           axios({ method: 'POST', url: `https://salicapi.com/api/attendance/Get`, 
@@ -186,6 +177,17 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((res) => { setCommunicationList(res.data.Data) })
       .catch((error) => { console.log(error) })
 
+    // Get Globe Data 
+      axios({
+        method: 'GET',
+        url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
+      })
+      .then(res => {
+        setGlobeData(res.data?.features)
+      })
+      .catch((error) => { console.log(error) })
+
+
     // Get All News
       GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => {console.log(err)});
     // Get All Notes
@@ -199,11 +201,16 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       }).then(res => {
         setOracleReports(JSON.parse(res.data.Data))
       })
+
+      
       // Disable Loader
       .then((response) => {setIsLoading(false)})
       .catch(err => console.log(err))
       
   }, [])
+
+
+  
   React.useEffect(() => {
     console.log('isGlobeReady', isGlobeReady, new Date())
   }, [isGlobeReady])
@@ -223,7 +230,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     oracle_reports: oracleReports,
     media_center: mediaCenter,
     notes_list: notesList,
-    defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
+    // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
+    defualt_route: '/sites/dev/SitePages/Demo.aspx',
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,

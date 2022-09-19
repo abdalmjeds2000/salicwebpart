@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './GoogleTranslate.css';
-import GoogleTranslateLogo from '../../../../../assets/icons/translateConvertNotes/Google Translate Logo.svg'
+import GoogleTranslateLogo from '../../../../../assets/icons/translateConvertNotes/GoogleTranslateLogo.svg'
 import axios from 'axios';
 
 

@@ -53,7 +53,7 @@ import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboar
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
-  const defualtRoute: string = '/sites/newSalic/_layouts/15/workbench.aspx';
+  const defualtRoute: string = '/sites/dev/SitePages/Demo.aspx';
   return (
     <Routes>
       <Route path={`${defualtRoute}/home`} element={<Home />} />

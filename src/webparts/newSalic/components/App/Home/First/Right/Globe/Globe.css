@@ -28,27 +28,33 @@
   background-image: url(../../../../../../assets/icons/globe/card/prev-card-icon.svg) !important;
 }
 
-.cards .card-container div:nth-child(1) {
+.cards .card-container .header {
   display: flex;
   gap: 10px;
   align-items: center;
   margin-bottom: 10px;
 }
-.cards .card-container div:nth-child(1) img {
+.cards .card-container .header img {
   width: 50px;
 }
-.cards .card-container div:nth-child(1) div h3 {
+.cards .card-container .header div h3 {
   font-weight: 400;
   font-size: 1.2rem;
 }
-.cards .card-container div:nth-child(1) div p {
+.cards .card-container .header div p {
   font-weight: 400;
   font-size: 1rem;
 }
-.cards .card-container div:nth-child(2) p {
+.cards .card-container .description p {
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: .9rem;
   line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 .cards .card-container ul {
   display: flex;
@@ -63,45 +69,45 @@
 }
 
 @media screen and (max-width: 1750px) and (min-width: 1500px) {
-  .cards .card-container div:nth-child(1) img {
+  .cards .card-container .header img {
     width: 40px;
   }
-  .cards .card-container div:nth-child(1) div h3 {
+  .cards .card-container .header div h3 {
     font-size: 1.1rem;
   }
-  .cards .card-container div:nth-child(1) div p {
+  .cards .card-container .header div p {
     font-size: 0.9rem;
   }
-  .cards .card-container div:nth-child(2) p {
+  .cards .card-container .description p {
     font-size: 0.8rem;
   }
 }
 @media screen and (max-width: 1499px) and (min-width: 1200px) {
-  .cards .card-container div:nth-child(1) img {
+  .cards .card-container .header img {
     width: 30px;
   }
-  .cards .card-container div:nth-child(1) div h3 {
+  .cards .card-container .header div h3 {
     font-size: 0.9rem;
   }
-  .cards .card-container div:nth-child(1) div p {
+  .cards .card-container .header div p {
     font-size: 0.7rem;
   }
-  .cards .card-container div:nth-child(2) p {
+  .cards .card-container .description p {
     font-size: 0.6rem;
     line-height: 1.1;
   }
 }
 @media screen and (max-width: 1199px) and (min-width: 990px) {
-  .cards .card-container div:nth-child(1) img {
+  .cards .card-container .header img {
     width: 25px;
   }
-  .cards .card-container div:nth-child(1) div h3 {
+  .cards .card-container .header div h3 {
     font-size: 0.8rem;
   }
-  .cards .card-container div:nth-child(1) div p {
+  .cards .card-container .header div p {
     font-size: 0.6rem;
   }
-  .cards .card-container div:nth-child(2) p {
+  .cards .card-container .description p {
     font-size: 0.5rem;
     line-height: 1.2;
   }

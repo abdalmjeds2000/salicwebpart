@@ -40,7 +40,7 @@ const StickyNotes = () => {
           message.success("Done!")
           setCurrentNote(response.data?.Id)
         } else {
-          message.success("Failed, Please try again.")
+          message.error("Failed, Please try again.")
         }
       } else {
         const response = await UpdateNote(currentNote, newNoteTitle, newNoteDescription);
@@ -54,9 +54,9 @@ const StickyNotes = () => {
             return obj;
           });
           setNotes(updatedNotes);
-          message.success("Done Update ***!")
+          message.success("Done!")
         } else {
-          message.success("Failed, Please try again.")
+          message.error("Failed, Please try again.")
         }
       }
       setIsActiveEditMode(false)
