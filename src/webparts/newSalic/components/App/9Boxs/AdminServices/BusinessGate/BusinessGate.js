@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Form, DatePicker } from 'antd';
 import moment from 'moment';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
@@ -16,11 +16,13 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 function BusinessGate() {
   const { user_data, defualt_route } = useContext(AppCtx);
   const [dataSource, setDataSource] = useState([]);
+  let navigate = useNavigate();
 
+  
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Business Gate Request</p>
       </HistoryNavigation>
       

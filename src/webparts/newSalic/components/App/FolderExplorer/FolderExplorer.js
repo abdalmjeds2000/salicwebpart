@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';  
 import './FolderExplorer.css';
-import { FolderExplorer, IFolder } from "@pnp/spfx-controls-react/lib/FolderExplorer";  
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 import WorldBG from '../../../assets/images/world.svg';

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './NewsDetails.css';
 import { AppCtx } from '../../App';
-import { NavLink, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel';
 import WorldBG from '../../../../assets/images/world.svg';
@@ -15,9 +15,9 @@ function NewsDetails() {
   let { id } = useParams();
   const { news_list, user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
   const [newsData, setNewsData] = useState([]);
-  
-  useEffect(() => {
+  const navigate = useNavigate();
 
+  useEffect(() => {
     setNewsData(news_list.filter(n => id == n.Id))
   }, [id, news_list])
   
@@ -25,7 +25,7 @@ function NewsDetails() {
     <>
       <img src={WorldBG} className='bg-img-world' />
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/community-news`}>Community News</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/community-news`)}>Community News</a>
         <p>News Details</p>
       </HistoryNavigation>
       <SimpleUserPanel

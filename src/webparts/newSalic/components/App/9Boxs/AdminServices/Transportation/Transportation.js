@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form, Input, Radio, Row, DatePicker } from 'antd';
 import { EnvironmentOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import moment from 'moment';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -19,6 +19,8 @@ function TransportationRequest() {
   const { user_data, defualt_route } = useContext(AppCtx);
   const [serivceType, setSerivceType] = useState('');
   const [dataSource, setDataSource] = useState([]);
+  let navigate = useNavigate();
+
   useEffect(() => {
     console.log(dataSource)
   }, [dataSource])
@@ -27,7 +29,7 @@ function TransportationRequest() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Transportation Request</p>
       </HistoryNavigation>
       

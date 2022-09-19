@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './Attendance.css';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Empty } from 'antd';
 import { AppCtx } from '../../../../../App';
 
@@ -8,6 +8,7 @@ import { AppCtx } from '../../../../../App';
 function Attendance(props) {
   const { defualt_route } = useContext(AppCtx);
   const [isNoData, setIsNoData] = useState(false);
+  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(function () {
@@ -17,13 +18,14 @@ function Attendance(props) {
     }, 8000);
   }, []);
 
+
   return (
     <div className="latest-attendance-table-container">
       <table cellSpacing={0} className='latest-attendance-table'>
         <tbody>
           <tr>
             <td colSpan={4}><h2>Latest Attendance</h2></td>
-            <td colSpan={1}><NavLink to={`${defualt_route}/attendance`}>See All</NavLink></td>
+            <td colSpan={1}><a onClick={() => navigate(`${defualt_route}/attendance`)}>See All</a></td>
           </tr>  
           <tr>
             <th>Day</th>

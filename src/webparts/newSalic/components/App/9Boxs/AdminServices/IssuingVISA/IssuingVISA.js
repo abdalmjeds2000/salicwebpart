@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Form, Input, Upload, Radio, Select, DatePicker, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation'
@@ -33,6 +33,7 @@ function IssuingVISA() {
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
+  let navigate = useNavigate();
 
 
   let getDateAndTime = () => {
@@ -46,7 +47,7 @@ function IssuingVISA() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Issuing VISA</p>
       </HistoryNavigation>
       

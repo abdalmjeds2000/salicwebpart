@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import './NineBoxs.css';
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import AdminServices from '../../../../../../assets/icons/nine_boxs_icons/Admin Services.svg';
 import ITServices from '../../../../../../assets/icons/nine_boxs_icons/IT Services.svg';
@@ -94,31 +94,42 @@ const services = [
 
 function NineBoxs() {
   const { defualt_route } = useContext(AppCtx);
-  
+  let navigate = useNavigate();
 
   return (
     <div className="services-container">
       {services.map((service, i) => {
         return (
-          service.link
-          ? <a href={service.to} target='_blank' key={i}>
-              <div className="service-box">
-                <div>
-                  {/* <img src= alt='' /> */}
-                  {service.icon}
-                </div>
-                <h3>{service.header}</h3>
+
+          <a onClick={() => service.link ? window.open(service.to, "_blank") : navigate(defualt_route + service.to)} target='_blank' key={i}>
+            <div className="service-box">
+              <div>
+                {/* <img src= alt='' /> */}
+                {service.icon}
               </div>
-            </a>
-          : <NavLink to={defualt_route + service.to} key={i}>
-              <div className="service-box">
-                <div>
-                  {/* <img src= alt='' /> */}
-                  {service.icon}
-                </div>
-                <h3>{service.header}</h3>
-              </div>
-            </NavLink>
+              <h3>{service.header}</h3>
+            </div>
+          </a>
+
+          // service.link
+          // ? <a href={service.to} target='_blank' key={i}>
+          //     <div className="service-box">
+          //       <div>
+          //         {/* <img src= alt='' /> */}
+          //         {service.icon}
+          //       </div>
+          //       <h3>{service.header}</h3>
+          //     </div>
+          //   </a>
+          // : <NavLink to={defualt_route + service.to} key={i}>
+          //     <div className="service-box">
+          //       <div>
+          //         {/* <img src= alt='' /> */}
+          //         {service.icon}
+          //       </div>
+          //       <h3>{service.header}</h3>
+          //     </div>
+          //   </NavLink>
         )
       })}
     </div>

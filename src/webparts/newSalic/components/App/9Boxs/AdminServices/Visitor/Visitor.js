@@ -5,7 +5,7 @@ import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigati
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -14,6 +14,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 function Visitor() {
   const { user_data, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -43,7 +44,7 @@ function Visitor() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Visitor VISA Request</p>
       </HistoryNavigation>
       

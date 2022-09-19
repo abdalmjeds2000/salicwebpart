@@ -6,9 +6,10 @@ export interface INewSalicProps {
   environmentMessage: string;
   hasTeamsContext: boolean;
   userDisplayName: string;
-
   name: string;  
   serverRelativeURL: string;  
   context: WebPartContext; 
+
+  spWebUrl: any
 }
 

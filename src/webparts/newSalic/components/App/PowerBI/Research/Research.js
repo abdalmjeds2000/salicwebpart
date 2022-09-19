@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel';
@@ -8,8 +8,9 @@ import WorldBG from '../../../../assets/images/world.svg';
 
 
 function Research() {
-  const navigate = useNavigate();
   const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const navigate = useNavigate();
+  
   const icons = {
     CreateInvoiceRequest: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" fill="#fff"><g>
                             <g xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +79,7 @@ function Research() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(-1)}>Power BI Interactive Dashboards</a>
+        <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards`)}>Power BI Interactive Dashboards</a>
         <p>Research</p>
       </HistoryNavigation>
       <div className='services-page-container'>
@@ -98,16 +99,16 @@ function Research() {
           <div className="services-boxs-container">
             {services.map((service, i) => {
               return ( 
-                <NavLink
+                <a
                   key={i}
                   className='box' 
-                  to={service.to} 
+                  onClick={() => navigate(service.to)}
                 >
                   <div style={{backgroundColor: service.bgColor}}>
                     {service.icon}
                   </div>
                   <h3>{service.text}</h3>
-                </NavLink>
+                </a>
               )
             })}
           </div>

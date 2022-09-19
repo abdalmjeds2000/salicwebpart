@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel';
@@ -12,7 +12,7 @@ function HumanCapital() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(-1)}>Power BI Interactive Dashboards</a>
+        <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards`)}>Power BI Interactive Dashboards</a>
         <p>Human Capital</p>
       </HistoryNavigation>
       <div className='services-page-container'>

@@ -3,7 +3,7 @@ import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 import WorldBG from '../../../assets/images/world.svg';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom';
 
 function PowerBIInteractiveDashboards() {
   const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const navigate = useNavigate();
 
   const icons = {
     CreateInvoiceRequest: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" fill="#fff"><g>
@@ -136,16 +137,16 @@ function PowerBIInteractiveDashboards() {
           <div className="services-boxs-container">
             {services.map((service, i) => {
               return ( 
-                <NavLink 
+                <a 
                   key={i}
                   className='box' 
-                  to={service.to} 
+                  onClick={() => navigate(service.to)}
                 >
                   <div style={{backgroundColor: service.bgColor}}>
                     {service.icon}
                   </div>
                   <h3>{service.text}</h3>
-                </NavLink>
+                </a>
               )
             })}
           </div>

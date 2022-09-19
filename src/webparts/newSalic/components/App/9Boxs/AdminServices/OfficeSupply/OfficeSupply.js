@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom'
-import { Button, Form, Input, Upload, Select } from 'antd';
+import { useNavigate } from 'react-router-dom'
+import { Button, Form, Input, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -16,6 +16,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 function OfficeSupply() {
   const { user_data, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   let getDateAndTime = () => {
     const today = new Date();
@@ -30,7 +31,7 @@ function OfficeSupply() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Office Supply</p>
       </HistoryNavigation>
       

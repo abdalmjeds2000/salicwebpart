@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { List, Typography } from 'antd'
+import React, { useContext, useEffect } from 'react'
+import { List } from 'antd'
 import pnp from 'sp-pnp-js';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 
 function AssignedRequests() {
   const { maintenance_data, setMaintenanceData, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if(maintenance_data.length === 0) {
@@ -30,7 +31,7 @@ function AssignedRequests() {
             <b>Date:</b> {item.Date} <br />
             <b>Location:</b> {item.Location} <br />
             <b>Descriptions:</b> {item.Descriptions} <br />
-            <NavLink to={`${defualt_route}/admin-services/maintenance/${item.Id}`}>Update</NavLink>
+            <a onClick={() => navigate(`${defualt_route}/admin-services/maintenance/${item.Id}`)}>Update</a>
           </List.Item>
         )}
       />

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel';
 import { AppCtx } from '../../App';

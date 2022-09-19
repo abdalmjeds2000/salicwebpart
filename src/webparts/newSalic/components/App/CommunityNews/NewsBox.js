@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../App';
 import './NewsBox.css';
 
@@ -7,6 +7,7 @@ import './NewsBox.css';
 function NewsBox(props) {
   const { defualt_route }  = useContext(AppCtx);
   const navigate = useNavigate();
+
   return (
     <div className='news-box'>
       {/* <div className="header">
@@ -21,7 +22,7 @@ function NewsBox(props) {
         {props.NewTitle}
       </h2>
       <p>{props.NewDescription}</p>
-      <NavLink to={`${defualt_route}/community-news/${props.Id}`}>More</NavLink>
+      <a onClick={() => navigate(`${defualt_route}/community-news/${props.Id}`)}>More</a>
     </div>
   )
 }

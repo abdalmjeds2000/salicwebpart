@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import './ESignatureTool.css';
 import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
-import { NavLink } from 'react-router-dom';
 import { AppCtx } from '../../App'
 import WorldBG from '../../../../assets/images/world.svg';
 import SimpleUserPanel from "../../Global/SimpleUserPanel/SimpleUserPanel";

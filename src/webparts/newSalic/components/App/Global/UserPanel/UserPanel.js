@@ -1,17 +1,18 @@
 import React, {useContext, useState} from 'react'
 import './UserPanel.css';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import UserSettingsPanel from '../UserSettingsPanel/UserSettingsPanel';
-import NotificationIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Notification.svg';
-import MessageIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Message.svg';
-import DocumentIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Document.svg';
-import CallingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Calling.svg';
-import BookingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Booking.svg';
+// import NotificationIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Notification.svg';
+// import MessageIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Message.svg';
+// import DocumentIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Document.svg';
+// import CallingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Calling.svg';
+// import BookingIcon from '../../../../assets/icons/userpanel_icons/Iconly-Bold-Booking.svg';
 import { AppCtx } from '../../App';
 
 const UserPanel = (props) => {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const { defualt_route } = useContext(AppCtx);
+  const navigate = useNavigate();
 
   return (
     <div className='user-panel-container'>
@@ -22,7 +23,7 @@ const UserPanel = (props) => {
         </a> */}
         
         
-        <NavLink to={`${defualt_route}/book-meeting-room`}>
+        <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}>
           {/* <img src={BookingIcon} alt="" /> */}
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 31.518 31.518">
             <g id="svgexport-10" transform="translate(-2 -2)">
@@ -32,7 +33,7 @@ const UserPanel = (props) => {
               </g>
             </g>
           </svg>
-        </NavLink>
+        </a>
         
         <a href={props.mailTo} target='blank'>
           {/* <img src={MessageIcon} alt="" /> */}
@@ -50,7 +51,7 @@ const UserPanel = (props) => {
           }
         </a>
         
-        <NavLink to={`${defualt_route}/notification-center`}>
+        <a onClick={() => navigate(`${defualt_route}/notification-center`)}>
           {/* <img src={NotificationIcon} alt="" /> */}
           <svg id="Iconly_Bold_Notification" data-name="Iconly/Bold/Notification" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
             <g id="Notification" transform="translate(6.16 3.52)">
@@ -63,7 +64,7 @@ const UserPanel = (props) => {
               {props.notificationsCount > 99 ? '99+' : props.notificationsCount}
             </span> 
           }
-        </NavLink>
+        </a>
         
       </div>
       

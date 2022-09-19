@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SimpleUserPanel.css';
 import UserSettingsPanel from '../UserSettingsPanel/UserSettingsPanel';
 import { AppCtx } from '../../App';
@@ -7,6 +7,7 @@ import { AppCtx } from '../../App';
 function SimpleUserPanel(props) {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const { defualt_route } = useContext(AppCtx);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,7 +19,7 @@ function SimpleUserPanel(props) {
         />
         <p>{props.userName}</p>
         <div className='icons'>
-          <NavLink to={`${defualt_route}/notification-center`}>
+          <a onClick={() => navigate(`${defualt_route}/notification-center`)}>
             <svg id="Iconly_Light_Notification" data-name="Iconly/Light/Notification" xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23">
               <g id="Notification" transform="translate(3.413 1.95)">
                 <path id="Path_425" d="M0,11.493v-.214A3.51,3.51,0,0,1,.587,9.506,4.749,4.749,0,0,0,1.751,7.25c0-.65,0-1.309.057-1.959C2.1,2.163,5.194,0,8.25,0h.076c3.056,0,6.149,2.163,6.452,5.291.057.65,0,1.309.047,1.959a4.831,4.831,0,0,0,1.164,2.265,3.419,3.419,0,0,1,.587,1.764v.2a3.477,3.477,0,0,1-.823,2.33A4.393,4.393,0,0,1,12.97,15.15a43.952,43.952,0,0,1-9.375,0A4.441,4.441,0,0,1,.814,13.814,3.514,3.514,0,0,1,0,11.493Z" transform="translate(0)" fill="none" stroke="#6477aa" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
@@ -30,7 +31,7 @@ function SimpleUserPanel(props) {
               <span className="badge notifi-count">
                 {props.notificationsCount > 9 ? '9+' : props.notificationsCount}
               </span>}
-          </NavLink>
+          </a>
           <a href="https://outlook.office.com/owa/" target="blank">
             <svg id="Iconly_Light_Message" data-name="Iconly/Light/Message" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
               <g id="Message" transform="translate(1.95 3.413)">

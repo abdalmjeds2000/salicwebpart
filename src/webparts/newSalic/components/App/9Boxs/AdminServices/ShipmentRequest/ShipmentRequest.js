@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Form, Input } from 'antd';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
@@ -11,6 +11,7 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 function Shipment() {
   const { user_data, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   let getDateAndTime = () => {
     const today = new Date();
@@ -24,7 +25,7 @@ function Shipment() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Shipment Request</p>
       </HistoryNavigation>
 

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Form, Input, message } from 'antd';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
@@ -33,11 +33,12 @@ function Maintenance() {
     message.error("Please, fill out the form correctly.")
   }
   
+  let navigate = useNavigate();
 
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Maintenance Request</p>
       </HistoryNavigation>
       

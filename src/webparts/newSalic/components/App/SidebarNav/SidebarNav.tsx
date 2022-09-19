@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './SidebarNav.scss';
 import { SidebarNavProps } from './SidebarNavProps';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
-let activeStyle = {
+const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: '6px 12px 6px 8px',
   fontSize: '0.9rem'
@@ -241,7 +241,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
   }, []);
 
   const defualt_route = '/sites/dev/SitePages/Demo.aspx';
-
+  let navigate = useNavigate();
   return (
     <nav 
       className={isNavBarLarge? "nav-container nav-container-large" : "nav-container nav-container-small"} 
@@ -278,8 +278,12 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                       className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
                       style={({ isActive }) => isActive ? activeStyle : {opacity: "0.4"}}
                     >
-                      {item.icon}
-                      {isNavBarLarge && <p>{item.text}</p>}
+                      <span style={{display: 'contents'}} onClick={() => setTimeout(() => {
+                        navigate(defualt_route + item.to)
+                      }, 1500)}>
+                        {item.icon}
+                        {isNavBarLarge && <p>{item.text}</p>}
+                      </span>
                     </NavLink>
 
                   : <a

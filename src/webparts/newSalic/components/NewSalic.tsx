@@ -17,6 +17,7 @@ export default class NewSalic extends React.Component<INewSalicProps, {}> {
       name,
       serverRelativeURL,  
       context,
+      spWebUrl
     } = this.props;
     
     return (

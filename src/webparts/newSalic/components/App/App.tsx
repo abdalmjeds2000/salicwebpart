@@ -44,10 +44,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [eSignRequests, setESignRequests] = React.useState([])
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
-
-  const [maintenanceData, setMaintenanceData] = React.useState([]);
   
+  const [maintenanceData, setMaintenanceData] = React.useState([]);
 
+  
   React.useEffect(() => {
     // Get Current Login User
       pnp.sp.web.currentUser.get()
@@ -210,11 +210,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   }, [])
 
 
-  
-  React.useEffect(() => {
-    console.log('isGlobeReady', isGlobeReady, new Date())
-  }, [isGlobeReady])
-
   const AppContextProviderSample: AppContext = {
     user_data: userData,
     notifications_count: notificationsCount,
@@ -241,7 +236,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setMaintenanceData
   };
 
-
   return (
     <AppCtx.Provider value={AppContextProviderSample}>
       {
@@ -255,7 +249,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               </div>
             </div>
           </Router>
-        : <div className="loader">  
+        : <div className="loader" style={{minHeight: '100vh'}}>  
             <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{maxWidth: '250px', textAlign: 'center'}} />
             <div></div>
           </div>

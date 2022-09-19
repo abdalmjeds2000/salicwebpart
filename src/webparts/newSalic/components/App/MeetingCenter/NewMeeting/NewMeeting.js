@@ -2,28 +2,23 @@ import React, { useContext, useState } from 'react'
 import './NewMeeting.css'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
 import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel'
-
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
-
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import WorldBG from '../../../../assets/images/world.svg';
 import { AppCtx } from '../../App';
 import { Form, Input, DatePicker, Transfer, Select, Slider, Row, Col, Button } from 'antd';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
-
 const groups = [
   { id: 1, title: 'Meeting Room1' },
   { id: 2, title: 'Meeting Room2' },
   { id: 3, title: 'Meeting Room3' },
   { id: 4, title: 'Meeting Room4' },
 ]
-
 const items = [
   {
     id: 1,
@@ -91,7 +86,6 @@ const items = [
 ]
 
 
-
 const mockData = Array.from({
   length: 5,
 }).map((_, i) => ({
@@ -102,12 +96,15 @@ const mockData = Array.from({
 const initialTargetKeys = mockData.filter((item) => Number(item.key) === 1).map((item) => item.key);
 
 
+
+
+
 function NewMeeting() {
 
   const [editorState, setEditorState] = useState('');
   const [reminder, setReminder] = useState('None');
   const [reminderOther, setReminderOther] = useState(0);
-  
+  const navigate = useNavigate();
 
   // Start Transfer
   const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
@@ -136,7 +133,7 @@ function NewMeeting() {
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/book-meeting-room`}>Meetings Center</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}>Meetings Center</a>
         <p>Reserve Meeting Room</p>
       </HistoryNavigation>
       <div className='meetings-center-container'>

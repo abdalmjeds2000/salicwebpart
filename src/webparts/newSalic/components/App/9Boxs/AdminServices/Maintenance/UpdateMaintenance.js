@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Form, Input, message } from 'antd';
-import { NavLink, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
-import moment from 'moment';
 import AddMaintenanceRequestItem from './API/AddMaintenanceRequest.js';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -50,17 +49,14 @@ function UpdateMaintenance() {
   }
 
 
-
-
-
-
+  let navigate = useNavigate();
 
 
 
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/admin-services`}>Admin Service</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
         <p>Maintenance Request</p>
       </HistoryNavigation>
       

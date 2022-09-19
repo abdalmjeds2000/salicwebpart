@@ -10,10 +10,12 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'NewSalicWebPartStrings';
 import NewSalic from './components/NewSalic';
 import { INewSalicProps } from './components/INewSalicProps';
+import pnp from "sp-pnp-js";
+
 
 export interface INewSalicWebPartProps {
   description: string;
-
+  spWebUrl: any,
   name: string;  
   serverRelativeURL: string;  
 }
@@ -32,10 +34,10 @@ export default class NewSalicWebPart extends BaseClientSideWebPart<INewSalicWebP
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
-
         name: this.properties.name,  
         serverRelativeURL: this.properties.serverRelativeURL,  
-        context: this.context  
+        context: this.context,
+        spWebUrl: this.context.pageContext.web.absoluteUrl,
       }
     );
 
@@ -45,7 +47,11 @@ export default class NewSalicWebPart extends BaseClientSideWebPart<INewSalicWebP
   protected onInit(): Promise<void> {
     this._environmentMessage = this._getEnvironmentMessage();
 
-    return super.onInit();
+    return super.onInit().then(_ => {
+      pnp.setup({
+        spfxContext: this.context
+      });
+    });
   }
 
   private _getEnvironmentMessage(): string {

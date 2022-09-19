@@ -2,13 +2,15 @@ import React, {useState, useEffect, useContext} from 'react'
 import './HistoryNavigation.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppCtx } from '../../App';
 
 
 const HistoryNavigation = (props) => {
   const [cTime, setTime] = useState(new Date().toUTCString().slice(0, 16) + ' ' + new Date().toLocaleTimeString());
   const { defualt_route } = useContext(AppCtx)
+  let navigate = useNavigate();
+
   useEffect(() => {
     setInterval(() => {
       setTime(new Date().toUTCString().slice(0, 16) + ' ' + new Date().toLocaleTimeString());
@@ -20,7 +22,7 @@ const HistoryNavigation = (props) => {
   return (
     <div className='history-navigation'>
       <div className="links">
-        <NavLink to={`${defualt_route}/home`}>SALIC Gate</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/home`)}>SALIC Gate</a>
         {props.children}
       </div>
       <div className="time">

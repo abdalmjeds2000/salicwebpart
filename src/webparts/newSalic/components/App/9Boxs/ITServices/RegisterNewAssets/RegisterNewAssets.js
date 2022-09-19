@@ -5,7 +5,7 @@ import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigati
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -39,11 +39,12 @@ function RegisterNewAssets() {
   }
 
 
+  let navigate = useNavigate();
 
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/it-services`}>IT Service Center</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
         <p>Register New Asset</p>
       </HistoryNavigation>
       

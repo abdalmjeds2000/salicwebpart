@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import FormPageTemplate from '../../components/FormPageTemplate/FormPage'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 
 const { Option } = Select;
@@ -46,13 +46,13 @@ function NewITRequest() {
   // }
 
 
-
+  let navigate = useNavigate();
 
 
   return (
     <>
       <HistoryNavigation>
-        <NavLink to={`${defualt_route}/it-services`}>IT Service Center</NavLink>
+        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
         <p>New Service Request</p>
       </HistoryNavigation>
       <FormPageTemplate

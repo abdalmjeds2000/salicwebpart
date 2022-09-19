@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import './Attendance.css';
 import WorldBG from '../../../assets/images/world.svg';
-
 import Statistics from './Statistics/Statistics'
 import DailyAttendance from './DailyAttendance/DailyAttendance'
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';

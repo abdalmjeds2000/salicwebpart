@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './ThreeDivisions.css';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Timeline, Tweet } from 'react-twitter-widgets';
 import ImgsViewer from "react-images-viewer";
 import { AppCtx } from '../../App';
@@ -83,8 +83,8 @@ const ThreeDivisions = (props) => {
   // Image Viewer Code
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = media_center.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl} });
-  const videos = media_center.Row?.filter(r => ['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
+  const images = media_center?.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl} });
+  const videos = media_center?.Row?.filter(r => ['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -102,25 +102,24 @@ const ThreeDivisions = (props) => {
     window.addEventListener('resize', handleWindowResize);
   }, []);
 
+  let navigate = useNavigate();
+
 
   return (
     <div className="three-divisions">
       <div className="media-center">
         <div className="header">
           <h3>Media Center</h3>
-          <NavLink to={`${defualt_route}/`}>See All</NavLink>
+          <a onClick={_ => navigate(`${defualt_route}/`)}>See All</a>
         </div>
         <div className="gallerys">
-          {/* Video Section */}
           <div className="gallery gallery1">
-            {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RB0k4KlehYE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
             <video controls poster={VideoPoster} width="100%">
               <source src={typeof(videos) === "object" ? videos[0] : ''}></source>
             </video>
           </div>
 
 
-          {/* Images Section */}
           {images?.slice(-4).reverse().map((img, index) => (
             <div
               src={img.src}
@@ -130,15 +129,6 @@ const ThreeDivisions = (props) => {
               style={{backgroundImage: `url(${img.src})`}}
             ></div>
           ))}
-          {/* {isViewerOpen && (
-            <ImageViewer
-              src={ images.reverse() }
-              currentIndex={ currentImage }
-              disableScroll={ true }
-              closeOnClickOutside={ true }
-              onClose={ closeImageViewer }
-            />
-          )} */}
           {
             typeof(images) === 'object'
             ? <ImgsViewer
@@ -164,7 +154,7 @@ const ThreeDivisions = (props) => {
               <div className='last-news-container'>
                 <div className="header">
                   <h3>Community News</h3>
-                  <NavLink to={`${defualt_route}/community-news`}>See All</NavLink>
+                  <a onClick={_ => navigate(`${defualt_route}/community-news`)}>See All</a>
                 </div>
                 {
                   news_list?.slice(0, windowSize.innerWidth > 1750 ? 4 : 3).map((row, i) => {
@@ -174,7 +164,7 @@ const ThreeDivisions = (props) => {
                         <div className='img' style={{backgroundImage: `url("https://salic.sharepoint.com${row.AttachmentFiles[0]?.ServerRelativeUrl}")`, backgroundColor: 'var(--third-color)'}}></div>
                         <div className='text'>
                           <h3 className="title">
-                            <NavLink to={`${defualt_route}/community-news/${row.Id}`}>{row.Subject}</NavLink>
+                            <a onClick={() => navigate(`${defualt_route}/community-news/${row.Id}`)}>{row.Subject}</a>
                           </h3>
                           <p className="description">{description}</p>
                         </div>
@@ -196,12 +186,12 @@ const ThreeDivisions = (props) => {
                 </div>
                 <div className="boxs">
                   {communityNewsBoxs.map(box => {
-                    return <NavLink to={defualt_route + box.to} key={box.id} className="oranization-documents">
+                    return <a onClick={_ => navigate(defualt_route + box.to)} key={box.id} className="oranization-documents">
                       <div>
                         {box.icon}
                       </div>
                       <p>{box.name}</p>
-                    </NavLink>
+                    </a>
                   })}
                 </div>
               </div>
