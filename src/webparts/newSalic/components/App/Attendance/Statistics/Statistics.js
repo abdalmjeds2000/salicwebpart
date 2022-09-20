@@ -161,6 +161,60 @@ function Statistics() {
   // End Annual Attendance Code
 
 
+
+
+
+  const employeesAvailabilityData = [
+    {
+      type: 'Stick Leave',
+      number: 30,
+    },
+    {
+      type: 'Leave',
+      number: 20,
+    },
+    {
+      type: 'Trips',
+      number: 10,
+    },
+    {
+      type: 'Shortage',
+      number: 40,
+    },
+    {
+      type: 'Availabilities',
+      number: 60,
+    }
+  ];
+  const employeesAvailabilityConfig = {
+    data: employeesAvailabilityData,
+    xField: 'type',
+    yField: 'number',
+    columnWidthRatio: 0.7,
+    xAxis: {
+      label: {
+        autoHide: true,
+        autoRotate: false,
+      },
+    },
+    color: ({ type }) => {
+      if (type === 'Sick Leave') {
+        return '#f9a654';
+      } else if (type === 'Leave') {
+        return '#fd96a6';
+      } else if (type === 'Trips') {
+        return '#43a2cc';
+      } else if (type === 'Shortage') {
+        return '#66ce9a';
+      } else if (type === 'Availabilities') {
+        return '#897ed4';
+      }
+      return '#f9a654';
+    }
+  }
+
+
+
   return (
     <div className='statistics-container'>
       <div className='monthly-attendance'>
@@ -247,7 +301,7 @@ function Statistics() {
             />
           </div>
           <div className='column-chart-container'>
-            <Column {...config} />
+            <Column {...employeesAvailabilityConfig} style={{width: '100%'}} />
             <div className="index">
               <ul>
                 <li><p>Sick Leave</p></li>
