@@ -40,9 +40,13 @@ import Legal from '../App/6Boxs/Legal/Legal';
 import RiskStrategy from '../App/6Boxs/RiskStrategy/RiskStrategy';
 import CorporateCommunication from '../App/6Boxs/CorporateCommunication/CorporateCommunication';
 import PowerBIInteractiveDashboards from '../App/PowerBI/PowerBIInteractiveDashboards';
-import HumanCapital from '../App/PowerBI/HumanCapital/HumanCapital';
-import Research from '../App/PowerBI/Research/Research';
 
+import HumanCapital from '../App/PowerBI/HumanCapital/HumanCapital';
+import HRDashboard from '../App/PowerBI/HumanCapital/HRDashboard/HRDashboard';
+import EmployeeAnalyticsDashboard from '../App/PowerBI/HumanCapital/EmployeeAnalyticsDashboard/EmployeeAnalyticsDashboard';
+
+
+import Research from '../App/PowerBI/Research/Research';
 import CountryOutlook from '../App/PowerBI/Research/CountryOutlook/CountryOutlook'
 import DelegationVisit from '../App/PowerBI/Research/DelegationVisit/DelegationVisit'
 import CrisisPlan from '../App/PowerBI/Research/CrisisPlan/CrisisPlan'
@@ -116,7 +120,12 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/power-bi-dashboards`}>
         <Route index element={<PowerBIInteractiveDashboards />} />
-        <Route path={`${defualtRoute}/power-bi-dashboards/human-capital`} element={<HumanCapital />} />
+
+        <Route path={`${defualtRoute}/power-bi-dashboards/human-capital`}>
+          <Route index element={<HumanCapital />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/human-capital/hr-dashboard`} element={<HRDashboard />} />
+          <Route path={`${defualtRoute}/power-bi-dashboards/human-capital/employee-analytics-dashboard`} element={<EmployeeAnalyticsDashboard />} />
+        </Route>
         <Route path={`${defualtRoute}/power-bi-dashboards/research`}>
           <Route index element={<Research />} />
           <Route path={`${defualtRoute}/power-bi-dashboards/research/country-outlook`} element={<CountryOutlook />} />

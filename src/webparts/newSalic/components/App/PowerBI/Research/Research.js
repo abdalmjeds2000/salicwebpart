@@ -67,7 +67,7 @@ function Research() {
                           </svg>,
   }
   const services = [
-    {icon: icons.CreateInvoiceRequest, bgColor: '#70CFAF', text: 'Country Outlook', to: `${defualt_route}/power-bi-dashboards/human-capital/country-outlook`},
+    {icon: icons.CreateInvoiceRequest, bgColor: '#70CFAF', text: 'Country Outlook', to: `${defualt_route}/power-bi-dashboards/research/country-outlook`},
     {icon: icons.CreateInvoiceRequest, bgColor: '#E4A7EB', text: 'Delegation Visit', to: `${defualt_route}/power-bi-dashboards/research/delegation-visit`},
     {icon: icons.CreateInvoiceRequest, bgColor: '#43A2CC', text: 'Crisis Plan', to: `${defualt_route}/power-bi-dashboards/research/crisis-plan`},
     {icon: icons.CreateInvoiceRequest, bgColor: 'rgb(233, 155, 77)', text: 'Demand Forecast', to: `${defualt_route}/power-bi-dashboards/research/demand-forecast`},

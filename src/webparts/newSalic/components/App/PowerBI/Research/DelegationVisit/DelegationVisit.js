@@ -9,7 +9,7 @@ import WorldBG from '../../../../../assets/images/world.svg';
 
 function DelegationVisit() {
   const navigate = useNavigate();
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   
   
   return (
@@ -30,7 +30,14 @@ function DelegationVisit() {
         />
 
         <div>
-          
+          <iframe 
+            title="Delegation Visit" 
+            width="100%" 
+            height="80%" 
+            src="https://app.powerbi.com/reportEmbed?reportId=58d486a3-dde4-4955-9c4d-a8e9daf6c0e9&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
+            frameborder="0" 
+            allowFullScreen="true"
+          ></iframe>
         </div>
       </div>
     </>

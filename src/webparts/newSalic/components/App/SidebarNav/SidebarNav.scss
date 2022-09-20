@@ -105,15 +105,7 @@
 .nav-container ul li a img {
   padding: 3px;
 }
-.nav-container ul li a p {
-  transition: var(--main-animation-duration);
-  color: #fff !important;
-  // overflow: hidden;
-  //   text-overflow: ellipsis;
-  //   display: -webkit-box;
-  //   -webkit-line-clamp: 1;
-  //   -webkit-box-orient: vertical;
-}
+
 
 .centered-icons-disktop {
   justify-content: flex-start;
@@ -125,7 +117,6 @@
 .centered-icons-disktop svg {
   padding: 4px;
 }
-
 
 
 .ant-tooltip-inner {

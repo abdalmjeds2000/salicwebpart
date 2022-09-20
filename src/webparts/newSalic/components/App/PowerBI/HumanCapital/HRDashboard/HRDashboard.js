@@ -7,7 +7,7 @@ import WorldBG from '../../../../../assets/images/world.svg';
 
 
 
-function CountryOutlook() {
+function HRDashboard() {
   const navigate = useNavigate();
   const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   
@@ -16,8 +16,8 @@ function CountryOutlook() {
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(-2)}>Power BI Interactive Dashboards</a>
-        <a onClick={() => navigate(-1)}>Research</a>
-        <p>Country Outlook</p>
+        <a onClick={() => navigate(-1)}>Human Capital</a>
+        <p>HR Dashboard</p>
       </HistoryNavigation>
       <div className='services-page-container'>
         <img src={WorldBG} className='img-bg' alt="world background" />
@@ -31,10 +31,10 @@ function CountryOutlook() {
 
         <div>
           <iframe 
-            title="Country Outlook" 
+            title="HR Dashboard" 
             width="100%" 
             height="80%" 
-            src="https://app.powerbi.com/reportEmbed?reportId=1684aad4-f715-434e-ba47-5f709b054150&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
+            src="https://app.powerbi.com/reportEmbed?reportId=98ef1b34-ea61-46e4-9409-8384c406ca7e&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
             frameborder="0" 
             allowFullScreen="true"
           ></iframe>
@@ -44,4 +44,4 @@ function CountryOutlook() {
   )
 }
 
-export default CountryOutlook
+export default HRDashboard

@@ -71,14 +71,14 @@ function SalicGlobe() {
 
   // Globe Ref
   useEffect(() => {
-    console.log('globe_data', globe_data)
     if(windowSize.innerWidth > 990) {
       globeEl.current.controls().autoRotate = true;
-      globeEl.current.controls().enableZoom = false
+      globeEl.current.controls().enableZoom = false;
       globeEl.current.controls().autoRotateSpeed = 1.5;
       globeEl.current.pointOfView({ lat: 30, lng: 45, altitude: 1.7 }, 5000);
     }
-  }, [rotation, globe_data]);
+  }, [rotation]);
+  
   // Stop Rotation on Hover 
   const onHoverHandler = useCallback((polygon) => {
     if (polygon !== null) {
@@ -95,108 +95,104 @@ function SalicGlobe() {
 
 
   // Return Card by hover on Country
-  // let cardDataByCountry = (country) => {
-  //   const currentCountryData = subsidiary.filter(c => c.Country === country)
+  let cardDataByCountry = (country) => {
+    const currentCountryData = subsidiary.filter(c => c.Country === country)
 
-
-  //   if(currentCountryData.length > 1) {
-  //     return <Slider autoplay={true}>
-  //       {
-  //         currentCountryData.map(card => {
-  //           const companyLogo = card.AttachmentFiles.length == 0 ? null : `https://salic.sharepoint.com/${card.AttachmentFiles[0].ServerRelativeUrl}`
-  //           const products = card.Products?.replace(' and',',').split(', ')
-  //           const srcImg = products.map(p => {
-  //             const src = p.includes("Wheat") ? productWheat 
-  //               : p.includes("Barley") ? productBarley 
-  //               : p.includes("Corn") ? productCorn 
-  //               : p.includes("Sheep Meat") ? productRedMeat
-  //               : p.includes("Grain") ? productFodder
-  //               : p.includes("Redc Meat") ? productRedMeat
-  //               : p.includes("Meat") ? productRedMeat
-  //               : p.includes("Services for the crops Cereals") ? productWheat
-  //               : p.includes("Potatoes") ? productWheat
-  //               : p.includes("Soybean") ? productSoybean
-  //               : p.includes("Sugar Beet") ? productSugar
-  //               : p.includes("Oilseed") ? productOil
-  //               : p.includes("Rice") ? productRice
-  //               : productWheat
+    if(currentCountryData.length > 1) {
+      return <Slider autoplay={true}>
+        {
+          currentCountryData.map(card => {
+            const companyLogo = card.AttachmentFiles.length == 0 ? null : `https://salic.sharepoint.com/${card.AttachmentFiles[0].ServerRelativeUrl}`
+            const products = card.Products?.replace(' and',',').split(', ')
+            const srcImg = products.map(p => {
+              const src = p.includes("Wheat") ? productWheat 
+                : p.includes("Barley") ? productBarley 
+                : p.includes("Corn") ? productCorn 
+                : p.includes("Sheep Meat") ? productRedMeat
+                : p.includes("Grain") ? productFodder
+                : p.includes("Redc Meat") ? productRedMeat
+                : p.includes("Meat") ? productRedMeat
+                : p.includes("Services for the crops Cereals") ? productWheat
+                : p.includes("Potatoes") ? productWheat
+                : p.includes("Soybean") ? productSoybean
+                : p.includes("Sugar Beet") ? productSugar
+                : p.includes("Oilseed") ? productOil
+                : p.includes("Rice") ? productRice
+                : productWheat
                 
-  //             return src
-  //           })
-  //           return (
-  //             <div class='card-container'>
-  //               <div className='header'>
-  //                 {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
-  //                 <div className='title'>
-  //                   <h3>{card.Title}</h3>
-  //                   <p>{`${card.Country}, ${card.City ? card.City : '-'}`}</p>
-  //                 </div>
-  //               </div>
-  //               <div className='description'>
-  //                 <p>{card.Description}</p>
-  //               </div>
-  //               <div className='products-imgs'>
-  //                 {
-  //                   srcImg.map(imgSrc => {
-  //                     return <img src={imgSrc} alt='' />
-  //                   })
-  //                 }
-  //                 {/* {products.map(p => <p>{p}</p>)} */}
-  //               </div>
-  //             </div>
-  //           )
-  //         })
-  //       }
-  //     </Slider>
-  //   } else if(currentCountryData.length === 1) {
-  //       const card = currentCountryData[0];
-  //       const companyLogo = card.AttachmentFiles.length == 0 ? null : `https://salic.sharepoint.com/${card.AttachmentFiles[0].ServerRelativeUrl}`
-  //       const products = card.Products?.replace(' and',',').split(', ')
-  //       const srcImg = products.map(p => {
-  //         const src = p.includes("Wheat") ? productWheat 
-  //           : p.includes("Barley") ? productBarley 
-  //           : p.includes("Corn") ? productCorn 
-  //           : p.includes("Sheep Meat") ? productRedMeat
-  //           : p.includes("Grain") ? productFodder
-  //           : p.includes("Redc Meat") ? productRedMeat
-  //           : p.includes("Meat") ? productRedMeat
-  //           : p.includes("Services for the crops Cereals") ? productWheat
-  //           : p.includes("Potatoes") ? productWheat
-  //           : p.includes("Soybean") ? productSoybean
-  //           : p.includes("Sugar Beet") ? productSugar
-  //           : p.includes("Oilseed") ? productOil
-  //           : p.includes("Rice") ? productRice
-  //           : productWheat
+              return src
+            })
+            return (
+              <div class='card-container'>
+                <div className='header'>
+                  {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
+                  <div className='title'>
+                    <h3>{card.Title}</h3>
+                    <p>{`${card.Country}, ${card.City ? card.City : '-'}`}</p>
+                  </div>
+                </div>
+                <div className='description'>
+                  <p>{card.Description}</p>
+                </div>
+                <div className='products-imgs'>
+                  {
+                    srcImg.map(imgSrc => {
+                      return <img src={imgSrc} alt='' />
+                    })
+                  }
+                  {/* {products.map(p => <p>{p}</p>)} */}
+                </div>
+              </div>
+            )
+          })
+        }
+      </Slider>
+    } else if(currentCountryData.length === 1) {
+        const card = currentCountryData[0];
+        const companyLogo = card.AttachmentFiles.length == 0 ? null : `https://salic.sharepoint.com/${card.AttachmentFiles[0].ServerRelativeUrl}`
+        const products = card.Products?.replace(' and',',').split(', ')
+        const srcImg = products.map(p => {
+          const src = p.includes("Wheat") ? productWheat 
+            : p.includes("Barley") ? productBarley 
+            : p.includes("Corn") ? productCorn 
+            : p.includes("Sheep Meat") ? productRedMeat
+            : p.includes("Grain") ? productFodder
+            : p.includes("Redc Meat") ? productRedMeat
+            : p.includes("Meat") ? productRedMeat
+            : p.includes("Services for the crops Cereals") ? productWheat
+            : p.includes("Potatoes") ? productWheat
+            : p.includes("Soybean") ? productSoybean
+            : p.includes("Sugar Beet") ? productSugar
+            : p.includes("Oilseed") ? productOil
+            : p.includes("Rice") ? productRice
+            : productWheat
             
-  //         return src
-  //       })
-  //       return (
-  //         <div class='card-container'>
-  //           <div className='header'>
-  //             {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
-  //             <div className='title'>
-  //               <h3>{card.Title}</h3>
-  //               <p>{`${card.Country}, ${card.City}`}</p>
-  //             </div>
-  //           </div>
-  //           <div className='description'>
-  //             <p>{card.Description}</p>
-  //           </div>
-  //           <div className='products-imgs'>
-  //             {
-  //               srcImg.map(imgSrc => {
-  //                 return <img src={imgSrc} alt='' />
-  //               })
-  //             }
-  //             {/* {products.map(p => <p>{p}</p>)} */}
-  //           </div>
-  //         </div>
-  //       )
-
-  //   }
-
-    
-  // }
+          return src
+        })
+        return (
+          <div class='card-container'>
+            <div className='header'>
+              {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
+              <div className='title'>
+                <h3>{card.Title}</h3>
+                <p>{`${card.Country}, ${card.City}`}</p>
+              </div>
+            </div>
+            <div className='description'>
+              <p>{card.Description}</p>
+            </div>
+            <div className='products-imgs'>
+              {
+                srcImg.map(imgSrc => {
+                  return <img src={imgSrc} alt='' />
+                })
+              }
+              {/* {products.map(p => <p>{p}</p>)} */}
+            </div>
+          </div>
+        )
+    }
+  }
 
 
 
@@ -229,7 +225,7 @@ function SalicGlobe() {
         />
 
         <div className="cards">
-          {/* {cardDataByCountry(currentCountry)} */}
+          {cardDataByCountry(currentCountry)}
         </div>
       </div>
     : null

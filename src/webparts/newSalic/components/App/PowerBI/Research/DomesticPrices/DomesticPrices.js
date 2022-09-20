@@ -9,7 +9,7 @@ import WorldBG from '../../../../../assets/images/world.svg';
 
 function DomesticPrices() {
   const navigate = useNavigate();
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   
   
   return (
@@ -30,7 +30,14 @@ function DomesticPrices() {
         />
 
         <div>
-          
+          <iframe 
+            title="Domestic Prices Report" 
+            width="100%" 
+            height="80%" 
+            src="https://app.powerbi.com/reportEmbed?reportId=26531474-8c73-42ea-bd58-7928e35c0b09&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWQtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" 
+            frameborder="0" 
+            allowFullScreen="true"
+          ></iframe>
         </div>
       </div>
     </>

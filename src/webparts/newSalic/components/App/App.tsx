@@ -44,7 +44,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [eSignRequests, setESignRequests] = React.useState([])
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
-  
   const [maintenanceData, setMaintenanceData] = React.useState([]);
 
   
@@ -58,13 +57,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
         })
         .then((response) => {
           setUserData(response.data)
           console.log(response.data)
-          console.log(response)
           return response
         })
 

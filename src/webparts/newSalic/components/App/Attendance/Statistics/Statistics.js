@@ -3,6 +3,7 @@ import './Statistics.css';
 import { RadialBar, Column } from '@ant-design/plots';
 import axios from 'axios';
 import { AppCtx } from '../../App';
+import CustomSelect from '../components/CustomSelect';
 
 
 function Statistics() {
@@ -218,7 +219,7 @@ function Statistics() {
           <h3>Employees Availability Attendance</h3>
           <p>SALIC Employees Ava.</p>
         </div>
-        {/* <div className="body">
+        <div className="body">
           <div className="buttons">
             <CustomSelect 
               name='by-organization' 
@@ -257,7 +258,7 @@ function Statistics() {
               </ul>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   )

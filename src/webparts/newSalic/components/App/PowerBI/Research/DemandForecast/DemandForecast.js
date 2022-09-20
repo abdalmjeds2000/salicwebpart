@@ -9,7 +9,7 @@ import WorldBG from '../../../../../assets/images/world.svg';
 
 function DemandForecast() {
   const navigate = useNavigate();
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   
   
   return (
@@ -29,8 +29,15 @@ function DemandForecast() {
           mailCount={mail_count}
         />
 
-        <div>
-          
+        <div class="m-content">
+          <iframe 
+            title="Demand Forecast" 
+            width="100%" 
+            height="80%" 
+            src="https://app.powerbi.com/reportEmbed?reportId=25a41fc2-8a3d-4f86-a6b3-44cfbe9eb59f&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
+            frameborder="0" 
+            allowFullScreen="true"
+          ></iframe>
         </div>
       </div>
     </>

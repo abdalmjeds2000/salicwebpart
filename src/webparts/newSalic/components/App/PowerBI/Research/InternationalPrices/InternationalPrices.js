@@ -9,7 +9,7 @@ import WorldBG from '../../../../../assets/images/world.svg';
 
 function InternationalPrices() {
   const navigate = useNavigate();
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   
   
   return (
@@ -30,7 +30,14 @@ function InternationalPrices() {
         />
 
         <div>
-          
+          <iframe 
+            title="International Prices" 
+            width="100%" 
+            height="80%" 
+            src="https://app.powerbi.com/reportEmbed?reportId=c21201cc-6307-4195-8572-a9d003e2df70&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWQtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" 
+            frameborder="0" 
+            allowFullScreen="true"
+          ></iframe>
         </div>
       </div>
     </>
