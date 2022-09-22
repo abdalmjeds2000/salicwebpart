@@ -11,6 +11,7 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
+import GetSiteUsers from '../API/GetSiteUsers/GetAllNews'
 
 
 interface AppContext { }
@@ -160,10 +161,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               method: 'GET',
               url: `https://salicapi.com/api/leave/GetEmployeeByPINALL?UserId=${response.data?.Data?.GraphId}&PIN=${response.data?.Data?.PIN}`,
             })
-              .then((res) => {
-                setDepartmentsInfo(res.data.Data)
-              })
-              .catch((error) => { console.log(error) })
+            .then((res) => setDepartmentsInfo(res.data.Data))
+            .catch((error) => { console.log(error) })
             return response
           })
 
@@ -173,15 +172,15 @@ const App: React.FunctionComponent<AppProps> = (props) => {
 
 
     // Get Communication List
-    axios({ method: 'GET', url: 'https://salicapi.com/api/User/GetCommunicationList' })
+      axios({ method: 'GET', url: 'https://salicapi.com/api/User/GetCommunicationList' })
       .then((res) => { setCommunicationList(res.data.Data) })
       .catch((error) => { console.log(error) })
 
     // Get Globe Data 
-    axios({
-      method: 'GET',
-      url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
-    })
+      axios({
+        method: 'GET',
+        url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
+      })
       .then(res => {
         setGlobeData(res.data?.features)
       })
@@ -189,24 +188,23 @@ const App: React.FunctionComponent<AppProps> = (props) => {
 
 
     // Get All News
-    GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => { console.log(err) });
+      GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => { console.log(err) });
     // Get All Notes
-    GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
+      GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
     // Get All Images for Media Center
-    GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
+      GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
+    // Get Site Users
+      GetSiteUsers().then(res => console.log('GetSiteUsers: =>', res)).catch(err => console.log(err))
     // Get Oracle Reports Data
-    axios({
-      method: 'GET',
-      url: 'https://salicapi.com/api/reports/get?Email=stsadmin@salic.onmicrosoft.com',
-    }).then(res => {
-      setOracleReports(JSON.parse(res.data.Data))
-    })
-
-
-      // Disable Loader
+      axios({
+        method: 'GET',
+        url: 'https://salicapi.com/api/reports/get?Email=stsadmin@salic.onmicrosoft.com',
+      }).then(res => {
+        setOracleReports(JSON.parse(res.data.Data))
+      })
+    // Disable Loader
       .then((response) => { setIsLoading(false) })
       .catch(err => console.log(err))
-
   }, [])
 
 
@@ -231,7 +229,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
     departments_info: departmentsInfo,
-
     maintenance_data: maintenanceData,
     setMaintenanceData
   };

@@ -115,7 +115,7 @@ const ThreeDivisions = (props) => {
         <div className="gallerys">
           <div className="gallery gallery1">
             <video controls poster={VideoPoster} width="100%">
-              <source src={typeof(videos) === "object" ? videos[0] : ''}></source>
+              <source src={videos ? videos[0] : ''}></source>
             </video>
           </div>
 

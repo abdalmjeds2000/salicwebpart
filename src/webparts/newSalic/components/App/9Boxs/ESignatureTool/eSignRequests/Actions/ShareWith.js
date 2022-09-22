@@ -4,9 +4,12 @@ import { useState } from 'react';
 import { SyncOutlined, UserAddOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import DropdownSelectUser from '../../../../Global/DropdownSelectUser/DropdownSelectUser'
+
+
 const ShareWith = (props) => {
   const [openModal, setOpenModal] = useState(false)
   const [data, setData] = useState([])
+  const [siteUsers, setSiteUsers] = useState([])
   const [dataLoader, setDataLoader] = useState(true)
 
 
@@ -102,7 +105,7 @@ const ShareWith = (props) => {
       >
 
         <div style={{marginBottom: '15px', display: 'flex', flexDirection: '', justifyContent: 'flex-end', gap: '10px'}}>
-          {/* <Select
+          <Select
             showSearch
             style={{width: '100%'}}
             placeholder="Type to add new users"
@@ -116,9 +119,9 @@ const ShareWith = (props) => {
             <Select.Option value="2">Defualt User</Select.Option>
             <Select.Option value="3">Defualt User</Select.Option>
             <Select.Option value="4">Defualt User</Select.Option>
-          </Select> */}
+          </Select>
 
-          <DropdownSelectUser />
+          {/* <DropdownSelectUser /> */}
           <Button type="primary" icon={<UserAddOutlined />}>Add</Button>
         </div>
 

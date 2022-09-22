@@ -94,13 +94,13 @@ function MeetingCenter() {
         </div>
         <div className='services-body-container'>
           <div className="services-boxs-container">
-            <a onClick={() => navigate('/book-meeting-room/my-meetings')} className='box'>
+            <a onClick={() => navigate(defualt_route+'/book-meeting-room/my-meetings')} className='box'>
               <div style={{backgroundColor: '#b340c7'}}>
                 {Icons.MyMeetings}
               </div>
               <h3>My Meetings</h3>
             </a>
-            <a onClick={() => navigate('/book-meeting-room/rooms-calender')} className='box'>
+            <a onClick={() => navigate(defualt_route+'/book-meeting-room/rooms-calender')} className='box'>
               <div style={{backgroundColor: '#42aada'}}>
                 {Icons.RoomsCalender}
               </div>
@@ -108,8 +108,6 @@ function MeetingCenter() {
             </a>
           </div>
         </div>
-
-
 
       </div>
     </>

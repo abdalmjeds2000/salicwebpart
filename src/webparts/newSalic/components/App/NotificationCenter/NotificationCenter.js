@@ -33,6 +33,7 @@ function NotificationCenter() {
         url: `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191`
       }).then((res) => { 
         const notifi_data = res.data?.Data?.map((n, i) => {
+          const ViewDocumentUrl = n.From === "eSign" ? `https://salicapi.com/eSign/sign.html?key=${n.Body}` : '';
           const newRow = {
             key: i,
             id: `${i+1}`,
@@ -40,7 +41,7 @@ function NotificationCenter() {
             dateTime: n.Created.slice(0, -3).replace('T', ' '),
             status: n.Status,
             From: n.From,
-            action: <a href="/">View Document</a>
+            action: ViewDocumentUrl
           }
           return newRow
         })
@@ -64,8 +65,8 @@ function NotificationCenter() {
     const searchFiltered = allData?.filter(n => {
       return (
         (
-          n.subject.props.children[0].props.children.includes(value.trim()) ||
-          n.subject.props.children[1].includes(value.trim()) ||
+          n.subject.props.children[0].props.children.toLowerCase().includes(value.trim().toLowerCase()) ||
+          n.subject.props.children[1].toLowerCase().includes(value.trim().toLowerCase()) ||
           n.dateTime.includes(value.trim()) ||
           n.id.includes(value) ||
           n.status.toLowerCase().includes(value.toLowerCase())
@@ -215,6 +216,7 @@ function NotificationCenter() {
     },{
       title: 'Action',
       dataIndex: 'action',
+      render: (url) => <a href={url} target='_blank'>View Document</a>
     }
   ];
 
@@ -233,6 +235,7 @@ function NotificationCenter() {
         mailCount={mail_count}
       />
       <div className='notification-center-container'>
+        
         <div className='notification-center_content'>
           <div className="notification_type-container">
             <div className="notification_type"
@@ -300,6 +303,7 @@ function NotificationCenter() {
               <DownOutlined />
             </div>
           </div>
+          
           <div className='status-bar'>
             {windowSize.innerWidth > 600 ? <b>Status:</b> : ''}
             <Checkbox.Group 
@@ -343,8 +347,6 @@ function NotificationCenter() {
             </div>
           </div>
         </div>
-          
-        
 
       </div>
     </>

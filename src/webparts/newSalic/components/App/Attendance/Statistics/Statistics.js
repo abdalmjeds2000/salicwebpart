@@ -6,8 +6,13 @@ import { AppCtx } from '../../App';
 import CustomSelect from '../components/CustomSelect';
 
 
+function removeDuplicates(arr) {
+  return arr.filter((item,
+      index) => arr.indexOf(item) === index);
+}
+
 function Statistics() {
-  const { user_data } = useContext(AppCtx)
+  const { user_data, departments_info } = useContext(AppCtx)
 
 
 
@@ -105,6 +110,8 @@ function Statistics() {
 
 
 
+
+
   // Start Annual Attendance Code
   const currentYear = new Date().getFullYear();
   const years = (currentYear) => {
@@ -164,28 +171,86 @@ function Statistics() {
 
 
 
-  const employeesAvailabilityData = [
-    {
-      type: 'Stick Leave',
-      number: 30,
-    },
-    {
-      type: 'Leave',
-      number: 20,
-    },
-    {
-      type: 'Trips',
-      number: 10,
-    },
-    {
-      type: 'Shortage',
-      number: 40,
-    },
-    {
-      type: 'Availabilities',
-      number: 60,
+
+
+
+  // Start Employees Availability Attendance Code
+  const [selectedDepartments, setSelectedDepartments] = useState('-1');
+  const [selectedEmployee, setSelectedEmployee] = useState('-1');
+
+  // update departments options
+  const [departments, setDepartments] = useState([]);
+  useEffect(() => {
+    const filterDep = removeDuplicates(departments_info?.map(u => u.Department).filter(d => d.length > 0));
+    setDepartments(filterDep)
+  }, [user_data, departments_info])
+
+  // update users options
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    const filterEmp = removeDuplicates(departments_info?.map(e => {return {value: e.PIN, name: e.DisplayName}}).filter(e => e.name.length > 0 && e.value !== '000000000'));
+    const empInDep = removeDuplicates(departments_info?.filter(u => u.Department === selectedDepartments).map(e => {return {value: e.PIN, name: e.DisplayName}}).filter(e => e.name.length > 0 && e.value !== '000000000'));
+    if(selectedDepartments === '-1') {
+      setEmployees(filterEmp)
+    } else {
+      setEmployees(empInDep)
     }
-  ];
+    setSelectedEmployee('-1');
+  }, [user_data, departments_info, selectedDepartments])
+
+  // make request
+  useEffect(() => {
+    if(selectedEmployee === '-1') {
+      setEmployeesAvailabilityData( [
+        { type: 'Stick Leave', number: 0 },
+        { type: 'Leave', number: 0 },
+        { type: 'Trips', number: 0 },
+        { type: 'Shortage', number: 0 },
+        { type: 'Availabilities', number: 0 },
+      ])
+      for(let key in employees) {
+        axios({method: 'GET', url: `https://salicapi.com/api/attendance/GetStatistics?email=${employees[key].value}&Year=2022&Month=9`})
+        .then(res => {
+          if(res?.data?.Data.length > 0){
+            const response = res?.data?.Data[0];
+            const getDataNeeded = [
+              response?.SickLeave,
+              response?.AnnualLeave,
+              response?.BusinessTrip,
+              response?.TotalShortage,
+              response?.WorkingDays
+            ]
+            setEmployeesAvailabilityData(prev => {
+              prev[0].number += getDataNeeded[0]
+              prev[1].number += getDataNeeded[1]
+              prev[2].number += getDataNeeded[2]
+              prev[3].number += getDataNeeded[3]
+              prev[4].number += getDataNeeded[4]
+              return [...prev]
+            })
+          }
+        })
+      }
+    } else {
+      axios({
+        method: 'GET',
+        url: `https://salicapi.com/api/attendance/GetStatistics?email=${selectedEmployee}&Year=2022&Month=9`
+      })
+      .then(res => {
+        const response = res?.data?.Data[0];
+        const getDataNeeded = [
+          { type: 'Stick Leave', number: response?.SickLeave },
+          { type: 'Leave', number: response?.AnnualLeave },
+          { type: 'Trips', number: response?.BusinessTrip },
+          { type: 'Shortage', number: response?.TotalShortage },
+          { type: 'Availabilities', number: response?.WorkingDays },
+        ]
+        setEmployeesAvailabilityData(getDataNeeded)
+      })
+    }
+  }, [selectedEmployee, employees])
+
+  const [employeesAvailabilityData, setEmployeesAvailabilityData] = useState([]);
   const employeesAvailabilityConfig = {
     data: employeesAvailabilityData,
     xField: 'type',
@@ -210,8 +275,14 @@ function Statistics() {
         return '#897ed4';
       }
       return '#f9a654';
-    }
+    },
+    animation: {
+      appear: {
+        animation: 'none',
+      },
+    },
   }
+  // End Employees Availability Attendance Code
 
 
 
@@ -276,28 +347,27 @@ function Statistics() {
         <div className="body">
           <div className="buttons">
             <CustomSelect 
-              name='by-organization' 
+              name='byOrganization' 
               options={[
-                {value: 'Organization 1', name: 'Organization 1'},
-                {value: 'Organization 2', name: 'Organization 2'},
+                {value: 'SALIC', name: 'SALIC'},
               ]}
-              onChange={(e) => alert(e.target.value)}
             />
             <CustomSelect 
-              name='by-organization' 
+              name='byDepartment' 
               options={[
-                {value: 'Organization 1', name: 'Organization 1'},
-                {value: 'Organization 2', name: 'Organization 2'},
+                {value: '-1', name: 'All'},
+                ...departments.map(d => {return {value: d, name: d}}),
               ]}
-              onChange={(e) => alert(e.target.value)}
+              onChange={(e) => setSelectedDepartments(e.target.value)}
             />
             <CustomSelect 
-              name='by-organization' 
+              name='byEmployees' 
               options={[
-                {value: 'Organization 1', name: 'Organization 1'},
-                {value: 'Organization 2', name: 'Organization 2'},
+                {value: '-1', name: 'All'},
+                ...employees
               ]}
-              onChange={(e) => alert(e.target.value)}
+              value={selectedEmployee}
+              onChange={(e) => setSelectedEmployee(e.target.value)}
             />
           </div>
           <div className='column-chart-container'>

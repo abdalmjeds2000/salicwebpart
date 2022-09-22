@@ -62,16 +62,24 @@
 .oracle-reports-container .departments-content {
   width: 80%;
 }
+.oracle-reports-container .departments-content h1 {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.oracle-reports-container .departments-content hr {
+  border: 1px solid #eee;
+}
 .oracle-reports-container .departments-content .links-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-  gap: 10px;
+  gap: 20px;
   position: relative;
 }
 .oracle-reports-container .departments-content .links-container .box {
   background-color: #fff;
-  box-shadow: 0px 5px 8px rgb(0 0 0 / 8%);
-  padding: 10px 20px;
+  box-shadow: 0 5px 8px rgba(0,0,0,.08);
+  padding: 25px 15px;
+  gap: 10px;
   text-align: center;
   border-radius: 10px;
   display: flex;
@@ -80,7 +88,7 @@
   flex-direction: column;
   min-height: 70px;
   border-bottom: 3px solid var(--main-color);
-  transition: 0.3s;
+  transition: .3s;
 }
 .oracle-reports-container .departments-content .links-container .box:hover {
   background-color: var(--third-color);
