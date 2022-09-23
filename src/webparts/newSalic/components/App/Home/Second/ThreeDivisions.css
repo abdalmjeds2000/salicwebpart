@@ -35,7 +35,8 @@
   background-color: var(--main-color);
   border-radius: 5px;
 }
-.three-divisions .twitter-wid .header {
+.three-divisions .twitter-wid .header,
+.three-divisions .community-news .last-news-container .header {
   margin: 0;
   border-radius: 5px 5px 0 0;
 }
@@ -59,6 +60,12 @@
   text-decoration: underline;
 }
 
+
+.three-divisions .community-news .news-list {
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 0 0 10px 10px;
+}
 .three-divisions .media-center .gallerys {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -83,7 +83,7 @@ const ThreeDivisions = (props) => {
   // Image Viewer Code
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = media_center?.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl} });
+  const images = media_center?.Row?.filter(r => !['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => { return {src: r.EncodedAbsUrl, caption: r.BaseName} });
   const videos = media_center?.Row?.filter(r => ['mp4', 'avi'].includes(r.File_x0020_Type)).map(r => r.EncodedAbsUrl);
 
   const openImageViewer = useCallback((index) => {
@@ -114,9 +114,13 @@ const ThreeDivisions = (props) => {
         </div>
         <div className="gallerys">
           <div className="gallery gallery1">
-            <video controls poster={VideoPoster} width="100%">
-              <source src={videos ? videos[0] : ''}></source>
-            </video>
+            {
+              typeof(videos) === 'object'
+              ? <video controls poster={VideoPoster} width="100%">
+                  <source src={videos[0]}></source>
+                </video>
+              : <></>
+            }
           </div>
 
 
@@ -141,6 +145,7 @@ const ThreeDivisions = (props) => {
                 showThumbnails
                 onClickThumbnail={(i) => setCurrentImage(i)}
                 backdropCloseable
+                ima
               />
             : ''
           }
@@ -156,29 +161,24 @@ const ThreeDivisions = (props) => {
                   <h3>Community News</h3>
                   <a onClick={_ => navigate(`${defualt_route}/community-news`)}>See All</a>
                 </div>
-                {
-                  news_list?.slice(0, windowSize.innerWidth > 1750 ? 4 : 3).map((row, i) => {
-                    const description = row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "");
-                    return (
-                      <div className="box" key={i}>
-                        <div className='img' style={{backgroundImage: `url("https://salic.sharepoint.com${row.AttachmentFiles[0]?.ServerRelativeUrl}")`, backgroundColor: 'var(--third-color)'}}></div>
-                        <div className='text'>
-                          <h3 className="title">
-                            <a onClick={() => navigate(`${defualt_route}/community-news/${row.Id}`)}>{row.Subject}</a>
-                          </h3>
-                          <p className="description">{description}</p>
-                        </div>
-                        {/* <div className="by">
-                          <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${row.Author?.EMail}`} alt="" />
-                          <div>
-                            <p>{row.Author.Title}</p> 
-                            <p>{row.Author.JobTitle}</p>
+                <div className='news-list'>
+                  {
+                    news_list?.slice(0, windowSize.innerWidth > 1750 ? 4 : 3).map((row, i) => {
+                      const description = row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "");
+                      return (
+                        <div className="box" key={i}>
+                          <div className='img' style={{backgroundImage: `url("https://salic.sharepoint.com${row.AttachmentFiles[0]?.ServerRelativeUrl}")`, backgroundColor: 'var(--third-color)'}}></div>
+                          <div className='text'>
+                            <h3 className="title">
+                              <a onClick={() => navigate(`${defualt_route}/community-news/${row.Id}`)}>{row.Subject}</a>
+                            </h3>
+                            <p className="description">{description}</p>
                           </div>
-                        </div> */}
-                      </div>
-                    )
-                  })
-                }
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
               <div className="organization-documents-container">
                 <div className="header">

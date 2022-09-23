@@ -1,5 +1,5 @@
 .folder-explorer-container {
-  padding: 0;
+  padding: 15px 0;
   min-height: calc(100vh - 85px);
   top: 85px;
   position: relative;

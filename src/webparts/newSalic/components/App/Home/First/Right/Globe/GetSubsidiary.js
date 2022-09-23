@@ -5,7 +5,6 @@ const GetSubsidiary = () => pnp.sp.web.lists.getByTitle('Subsidiary').items
     .expand('AttachmentFiles')
     .get()
     .then(res => {
-      console.log('GetSubsidiary', res)
       return res
     })
     .catch(err => console.log(err))

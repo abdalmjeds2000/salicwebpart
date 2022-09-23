@@ -71,47 +71,94 @@
 }
 .oracle-reports-container .departments-content .links-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
   gap: 20px;
   position: relative;
 }
 .oracle-reports-container .departments-content .links-container .box {
   background-color: #fff;
-  box-shadow: 0 5px 8px rgba(0,0,0,.08);
-  padding: 25px 15px;
+  padding: 12px 15px;
+  box-shadow: 0 0 12px #efefef;
   gap: 10px;
-  text-align: center;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
   min-height: 70px;
-  border-bottom: 3px solid var(--main-color);
   transition: .3s;
+  position: relative;
 }
 .oracle-reports-container .departments-content .links-container .box:hover {
   background-color: var(--third-color);
-  transform: scale(1.02);
+  transform: translateY(-7px);
+  box-shadow: 0 12px 12px rgb(0 0 0 / 3%);
 }
-.oracle-reports-container .departments-content .links-container .box svg {
-  width: 20px;
-  margin: 5px;
+.oracle-reports-container .departments-content .links-container .box > svg g * {
+  fill: var(--third-color);
+  transition: 0.3s;
+}
+.oracle-reports-container .departments-content .links-container .box:hover > svg g * {
+  fill: var(--main-color);
+}
+.oracle-reports-container .departments-content .links-container .box > svg {
+  min-width: 25px;
 }
 .oracle-reports-container .departments-content .links-container .box a {
   color: var(--main-color);
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  transition: 0.3s;
 }
 .oracle-reports-container .departments-content .links-container .box a:hover,
 .oracle-reports-container .departments-content .links-container .box a:active {
-  color: var(--text-color) !important;
+  color: var(--main-color) !important;
+  text-decoration: underline;
+}
+
+.oracle-reports-container .departments-content .links-container .box span {
+  color: var(--main-color);
+  background-color: #fff;
+  border-radius: 9px;
+  padding: 2px;
+  font-size: 1rem;
+  right: 0;
+  position: absolute;
+  top: 50%;
+  right: 35px;
+  min-width: 30px;
+  text-align: center;
+  transform: translateY(-50%);
+  transition: 0.5s;
+  opacity: 0;
+  cursor: pointer;
+}
+.oracle-reports-container .departments-content .links-container .box:hover span {
+  opacity: 1;
+  transform: translateY(-50%) translateX(20px);
+}
+.oracle-reports-container .departments-content .links-container .box:hover span:hover {
+  transform: scale(0.01);
+  transform: translateY(-50%) translateX(20px) scale(1.2);
 }
 
 
 
-
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1500px) {
+  .oracle-reports-container .departments-content .links-container {
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  }
+}
+@media screen and (max-width: 1200px) {
+  .oracle-reports-container .departments-content .links-container {
+    grid-template-columns: repeat(auto-fill, minmax(47%, 1fr));
+  }
+}
+@media screen and (max-width: 768px) {
   .oracle-reports-container {
     flex-direction: column;
     padding: 10px;

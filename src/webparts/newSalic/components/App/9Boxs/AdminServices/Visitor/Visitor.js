@@ -1,20 +1,31 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Upload, Select, DatePicker, InputNumber, Modal } from 'antd';
+import { Form, Input, Upload, Select, DatePicker, InputNumber, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 
 function Visitor() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
+
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -23,22 +34,42 @@ function Visitor() {
   const handleCancel = () => setPreviewVisible(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
-      // file.preview = await getBase64(file.originFileObj);
+      file.preview = await getBase64(file.originFileObj);
     }
-
     setPreviewImage(file.url || file.preview);
     setPreviewVisible(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log('fileList', fileList)};
 
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+
+  async function CreateOfficeSupplyRequest(values) {
+    setBtnLoader(true);
+    let isFilesFinishUpload = true;
+    const files = fileList.map(file => {
+      if(file.status === "uploading") isFilesFinishUpload = false
+      return file.name
+    }).join();
+
+    if(values && isFilesFinishUpload) {
+      values.ExpectedDateArrival = new Date(values.ExpectedDateArrival).toLocaleDateString();
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        Files: files,
+        ...values
+      }
+      form.resetFields();
+      message.success("The request has been sent successfully.")
+      setBtnLoader(false);
+      setFileList([]);
+      console.log(formData);
+    } else {
+      message.error("Wait for upload")
+      setBtnLoader(false);
+    }
   }
-
+  
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.")}
 
 
   return (
@@ -66,66 +97,65 @@ function Visitor() {
           {...layout} 
           colon={false}
           labelWrap 
-          name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
+          name="Service Request" 
           layout="horizontal"
+          form={form} 
+          onFinish={CreateOfficeSupplyRequest}
+          onFinishFailed={onFinishFailed}
         >
 
-          <Form.Item name={'date'} label="Date" rules={[{required: true,}]} initialValue={getDateAndTime()} >
+          <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
           
           <hr />
 
-          <Form.Item name="Name Of Visitor" label="Name Of Visitor" rules={[{required: true}]} >
+          <Form.Item name="NameOfVisitor" label="Name Of Visitor" rules={[{required: true}]} >
             <Input placeholder='full name' size='large' />
           </Form.Item>
           <Form.Item name="Nationality" label="Nationality" rules={[{required: true,}]}>
             <Select
               showSearch
               placeholder="Nationality"
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
             >
               <Option value="Palestine">Palestine</Option>
-              <Option value="lucy">Saudi</Option>
+              <Option value="Saudi">Saudi</Option>
             </Select>
           </Form.Item>
           <Form.Item name="Profession" label="Profession" rules={[{required: true}]} >
             <Input placeholder='job title, or job field' size='large' />
           </Form.Item>
-          <Form.Item name="Company and Address" label="Company and Address">
+          <Form.Item name="CompanyandAddress" label="Company and Address">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
-          <Form.Item name="Expected Date Arrival" label="Expected Date Arrival">
-            <DatePicker placeholder='mm/dd/yyyy' format='MM/DD/YYYY' size='large' />
+          <Form.Item name="ExpectedDateArrival" label="Expected Date Arrival">
+            <DatePicker placeholder='mm/dd/yyyy' format='MM/DD/YYYY' size='large' onChange={(moment, string) => console.log(moment, string)} />
           </Form.Item>
-          <Form.Item name="Type VISA" label="Type VISA" rules={[{required: true,}]}>
+          <Form.Item name="TypeVISA" initialValue="Single" label="Type VISA" rules={[{required: true,}]}>
             <Select
               showSearch
               placeholder=""
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
+              defaultValue="Single"
             >
-              <Option value="Single">Single</Option>
+              <Option value="Single" selected>Single</Option>
               <Option value="Multiple">Multiple</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Saudi Embassy Location" label="Saudi Embassy Location" rules={[{required: true}]} >
+          <Form.Item name="SaudiEmbassyLocation" label="Saudi Embassy Location" rules={[{required: true}]} >
             <Input placeholder='the location of Saudi Embassy' size='large' />
           </Form.Item>
 
 
-          <Form.Item name="Period Of Visit (days)" label="Period Of Visit (days)" initialValue={1} rules={[{required: true,}]}>
+          <Form.Item name="PeriodOfVisit" label="Period Of Visit (days)" initialValue={1} rules={[{required: true,}]}>
             <InputNumber size="large" min={-1000000} max={1000000} placeholder="Period Of Visit (days)" />
           </Form.Item>
-          <Form.Item name="Attach" label="Attach">
+          <Form.Item label="Attach">
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="https://salicapi.com/api/uploader/up"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
@@ -134,18 +164,11 @@ function Visitor() {
               {fileList.length >= 8 ? null : <div><PlusOutlined /><div style={{marginTop: 8,}}>Upload</div></div>}
             </Upload>
             <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-              <img
-                alt="example"
-                style={{
-                  width: '100%',
-                }}
-                src={previewImage}
-              />
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
           </Form.Item>
 
-
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>

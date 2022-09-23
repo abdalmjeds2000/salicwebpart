@@ -178,14 +178,14 @@ function Statistics() {
   const [selectedDepartments, setSelectedDepartments] = useState('-1');
   const [selectedEmployee, setSelectedEmployee] = useState('-1');
 
-  // update departments options
+    // update departments options
   const [departments, setDepartments] = useState([]);
   useEffect(() => {
     const filterDep = removeDuplicates(departments_info?.map(u => u.Department).filter(d => d.length > 0));
     setDepartments(filterDep)
   }, [user_data, departments_info])
 
-  // update users options
+    // update users options
   const [employees, setEmployees] = useState([]);
   useEffect(() => {
     const filterEmp = removeDuplicates(departments_info?.map(e => {return {value: e.PIN, name: e.DisplayName}}).filter(e => e.name.length > 0 && e.value !== '000000000'));
@@ -198,7 +198,7 @@ function Statistics() {
     setSelectedEmployee('-1');
   }, [user_data, departments_info, selectedDepartments])
 
-  // make request
+    // make request
   useEffect(() => {
     if(selectedEmployee === '-1') {
       setEmployeesAvailabilityData( [
@@ -208,17 +208,18 @@ function Statistics() {
         { type: 'Shortage', number: 0 },
         { type: 'Availabilities', number: 0 },
       ])
-      for(let key in employees) {
-        axios({method: 'GET', url: `https://salicapi.com/api/attendance/GetStatistics?email=${employees[key].value}&Year=2022&Month=9`})
-        .then(res => {
-          if(res?.data?.Data.length > 0){
-            const response = res?.data?.Data[0];
+      const allIds = employees.map(u => u.value).join(',');
+      axios({method: 'GET', url: `https://salicapi.com/api/attendance/GetStatistics?email=${allIds}&Year=2022&Month=9`})
+      .then(res => {
+        if(res?.data?.Data.length > 0){
+          const response = res?.data?.Data;
+          for(let key in response) {
             const getDataNeeded = [
-              response?.SickLeave,
-              response?.AnnualLeave,
-              response?.BusinessTrip,
-              response?.TotalShortage,
-              response?.WorkingDays
+              response[key]?.SickLeave,
+              response[key]?.AnnualLeave,
+              response[key]?.BusinessTrip,
+              response[key]?.TotalShortage,
+              response[key]?.WorkingDays
             ]
             setEmployeesAvailabilityData(prev => {
               prev[0].number += getDataNeeded[0]
@@ -229,8 +230,8 @@ function Statistics() {
               return [...prev]
             })
           }
-        })
-      }
+        }
+      })
     } else {
       axios({
         method: 'GET',

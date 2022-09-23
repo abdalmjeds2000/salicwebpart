@@ -46,7 +46,7 @@ export default class extends Component {
       },
       zoom: {speed: 100, smooth: 5},
       collapse: {
-        level: 3,
+        level: 4,
         allChildren: true
       }, 
       

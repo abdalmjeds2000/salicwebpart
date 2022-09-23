@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
+import moment from 'moment';
+import FormItem from 'antd/es/form/FormItem';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -17,16 +19,32 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 function OfficeSupply() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
 
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+
+  async function CreateOfficeSupplyRequest(values) {
+    setBtnLoader(true);
+    if(values) {
+      const formData = {
+        CreatedBy: user_data?.Data?.Mail,
+        ...values
+      }
+      form.resetFields();
+      message.success("The request has been sent successfully.")
+      setBtnLoader(false);
+      console.log(formData);
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
   }
-  const onFinish = (values) => {
-    console.log('Received values of form:', values);
-  };
+  
+  const onFinishFailed = () => {
+    message.error("Please, fill out the form correctly.")
+  }
+
+
 
   return (
     <>
@@ -54,10 +72,12 @@ function OfficeSupply() {
           colon={false}
           name="Office Supply" 
           layout="horizontal"
-          onFinish={onFinish} 
+          form={form} 
+          onFinish={CreateOfficeSupplyRequest}
+          onFinishFailed={onFinishFailed}
         >
 
-          <Form.Item name="date" label="Date" rules={[{required: true,}]} initialValue={getDateAndTime()} >
+          <Form.Item name="Date" label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
           
@@ -67,50 +87,38 @@ function OfficeSupply() {
             <Input placeholder='' size='large' />
           </Form.Item>
 
-          <Form.Item name="Items" label="Items" rules={[{required: true}]}>
+          <Form.Item label="Items" colon>
             <Form.List
-              name="names"
-              rules={[
-                {
-                  validator: async (_, names) => {
-                    if (!names || names.length < 1) {
+              name="Items"
+              rules={[{
+                  validator: async (_, items) => {
+                    if (!items || items.length < 1) {
                       return Promise.reject();
-                    }
-                  },
-                },
-              ]}
+                    }},
+                  }]}
             >
               {(fields, { add, remove }, { errors }) => (
                 <>
                   {fields.map((field, index) => (
-                    <Form.Item
-                      required={false}
-                      key={field.key}
-                    >
-                      <div style={{display: 'flex', alignItems: 'center'}}>
+                    <div key={field.key} style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px'}}>
+                      <Form.Item name={[field.name, 'type']} style={{width: '70%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
                         <Select
                           placeholder="select one value"
-                          // onChange={value => console.log(value)}
                           size="large"
-                          style={{width: '70%'}}
+                          name={[field.name, 'type']}
+
                         >
                           <Option value="Laptop">Laptop</Option>
                           <Option value="Monitor">Monitor</Option>
                           <Option value="Printer">Printer</Option>
                         </Select>
-                        <Input placeholder='Quantity' size='large' style={{width: '30%'}} />
-                        {fields.length > 1 ? (
-                        <MinusCircleOutlined
-                          className="dynamic-delete-button"
-                          onClick={() => remove(field.name)}
-                        />
-                      ) : null}
-                      </div>
-
-                      
-                    </Form.Item>
+                      </Form.Item>
+                      <Form.Item name={[field.name, 'quantity']} style={{width: '30%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
+                        <Input placeholder='Quantity' size='large' />
+                      </Form.Item>
+                      {fields.length > 1 ? (<MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />) : null}
+                    </div>
                   ))}
-                  <Form.Item>
                     <Button
                       type="dashed"
                       onClick={() => add()}
@@ -120,13 +128,12 @@ function OfficeSupply() {
                       Add More
                     </Button>
                     <Form.ErrorList errors={errors} />
-                  </Form.Item>
                 </>
               )}
             </Form.List>
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>

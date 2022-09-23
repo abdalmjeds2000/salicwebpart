@@ -135,6 +135,11 @@ img.img-bg.img-bg-form {
 
 
 
+/* ant modal */
+.ant-modal-content {
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
 
 
 

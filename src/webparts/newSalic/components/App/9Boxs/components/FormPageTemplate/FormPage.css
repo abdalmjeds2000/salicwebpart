@@ -30,6 +30,7 @@
   padding: 25px;
   border-radius: 0 0 10px 10px;
   background-color: #fff;
+  min-height: calc(100vh - 190px);
 }
 
 
@@ -134,9 +135,6 @@
 /* Form Fields Edit Styles */
 .ant-picker-large {
   width: 100% !important;
-}
-.ant-form-item {
-  margin-bottom: 15px !important;
 }
 .ant-input-number {
   width: 100% !important;

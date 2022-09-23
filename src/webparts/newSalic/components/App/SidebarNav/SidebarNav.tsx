@@ -286,7 +286,7 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
                       navigate(defualt_route + item.to);
                     }
                   }}
-                  style={activeRoute === defualt_route + item.to ? activeStyle : {opacity: "0.3"}}
+                  style={ (activeRoute).includes(defualt_route+item.to) ? activeStyle : {opacity: "0.3"}}
                   className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'}
                 >
                   {item.icon}

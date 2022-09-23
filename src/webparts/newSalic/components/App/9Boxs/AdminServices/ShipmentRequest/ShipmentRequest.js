@@ -1,10 +1,13 @@
-import React, { useContext } from 'react'
-import { Form, Input } from 'antd';
+import React, { useContext, useState } from 'react'
+import { Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
+import moment from 'moment';
+
+
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -12,14 +15,34 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 function Shipment() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
 
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+
+
+  async function CreateShipmentRequest(values) {
+    setBtnLoader(true);
+    // const response = await AddMaintenanceRequest(values);
+    // if(response.data)
+    if(values) {
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        Requester: user_data?.Data?.Mail,
+        ...values
+      }
+      console.log(formData);
+      form.resetFields();
+      message.success("The request has been sent successfully.")
+      setBtnLoader(false);
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
   }
-
+  
+  const onFinishFailed = () => {
+    message.error("Please, fill out the form correctly.")
+  }
 
 
   return (
@@ -46,34 +69,36 @@ function Shipment() {
           {...layout} 
           colon={false}
           labelWrap 
-          name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
+          name="service-request"
+          form={form} 
+          onFinish={CreateShipmentRequest}
+          onFinishFailed={onFinishFailed}
           layout="horizontal"
         >
 
-          <Form.Item name={'date'} label="Date" rules={[{required: true,}]} initialValue={getDateAndTime()} >
+          <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
           
           <hr />
 
-          <Form.Item name="Sender Mobile" label="Sender Mobile" rules={[{required: true}]} >
+          <Form.Item name="SenderMobile" label="Sender Mobile" rules={[{required: true}]} >
             <Input placeholder='sender name or mobile number' size='large' />
           </Form.Item>
-          <Form.Item name="Source Address" label="Source Address" rules={[{required: true}]} >
+          <Form.Item name="SourceAddress" label="Source Address" rules={[{required: true}]} >
             <Input placeholder='from location' size='large' />
           </Form.Item>
-          <Form.Item name="Receiver Mobile" label="Receiver Mobile" rules={[{required: true}]} >
+          <Form.Item name="ReceiverMobile" label="Receiver Mobile" rules={[{required: true}]} >
             <Input placeholder='Receiver name or mobile number' size='large' />
           </Form.Item>
-          <Form.Item name=" Destination Address" label="Destination Address" rules={[{required: true}]} >
+          <Form.Item name="DestinationAddress" label="Destination Address" rules={[{required: true}]} >
             <Input placeholder='to location' size='large' />
           </Form.Item>
           <Form.Item name="Descriptions" label="Descriptions">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>

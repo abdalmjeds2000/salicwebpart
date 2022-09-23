@@ -6,34 +6,37 @@ import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
-import AddMaintenanceRequest from './API/AddMaintenanceRequest.js';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 function Maintenance() {
   const [form] = Form.useForm();
   const { user_data, setMaintenanceData, defualt_route } = useContext(AppCtx);
-  const [btnLoader, setBtnLoader] = useState(false)
-  
+  const [btnLoader, setBtnLoader] = useState(false);
+  let navigate = useNavigate();
+
+
   async function CreateMaintenanceRequest(values) {
     setBtnLoader(true);
-    const response = await AddMaintenanceRequest(values);
-    if(response.data) {
+    const formData = {
+      Email: user_data?.Data?.Mail,
+      ...values
+    }
+    if(values) {
       form.resetFields();
       message.success("The request has been sent successfully.")
+      console.log(formData)
       setBtnLoader(false);
-      setMaintenanceData(prev => [response.data, ...prev])
     } else {
       message.error("Failed to send request.")
       setBtnLoader(false);
     }
   }
 
-  const onFinishFailed = () => {
-    message.error("Please, fill out the form correctly.")
-  }
-  
-  let navigate = useNavigate();
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
+
+
+
 
   return (
     <>

@@ -45,7 +45,7 @@
   overflow: hidden;
   background-repeat: no-repeat;
   background-position: 50%;
-  background-size: cover;
+  background-size: contain;
   width: 100%;
   min-height: 15rem;
 }
