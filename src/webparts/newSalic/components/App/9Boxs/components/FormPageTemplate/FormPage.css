@@ -14,13 +14,12 @@
 }
 .content-services-request .header h1 {
   color: #fff !important;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1;
   font-weight: 400;
 }
 .content-services-request .content {
   display: flex;
-  gap: 15px;
 }
 
 
@@ -128,6 +127,12 @@
     padding: 15px;
     border-radius: 10px;
   }
+  .content-services-request .header h1 {
+    color: #fff !important;
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: 400;
+  }
 }
 
 
@@ -145,6 +150,9 @@
 .ant-radio-button-wrapper {
   width: 50% !important;
   text-align: center !important;
+}
+.ant-form-item-required, .ant-form-item-no-colon {
+  font-size: 1.1rem;
 }
 /* .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
   z-index: 0 !important;

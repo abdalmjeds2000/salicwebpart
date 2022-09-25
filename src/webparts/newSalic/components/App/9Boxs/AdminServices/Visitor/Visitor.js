@@ -7,6 +7,7 @@ import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import VisitorRequest from './API/VisitorRequest';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -40,7 +41,7 @@ function Visitor() {
     setPreviewVisible(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log('fileList', fileList)};
+  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log(newFileList)};
 
 
   async function CreateOfficeSupplyRequest(values) {
@@ -48,27 +49,36 @@ function Visitor() {
     let isFilesFinishUpload = true;
     const files = fileList.map(file => {
       if(file.status === "uploading") isFilesFinishUpload = false
-      return file.name
+      return file.response?.uploadedFiles[0]?.Name
     }).join();
 
     if(values && isFilesFinishUpload) {
       values.ExpectedDateArrival = new Date(values.ExpectedDateArrival).toLocaleDateString();
       const formData = {
         Email: user_data?.Data?.Mail,
+        ReferenceCode: "auto generated",
         Files: files,
+        Id: 0,
         ...values
       }
-      form.resetFields();
-      message.success("The request has been sent successfully.")
-      setBtnLoader(false);
-      setFileList([]);
-      console.log(formData);
+
+      const response = await VisitorRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        message.success("The request has been sent successfully.")
+        setBtnLoader(false);
+        setFileList([]);
+        console.log(formData);
+      } else {
+        message.error("Failed to send request.")
+        setBtnLoader(false);
+      }
     } else {
       message.error("Wait for upload")
       setBtnLoader(false);
     }
   }
-  
+
   const onFinishFailed = () => { message.error("Please, fill out the form correctly.")}
 
 
@@ -127,11 +137,11 @@ function Visitor() {
           <Form.Item name="Profession" label="Profession" rules={[{required: true}]} >
             <Input placeholder='job title, or job field' size='large' />
           </Form.Item>
-          <Form.Item name="CompanyandAddress" label="Company and Address">
+          <Form.Item name="Description" label="Company and Address">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
           <Form.Item name="ExpectedDateArrival" label="Expected Date Arrival">
-            <DatePicker placeholder='mm/dd/yyyy' format='MM/DD/YYYY' size='large' onChange={(moment, string) => console.log(moment, string)} />
+            <DatePicker placeholder='mm/dd/yyyy' format='MM/DD/YYYY' size='large' />
           </Form.Item>
           <Form.Item name="TypeVISA" initialValue="Single" label="Type VISA" rules={[{required: true,}]}>
             <Select
@@ -145,12 +155,13 @@ function Visitor() {
               <Option value="Multiple">Multiple</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="SaudiEmbassyLocation" label="Saudi Embassy Location" rules={[{required: true}]} >
+          <Form.Item name="SaudiEmbassy" label="Saudi Embassy Location" rules={[{required: true}]} >
             <Input placeholder='the location of Saudi Embassy' size='large' />
           </Form.Item>
 
 
-          <Form.Item name="PeriodOfVisit" label="Period Of Visit (days)" initialValue={1} rules={[{required: true,}]}>
+
+          <Form.Item name="Period" label="Period Of Visit (days)" initialValue={1} rules={[{required: true,}]}>
             <InputNumber size="large" min={-1000000} max={1000000} placeholder="Period Of Visit (days)" />
           </Form.Item>
           <Form.Item label="Attach">
@@ -167,6 +178,7 @@ function Visitor() {
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
           </Form.Item>
+
 
           <SubmitCancel loaderState={btnLoader} />
         </Form>

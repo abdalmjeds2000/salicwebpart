@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import './NumbersAttendance.css';
 import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
-import { Empty } from 'antd';
 
 
 function NumbersAttendance() {

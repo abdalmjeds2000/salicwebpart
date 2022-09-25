@@ -5,7 +5,6 @@ import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigati
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
-import AddMaintenanceRequestItem from './API/AddMaintenanceRequest.js';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -34,8 +33,7 @@ function UpdateMaintenance() {
   async function UpdateMaintenanceRequest(values) {
     console.log(values)
     setBtnLoader(true);
-    const response = await AddMaintenanceRequestItem({...values, Id: id});
-    if(response.data) {
+    if(values) {
       message.success("The request has been updated successfully.")
       setBtnLoader(false);
     } else {

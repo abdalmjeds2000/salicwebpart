@@ -4,7 +4,7 @@ import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel'
 import { useNavigate } from 'react-router-dom';
 import WorldBG from '../../../../assets/images/world.svg';
 import { AppCtx } from '../../App';
-import { Select, Spin, Table, Tooltip } from 'antd';
+import { Pagination, Select, Spin, Table, Tooltip } from 'antd';
 import axios from 'axios';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -14,16 +14,20 @@ function RoomsCalender() {
   const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
 
-
   const [roomTitle, setRoomTitle] = useState('meeting.room1@salic.com')
   const [data, setData] = useState([])
-  const [loader, setLoader] = useState(true)
-
+  const [loading, setLoading] = useState(false);
+  const [tableParams, setTableParams] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 50,
+    },
+  });
   const handleChange = (value) => setRoomTitle(value.value);
 
-  useEffect(() => {
-    setLoader(true);
-    axios({method: 'GET',url: `https://salicapi.com/api/Meeting/GetMyBooking?Email=${roomTitle}&draw=4&order%5B0%5D%5Bdir%5D=asc&start=0&length=50`})
+  const fetchData = () => {
+    setLoading(true);
+    axios({method: 'GET',url: `https://salicapi.com/api/Meeting/GetMyBooking?Email=${roomTitle}&draw=4&order%5B0%5D%5Bdir%5D=asc&start=${tableParams.pagination.current === 1 ? '0' : (tableParams.pagination.current-1)*tableParams.pagination.pageSize}&length=50`})
     .then((res) => {
       let dataTable = [];
       const response = res?.data?.data;
@@ -40,19 +44,40 @@ function RoomsCalender() {
         dataTable.push(row);
       }
       setData(dataTable);
-      setLoader(false);
+      setLoading(false);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: res.data.recordsTotal, // 200 is mock data, you should read it from server
+          // total: data.totalCount,
+        },
+      });
     }).catch(err => {
       console.log(err);
-      setLoader(false);
+      setLoading(false);
     })
-  }, [user_data, roomTitle])
+  }
+  useEffect(() => {
+    fetchData();
+  }, [JSON.stringify(tableParams), roomTitle]);
 
+  const handleTableChange = (pagination, filters, sorter) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+  };
+
+
+  
   const columns = [
     {
       title: '#',
       dataIndex: 'Id',
       key: 'Id',
-      render: (val) => `${Number(val)+1}`
+      render: (val) => ((tableParams.pagination.current-1) * tableParams.pagination.pageSize) + Number(val) + 1
     },{
       title: 'Organizer',
       dataIndex: 'Organizer',
@@ -86,13 +111,15 @@ function RoomsCalender() {
   ];
 
 
+
+
   return (
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}>Meetings Center</a>
         <p>Rooms Calendar</p>
       </HistoryNavigation>
-      <div className='meetings-center-container'>
+      <div className='table-page-container'>
         <img src={WorldBG} className='img-bg' alt="world background" />
 
         <SimpleUserPanel
@@ -123,12 +150,15 @@ function RoomsCalender() {
           </div>
 
 
-          <div style={{padding: '25px'}}>
-            {
-              !loader
-              ? <Table columns={columns} dataSource={data} pagination={false} />
-              : <Spin indicator={<LoadingOutlined spin />} style={{width: '100%', margin: '25px auto'}} />
-            }
+          <div style={{padding: '25px', overflowX: 'auto'}}>
+            <Table
+              columns={columns}
+              rowKey={(record) => record.Id}
+              dataSource={data}
+              pagination={tableParams.pagination}
+              loading={loading}
+              onChange={handleTableChange}
+            />
           </div>
         </div>
       </div>

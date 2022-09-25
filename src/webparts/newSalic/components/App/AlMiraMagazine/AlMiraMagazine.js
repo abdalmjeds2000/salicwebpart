@@ -12,7 +12,7 @@ const AlMiraMagazine = () => {
   const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   return (
     <>
-      <img src={WorldBG} className='bg-img-world' />
+      <img src={WorldBG} className='img-bg' />
       <HistoryNavigation>
         <p>Al Mira Magazine</p>
       </HistoryNavigation>

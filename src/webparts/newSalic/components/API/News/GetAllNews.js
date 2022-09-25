@@ -6,6 +6,4 @@ const GetAllNews = () => pnp.sp.web.lists.getByTitle('News').items.select('Autho
     })
     .catch((err) => console.log(err));
 
-    
-
 export default GetAllNews

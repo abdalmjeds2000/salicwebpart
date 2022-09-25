@@ -7,7 +7,7 @@ import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
-import FormItem from 'antd/es/form/FormItem';
+import OfficeRequest from './API/OfficeRequest';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -25,24 +25,32 @@ function OfficeSupply() {
 
   async function CreateOfficeSupplyRequest(values) {
     setBtnLoader(true);
+    const formData = {
+      CreatedBy: user_data?.Data?.Mail,
+      ReferenceCode: "auto generated",
+      Files: "",
+      Id: 0,
+      ...values
+    }
     if(values) {
-      const formData = {
-        CreatedBy: user_data?.Data?.Mail,
-        ...values
+      const response = await OfficeRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        message.success("The request has been sent successfully.")
+        setBtnLoader(false);
+        console.log(formData);
+      } else {
+        message.success("Failed to send request.")
+        setBtnLoader(false);
       }
-      form.resetFields();
-      message.success("The request has been sent successfully.")
-      setBtnLoader(false);
-      console.log(formData);
+      
     } else {
       message.error("Failed to send request.")
       setBtnLoader(false);
     }
   }
   
-  const onFinishFailed = () => {
-    message.error("Please, fill out the form correctly.")
-  }
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
 
 
 
@@ -87,7 +95,7 @@ function OfficeSupply() {
             <Input placeholder='' size='large' />
           </Form.Item>
 
-          <Form.Item label="Items" colon>
+          <Form.Item label="Items" required>
             <Form.List
               name="Items"
               rules={[{
@@ -101,19 +109,17 @@ function OfficeSupply() {
                 <>
                   {fields.map((field, index) => (
                     <div key={field.key} style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px'}}>
-                      <Form.Item name={[field.name, 'type']} style={{width: '70%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
+                      <Form.Item name={[field.name, 'Key']} style={{width: '70%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
                         <Select
                           placeholder="select one value"
                           size="large"
-                          name={[field.name, 'type']}
-
                         >
                           <Option value="Laptop">Laptop</Option>
                           <Option value="Monitor">Monitor</Option>
                           <Option value="Printer">Printer</Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item name={[field.name, 'quantity']} style={{width: '30%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
+                      <Form.Item name={[field.name, 'Value']} style={{width: '30%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
                         <Input placeholder='Quantity' size='large' />
                       </Form.Item>
                       {fields.length > 1 ? (<MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />) : null}

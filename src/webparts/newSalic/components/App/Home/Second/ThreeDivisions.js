@@ -77,8 +77,11 @@ function getWindowSize() {
 }
 
 
-const ThreeDivisions = (props) => {
+
+
+const ThreeDivisions = () => {
   const { news_list, media_center, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   // Image Viewer Code
   const [currentImage, setCurrentImage] = useState(0);
@@ -102,7 +105,6 @@ const ThreeDivisions = (props) => {
     window.addEventListener('resize', handleWindowResize);
   }, []);
 
-  let navigate = useNavigate();
 
 
   return (

@@ -85,7 +85,7 @@ const services = [
   {header: 'HR Self Services', link: false, to: '/hr-self-services', icon: icons.HRSelfServices},
   {header: 'Incidents Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Risk/Center.aspx', icon: icons.IncidentsCenter},
   {header: 'Corresponding System', link: true, to: 'https://masar.salic.com',  icon: icons.CorrespondingSystem},
-  {header: 'Research Center', link: false, to: '/research-center', icon: icons.ResearchCenter},
+  {header: 'Research Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Research/Center.aspx', icon: icons.ResearchCenter},
   // {header: 'Performance Managment', link: false, to: '/performance-managment', icon: icons.Performance},
   {header: 'E Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
   {header: 'DMS', link: false, to: '/dms', icon: icons.DMS},

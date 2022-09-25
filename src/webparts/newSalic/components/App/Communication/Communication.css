@@ -1,33 +1,40 @@
 .boc-light {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 50px) !important;
   background-color: transparent !important;
 }
 .boc-edit-form-instruments {
   min-height: 0px !important;
 }
 [data-n-id] rect {
-  fill: var(--second-color);
+  fill: var(--second-color) !important;
 }
 .boc-edit-form-header {
   border-radius: 0px !important;
-  background-color: var(--second-color) !important;
+  background-color: var(--main-color) !important;
 }
 .boc-edit-form-title {
   color: #fff !important;
 }
 .boc-edit-form-avatar {
-  width: 120px;
-  height: 120px;
-  top: 55px;
+  width: 120px !important;
+  height: 120px !important;
+  top: 55px !important;
 }
 
 [data-n-id] rect {
-  fill: var(--second-color);
+  fill: var(--second-color) !important;
 }
 [data-n-id='1'] rect {
-  fill: var(--main-color);
+  fill: var(--main-color) !important;
 }
 
+
+.boc-form-field:nth-child(3), .boc-form-field:nth-child(8) {
+  display: none !important;
+}
+.boc-form-field label.hasval {
+  text-transform: capitalize !important;
+}
 /* [data-n-id='2'] rect {
   fill: var(--main-color);
 } */

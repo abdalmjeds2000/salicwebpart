@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: flex-start;
   gap: 7px;
-  padding: 0;
 }
 .number-box-container .circular-progress-bar {
   padding: 7px;
@@ -35,11 +34,6 @@
     max-width: 70px;
   }
 }
-@media screen and (max-width: 700px) {
-  .number-box-container {
-    padding: 0 10px;
-  }
-}
 @media screen and (max-width: 600px) {
   .number-box-container {
     display: flex;
@@ -47,7 +41,6 @@
     justify-content: flex-start;
     flex-direction: column;
     gap: 5px;
-    padding: 0;
   }
   .number-box-container .circular-progress-bar {
     padding: 5px;

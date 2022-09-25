@@ -11,7 +11,6 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
-import GetSiteUsers from '../API/GetSiteUsers/GetAllNews'
 
 
 interface AppContext { }
@@ -193,8 +192,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
     // Get All Images for Media Center
       GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
-    // Get Site Users
-      GetSiteUsers().then(res => console.log('GetSiteUsers: =>', res)).catch(err => console.log(err))
     // Get Oracle Reports Data
       axios({
         method: 'GET',

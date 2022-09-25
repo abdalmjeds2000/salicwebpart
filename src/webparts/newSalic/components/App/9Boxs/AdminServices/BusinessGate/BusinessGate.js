@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { Form, DatePicker } from 'antd';
+import { Form, DatePicker, message } from 'antd';
 import moment from 'moment';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import EditableTable from '../../components/EditableTable/EditableTableBusinessGate';
 import { AppCtx } from '../../../App';
+import BusinessGateRequest from './API/BusinessGateRequest';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -15,10 +16,58 @@ const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 function BusinessGate() {
   const { user_data, defualt_route } = useContext(AppCtx);
-  const [dataSource, setDataSource] = useState([]);
   let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
 
+
+  const [dataSource, setDataSource] = useState([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
+
+
+  async function CreateBusinessGateRequest(values) {
+    setBtnLoader(true);
+    let validation = true;
+    for(let key in dataSource) {
+      if(dataSource[key].Name === "") validation = false
+    }
+
+    if(validation) {
+      values.Date = new Date(values.Date).toLocaleDateString();
+      values.EndDate = new Date(values.EndDate).toLocaleDateString();
+      const guests = dataSource.map(g => {
+        delete g.key
+        return {...g}
+      })
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        ReferenceCode: "auto generated",
+        Id: 0,
+        Files: "",
+        ...values,
+        Guest: guests
+      }
+
+      const response = await BusinessGateRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        setDataSource([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
+        message.success("The request has been sent successfully.")
+        setBtnLoader(false);
+        console.log(formData);
+      } else {
+        message.error("Failed to send request.")
+        setBtnLoader(false);
+      }
+      
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
+  }
   
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
+
+
   return (
     <>
       <HistoryNavigation>
@@ -46,24 +95,26 @@ function BusinessGate() {
           colon={false}
           labelWrap 
           name="business-gate" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
           layout="horizontal"
+          form={form} 
+          onFinish={CreateBusinessGateRequest}
+          onFinishFailed={onFinishFailed}
         >
 
-          <Form.Item name="Expected Entry Date" label="Expected Entry Date" rules={[{required: true,}]}>
+          <Form.Item name="Date" label="Expected Entry Date" rules={[{required: true,}]}>
             <DatePicker
               showTime 
               format="YYYY-MM-DD HH:mm" 
-              disabledDate={current => current && current < moment().endOf('day')} 
+              disabledDate={(current) => current.isBefore(moment().subtract(1,"day"))} 
               size='large'
               /* onChange={} onOk={} */ 
             />
           </Form.Item>
-          <Form.Item name="Expected Exit Date" label="Expected Exit Date">
+          <Form.Item name="EndDate" label="Expected Exit Date" rules={[{required: true,}]}>
             <DatePicker
               showTime 
               format="YYYY-MM-DD HH:mm" 
-              disabledDate={current => current && current < moment().endOf('day')} 
+              disabledDate={(current) => current.isBefore(moment().subtract(1,"day"))} 
               size='large'
               /* onChange={} onOk={} */ 
             />
@@ -75,7 +126,7 @@ function BusinessGate() {
 
           <hr />
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>

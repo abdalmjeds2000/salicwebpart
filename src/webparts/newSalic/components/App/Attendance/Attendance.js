@@ -27,7 +27,7 @@ function Attendance() {
         <p>Attendance</p>
       </HistoryNavigation>
       <div className='attendance-page-container'>
-        <img src={WorldBG} className='bg-img-world' alt='worldIllustration' />
+        <img src={WorldBG} className='img-bg' alt='worldIllustration' />
         <SimpleUserPanel
             userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
             userName={user_data.Data?.DisplayName}

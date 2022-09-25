@@ -25,7 +25,7 @@ function CommunityNews() {
   
   return (
     <div className='community-news-page-container'>
-      <img src={WorldBG} className='bg-img-world' />
+      <img src={WorldBG} className='img-bg' />
       <HistoryNavigation>
         <p>Community News</p>
       </HistoryNavigation>

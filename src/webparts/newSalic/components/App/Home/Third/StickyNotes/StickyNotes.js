@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AppCtx } from '../../../App';
-import { message } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import AddNote from './API/AddNote';
 import UpdateNote from './API/UpdateNote';
 
@@ -63,11 +63,6 @@ const StickyNotes = () => {
     }
   }
 
-
-
-
-
-  
   const cancelEdits = () => {
     setIsActiveEditMode(false)
     if(currentNote === -1) {
@@ -77,27 +72,11 @@ const StickyNotes = () => {
 
   const onDeleteHandler = (Id) => {
     const newArray = notes.filter(r => r.Id !== Id);
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#0C508C',
-      cancelButtonColor: '#ff272b',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(Id).delete()
-        .then(() => {
-          setNotes(newArray);
-          message.success("Your Note has been deleted.")
-          .then(() => setCurrentNote(newArray[0]?.Id))
-        })
+    pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(Id).delete()
+        .then(() => setNotes(newArray))
+        .then(() => setCurrentNote(newArray[0]?.Id))
+        .then(() => message.success("Your Note has been deleted."))
         .catch((err) => console.log(err))
-        
-      }
-    })
-    
   }
 
   useEffect(() => {
@@ -124,7 +103,10 @@ const StickyNotes = () => {
               <button className='action-btn cancel-btn' onClick={cancelEdits}>Cancel</button>
             </div>
           : <div className='action-btns'>
-              <span className='action-btn' onClick={() => onDeleteHandler(currentNote)}><FontAwesomeIcon icon={faTrash} style={{cursor: 'pointer'}} /></span>
+              <Popconfirm placement="top" title="Delete?" onConfirm={() => onDeleteHandler(currentNote)} okText="Delete" cancelText="Cancel">
+                <span className='action-btn'><FontAwesomeIcon icon={faTrash} style={{cursor: 'pointer'}} /></span>
+              </Popconfirm>
+              
               <span className='action-btn' onClick={() => setCurrentNote(-1)}><FontAwesomeIcon icon={faPlus} style={{cursor: 'pointer'}} /></span>
             </div>
         }

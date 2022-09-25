@@ -2,14 +2,14 @@ import axios from "axios"
 
 export default async function ShipmentRequest(data) {
   try {
-    let ShipmentAdd = await axios(
+    let request = await axios(
       {
         method: 'POST',
         url: 'https://salicapi.com/api/Shipment/Add',
         data: data
       }
     )
-    let response = ShipmentAdd.data;
+    let response = request;
     return response
 
   } catch(err) {

@@ -42,7 +42,7 @@ const EditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      // console.log('Save failed:', errInfo);
     }
   };
   let childNode = children;
@@ -54,11 +54,11 @@ const EditableCell = ({
         rules={[
           {
             required: true,
-            message: `${title} is required.`,
+            message: ``,
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input ref={inputRef} placeholder={dataIndex} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <div
@@ -81,32 +81,32 @@ const EditableTable = (props) => {
   const [count, setCount] = useState(1);
 
   const handleDelete = (key) => {
-    const newData = props.dataSource?.filter((item) => item.key !== key);
+    const newData = props.dataSource.length === 1 ? props.dataSource : props.dataSource?.filter((item) => item.key !== key);
     props.setDataSource(newData);
   };
   const defaultColumns = [
     {
-      title: 'Passenger Name',
-      dataIndex: 'PassengerName',
+      title: () => <>Passenger Name <span style={{color: 'red'}}>*</span></>,
+      dataIndex: 'Name',
       width: '30%',
       editable: true,
     },{
-      title: 'Passenger Phone',
-      dataIndex: 'PassengerPhone',
+      title: <>Passenger Phone <span style={{color: 'red'}}>*</span></>,
+      dataIndex: 'Phone',
       width: '30%',
       editable: true,
     },{
-      title: 'Reason Of Request',
-      dataIndex: 'ReasonOfRequest',
+      title: <>Reason Of Request <span style={{color: 'red'}}>*</span></>,
+      dataIndex: 'Reason',
       width: '30%',
       editable: true,
     },{
-      title: 'operation',
+      title: <>Operation <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'operation',
       render: (_, record) =>
         props.dataSource?.length >= 1 ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <Button type='ghost'>Delete</Button>
+            <Button danger>Delete</Button>
           </Popconfirm>
         ) : null,
     },
@@ -114,13 +114,19 @@ const EditableTable = (props) => {
   const handleAdd = () => {
     const newData = {
       key: count,
-      PassengerName: `Full Name`,
-      PassengerPhone: '0092522562502652',
-      ReasonOfRequest: `Reason`,
+      Name: '',
+      Phone: '',
+      Reason: '',
     };
-    props.setDataSource([...props.dataSource, newData]);
-    setCount(count + 1);
-    
+
+    let checkBeforeAdd = true;
+    props.dataSource.map(row => {
+      if(row.Name === "" || row.Phone === "" || row.Reason === "") checkBeforeAdd = false
+    })
+    if(checkBeforeAdd) {
+      props.setDataSource([...props.dataSource, newData]);
+      setCount(count + 1);
+    }
   };
   const handleSave = (row) => {
     const newData = [...props.dataSource];
@@ -163,7 +169,10 @@ const EditableTable = (props) => {
         columns={columns}
         pagination={false}
       />
-      <Button onClick={handleAdd} type="default" style={{marginBottom: 24, marginTop: 12}}>
+      <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
+        * Click on table cell to edit value
+      </span>
+      <Button onClick={handleAdd} type="dashed" style={{marginBottom: 24}}>
         Add More
       </Button>
     </div>

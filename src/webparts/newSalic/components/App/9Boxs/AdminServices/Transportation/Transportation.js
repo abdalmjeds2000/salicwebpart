@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Form, Input, Radio, Row, DatePicker } from 'antd';
+import { Form, Input, Radio, Row, DatePicker, message } from 'antd';
 import { EnvironmentOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment';
@@ -8,22 +8,66 @@ import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import EditableTable from '../../components/EditableTable/EditableTableTransportation';
 import { AppCtx } from '../../../App';
-
+import TransportationRequest from './API/TransportationRequest';
 const { Search } = Input;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
 
 
-function TransportationRequest() {
+function Transportation() {
   const { user_data, defualt_route } = useContext(AppCtx);
-  const [serivceType, setSerivceType] = useState('');
-  const [dataSource, setDataSource] = useState([]);
   let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [serivceType, setSerivceType] = useState('OneWay');
+  
+  const [passenger, setPassenger] = useState([{ key: 0, Name: '', Phone: '', Reason: '' }]);
 
-  useEffect(() => {
-    console.log(dataSource)
-  }, [dataSource])
+
+  async function CreateBusinessGateRequest(values) {
+    setBtnLoader(true);
+    let validation = true;
+    for(let key in passenger) {
+      if(passenger[key].Name === "" || passenger[key].Phone === "" || passenger[key].Reason === "") validation = false
+    }
+
+    if(validation) {
+      values.Date = new Date(values.Date).toLocaleDateString();
+      const passengers = passenger.map(p => {
+        delete p.key
+        return {...p}
+      })
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        ReferenceCode: "auto generated",
+        Files: "",
+        Id: 0,
+        ...values,
+        Passenger: passengers
+      }
+
+      const response = await TransportationRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        setSerivceType("OneWay")
+        setPassenger([{ key: 0, Name: '', Phone: '', Reason: '' }]);
+        message.success("The request has been sent successfully.")
+        setBtnLoader(false);
+        console.log(formData);
+      } else {
+        message.error("Failed to send request.")
+        setBtnLoader(false);
+      }
+      
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
+  }
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
+
+
 
 
   return (
@@ -53,63 +97,65 @@ function TransportationRequest() {
           colon={false}
           labelWrap 
           name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
           layout="horizontal"
+          form={form} 
+          onFinish={CreateBusinessGateRequest}
+          onFinishFailed={onFinishFailed}
         >
 
           <Form.Item name="Date" label="Date" rules={[{required: true,}]}>
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" disabledDate={current => current && current < moment().endOf('day')} size='large'/* onChange={} onOk={} */ />
+            <DatePicker showTime format="YYYY-MM-DD HH:mm" disabledDate={(current) => current.isBefore(moment().subtract(1,"day"))} size='large' /* onChange={} onOk={} */ />
           </Form.Item>
-          <Form.Item name="From" label="From" rules={[{required: true}]} >
-            <Row gutter={[0, 5]}>
-              <Input placeholder='' size='large' gutter={10} />
-              <Search 
-                placeholder="google map link" 
-                allowClear 
-                enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
-              />
-            </Row>
+          <Form.Item name="From" label="From" rules={[{required: true}]} style={{marginBottom: '12px'}}>
+            <Input placeholder='' size='large' gutter={10} />
           </Form.Item>
-          <Form.Item name="To" label="To" rules={[{required: true}]} >
-            <Row gutter={[0, 5]}>
-              <Input placeholder='' size='large' gutter={10} />
-              <Search 
-                placeholder="google map link" 
-                allowClear 
-                enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
-              />
-            </Row>
+          <Form.Item name="FromLink" label="From Link" rules={[{required: true}]} >
+            <Search 
+              placeholder="google map link" 
+              allowClear 
+              enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
+            />
           </Form.Item>
-          
+          <Form.Item name="To" label="To" rules={[{required: true}]} style={{marginBottom: '12px'}}>
+            <Input placeholder='' size='large' gutter={10} />
+          </Form.Item>
+          <Form.Item name="ToLink" label="To Link" rules={[{required: true}]} >
+            <Search 
+              placeholder="google map link" 
+              allowClear 
+              enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
+            />
+          </Form.Item>
           <hr />
           
-          <Form.Item name="Serivce Type" label="Serivce Type">
+          <Form.Item name="ServiceType" label="Serivce Type" initialValue="OneWay">
             <Radio.Group
-              options={[{label: 'One Way', value: 'One Way'}, {label: 'Round Trip', value: 'Round Trip'}]}
+              options={[{label: 'One Way', value: 'OneWay'}, {label: 'Round Trip', value: 'RoundTrip'}]}
               onChange={ ({target: {value}}) => setSerivceType(value) }
               value={serivceType}
               optionType="button"
               buttonStyle="solid"
               style={{width: '100%'}}
+              size="large"
               defaultValue="One Way"
             />
           </Form.Item>
-          {serivceType === 'Round Trip' && 
-          <Form.Item name="Waiting Time" label="Waiting Time">
+          {serivceType === 'RoundTrip' && 
+          <Form.Item name="WaitingTime" label="Waiting Time">
             <Input placeholder='' size='large' />
           </Form.Item>}
           
           <hr />
 
-          <EditableTable dataSource={dataSource} setDataSource={setDataSource} />
+          <EditableTable dataSource={passenger} setDataSource={setPassenger} />
 
           <hr />
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
         </Form>
       </FormPage>
     </>
   )
 }
 
-export default TransportationRequest
+export default Transportation

@@ -21,14 +21,6 @@
   position: relative;
 }
 
-.bg-img-world {
-  width: 100%;
-  position: absolute;
-  top: 0vh;
-  right: -75vh;
-  opacity: 0.15;
-  z-index: 0;
-}
 
 @media screen and (max-width: 1500px) and (min-width: 1000px) {
   .community-news-page-container .news-boxs {

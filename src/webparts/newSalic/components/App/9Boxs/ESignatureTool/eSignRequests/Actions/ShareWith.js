@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, message, Modal, Select, Table } from 'antd';
 import { useState } from 'react';
 import { SyncOutlined, UserAddOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import DropdownSelectUser from '../../../../Global/DropdownSelectUser/DropdownSelectUser'
+import { AppCtx } from '../../../../App';
+
+function removeDuplicates(arr) {
+  return arr.filter((item,
+      index) => arr.indexOf(item) === index);
+}
 
 
 const ShareWith = (props) => {
+  const { user_data, departments_info } = useContext(AppCtx)
+
   const [openModal, setOpenModal] = useState(false)
   const [data, setData] = useState([])
-  const [siteUsers, setSiteUsers] = useState([])
   const [dataLoader, setDataLoader] = useState(true)
-
 
 
   useEffect(() =>{
@@ -27,7 +32,13 @@ const ShareWith = (props) => {
       console.log(res)
     }).catch(err => console.log(err))
   }, [])
-
+  
+  const [employees, setEmployees] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  useEffect(() => {
+    const filterEmp = removeDuplicates(departments_info?.filter(e => e.Enabled && e.DisplayName.length > 0).map(e => {return {email: e.Mail, name: e.DisplayName}}));
+    setEmployees(filterEmp)
+  }, [user_data, departments_info])
 
 
 
@@ -66,6 +77,8 @@ const ShareWith = (props) => {
       message.error('Failed to delete permission from the user.')
     })
   }
+
+
 
   const columns = [
     {
@@ -110,15 +123,17 @@ const ShareWith = (props) => {
             style={{width: '100%'}}
             placeholder="Type to add new users"
             optionFilterProp="children"
-            filterOption={(input, option) => option.children.includes(input)}
+            filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
             filterSort={(optionA, optionB) =>
               optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
             }
+            onChange={(e) => setSelectedUser(e.target.value)}
           >
-            <Select.Option value="1">Defualt User</Select.Option>
-            <Select.Option value="2">Defualt User</Select.Option>
-            <Select.Option value="3">Defualt User</Select.Option>
-            <Select.Option value="4">Defualt User</Select.Option>
+            {
+              employees.map((user, i) => {
+                return <Select.Option key={i} value={user.email}>{user.name}</Select.Option>
+              })
+            }
           </Select>
 
           {/* <DropdownSelectUser /> */}

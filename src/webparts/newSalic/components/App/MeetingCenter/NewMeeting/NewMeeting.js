@@ -84,8 +84,6 @@ const items = [
     bgColor : 'var(--second-color)',
   }
 ]
-
-
 const mockData = Array.from({
   length: 5,
 }).map((_, i) => ({
@@ -128,7 +126,6 @@ function NewMeeting() {
   // End Transfer
 
 
-  const events = [{ title: "Today", date: new Date() }];
 
   return (
     <>
@@ -136,7 +133,7 @@ function NewMeeting() {
         <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}>Meetings Center</a>
         <p>Reserve Meeting Room</p>
       </HistoryNavigation>
-      <div className='meetings-center-container'>
+      <div className='table-page-container'>
         <img src={WorldBG} className='img-bg' alt="world background" />
 
         <SimpleUserPanel

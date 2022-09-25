@@ -17,6 +17,7 @@ import ShipmentRequest from '../App/9Boxs/AdminServices/ShipmentRequest/Shipment
 import OfficeSupply from '../App/9Boxs/AdminServices/OfficeSupply/OfficeSupply';
 import Transportation from '../App/9Boxs/AdminServices/Transportation/Transportation';
 import AssignedRequests from '../App/9Boxs/AdminServices/AssignedRequests/AssignedRequests';
+import MyRequests from '../App/9Boxs/AdminServices/MyRequests/MyRequests';
 
 import Visitor from '../App/9Boxs/AdminServices/Visitor/Visitor';
 import Attendance from '../App/Attendance/Attendance';
@@ -87,7 +88,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/admin-services/transportation`} element={<Transportation />} />
         <Route path={`${defualtRoute}/admin-services/business-gate`} element={<BusinessGate />} />
         <Route path={`${defualtRoute}/admin-services/office-supply`} element={<OfficeSupply />} />
+
         <Route path={`${defualtRoute}/admin-services/assigned-requests`} element={<AssignedRequests />} />
+        <Route path={`${defualtRoute}/admin-services/my-requests`} element={<MyRequests />} />
       </Route>
       <Route path={`${defualtRoute}/it-services`}>
         <Route index element={<ITServices />} />

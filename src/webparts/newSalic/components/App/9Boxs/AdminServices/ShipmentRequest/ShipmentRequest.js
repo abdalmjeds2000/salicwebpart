@@ -6,7 +6,7 @@ import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
-
+import ShipmentRequest from './API/ShipmentRequest';
 
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -22,27 +22,33 @@ function Shipment() {
 
   async function CreateShipmentRequest(values) {
     setBtnLoader(true);
-    // const response = await AddMaintenanceRequest(values);
-    // if(response.data)
+    const formData = {
+      Email: user_data?.Data?.Mail,
+      Requester: user_data?.Data?.Mail,
+      ReferenceCode: "auto generated",
+      Files: "",
+      Id: 0,
+      ...values
+    }
     if(values) {
-      const formData = {
-        Email: user_data?.Data?.Mail,
-        Requester: user_data?.Data?.Mail,
-        ...values
+      const response = await ShipmentRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        message.success("The request has been sent successfully.")
+        setBtnLoader(false);
+        console.log(formData);
+      } else {
+        message.success("Failed to send request.")
+        setBtnLoader(false);
       }
-      console.log(formData);
-      form.resetFields();
-      message.success("The request has been sent successfully.")
-      setBtnLoader(false);
+      
     } else {
       message.error("Failed to send request.")
       setBtnLoader(false);
     }
   }
   
-  const onFinishFailed = () => {
-    message.error("Please, fill out the form correctly.")
-  }
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
 
 
   return (
@@ -82,19 +88,19 @@ function Shipment() {
           
           <hr />
 
-          <Form.Item name="SenderMobile" label="Sender Mobile" rules={[{required: true}]} >
+          <Form.Item name="Sender" label="Sender Mobile" rules={[{required: true}]} >
             <Input placeholder='sender name or mobile number' size='large' />
           </Form.Item>
-          <Form.Item name="SourceAddress" label="Source Address" rules={[{required: true}]} >
+          <Form.Item name="Source" label="Source Address" rules={[{required: true}]} >
             <Input placeholder='from location' size='large' />
           </Form.Item>
-          <Form.Item name="ReceiverMobile" label="Receiver Mobile" rules={[{required: true}]} >
+          <Form.Item name="Receiver" label="Receiver Mobile" rules={[{required: true}]} >
             <Input placeholder='Receiver name or mobile number' size='large' />
           </Form.Item>
-          <Form.Item name="DestinationAddress" label="Destination Address" rules={[{required: true}]} >
+          <Form.Item name="Destination" label="Destination Address" rules={[{required: true}]} >
             <Input placeholder='to location' size='large' />
           </Form.Item>
-          <Form.Item name="Descriptions" label="Descriptions">
+          <Form.Item name="Description" label="Descriptions">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
 

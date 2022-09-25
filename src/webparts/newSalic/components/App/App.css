@@ -105,6 +105,7 @@ img.img-bg {
   opacity: 0.15;
   z-index: 0;
   pointer-events: none;
+  animation: spin 400s linear infinite;
 }
 img.img-bg.img-bg-form {
   z-index: -1;

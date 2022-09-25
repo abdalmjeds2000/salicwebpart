@@ -6,6 +6,7 @@ import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
+import MaintenanceRequest from './API/MaintenanceRequest';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -20,13 +21,23 @@ function Maintenance() {
     setBtnLoader(true);
     const formData = {
       Email: user_data?.Data?.Mail,
+      ReferenceCode: "auto generated",
+      Files: "",
+      Id: 0,
       ...values
     }
     if(values) {
-      form.resetFields();
-      message.success("The request has been sent successfully.")
-      console.log(formData)
-      setBtnLoader(false);
+      const response = await MaintenanceRequest(formData);
+      if(response.data) {
+        form.resetFields();
+        message.success("The request has been sent successfully.")
+        console.log(formData)
+        setBtnLoader(false);
+      } else {
+        setBtnLoader(false);
+        message.success("Failed to send request.")
+      }
+      
     } else {
       message.error("Failed to send request.")
       setBtnLoader(false);
@@ -82,7 +93,7 @@ function Maintenance() {
           <Form.Item name="Location" label="Location" rules={[{required: true}]} >
             <Input placeholder='Location' size='large' />
           </Form.Item>
-          <Form.Item name="Descriptions" label="Descriptions" rules={[{required: true}]}>
+          <Form.Item name="Description" label="Descriptions" rules={[{required: true}]}>
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
 

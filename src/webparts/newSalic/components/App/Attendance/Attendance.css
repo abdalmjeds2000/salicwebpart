@@ -65,14 +65,6 @@
 
 
 
-.bg-img-world {
-  width: 200vh;
-  position: absolute;
-  top: -50vh;
-  right: -110vh;
-  opacity: 0.15;
-  /* z-index: -1; */
-}
 
 
 
@@ -86,11 +78,6 @@
 }
 
 @media screen and (max-width: 890px) {
-  .bg-img-world {
-    width: 120vh;
-    top: 0;
-    right: 0;
-  }
 
   .attendance-page-container .buttons ul {
     display: flex;

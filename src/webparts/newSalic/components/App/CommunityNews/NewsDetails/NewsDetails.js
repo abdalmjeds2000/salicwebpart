@@ -18,12 +18,15 @@ function NewsDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setNewsData(news_list.filter(n => id == n.Id))
+    setNewsData(news_list.filter(n => id == n.Id));
+    document.title = news_list.filter(n => id == n.Id)[0]?.Subject;
   }, [id, news_list])
+
+
   
   return (
     <>
-      <img src={WorldBG} className='bg-img-world' />
+      <img src={WorldBG} className='img-bg' />
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/community-news`)}>Community News</a>
         <p>News Details</p>
@@ -37,9 +40,9 @@ function NewsDetails() {
       {
         news_list.length > 0
         ? <div className='news-details-page-container'>
-            <div className='news-header'>
+            {/* <div className='news-header'>
               <h1>SALIC Community News</h1>
-            </div>
+            </div> */}
 
             <div className='news-details'>
               <div className='image'>

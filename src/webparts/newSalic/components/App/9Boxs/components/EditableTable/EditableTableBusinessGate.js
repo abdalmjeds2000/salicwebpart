@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Checkbox, Form, Input, Popconfirm, Table } from 'antd';
+import { Button, Checkbox, Form, Input, message, Popconfirm, Table } from 'antd';
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -43,7 +43,7 @@ const EditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      // console.log('Save failed:', errInfo);
     }
   };
 
@@ -57,12 +57,11 @@ const EditableCell = ({
         name={dataIndex}
         rules={[
           {
-            required: true,
-            message: `${title} is required.`,
+            required: dataIndex === 'Name' ? true : false,
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input ref={inputRef} placeholder={dataIndex} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <div
@@ -82,26 +81,25 @@ const EditableCell = ({
 
 
 
-
 const EditableTable = (props) => {
 
   const [count, setCount] = useState(1);
   const handleDelete = (key) => {
-    const newData = props.dataSource?.filter((item) => item.key !== key);
+    const newData = props.dataSource.length === 1 ? props.dataSource : props.dataSource?.filter((item) => item.key !== key);
     props.setDataSource(newData);
   };
   const defaultColumns = [
     {
-      title: 'Guest Name',
-      dataIndex: 'GuestName',
+      title: () => <>Guest Name <span style={{color: 'red'}}>*</span></>,
+      dataIndex: 'Name',
       editable: true,
     },{
       title: 'Guest Email',
-      dataIndex: 'GuestEmail',
+      dataIndex: 'Email',
       editable: true,
     },{
       title: 'Mobile Number',
-      dataIndex: 'MobileNumber',
+      dataIndex: 'Mobile',
       editable: true,
     },{
       title: 'Company',
@@ -109,14 +107,23 @@ const EditableTable = (props) => {
       editable: true,
     },{
       title: 'With Car',
-      dataIndex: 'WithCar',
+      dataIndex: 'Car',
+      render: (val, record) => {
+        return <Checkbox 
+          checked={val}
+          onChange={e => {
+            record.Car = e.target.checked
+            props.setDataSource([...props.dataSource])
+          }}
+        ></Checkbox>
+      }
     },{
       title: 'operation',
       dataIndex: 'operation',
       render: (_, record) =>
         props.dataSource?.length >= 1 ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <Button type='ghost'>Delete</Button>
+            <Button danger>Delete</Button>
           </Popconfirm>
         ) : null,
     },
@@ -124,15 +131,20 @@ const EditableTable = (props) => {
   const handleAdd = () => {
     const newData = {
       key: count,
-      GuestName: `Full Name`,
-      GuestEmail: "SALIC.mail.com",
-      MobileNumber: "0095512615315615",
-      Company: "SALIC",
-      WithCar: <Checkbox onChange={ v => v.target.value } value={true}></Checkbox>,
+      Name: "",
+      Email: "",
+      Mobile: "",
+      Company: "",
+      Car: false,
     };
-    props.setDataSource([...props.dataSource, newData]);
-    setCount(count + 1);
-    
+    let checkBeforeAdd = true;
+    props.dataSource.map(row => {
+      if(row.Name === "") checkBeforeAdd = false
+    })
+    if(checkBeforeAdd) {
+      props.setDataSource([...props.dataSource, newData]);
+      setCount(count + 1);
+    }
   };
   const handleSave = (row) => {
     const newData = [...props.dataSource];
@@ -175,10 +187,14 @@ const EditableTable = (props) => {
         rowClassName={() => 'editable-row'}
         bordered
         dataSource={props.dataSource}
+        setDataSource={props.setDataSource}
         columns={columns}
         pagination={false}
       />
-      <Button onClick={handleAdd} type="default" style={{ marginBottom: 24, marginTop: 12, }}>
+      <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
+        * Click on table cell to edit value
+      </span>
+      <Button onClick={handleAdd} type="dashed" style={{ marginBottom: 24}}>
         Add More
       </Button>
     </div>

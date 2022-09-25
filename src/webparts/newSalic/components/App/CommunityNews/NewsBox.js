@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../App';
 import './NewsBox.css';
@@ -7,6 +7,9 @@ import './NewsBox.css';
 function NewsBox(props) {
   const { defualt_route }  = useContext(AppCtx);
   const navigate = useNavigate();
+
+  
+  
 
   return (
     <div className='news-box'>

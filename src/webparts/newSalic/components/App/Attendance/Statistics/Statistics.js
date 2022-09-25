@@ -188,8 +188,8 @@ function Statistics() {
     // update users options
   const [employees, setEmployees] = useState([]);
   useEffect(() => {
-    const filterEmp = removeDuplicates(departments_info?.map(e => {return {value: e.PIN, name: e.DisplayName}}).filter(e => e.name.length > 0 && e.value !== '000000000'));
-    const empInDep = removeDuplicates(departments_info?.filter(u => u.Department === selectedDepartments).map(e => {return {value: e.PIN, name: e.DisplayName}}).filter(e => e.name.length > 0 && e.value !== '000000000'));
+    const filterEmp = removeDuplicates(departments_info?.filter(e => e.Enabled && e.DisplayName.length > 0 && e.PIN !== '000000000').map(e => {return {value: e.PIN, name: e.DisplayName}}));
+    const empInDep = removeDuplicates(departments_info?.filter(e => e.Enabled && e.DisplayName.length > 0 && e.PIN !== '000000000' && e.Department === selectedDepartments).map(e => {return {value: e.PIN, name: e.DisplayName}}));
     if(selectedDepartments === '-1') {
       setEmployees(filterEmp)
     } else {

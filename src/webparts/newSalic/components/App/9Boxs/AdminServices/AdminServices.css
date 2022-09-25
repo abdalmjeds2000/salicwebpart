@@ -56,6 +56,7 @@
   align-items: center;
   gap: 10px;
   box-shadow: 0 7px 14px #0C508C15;
+  transition: 0.3s;
 }
 .services-body-container .services-boxs-container .box:hover {
   background-color: var(--third-color);
@@ -119,4 +120,15 @@
     grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
     gap: 20px;
   }
+}
+
+
+
+
+.content-services-request div.form .ant-table-cell {
+  text-align: center !important;
+}
+.content-services-request div.form .editable-cell-value-wrap {
+  width: 100% !important;
+  min-height: 25px !important;
 }

@@ -9,7 +9,7 @@ export default async function VisitorRequest(data) {
         data: data
       }
     )
-    let response = request.data;
+    let response = request;
     return response
 
   } catch(err) {

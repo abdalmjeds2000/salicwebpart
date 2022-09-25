@@ -78,7 +78,7 @@ function OracleReports() {
 
 
         <div className='departments-content'>
-          <h1>Reports</h1>
+        <h1>{activeLink || 'Reports'}</h1>
 
           <br /><hr /><br />
 
@@ -102,7 +102,7 @@ function OracleReports() {
             }
             {
               currentLinks.length === 0 
-              ? <span style={{width: '100%', textAlign: 'center', color: '#aaa', fontStyle: 'italic'}}>
+              ? <span style={{color: '#aaa', fontStyle: 'italic'}}>
                   Please, Select Department.
                 </span> 
               : ''

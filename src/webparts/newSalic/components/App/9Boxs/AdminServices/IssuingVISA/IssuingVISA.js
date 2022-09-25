@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { Form, Input, Upload, Radio, Select, DatePicker, Modal } from 'antd';
+import { Form, Input, Upload, Radio, Select, DatePicker, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation'
 import FormPage from '../../components/FormPageTemplate/FormPage'
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
+import moment from 'moment';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -21,9 +22,14 @@ const getBase64 = (file) =>
 
 function IssuingVISA() {
   const { user_data, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [btnLoader, setBtnLoader] = useState(false)
 
-  const [serivceType, setSerivceType] = useState('');
 
+  const [withFamily, setWithFamily] = useState(1);
+  const [visaType, setVisaType] = useState(1);
+  
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -39,16 +45,38 @@ function IssuingVISA() {
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
-  
-  let navigate = useNavigate();
 
 
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+
+  async function CreateBusinessGateRequest(values) {
+    setBtnLoader(true);
+    let isFilesFinishUpload = true;
+    const files = fileList.map(file => {
+      if(file.status === "uploading") isFilesFinishUpload = false
+      return file.response?.uploadedFiles[0]?.Name
+    }).join();
+
+    values.IqamaExpireDate = new Date(values.IqamaExpireDate).toLocaleDateString();
+    if(values && isFilesFinishUpload) {
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        ReferenceCode: "auto generated",
+        Id: 0,
+        Files: files,
+        ...values,
+      }
+      message.success("The request has been sent successfully.")
+      setFileList([]);
+      form.resetFields();
+      setBtnLoader(false);
+      console.log(formData);
+    } else {
+      message.error("Failed to send request.")
+      setBtnLoader(false);
+    }
   }
+  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
+
 
 
   return (
@@ -79,12 +107,14 @@ function IssuingVISA() {
           colon={false}
           labelWrap 
           name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
           layout="horizontal"
+          form={form} 
+          onFinish={CreateBusinessGateRequest}
+          onFinishFailed={onFinishFailed}
         >
           
 
-          <Form.Item name="On Behalf Of" label="On Behalf Of">
+          <Form.Item name="OnBehalfOf" label="On Behalf Of">
             <Select
               showSearch
               placeholder="the user name"
@@ -98,70 +128,72 @@ function IssuingVISA() {
               <Option value="Attendance">Attendance</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="VISA Reason" label="VISA Reason">
-            <Select
-              placeholder="select one value"
-              // onChange={value => console.log(value)}
-              size="large"
-              defaultValue="Annual Leave"
-            >
-              <Option value="Annual Leave">Annual Leave</Option>
-              <Option value="Business Trip">Business Trip</Option>
-              <Option value="Training">Training</Option>
+          <Form.Item name="Reason" label="VISA Reason" initialValue="Annual Leave">
+            <Select placeholder="select one value" size="large" defaultValue="Annual Leave">
+              <Option value="1">Annual Leave</Option>
+              <Option value="2">Business Trip</Option>
+              <Option value="3">Training</Option>
             </Select>
           </Form.Item>
           
           <hr />
           
-          <Form.Item name="Date" label="Date" rules={[{required: true}]} initialValue={getDateAndTime()} >
+          <Form.Item name="ReceivedDate" label="Date" rules={[{required: true}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
 
           <hr />
 
-          <Form.Item name="With Family" label="With Family">
+          <Form.Item name="WithFamily" label="With Family" initialValue="Yes">
             <Radio.Group
-              options={[{label: 'Yes', value: 'Yes'}, {label: 'No', value: 'No'}]}
-              onChange={ ({target: {value}}) => setSerivceType(value) }
-              value={serivceType}
+              options={[{label: 'Yes', value: 1}, {label: 'No', value: 2}]}
+              onChange={ ({target: {value}}) => setWithFamily(value) }
+              value={withFamily}
               optionType="button"
               buttonStyle="outline"
               style={{width: '100%'}}
-              defaultValue="Yes"
+              defaultValue={1}
             />
           </Form.Item>
-          <Form.Item name="VISA Type" label="VISA Type">
+          <Form.Item name="VISAType" label="VISA Type" initialValue="Single">
             <Radio.Group
-              options={[{label: 'Single', value: 'Single'}, {label: 'Multiple', value: 'Multiple'}]}
-              onChange={ ({target: {value}}) => setSerivceType(value) }
-              value={serivceType}
+              options={[{label: 'Single', value: 1}, {label: 'Multiple', value: 2}]}
+              onChange={ ({target: {value}}) => setVisaType(value) }
+              value={visaType}
               optionType="button"
               buttonStyle="outline"
               style={{width: '100%'}}
-              defaultValue="Single"
+              defaultValue={1}
             />
           </Form.Item>
-          <Form.Item name="VISA Duration" label="VISA Duration">
-            <Select
-              placeholder="select one value"
-              // onChange={value => console.log(value)}
-              size="large"
-            >
-              <Option value="One Month">One Month</Option>
-              <Option value="Two Months">Two Months</Option>
-              <Option value="Three Months">Three Months</Option>
+          <Form.Item name="Duration" label="VISA Duration">
+            <Select placeholder="select one value" size="large">
+              <Option value="1">One Month</Option>
+              <Option value="2">Two Months</Option>
+              <Option value="3">Three Months</Option>
+              <Option value="4">Four Months</Option>
+              <Option value="5">Five Months</Option>
+              <Option value="6">Six Months</Option>
+              <Option value="12">One Year</Option>
+              <Option value="24">Two Years</Option>
+              <Option value="36">Three Years</Option>
+              <Option value="48">Four Years</Option>
+              <Option value="60">Five Years</Option>
             </Select>
+          </Form.Item>
+          <Form.Item name="DestinationCountry" label="Destination Country">
+            <Input placeholder='i.e. USA, UK, ...' size='large' />
           </Form.Item>
 
           <hr />
 
-          <Form.Item name="ID Expire Date" label="ID Expire Date">
+          <Form.Item name="IqamaExpireDate" label="ID Expire Date">
             <DatePicker placeholder='mm/dd/yyyy' format='MM/DD/YYYY' size='large' />
           </Form.Item>
-          <Form.Item name="Descriptions" label="Descriptions">
+          <Form.Item name="Description" label="Descriptions">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
-          <Form.Item name="Verification Documents" label="Verification Documents">
+          <Form.Item label="Verification Documents">
             <Upload
               action="https://salicapi.com/api/uploader/up"
               listType="picture-card"
@@ -176,7 +208,8 @@ function IssuingVISA() {
             </Modal>
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} />
+
         </Form>
       </FormPage>
     </>

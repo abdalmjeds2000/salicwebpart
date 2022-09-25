@@ -1,4 +1,4 @@
-.meetings-center-container {
+.table-page-container {
   padding: 25px;
   background-color: var(--third-color);
   min-height: calc(100vh - 85px);
@@ -7,27 +7,27 @@
   margin-bottom: 85px;
 }
 
-.meetings-center-container .content {
+.table-page-container .content {
   background-color: #fff;
   border-radius: 15px;
   position: relative;
 }
-.meetings-center-container .content .header {
-  padding: 15px;
+.table-page-container .content .header {
+  padding: 15px 20px;
   background-color: var(--main-color);
   border-radius: 15px 15px 0 0;
   display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.meetings-center-container .content .header h1 {
-  font-size: 1.5rem;
+.table-page-container .content .header h1 {
+  font-size: 1.3rem;
   color: #fff !important;
 }
 
 
 
-.meetings-center-container .content .form {
+.table-page-container .content .form {
   border: 1px solid var(--third-color);
   border-top: none;
   padding: 25px 10px;
@@ -37,26 +37,26 @@
 
 
 @media screen and (min-width: 800px) and (max-width: 1200px) {
-  .meetings-center-container {
+  .table-page-container {
     padding: 15px;
     margin-bottom: 85px;
   }
-  .meetings-center-container .content .header {
-    padding: 10px;
+  .table-page-container .content .header {
+    padding: 10px 15px;
     border-radius: 10px 10px 0 0;
   }
-  .meetings-center-container .content .header h1 {
-    font-size: 1.2rem;
+  .table-page-container .content .header h1 {
+    font-size: 1rem;
   }
 }
 
 
 @media screen and (min-width: 0px) and (max-width: 799px) {
-  .meetings-center-container {
+  .table-page-container {
     padding: 10px;
   }
-  .meetings-center-container .content .header {
-    padding: 7px;
+  .table-page-container .content .header {
+    padding: 10px 15px;
     border-radius: 10px 10px 0 0;
   }
 }
@@ -118,4 +118,15 @@
 .rct-item {
   background: var(--second-color) !important;
   border-color: var(--main-color) !important;
+}
+
+
+
+
+/* antd transfer component */
+.ant-transfer {
+  justify-content: space-between !important;
+}
+.ant-transfer-list {
+  width: 50% !important;
 }
