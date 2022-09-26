@@ -1,13 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './NumbersAttendance.css';
 import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
-
+import GetPerformance from './API/GetPerformance'
 
 function NumbersAttendance() {
-  const { latest_attendance } = useContext(AppCtx);
+  const { latest_attendance, user_data } = useContext(AppCtx);
 
+  const [performance, setPerformance] = useState({});
+
+  async function fetchData() {
+    const response = await GetPerformance(user_data.Data?.PIN);
+    
+      console.log(response)
+    
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
   return (
     <div className="numbers-attendance-container">
       <div className="div1">

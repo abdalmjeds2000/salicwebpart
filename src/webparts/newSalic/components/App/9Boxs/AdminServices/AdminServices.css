@@ -2,8 +2,6 @@
   width: 100%;
   padding: 25px 25px;
   min-height: calc(100vh - 85px);
-  background: #e0e9ff;
-  background: linear-gradient(0deg,#e0e9ff,#fff);
   position: relative;
   top: 85px;
   margin-bottom: 85px;

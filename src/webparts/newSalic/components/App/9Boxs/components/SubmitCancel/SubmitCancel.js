@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Col, Row } from 'antd'
 import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../../../App';
 
 function SubmitCancel(props) {
   const navigate = useNavigate();
-
+  const { defualt_route } = useContext(AppCtx);
   return (
     <Row gutter={10} justify="center">
       <Col>
@@ -13,7 +14,7 @@ function SubmitCancel(props) {
         </Button>
       </Col>
       <Col>
-        <Button type="ghost" onClick={() => navigate( props.isUpdate ? -2 : -1)}>
+        <Button type="ghost" onClick={() => navigate(`${defualt_route}/admin-services`)}>
           Cancel
         </Button>
       </Col>

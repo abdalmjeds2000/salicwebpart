@@ -48,6 +48,8 @@ html {
   position: relative;
   width: 100%;
   overflow: hidden;
+  background: #e0e9ff;
+  background: linear-gradient(0deg,#e0e9ff,#fff);
 }
 .container {
   margin-left: auto;
@@ -100,16 +102,14 @@ html {
 img.img-bg {
   width: 150vh;
   position: absolute;
-  top: 0vh;
+  top: 85px;
   right: -50vh;
   opacity: 0.15;
   z-index: 0;
   pointer-events: none;
   animation: spin 400s linear infinite;
 }
-img.img-bg.img-bg-form {
-  z-index: -1;
-}
+
 
 
 

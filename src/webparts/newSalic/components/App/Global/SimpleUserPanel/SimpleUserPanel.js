@@ -4,20 +4,20 @@ import './SimpleUserPanel.css';
 import UserSettingsPanel from '../UserSettingsPanel/UserSettingsPanel';
 import { AppCtx } from '../../App';
 
-function SimpleUserPanel(props) {
+function SimpleUserPanel() {
   const [showUserDetails, setShowUserDetails] = useState(false);
-  const { defualt_route } = useContext(AppCtx);
+  const { defualt_route, user_data, notifications_count, mail_count } = useContext(AppCtx);
   const navigate = useNavigate();
 
   return (
     <>
       <div className='simple-user-panel'>
         <img 
-          src={props.userImage} 
-          alt="" 
+          src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data?.Data?.Mail}`} 
+          alt=""
           onClick={() => setShowUserDetails(!showUserDetails)} 
         />
-        <p>{props.userName}</p>
+        <p>{user_data?.Data?.DisplayName}</p>
         <div className='icons'>
           <a onClick={() => navigate(`${defualt_route}/notification-center`)}>
             <svg id="Iconly_Light_Notification" data-name="Iconly/Light/Notification" xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23">
@@ -27,9 +27,9 @@ function SimpleUserPanel(props) {
               </g>
             </svg>
             {
-              props.notificationsCount > 0 && 
+              notifications_count > 0 && 
               <span className="badge notifi-count">
-                {props.notificationsCount > 9 ? '9+' : props.notificationsCount}
+                {notifications_count > 9 ? '9+' : notifications_count}
               </span>}
           </a>
           <a href="https://outlook.office.com/owa/" target="blank">
@@ -40,9 +40,9 @@ function SimpleUserPanel(props) {
               </g>
             </svg>
             {
-              props.mailCount > 0 && 
+              mail_count > 0 && 
               <span className="badge mail-count">
-                {props.mailCount > 9 ? '9+' : props.mailCount}
+                {mail_count > 9 ? '9+' : mail_count}
               </span>
             }
           </a>
@@ -50,8 +50,8 @@ function SimpleUserPanel(props) {
         {
           showUserDetails
           ? <UserSettingsPanel
-              userName={props.userName}
-              userImage={props.userImage}
+              userName={user_data?.Data?.DisplayName}
+              userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data?.Data?.Mail}`}
               onClickClose={() => setShowUserDetails(!showUserDetails)}
             />
           : null

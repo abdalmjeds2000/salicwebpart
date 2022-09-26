@@ -28,7 +28,7 @@ function Home() {
   useEffect(() => {
     window.scrollTo({top: 0, left: 0});
     function handleScrollY() {setScrollSize(getScrollY())}
-    window.addEventListener('scroll', handleScrollY);
+    window.addEventListener('scroll', handleScrollY);    
   }, []);
 
   // useEffect(() => {

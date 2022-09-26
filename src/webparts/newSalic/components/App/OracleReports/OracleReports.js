@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
-import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel'
 import './OracleReports.css'
 import { AppCtx } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,7 +7,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { message } from 'antd'
 
 function OracleReports() {
-  const { user_data, notifications_count, mail_count, oracle_reports } = useContext(AppCtx);
+  const { oracle_reports } = useContext(AppCtx);
   const [showHR, setShowHR] = useState(false)
   const [currentLinks, setCurrentLinks] = useState([])
   const [activeLink, setActiveLink] = useState('')
@@ -19,12 +18,7 @@ function OracleReports() {
       <HistoryNavigation>
         <p>Oracle Reports</p>
       </HistoryNavigation>
-      <SimpleUserPanel 
-        userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-        userName={user_data.Data?.DisplayName}
-        notificationsCount={notifications_count}
-        mailCount={mail_count}
-      />
+      
       <div className='oracle-reports-container'>
         <div className='departments-container'>
           <ul className='departments'>

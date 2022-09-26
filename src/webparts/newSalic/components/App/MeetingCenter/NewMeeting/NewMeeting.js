@@ -1,14 +1,12 @@
 import React, { useContext, useState } from 'react'
 import './NewMeeting.css'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
-import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel'
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
-import WorldBG from '../../../../assets/images/world.svg';
 import { AppCtx } from '../../App';
 import { Form, Input, DatePicker, Transfer, Select, Slider, Row, Col, Button } from 'antd';
 
@@ -105,7 +103,7 @@ function NewMeeting() {
   const navigate = useNavigate();
 
   // Start Transfer
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { defualt_route } = useContext(AppCtx);
   const [targetKeys, setTargetKeys] = useState(initialTargetKeys);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const onChange = (nextTargetKeys, direction, moveKeys) => {
@@ -134,14 +132,6 @@ function NewMeeting() {
         <p>Reserve Meeting Room</p>
       </HistoryNavigation>
       <div className='table-page-container'>
-        <img src={WorldBG} className='img-bg' alt="world background" />
-
-        <SimpleUserPanel
-          userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-          userName={user_data.Data?.DisplayName}
-          notificationsCount={notifications_count}
-          mailCount={mail_count}
-        />
 
         <div className='content'>
           <div className="header">

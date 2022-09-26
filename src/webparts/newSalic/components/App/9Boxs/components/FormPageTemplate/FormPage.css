@@ -4,8 +4,6 @@
   top: 85px;
   padding: 25px;
   margin-bottom: 85px;
-  background-color: var(--third-color);
-  z-index: 0;
 }
 .content-services-request .header {
   background-color: var(--main-color);
@@ -152,7 +150,7 @@
   text-align: center !important;
 }
 .ant-form-item-required, .ant-form-item-no-colon {
-  font-size: 1.1rem;
+  font-size: 1rem !important;
 }
 /* .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
   z-index: 0 !important;

@@ -3,8 +3,6 @@ import './NewsDetails.css';
 import { AppCtx } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
-import SimpleUserPanel from '../../Global/SimpleUserPanel/SimpleUserPanel';
-import WorldBG from '../../../../assets/images/world.svg';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +11,7 @@ import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 
 function NewsDetails() {
   let { id } = useParams();
-  const { news_list, user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
+  const { news_list, defualt_route } = useContext(AppCtx);
   const [newsData, setNewsData] = useState([]);
   const navigate = useNavigate();
 
@@ -26,17 +24,11 @@ function NewsDetails() {
   
   return (
     <>
-      <img src={WorldBG} className='img-bg' />
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/community-news`)}>Community News</a>
         <p>News Details</p>
       </HistoryNavigation>
-      <SimpleUserPanel
-        userImage={`https://salic.shareposint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-        userName={user_data.Data?.DisplayName}
-        notificationsCount={notifications_count}
-        mailCount={mail_count}
-      />
+
       {
         news_list.length > 0
         ? <div className='news-details-page-container'>

@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './CommunityNews.css';
 import NewsBox from './NewsBox';
-import WorldBG from '../../../assets/images/world.svg';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
-import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 import { Pagination } from 'antd';
 
 
@@ -16,7 +14,7 @@ const getDataByPageNo = (list, pno) => {
   else if(list.length >= 99 && pno === 5) return list.slice(80, 100)
 }
 function CommunityNews() {
-  const { news_list, user_data, notifications_count, mail_count } = useContext(AppCtx);
+  const { news_list } = useContext(AppCtx);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNewslist, setFilteredNewslist] = useState(getDataByPageNo(news_list, currentPage));
   useEffect(() => {
@@ -25,16 +23,10 @@ function CommunityNews() {
   
   return (
     <div className='community-news-page-container'>
-      <img src={WorldBG} className='img-bg' />
       <HistoryNavigation>
         <p>Community News</p>
       </HistoryNavigation>
-      <SimpleUserPanel
-        userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-        userName={user_data.Data?.DisplayName}
-        notificationsCount={notifications_count}
-        mailCount={mail_count}
-      />
+
       <h1>Community News</h1>
       <div className='news-boxs'>
         {filteredNewslist?.map((box, i) => {

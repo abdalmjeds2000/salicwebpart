@@ -1,15 +1,13 @@
 import React, { useContext, useState } from 'react'
 import './Attendance.css';
-import WorldBG from '../../../assets/images/world.svg';
 import Statistics from './Statistics/Statistics'
 import DailyAttendance from './DailyAttendance/DailyAttendance'
-import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App'
 
 
 function Attendance() {
-  const { user_data, notifications_count, mail_count, departments_info } = useContext(AppCtx);
+  const { departments_info } = useContext(AppCtx);
 
   const subMenuItems = [
     { id: 1, text: "Statistics" },
@@ -27,14 +25,7 @@ function Attendance() {
         <p>Attendance</p>
       </HistoryNavigation>
       <div className='attendance-page-container'>
-        <img src={WorldBG} className='img-bg' alt='worldIllustration' />
-        <SimpleUserPanel
-            userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-            userName={user_data.Data?.DisplayName}
-            notificationsCount={notifications_count}
-            mailCount={mail_count}
-          />
-        
+
         <div className="header">
           <div className="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="35" viewBox="0 0 52.789 52.789">

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { AppProps } from './AppProps';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import SidebarNav from './SidebarNav/SidebarNav';
 import AppRoutes from '../Routers/AppRoutes';
 import Header from '../App/Header/Header'
@@ -11,16 +11,12 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
+import SimpleUserPanel from './Global/SimpleUserPanel/SimpleUserPanel';
 
 
 interface AppContext { }
 export const AppCtx = createContext<AppContext | null>(null);
 
-
-// axios.interceptors.request.use((req) => {
-//   console.log('req', req)
-//   return req
-// })
 axios.interceptors.response.use(undefined, function (error) {
   if (error.response.status == 401) {
     window.location.href = "https://login.microsoftonline.com/bea1b417-4237-40b8-b020-57fce9abdb43/oauth2/authorize?client%5Fid=00000003%2D0000%2D0ff1%2Dce00%2D000000000000&response%5Fmode=form%5Fpost&protectedtoken=true&response%5Ftype=code%20id%5Ftoken&resource=00000003%2D0000%2D0ff1%2Dce00%2D000000000000&scope=openid&nonce=6BD443FD3A8DDFC1738926C0D21F4EB11FFDEA1A6718E580%2DB2662F4DC94D606EAAB74E51C261868A3F44BDCD6D2089E5C223B21A97EEFE73&redirect%5Furi=https%3A%2F%2Fsalic%2Esharepoint%2Ecom%2F%5Fforms%2Fdefault%2Easpx&state=ND1UcnVlJjg9MA&claims=%7B%22id%5Ftoken%22%3A%7B%22xms%5Fcc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D&wsucxt=1&cobrandid=11bd8083%2D87e0%2D41b5%2Dbb78%2D0bc43c8a8e8a&client%2Drequest%2Did=c8b362a0%2D301e%2D5000%2D31f4%2Dbb228b002ce0&sso_reload=true";
@@ -46,7 +42,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
   const [maintenanceData, setMaintenanceData] = React.useState([]);
 
-
+  // Requests
   React.useEffect(() => {
     // Get Current Login User
     pnp.sp.web.currentUser.get()
@@ -65,7 +61,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             console.log(response.data)
             return response
           })
-
           // Get Latest Attendance
           .then((response) => {
             axios({
@@ -204,7 +199,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .catch(err => console.log(err))
   }, [])
 
-
+  // Context Provider
   const AppContextProviderSample: AppContext = {
     user_data: userData,
     notifications_count: notificationsCount,
@@ -230,19 +225,30 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setMaintenanceData
   };
 
+  // Hide SimpleUserPanel in Home
+  const [activeRoute, setActiveRoute] = React.useState(window.location.pathname);
+  React.useEffect(() => {
+    setActiveRoute(window.location.pathname)
+    console.log(window.location.pathname)
+  }, [window.location.pathname])
+
   return (
     <AppCtx.Provider value={AppContextProviderSample}>
       {
         !isLoading
           ? <Router>
-            <div className="app-container">
-              <SidebarNav />
-              <div className="content-container">
-                <Header />
-                <AppRoutes {...props} />
+              <div className="app-container">
+                <SidebarNav />
+                <div className="content-container">
+                  {activeRoute !== '/sites/dev/SitePages/Demo.aspx/home' && <SimpleUserPanel />}
+                  {/* <SimpleUserPanel /> */}
+
+                  <img src={require('../../assets/images/world.svg')} className='img-bg' />
+                  <Header />
+                  <AppRoutes {...props} />
+                </div>
               </div>
-            </div>
-          </Router>
+            </Router>
           : <div className="loader" style={{ minHeight: '100vh' }}>
             <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
             <div></div>

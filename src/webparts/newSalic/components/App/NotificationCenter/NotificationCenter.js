@@ -3,7 +3,6 @@ import './NotificationCenter.css'
 import { Button, Checkbox, Input, Space, Table } from 'antd'
 import { DownOutlined, SearchOutlined } from '@ant-design/icons'
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
-import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel'
 import Highlighter from 'react-highlight-words';
 import { AppCtx } from '../App'
 import axios from 'axios'
@@ -17,7 +16,7 @@ function getWindowSize() {
 
 
 function NotificationCenter() {
-  const { user_data, notifications_count, mail_count, notification_center_data, setNotificationCenterData } = useContext(AppCtx);
+  const { user_data, notification_center_data, setNotificationCenterData } = useContext(AppCtx);
   const [allData, setAllData] = useState(notification_center_data)
   const [filteredData, setFilteredData] = useState([])
   const [selectedType, setSelectedType] = useState(['Oracle', 'eSign', 'SharedServices', 'CS']);
@@ -228,12 +227,7 @@ function NotificationCenter() {
       <HistoryNavigation>
         <p>Notification Center</p>
       </HistoryNavigation>
-      <SimpleUserPanel 
-        userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-        userName={user_data.Data?.DisplayName}
-        notificationsCount={notifications_count}
-        mailCount={mail_count}
-      />
+      
       <div className='notification-center-container'>
         
         <div className='notification-center_content'>

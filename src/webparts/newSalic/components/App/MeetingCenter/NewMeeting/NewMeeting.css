@@ -1,6 +1,5 @@
 .table-page-container {
   padding: 25px;
-  background-color: var(--third-color);
   min-height: calc(100vh - 85px);
   position: relative;
   top: 85px;
@@ -13,7 +12,7 @@
   position: relative;
 }
 .table-page-container .content .header {
-  padding: 15px 20px;
+  padding: 15px 25px;
   background-color: var(--main-color);
   border-radius: 15px 15px 0 0;
   display: flex;
@@ -21,8 +20,9 @@
     justify-content: space-between;
 }
 .table-page-container .content .header h1 {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: #fff !important;
+  font-weight: 400;
 }
 
 
@@ -39,14 +39,13 @@
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .table-page-container {
     padding: 15px;
-    margin-bottom: 85px;
   }
   .table-page-container .content .header {
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-radius: 10px 10px 0 0;
   }
   .table-page-container .content .header h1 {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -56,7 +55,7 @@
     padding: 10px;
   }
   .table-page-container .content .header {
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-radius: 10px 10px 0 0;
   }
 }

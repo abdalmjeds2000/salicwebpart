@@ -1,15 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import './ESignatureTool.css';
 import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
-import { AppCtx } from '../../App'
-import WorldBG from '../../../../assets/images/world.svg';
-import SimpleUserPanel from "../../Global/SimpleUserPanel/SimpleUserPanel";
 import ESignRequests from './eSignRequests/ESignRequests';
 import YouSignedIt from './YouSignedIt/YouSignedIt';
 
 
 function ESignatureTool() {
-  const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
   const [activeId, setActiveId] = useState(1);
   const subMenuItems = [
     { id: 1, text: "eSign Requests" },
@@ -22,15 +18,6 @@ function ESignatureTool() {
         <p>eSign</p>
       </HistoryNavigation>
       <div className='eSign-page-container'>
-        <img src={WorldBG} className='img-bg' alt="world background" />
-        <SimpleUserPanel
-          userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-          userName={user_data.Data?.DisplayName}
-          notificationsCount={notifications_count}
-          mailCount={mail_count}
-        />
-
-
         <div className="header">
           <div className="icon">
             <svg id="Iconly_Light_Edit" data-name="Iconly/Light/Edit" xmlns="http://www.w3.org/2000/svg" width="22.603" height="22.364" viewBox="0 0 22.603 22.364">
