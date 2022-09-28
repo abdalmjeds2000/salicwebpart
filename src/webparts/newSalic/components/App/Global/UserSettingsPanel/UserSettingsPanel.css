@@ -1,14 +1,14 @@
 .user-setting-panel {
-  min-height: 100vh;
-  width: calc(100vw - 60px);
+  min-height: calc(100vh - 85px);
+  width: calc(100vw - 50px);
   position: absolute;
-  right: 0px;
+  right: 0;
   top: 85px;
   display: flex;
   align-items: flex-start;
   justify-content: end;
-  background: rgb(224,233,255);
-  background: linear-gradient(270deg, rgba(224,233,255,1) 0%, rgba(255,255,255,0) 100%);
+  background: #e0e9ff;
+  background: linear-gradient(270deg,#e0e9ff,hsla(0,0%,100%,0));
 }
 
 

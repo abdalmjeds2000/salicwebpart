@@ -105,7 +105,7 @@
 .oracle-reports-container .departments-content .links-container .box a {
   color: var(--main-color);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

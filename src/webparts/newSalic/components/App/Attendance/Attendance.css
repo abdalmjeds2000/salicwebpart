@@ -67,24 +67,12 @@
 
 
 
-@media screen and (max-width: 1500px) and (min-width: 890px) {
-  .attendance-page-container .buttons ul li {
-    padding: 7px 17px;
-    border-radius: 10px 10px 0 0;
-    font-size: 1rem;
-  }
-}
-
 @media screen and (max-width: 890px) {
 
   .attendance-page-container .buttons ul {
     display: flex;
     padding: 25px 10px 0 10px;
     flex-wrap: wrap;
-  }
-  .attendance-page-container .buttons ul li {
-    font-size: 0.7rem;
-    padding: 5px 10px;
   }
   .attendance-page-container .header {
     padding: 25px 10px 0 10px;

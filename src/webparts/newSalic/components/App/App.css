@@ -100,14 +100,14 @@ html {
 
 /* world Background in pages */
 img.img-bg {
-  width: 150vh;
-  position: absolute;
+  width: 160vh;
+  position: fixed;
   top: 85px;
-  right: -50vh;
-  opacity: 0.15;
+  right: -60vh;
+  opacity: .15;
   z-index: 0;
   pointer-events: none;
-  animation: spin 400s linear infinite;
+  animation: spin 200s linear infinite;
 }
 
 

@@ -29,7 +29,8 @@
 }
 
 
-.boc-form-field:nth-child(3), .boc-form-field:nth-child(8) {
+.boc-form-field .boc-input:has(input[data-binding="img"]), 
+.boc-form-field .boc-input:has(input[data-binding="assistance"]) {
   display: none !important;
 }
 .boc-form-field label.hasval {

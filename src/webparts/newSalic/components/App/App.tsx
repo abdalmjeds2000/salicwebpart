@@ -11,7 +11,6 @@ import axios from 'axios';
 import GetAllNews from '../API/News/GetAllNews.js'
 import GetAllNotes from '../API/Notes/GetAllNotes'
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
-import SimpleUserPanel from './Global/SimpleUserPanel/SimpleUserPanel';
 
 
 interface AppContext { }
@@ -25,7 +24,7 @@ axios.interceptors.response.use(undefined, function (error) {
 
 const App: React.FunctionComponent<AppProps> = (props) => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState({Data: {Mail: null}});
   const [notificationsCount, setNotificationsCount] = React.useState('');
   const [mailCount, setMailCount] = React.useState('');
   const [latestAttendance, setLatestAttendance] = React.useState([]);
@@ -41,6 +40,15 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
   const [maintenanceData, setMaintenanceData] = React.useState([]);
+  const [performance, setPerformance] = React.useState({});
+
+  React.useEffect(() => {
+    if(userData.Data.Mail !== null) {
+      if(userData.Data.Mail !== "stsadmin@salic.onmicrosoft.com") {
+        document.getElementById("spCommandBar").style.display = "none";
+      }
+    }
+  }, [userData])
 
   // Requests
   React.useEffect(() => {
@@ -55,6 +63,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           method: 'GET',
           url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)
@@ -222,15 +231,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
     departments_info: departmentsInfo,
     maintenance_data: maintenanceData,
-    setMaintenanceData
+    setMaintenanceData,
+    performance: performance,
+    setPerformance
   };
-
-  // Hide SimpleUserPanel in Home
-  const [activeRoute, setActiveRoute] = React.useState(window.location.pathname);
-  React.useEffect(() => {
-    setActiveRoute(window.location.pathname)
-    console.log(window.location.pathname)
-  }, [window.location.pathname])
 
   return (
     <AppCtx.Provider value={AppContextProviderSample}>
@@ -240,9 +244,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               <div className="app-container">
                 <SidebarNav />
                 <div className="content-container">
-                  {activeRoute !== '/sites/dev/SitePages/Demo.aspx/home' && <SimpleUserPanel />}
-                  {/* <SimpleUserPanel /> */}
-
                   <img src={require('../../assets/images/world.svg')} className='img-bg' />
                   <Header />
                   <AppRoutes {...props} />

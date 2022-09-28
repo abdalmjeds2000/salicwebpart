@@ -112,7 +112,7 @@ const ThreeDivisions = () => {
       <div className="media-center">
         <div className="header">
           <h3>Media Center</h3>
-          <a onClick={_ => navigate(`${defualt_route}/`)}>See All</a>
+          {/* <a onClick={_ => navigate(`${defualt_route}/`)}>See All</a> */}
         </div>
         <div className="gallerys">
           <div className="gallery gallery1">

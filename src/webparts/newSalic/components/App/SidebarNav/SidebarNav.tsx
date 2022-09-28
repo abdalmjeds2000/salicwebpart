@@ -3,6 +3,7 @@ import './SidebarNav.scss';
 import { SidebarNavProps } from './SidebarNavProps';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
+import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: '6px 12px 6px 8px',
@@ -214,7 +215,7 @@ const svgIcons = {
 }
 const listItems = [
   {to: '/home', icon: svgIcons.home, text: 'Home', link: false}, 
-  {to: '/community-news', icon: svgIcons.news, text: 'Salic News', link: false},
+  {to: '/community-news', icon: svgIcons.news, text: 'SALIC News', link: false},
   {icon: svgIcons.SALICWebsite, text: 'SALIC Website', link: true, to: 'https://www.salic.com'},
   {icon: svgIcons.OracleERP, text: 'Oracle ERP', link: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication'},
   {to: '/oracle-reports', icon: svgIcons.OracleReports, text: 'Oracle Reports', link: false},
@@ -255,83 +256,92 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
 
   
   return (
-    <nav 
-      className={isNavBarLarge? "nav-container nav-container-large" : "nav-container nav-container-small"} 
-      style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {padding: 0} : {}}
-    >
-      <div onClick={() => setIsNavBarLarge(!isNavBarLarge)}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25">
-          <g id="Group_763" data-name="Group 763" transform="translate(-25 -35)">
-            <g id="Rectangle_448" data-name="Rectangle 448" transform="translate(25 57)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-              <rect width="26" height="3" rx="1.5" stroke="none"/>
-              <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
+    <>
+      {activeRoute !== '/sites/dev/SitePages/Demo.aspx/home' && <SimpleUserPanel />}
+      
+      <nav 
+        className={isNavBarLarge? "nav-container nav-container-large" : "nav-container nav-container-small"} 
+        style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {padding: 0} : {}}
+      >
+        <div onClick={() => setIsNavBarLarge(!isNavBarLarge)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25">
+            <g id="Group_763" data-name="Group 763" transform="translate(-25 -35)">
+              <g id="Rectangle_448" data-name="Rectangle 448" transform="translate(25 57)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
+                <rect width="26" height="3" rx="1.5" stroke="none"/>
+                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
+              </g>
+              <g id="Rectangle_449" data-name="Rectangle 449" transform="translate(25 46)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
+                <rect width="26" height="3" rx="1.5" stroke="none"/>
+                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
+              </g>
+              <g id="Rectangle_450" data-name="Rectangle 450" transform="translate(25 35)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
+                <rect width="26" height="3" rx="1.5" stroke="none"/>
+                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
+              </g>
             </g>
-            <g id="Rectangle_449" data-name="Rectangle 449" transform="translate(25 46)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-              <rect width="26" height="3" rx="1.5" stroke="none"/>
-              <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
-            </g>
-            <g id="Rectangle_450" data-name="Rectangle 450" transform="translate(25 35)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-              <rect width="26" height="3" rx="1.5" stroke="none"/>
-              <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
-            </g>
-          </g>
-        </svg>
-      </div>
+          </svg>
+        </div>
 
-      <ul style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {display: 'none'} : {}}>
-        {listItems.map((item, i) => {
-          return (
-            <li key={i}>
-              <Tooltip placement="right" title={item.text}>
-                <a
-                  onClick={() => {
-                    if(item.link) {
-                      window.open(item.to, item.text !== "Sign Out" ? "_blank" : "");
-                    } else {
-                      setActiveRoute(defualt_route + item.to);
-                      navigate(defualt_route + item.to);
-                    }
-                  }}
-                  style={ (activeRoute).includes(defualt_route+item.to) ? activeStyle : {opacity: "0.3"}}
-                  className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'}
-                >
-                  {item.icon}
-                  {isNavBarLarge && item.text}
-                </a>
+        <ul style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {display: 'none'} : {}}>
+          {listItems.map((item, i) => {
+            return (
+              <li key={i}>
+                <Tooltip placement="right" title={item.text}>
+                  <a
+                    onClick={() => {
+                      if(item.link) {
+                        if(item.text !== "Sign Out") {
+                          window.open(item.to, "_blank");
+                        } else {
+                          window.location.href = item.to;
+                        }
+                        
+                      } else {
+                        setActiveRoute(defualt_route + item.to);
+                        navigate(defualt_route + item.to);
+                      }
+                    }}
+                    style={ (activeRoute).includes(defualt_route+item.to) ? activeStyle : {opacity: "0.3"}}
+                    className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'}
+                  >
+                    {item.icon}
+                    {isNavBarLarge && item.text}
+                  </a>
 
 
-{/* 
-                {
-                  !item.link
-                  ? <NavLink
-                      to={defualt_route + item.to} 
-                      className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-                      style={({ isActive }) => isActive ? activeStyle : {opacity: "0.4"}}
-                    >
-                      <span style={{display: 'contents'}} onClick={() => setTimeout(() => {
-                        navigate(defualt_route + item.to)
-                      }, 1500)}>
+  {/* 
+                  {
+                    !item.link
+                    ? <NavLink
+                        to={defualt_route + item.to} 
+                        className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
+                        style={({ isActive }) => isActive ? activeStyle : {opacity: "0.4"}}
+                      >
+                        <span style={{display: 'contents'}} onClick={() => setTimeout(() => {
+                          navigate(defualt_route + item.to)
+                        }, 1500)}>
+                          {item.icon}
+                          {isNavBarLarge && <p>{item.text}</p>}
+                        </span>
+                      </NavLink>
+
+                    : <a
+                        href={item.to} 
+                        target={item.text !== "Sign Out" ? "_blank" : ""}
+                        className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
+                        style={{opacity: "0.4"}}
+                      >
                         {item.icon}
                         {isNavBarLarge && <p>{item.text}</p>}
-                      </span>
-                    </NavLink>
-
-                  : <a
-                      href={item.to} 
-                      target={item.text !== "Sign Out" ? "_blank" : ""}
-                      className={!isNavBarLarge? 'centered-icons-mobile': 'centered-icons-disktop'} 
-                      style={{opacity: "0.4"}}
-                    >
-                      {item.icon}
-                      {isNavBarLarge && <p>{item.text}</p>}
-                    </a>
-                } */}
-              </Tooltip>
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
+                      </a>
+                  } */}
+                </Tooltip>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+    </>
   );
 }
 

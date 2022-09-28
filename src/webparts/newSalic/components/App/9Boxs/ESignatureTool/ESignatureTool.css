@@ -106,11 +106,6 @@
     display: flex;
     flex-wrap: wrap;
   }
-  .eSign-page-container .buttons ul li {
-    border-radius: 5px;
-    font-size: 0.7rem;
-    padding: 5px 10px;
-  }
   .eSign-page-container .header {
     padding: 0 15px;
   }
@@ -128,11 +123,6 @@
   }
   .eSign-page-container .content .buttons {
     padding: 0px 10px;
-  }
-  .eSign-page-container .content .buttons ul li {
-    padding: 5px;
-    text-align: center;
-    font-size: 0.8rem;
   }
   .eSign-page-container .content .eSign-tables {
     background-color: #ebf1ff;

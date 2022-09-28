@@ -213,7 +213,9 @@ function SalicGlobe() {
           hexPolygonLabel={({ properties: d }) => {
             if(ourCountry.includes(d.ADMIN)){
               setCurrentCountry(d.ADMIN)
-              return `<p style='color: white !important;'>${d.ADMIN}</p>`
+              return `<p style='color: var(--main-color) !important; background-color: #fff; padding: 5px; border-radius: 5px;'>
+                        ${d.ADMIN}
+                      </p>`
             }
             return null
           }}

@@ -41,7 +41,7 @@ function Attendance(props) {
               props.latestAttendance?.slice(0, 3).map((day, i) => {
                 return (
                 day.IsLeave
-                ? <tr key={i}>
+                ? <tr key={i} /* style={{background: 'linear-gradient(90deg,#e7f0fe,hsla(0,0%,100%,0))'}} */>
                     <td><span>•</span>{day.Day}</td>
                     <td>{day.Date || '-'}</td>
                     <td colSpan={3}>{day.Reason}</td>

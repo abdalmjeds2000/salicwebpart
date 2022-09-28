@@ -5,33 +5,52 @@ import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
 import GetPerformance from './API/GetPerformance'
 
-function NumbersAttendance() {
-  const { latest_attendance, user_data } = useContext(AppCtx);
+const performaceGrade = (grade) => {
+  if(grade >= 0 && grade <= 75) {
+    return "Below Expectation"
+  } else if(grade >= 75.1 && grade <= 89.99) {
+    return "Partially Meets Expectations"
+  } else if(grade >= 99 && grade <= 100) {
+    return "Meets Expectations"
+  } else if(grade >= 100.1 ) {
+    return "Exceeds Expectations"
+  } else {
+    return "?"
+  }
+}
 
-  const [performance, setPerformance] = useState({});
+function NumbersAttendance() {
+  const { latest_attendance, user_data, performance, setPerformance } = useContext(AppCtx);
 
   async function fetchData() {
     const response = await GetPerformance(user_data.Data?.PIN);
-    
-      console.log(response)
-    
+    if(response.status === 200) {
+      setPerformance(response?.data)
+    }
+    console.log(response)
   }
-
   useEffect(() => {
-    fetchData();
-  }, [])
+    if(Object.keys(performance).length === 0 && Object.keys(user_data).length !== 0) {
+      fetchData();
+    }
+  }, [user_data])
+
+
+
   return (
     <div className="numbers-attendance-container">
       <div className="div1">
-        <Number 
+        <Number
           pathColor='#277C62' 
-          header="Performance" 
-          description="Good" 
-          value='100'
+          header="% Performance" 
+          description={performaceGrade(performance.performace?.count.replace('%', ''))}
+          value={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '0'}
           minValue='0'
           maxValue='100'
-          text='100%'
+          text={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '?'}
           textColor='#277C62'
+          numberType="performance"
+          dataTable={performance?.performace?.data}
         />
       </div>
       {/* <div className="div2">
@@ -49,12 +68,12 @@ function NumbersAttendance() {
       <div className="div2">
         <Number 
           pathColor='#277C62' 
-          header="Annual Leaves" 
-          description="20 / 30 Days" 
-          value='20'
+          header="Leaves Balance" 
+          description="" 
+          value={performance?.leaves ? performance?.leaves : '0'}
           minValue='0'
           maxValue='30'
-          text='20'
+          text={performance?.leaves ? `${performance?.leaves}` : '?'}
           textColor='#277C62' 
         />
       </div>
@@ -62,11 +81,11 @@ function NumbersAttendance() {
         <Number 
           pathColor='var(--main-color)' 
           header="Next Event" 
-          description="National day" 
-          value='55'
+          description={performance?.holiday === null ? 'None' : 'None'} 
+          value={performance?.holiday === null ? '0' : '0'}
           minValue='0'
           maxValue='70'
-          text='55'
+          text={performance?.holiday === null ? '?' : '?'}
           textColor='var(--main-color)'
         />
       </div>
