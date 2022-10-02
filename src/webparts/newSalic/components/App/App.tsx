@@ -45,7 +45,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   React.useEffect(() => {
     if(userData.Data.Mail !== null) {
       if(userData.Data.Mail !== "stsadmin@salic.onmicrosoft.com") {
-        document.getElementById("spCommandBar").style.display = "none";
+        let element = document.getElementById("spCommandBar");
+        if(element) {
+          element.style.display = "none";
+        }
       }
     }
   }, [userData])
@@ -251,9 +254,9 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               </div>
             </Router>
           : <div className="loader" style={{ minHeight: '100vh' }}>
-            <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
-            <div></div>
-          </div>
+              <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
+              <div></div>
+            </div>
       }
     </AppCtx.Provider>
   )

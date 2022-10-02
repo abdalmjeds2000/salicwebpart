@@ -19,7 +19,7 @@ function CountryOutlook() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Country Outlook" 
             width="100%" 
@@ -29,6 +29,7 @@ function CountryOutlook() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

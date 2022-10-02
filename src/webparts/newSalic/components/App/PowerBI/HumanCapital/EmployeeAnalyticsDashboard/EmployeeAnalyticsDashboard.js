@@ -19,7 +19,7 @@ function EmployeeAnalyticsDashboard() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Employee Analytics" 
             width="100%" 
@@ -29,6 +29,7 @@ function EmployeeAnalyticsDashboard() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

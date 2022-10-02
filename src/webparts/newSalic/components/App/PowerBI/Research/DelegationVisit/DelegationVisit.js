@@ -19,7 +19,7 @@ function DelegationVisit() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Delegation Visit" 
             width="100%" 
@@ -29,6 +29,7 @@ function DelegationVisit() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

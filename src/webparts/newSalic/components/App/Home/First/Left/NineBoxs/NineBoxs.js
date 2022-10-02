@@ -87,8 +87,8 @@ const services = [
   {header: 'Corresponding System', link: true, to: 'https://masar.salic.com',  icon: icons.CorrespondingSystem},
   {header: 'Research Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Research/Center.aspx', icon: icons.ResearchCenter},
   // {header: 'Performance Managment', link: false, to: '/performance-managment', icon: icons.Performance},
-  {header: 'E Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
-  {header: 'DMS', link: false, to: '/dms', icon: icons.DMS},
+  {header: 'e-Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
+  {header: 'eDocument System', link: false, to: '/dms', icon: icons.DMS},
 ];
 
 

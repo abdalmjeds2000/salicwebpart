@@ -31,7 +31,7 @@
     padding: 10px 0;
   }
 }
-.nav-container div {
+.nav-container div.nav-open {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -39,9 +39,15 @@
   box-shadow: 0px 5px 10px #00000025;
   padding: 15px;
   height: 50px;
+  cursor: pointer;
+}
+.nav-container div.nav-open svg {
+  font-size: 1.2rem;
+  color: #fff;
+  transition: 0.5s;
 }
 @media screen and (max-width: 800px) {
-  .nav-container div {
+  .nav-container div.nav-open {
     position: absolute;
     width: 25px;
     height: 25px;
@@ -52,10 +58,9 @@
     top: -80px;
     box-shadow: none;
   }
-}
-.nav-container div img {
-  padding: 3px;
-  cursor: pointer;
+  .nav-container div.nav-open svg {
+    padding: 2px;
+  }
 }
 
 .nav-container ul {

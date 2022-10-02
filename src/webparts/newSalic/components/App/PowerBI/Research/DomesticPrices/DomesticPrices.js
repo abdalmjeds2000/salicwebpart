@@ -17,7 +17,8 @@ function DomesticPrices() {
       </HistoryNavigation>
       
       <div className='services-page-container'>
-        <div>
+
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Domestic Prices Report" 
             width="100%" 
@@ -27,6 +28,7 @@ function DomesticPrices() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

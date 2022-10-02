@@ -3,13 +3,12 @@ import { RoutersProps } from './RoutersProps';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../App/Home/Home.js';
 import Communication from '../App/Communication/Communication.js';
+import AdminServices from '../App/9Boxs/AdminServices/AdminServices';
 import ITServices from '../App/9Boxs/ITServices/ITServices';
 import HRSelf from '../App/9Boxs/HRSelf/HRSelf';
 import NewITRequest from '../App/9Boxs/ITServices/NewITRequest/NewITRequest';
 import RegisterNewAssets from '../App/9Boxs/ITServices/RegisterNewAssets/RegisterNewAssets';
 import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
-
-import AdminServices from '../App/9Boxs/AdminServices/AdminServices';
 import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
 import BusinessGate from '../App/9Boxs/AdminServices/BusinessGate/BusinessGate';
 import Maintenance from '../App/9Boxs/AdminServices/Maintenance/Maintenance';
@@ -19,9 +18,8 @@ import OfficeSupply from '../App/9Boxs/AdminServices/OfficeSupply/OfficeSupply';
 import Transportation from '../App/9Boxs/AdminServices/Transportation/Transportation';
 import AssignedRequests from '../App/9Boxs/AdminServices/AssignedRequests/AssignedRequests';
 import MyRequests from '../App/9Boxs/AdminServices/MyRequests/MyRequests';
+
 import Visitor from '../App/9Boxs/AdminServices/Visitor/Visitor';
-
-
 import Attendance from '../App/Attendance/Attendance';
 import CommunityNews from '../App/CommunityNews/CommunityNews';
 import NewsDetails from '../App/CommunityNews/NewsDetails/NewsDetails';
@@ -59,6 +57,13 @@ import InternationalPrices from '../App/PowerBI/Research/InternationalPrices/Int
 import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboard'
 
 
+import ContentRequests from '../App/NewContentRequests/ContentRequests';
+import NewRequest from '../App/NewContentRequests/NewRequest/NewRequest';
+
+import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
+
+
+
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   const defualtRoute: string = '/sites/dev/SitePages/Demo.aspx';
   return (
@@ -70,6 +75,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />
       <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
       <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
+
       <Route path={`${defualtRoute}/community-news`}>
         <Route index element={<CommunityNews />} />
         <Route path={`${defualtRoute}/community-news/:id`} element={<NewsDetails />} />
@@ -79,10 +85,12 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route index element={<AdminServices />} />
         <Route path={`${defualtRoute}/admin-services/issuing-VISA`} element={<IssuingVISA />} />
         <Route path={`${defualtRoute}/admin-services/shipment`} element={<ShipmentRequest />} />
+        
         <Route path={`${defualtRoute}/admin-services/maintenance`}>
           <Route index element={<Maintenance />} />
           <Route path={`${defualtRoute}/admin-services/maintenance/:id`} element={<UpdateMaintenance />} />
         </Route>
+        
         <Route path={`${defualtRoute}/admin-services/visitor`} element={<Visitor />} />
         <Route path={`${defualtRoute}/admin-services/transportation`} element={<Transportation />} />
         <Route path={`${defualtRoute}/admin-services/business-gate`} element={<BusinessGate />} />
@@ -91,7 +99,6 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/admin-services/assigned-requests`} element={<AssignedRequests />} />
         <Route path={`${defualtRoute}/admin-services/my-requests`} element={<MyRequests />} />
       </Route>
-
       <Route path={`${defualtRoute}/it-services`}>
         <Route index element={<ITServices />} />
         <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
@@ -140,7 +147,14 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
           <Route path={`${defualtRoute}/power-bi-dashboards/research/daily-dashboard`} element={<DailyDashboard />} />
         </Route>
       </Route>
+
+      <Route path={`${defualtRoute}/content-requests`}>
+        <Route index element={<ContentRequests />} />
+        <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewRequest />} />
+      </Route>
       
+      <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
+
     </Routes>
   );
 }

@@ -18,7 +18,7 @@ function CrisisPlan() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Crisis Plan" 
             width="100%" 
@@ -28,6 +28,7 @@ function CrisisPlan() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

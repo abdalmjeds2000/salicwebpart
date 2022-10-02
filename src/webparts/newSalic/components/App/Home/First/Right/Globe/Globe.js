@@ -96,7 +96,7 @@ function SalicGlobe() {
 
   // Return Card by hover on Country
   let cardDataByCountry = (country) => {
-    const currentCountryData = subsidiary.filter(c => c.Country === country)
+    const currentCountryData = subsidiary?.filter(c => c.Country === country)
 
     if(currentCountryData.length > 1) {
       return <Slider autoplay={true}>

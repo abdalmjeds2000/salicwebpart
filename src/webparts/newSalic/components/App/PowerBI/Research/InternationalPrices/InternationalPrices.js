@@ -19,7 +19,7 @@ function InternationalPrices() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="International Prices" 
             width="100%" 

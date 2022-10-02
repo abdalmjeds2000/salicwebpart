@@ -16,9 +16,11 @@ function HRDashboard() {
         <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards/human-capital`)}>Human Capital</a>
         <p>HR Dashboard</p>
       </HistoryNavigation>
+
+      
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="HR Dashboard" 
             width="100%" 
@@ -28,6 +30,7 @@ function HRDashboard() {
             allowFullScreen="true"
           ></iframe>
         </div>
+
       </div>
     </>
   )

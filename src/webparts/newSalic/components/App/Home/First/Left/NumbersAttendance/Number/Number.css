@@ -36,13 +36,13 @@
   }
 }
 @media screen and (max-width: 600px) {
-  .number-box-container {
+  /* .number-box-container {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     gap: 5px;
-  }
+  } */
   .number-box-container .circular-progress-bar {
     padding: 5px;
     background-color: #fff;
@@ -58,6 +58,7 @@
   }
   .number-box-container .number-box-info p {
     font-size: 0.7rem;
+    text-align: left;
   }
 }
 @media screen and (min-width: 1500px) {

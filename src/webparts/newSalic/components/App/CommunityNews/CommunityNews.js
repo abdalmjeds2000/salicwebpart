@@ -16,9 +16,12 @@ const getDataByPageNo = (list, pno) => {
 function CommunityNews() {
   const { news_list } = useContext(AppCtx);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredNewslist, setFilteredNewslist] = useState(getDataByPageNo(news_list, currentPage));
+  const [filteredNewslist, setFilteredNewslist] = useState([]);
+  const [newsList, setNewsList] = useState([]);
   useEffect(() => {
-    setFilteredNewslist(getDataByPageNo(news_list, currentPage));
+    const FilterNewsDraft = news_list?.filter(news => news.IsDraft === false).slice(0, 100);
+    setNewsList(FilterNewsDraft);
+    setFilteredNewslist(getDataByPageNo(FilterNewsDraft, currentPage));
   }, [news_list])
   
   return (
@@ -47,10 +50,14 @@ function CommunityNews() {
 
 
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: '0'}}>
-        <Pagination current={currentPage} onChange={p => {
-          setCurrentPage(p)
-          setFilteredNewslist(getDataByPageNo(news_list, p))
-          }} total={news_list.length / 2} />
+        <Pagination 
+          current={currentPage} 
+          onChange={p => {
+            setCurrentPage(p)
+            setFilteredNewslist(getDataByPageNo(newsList, p))
+          }}
+          total={newsList.length / 2}
+        />
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ function DemandForecast() {
       
       <div className='services-page-container'>
 
-        <div class="m-content">
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Demand Forecast" 
             width="100%" 
@@ -29,6 +29,7 @@ function DemandForecast() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

@@ -19,7 +19,7 @@ function DailyDashboard() {
       
       <div className='services-page-container'>
 
-        <div>
+        <div className='power-bi-iframe-container'>
           <iframe 
             title="Daily Dashboard" 
             width="100%" 
@@ -29,6 +29,7 @@ function DailyDashboard() {
             allowFullScreen="true"
           ></iframe>
         </div>
+        
       </div>
     </>
   )

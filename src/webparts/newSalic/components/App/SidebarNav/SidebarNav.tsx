@@ -1,9 +1,10 @@
 import * as React from 'react';
 import './SidebarNav.scss';
 import { SidebarNavProps } from './SidebarNavProps';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
+import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: '6px 12px 6px 8px',
@@ -211,6 +212,7 @@ const svgIcons = {
               </g>
             </svg>,
   ManageNewsContent:  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width='35px' height='35px' viewBox="0 0 512 512"><g><path xmlns="http://www.w3.org/2000/svg" d="m100 113c0-11.046875 8.953125-20 20-20h272c11.046875 0 20 8.953125 20 20s-8.953125 20-20 20h-272c-11.046875 0-20-8.953125-20-20zm312 80c0-11.046875-8.953125-20-20-20h-272c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h272c11.046875 0 20-8.953125 20-20zm-292 60c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h92c11.046875 0 20-8.953125 20-20s-8.953125-20-20-20zm374.441406 156.589844c23.378906 23.378906 23.378906 61.441406-.015625 84.835937-11.695312 11.695313-27.0625 17.546875-42.425781 17.546875s-30.730469-5.851562-42.425781-17.546875l-109.367188-109.570312c-2.4375-2.441407-4.199219-5.46875-5.117187-8.792969l-22.363282-80.722656c-1.945312-7.03125.085938-14.5625 5.308594-19.65625 5.21875-5.089844 12.796875-6.941406 19.777344-4.820313l78.726562 23.914063c3.152344.957031 6.019532 2.675781 8.34375 5.007812zm-162.210937-49.273438 73.515625 73.652344 28.289062-28.289062-73.925781-74.089844-39.128906-11.886719zm133.910156 77.542969-3.851563-3.863281-28.285156 28.285156 3.867188 3.875c7.785156 7.785156 20.472656 7.785156 28.269531-.015625 7.800781-7.796875 7.800781-20.484375 0-28.28125zm-34.140625-437.859375h-352c-44.113281 0-80 35.886719-80 80v352c0 44.113281 35.886719 80 80 80h245c11.046875 0 20-8.953125 20-20s-8.953125-20-20-20h-245c-22.054688 0-40-17.945312-40-40v-352c0-22.054688 17.945312-40 40-40h352c22.054688 0 40 17.945312 40 40v246c0 11.046875 8.953125 20 20 20s20-8.953125 20-20v-246c0-44.113281-35.886719-80-80-80zm0 0" fill="#FFFFFF" ></path></g></svg>,
+  Content: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="35px" height="35px" x="0" y="0" viewBox="0 0 512 512"><g><path d="m452.971 67.755h-148.981c7.934-22.64-1.077-48.503-22.595-60.927-24.32-14.04-55.525-5.678-69.566 18.641l-24.414 42.286h-119.994c-26.255 0-47.616 21.36-47.616 47.615v252.796c0 26.255 21.36 47.615 47.616 47.615h119.214c1.259 23.941-4.877 50.541-11.259 64.218h-35.325c-8.836 0-16 7.163-16 16s7.164 16 16 16h231.904c8.836 0 16-7.163 16-16s-7.164-16-16-16h-35.392c-6.697-13.915-13.263-40.663-12.17-64.218h120.185c26.255 0 47.616-21.36 47.616-47.615v-261.182c0-21.631-17.595-39.229-39.223-39.229zm-315.303 173.591 12.493 7.213-12.493 7.213zm38.637-14.643-32.78-18.926 75.935-131.524 32.781 18.926zm89.091-192.161c9.038 5.218 12.145 16.816 6.928 25.854l-4.083 7.071-32.781-18.927 4.083-7.071c5.218-9.037 16.816-12.143 25.853-6.927zm-197.975 65.213h101.519l-61.129 105.878c-1.404 2.432-2.144 5.191-2.144 8v69.852c0 8.837 7.164 16 16 16h249.188c8.836 0 16-7.163 16-16s-7.164-16-16-16h-189.475l8.781-5.069c2.432-1.404 4.452-3.424 5.856-5.856l90.531-156.804h166.422c3.983 0 7.224 3.243 7.224 7.229v227.335h-408.388v-218.949c0-8.611 7.005-15.616 15.615-15.616zm234.701 380.245h-92.433c6.288-19.149 9.769-43.114 8.954-64.218h73.728c-.794 21.959 3.374 45.641 9.751 64.218zm142.457-96.218h-377.158c-8.61 0-15.616-7.005-15.616-15.615v-1.848h408.389v1.848c0 8.61-7.005 15.615-15.615 15.615z" fill="#FFFFFF"></path></g></svg>,
   SignOut: <svg fill='#fff' width='35px' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M554.666667 128l-85.333333 0 0 426.666667 85.333333 0L554.666667 128zM760.746667 220.586667l-60.586667 60.586667C767.573333 335.36 810.666667 418.56 810.666667 512c0 165.12-133.546667 298.666667-298.666667 298.666667s-298.666667-133.546667-298.666667-298.666667c0-93.44 43.093333-176.64 110.08-231.253333L263.253333 220.586667C180.48 290.986667 128 395.093333 128 512c0 212.053333 171.946667 384 384 384 212.053333 0 384-171.946667 384-384C896 395.093333 843.52 290.986667 760.746667 220.586667z"  /></svg>
 }
 const listItems = [
@@ -220,9 +222,10 @@ const listItems = [
   {icon: svgIcons.OracleERP, text: 'Oracle ERP', link: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication'},
   {to: '/oracle-reports', icon: svgIcons.OracleReports, text: 'Oracle Reports', link: false},
   {to: '/power-bi-dashboards', icon: svgIcons.PowerBi, text: 'Power Bi', link: false},
-  {icon: svgIcons.ManageNewsContent, text: 'Manage News Content', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ManageNews.aspx'},
+  {to: '/manage-news-content', icon: svgIcons.ManageNewsContent, text: 'Manage News Content', link: false},
   {to: '/performance-managment', icon: svgIcons.performance, text: 'Performance Managment', link: false},
   {to: '/almira-magazine', icon: svgIcons.almira, text: 'Almira Magazine', link: false},
+  {to: '/content-requests', icon: svgIcons.Content, text: 'New Content', link: false},
   {to: '/communication', icon: svgIcons.communication, text: 'Communication', link: false},
   {icon: svgIcons.SignOut, text: 'Sign Out', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/newsalic'},
 ];
@@ -263,23 +266,12 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
         className={isNavBarLarge? "nav-container nav-container-large" : "nav-container nav-container-small"} 
         style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {padding: 0} : {}}
       >
-        <div onClick={() => setIsNavBarLarge(!isNavBarLarge)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25">
-            <g id="Group_763" data-name="Group 763" transform="translate(-25 -35)">
-              <g id="Rectangle_448" data-name="Rectangle 448" transform="translate(25 57)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-                <rect width="26" height="3" rx="1.5" stroke="none"/>
-                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
-              </g>
-              <g id="Rectangle_449" data-name="Rectangle 449" transform="translate(25 46)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-                <rect width="26" height="3" rx="1.5" stroke="none"/>
-                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
-              </g>
-              <g id="Rectangle_450" data-name="Rectangle 450" transform="translate(25 35)" fill="#fff" stroke="#0c508c" stroke-width="0.5">
-                <rect width="26" height="3" rx="1.5" stroke="none"/>
-                <rect x="0.25" y="0.25" width="25.5" height="2.5" rx="1.25" fill="none"/>
-              </g>
-            </g>
-          </svg>
+        <div className='nav-open' onClick={() => setIsNavBarLarge(!isNavBarLarge)}>
+          {
+            isNavBarLarge
+            ? <CloseOutlined />
+            : <MenuOutlined />
+          }
         </div>
 
         <ul style={(windowSize.innerWidth < 800 && !isNavBarLarge) ? {display: 'none'} : {}}>
