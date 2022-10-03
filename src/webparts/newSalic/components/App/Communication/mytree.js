@@ -37,7 +37,7 @@ export default class extends Component {
       min: true,
       scaleMax: 2,
       scaleMin: 0.1,
-      scaleInitial: 0.7,
+      scaleInitial: 0.9,
       nodes: this.props.nodes,
       nodeBinding: {
         field_0: "name",
@@ -46,7 +46,7 @@ export default class extends Component {
       },
       zoom: {speed: 100, smooth: 5},
       collapse: {
-        level: 4,
+        level: 2,
         allChildren: true
       }, 
       

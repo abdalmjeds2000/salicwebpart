@@ -14,6 +14,7 @@ function ContentRequests() {
   }
   const services = [
     {icon: srvsIcons.servicesRequest, to: '/content-requests/new-request', bgColor: '#70CFAF', text: 'New Content Request'},
+    {icon: srvsIcons.servicesRequest, to: '/content-requests/preview-request', bgColor: '#70CFAF', text: 'Preview Content Request'},
   ];
 
 

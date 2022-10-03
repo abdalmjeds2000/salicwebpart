@@ -17,7 +17,7 @@ function NewsDetails() {
 
   useEffect(() => {
     setNewsData(news_list.filter(n => id == n.Id));
-    document.title = news_list.filter(n => id == n.Id)[0]?.Subject;
+    document.title = `.:: SALIC Gate | ${news_list.filter(n => id == n.Id)[0]?.Subject} ::.`;
   }, [id, news_list])
 
 

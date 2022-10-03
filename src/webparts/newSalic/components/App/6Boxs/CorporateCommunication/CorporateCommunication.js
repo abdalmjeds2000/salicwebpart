@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
-import { AppCtx } from '../../App';
 
 
 function CorporateCommunication() {

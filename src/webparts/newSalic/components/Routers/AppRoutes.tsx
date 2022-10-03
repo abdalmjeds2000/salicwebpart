@@ -59,9 +59,12 @@ import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboar
 
 import ContentRequests from '../App/NewContentRequests/ContentRequests';
 import NewRequest from '../App/NewContentRequests/NewRequest/NewRequest';
+import PreviewRequest from '../App/NewContentRequests/PreviewRequest/PreviewRequest';
 
 import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
 
+import MediaCenter from '../App/MediaCenter/MediaCenter';
+import ManageEvents from '../App/ManageEvents/ManageEvents';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
@@ -151,10 +154,15 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/content-requests`}>
         <Route index element={<ContentRequests />} />
         <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewRequest />} />
+        <Route path={`${defualtRoute}/content-requests/preview-request`} element={<PreviewRequest />} />
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
 
+      <Route path={`${defualtRoute}/media-center`} element={<MediaCenter />} />
+      <Route path={`${defualtRoute}/manage-events`} element={<ManageEvents />} />
+
+      
     </Routes>
   );
 }

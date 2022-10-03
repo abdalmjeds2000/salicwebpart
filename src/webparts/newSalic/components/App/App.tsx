@@ -8,9 +8,11 @@ import Header from '../App/Header/Header'
 import pnp from 'sp-pnp-js';
 import { createContext } from "react";
 import axios from 'axios';
-import GetAllNews from '../API/News/GetAllNews.js'
-import GetAllNotes from '../API/Notes/GetAllNotes'
-import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter'
+import GetAllNews from '../API/News/GetAllNews.js';
+import GetAllNotes from '../API/Notes/GetAllNotes';
+import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter';
+import GetAllEvents from '../API/GetAllEvents/GetAllEvents';
+
 
 
 interface AppContext { }
@@ -41,7 +43,9 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [departmentsInfo, setDepartmentsInfo] = React.useState([]);
   const [maintenanceData, setMaintenanceData] = React.useState([]);
   const [performance, setPerformance] = React.useState({});
-
+  const [allEvents, setAllEvents] = React.useState([]);
+  
+  
   React.useEffect(() => {
     if(userData.Data.Mail !== null) {
       if(userData.Data.Mail !== "stsadmin@salic.onmicrosoft.com") {
@@ -199,6 +203,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
     // Get All Images for Media Center
       GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
+    // Get All Events
+      GetAllEvents().then((res: any) => setAllEvents(res)).catch((err: any) => { console.log(err) })
     // Get Oracle Reports Data
       axios({
         method: 'GET',
@@ -236,7 +242,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     maintenance_data: maintenanceData,
     setMaintenanceData,
     performance: performance,
-    setPerformance
+    setPerformance,
+    all_events: allEvents
   };
 
   return (

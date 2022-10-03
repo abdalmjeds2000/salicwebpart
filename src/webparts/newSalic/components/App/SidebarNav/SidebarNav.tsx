@@ -4,12 +4,17 @@ import { SidebarNavProps } from './SidebarNavProps';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
-import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
+import { CalendarOutlined, CloseOutlined, MenuOutlined } from '@ant-design/icons';
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: '6px 12px 6px 8px',
   fontSize: '0.9rem'
 };
+const antdIconStyle = {
+  fontSize: "1.7rem",
+  minWidth: '35px'
+};
+
 function getWindowSize() {
   const {innerWidth, innerHeight} = window;
   return {innerWidth, innerHeight};
@@ -17,6 +22,7 @@ function getWindowSize() {
 
 
 const capitalize = (s: string) => s[0]?.toUpperCase() + s.slice(1);
+
 
 
 const svgIcons = {
@@ -215,20 +221,6 @@ const svgIcons = {
   Content: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="35px" height="35px" x="0" y="0" viewBox="0 0 512 512"><g><path d="m452.971 67.755h-148.981c7.934-22.64-1.077-48.503-22.595-60.927-24.32-14.04-55.525-5.678-69.566 18.641l-24.414 42.286h-119.994c-26.255 0-47.616 21.36-47.616 47.615v252.796c0 26.255 21.36 47.615 47.616 47.615h119.214c1.259 23.941-4.877 50.541-11.259 64.218h-35.325c-8.836 0-16 7.163-16 16s7.164 16 16 16h231.904c8.836 0 16-7.163 16-16s-7.164-16-16-16h-35.392c-6.697-13.915-13.263-40.663-12.17-64.218h120.185c26.255 0 47.616-21.36 47.616-47.615v-261.182c0-21.631-17.595-39.229-39.223-39.229zm-315.303 173.591 12.493 7.213-12.493 7.213zm38.637-14.643-32.78-18.926 75.935-131.524 32.781 18.926zm89.091-192.161c9.038 5.218 12.145 16.816 6.928 25.854l-4.083 7.071-32.781-18.927 4.083-7.071c5.218-9.037 16.816-12.143 25.853-6.927zm-197.975 65.213h101.519l-61.129 105.878c-1.404 2.432-2.144 5.191-2.144 8v69.852c0 8.837 7.164 16 16 16h249.188c8.836 0 16-7.163 16-16s-7.164-16-16-16h-189.475l8.781-5.069c2.432-1.404 4.452-3.424 5.856-5.856l90.531-156.804h166.422c3.983 0 7.224 3.243 7.224 7.229v227.335h-408.388v-218.949c0-8.611 7.005-15.616 15.615-15.616zm234.701 380.245h-92.433c6.288-19.149 9.769-43.114 8.954-64.218h73.728c-.794 21.959 3.374 45.641 9.751 64.218zm142.457-96.218h-377.158c-8.61 0-15.616-7.005-15.616-15.615v-1.848h408.389v1.848c0 8.61-7.005 15.615-15.615 15.615z" fill="#FFFFFF"></path></g></svg>,
   SignOut: <svg fill='#fff' width='35px' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M554.666667 128l-85.333333 0 0 426.666667 85.333333 0L554.666667 128zM760.746667 220.586667l-60.586667 60.586667C767.573333 335.36 810.666667 418.56 810.666667 512c0 165.12-133.546667 298.666667-298.666667 298.666667s-298.666667-133.546667-298.666667-298.666667c0-93.44 43.093333-176.64 110.08-231.253333L263.253333 220.586667C180.48 290.986667 128 395.093333 128 512c0 212.053333 171.946667 384 384 384 212.053333 0 384-171.946667 384-384C896 395.093333 843.52 290.986667 760.746667 220.586667z"  /></svg>
 }
-const listItems = [
-  {to: '/home', icon: svgIcons.home, text: 'Home', link: false}, 
-  {to: '/community-news', icon: svgIcons.news, text: 'SALIC News', link: false},
-  {icon: svgIcons.SALICWebsite, text: 'SALIC Website', link: true, to: 'https://www.salic.com'},
-  {icon: svgIcons.OracleERP, text: 'Oracle ERP', link: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication'},
-  {to: '/oracle-reports', icon: svgIcons.OracleReports, text: 'Oracle Reports', link: false},
-  {to: '/power-bi-dashboards', icon: svgIcons.PowerBi, text: 'Power Bi', link: false},
-  {to: '/manage-news-content', icon: svgIcons.ManageNewsContent, text: 'Manage News Content', link: false},
-  {to: '/performance-managment', icon: svgIcons.performance, text: 'Performance Managment', link: false},
-  {to: '/almira-magazine', icon: svgIcons.almira, text: 'Almira Magazine', link: false},
-  {to: '/content-requests', icon: svgIcons.Content, text: 'New Content', link: false},
-  {to: '/communication', icon: svgIcons.communication, text: 'Communication', link: false},
-  {icon: svgIcons.SignOut, text: 'Sign Out', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/newsalic'},
-];
 
 
 
@@ -254,9 +246,27 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
   React.useEffect(() => {
     setActiveRoute(location.pathname)
     const title = location.pathname.split('/')
-    document.title = capitalize(title[title.length-1]).replace('-', ' ')
+    document.title = `.:: SALIC Gate | ${capitalize(title[title.length-1]).replace('-', ' ')} ::.`;
   }, [location.pathname])
 
+
+
+  const listItems = [
+    {to: '/home', icon: svgIcons.home, text: 'Home', link: false}, 
+    {to: '/community-news', icon: svgIcons.news, text: 'SALIC News', link: false},
+    {icon: svgIcons.SALICWebsite, text: 'SALIC Website', link: true, to: 'https://www.salic.com'},
+    {icon: svgIcons.OracleERP, text: 'Oracle ERP', link: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/adfAuthentication?level=FORM&success_url=%2FfscmUI%2FadfAuthentication'},
+    {to: '/oracle-reports', icon: svgIcons.OracleReports, text: 'Oracle Reports', link: false},
+    {to: '/power-bi-dashboards', icon: svgIcons.PowerBi, text: 'Power Bi', link: false},
+    {to: '/manage-news-content', icon: svgIcons.ManageNewsContent, text: 'Manage News Content', link: false},
+    {to: '/performance-managment', icon: svgIcons.performance, text: 'Performance Managment', link: false},
+    {to: '/almira-magazine', icon: svgIcons.almira, text: 'Almira Magazine', link: false},
+    {to: '/content-requests', icon: svgIcons.Content, text: 'New Content', link: false},
+    {to: '/manage-events', icon: <CalendarOutlined style={{...antdIconStyle, fontSize: isNavBarLarge ? '2.2rem' : '1.7rem'}} />, text: 'Manage Events', link: false},
+    {to: '/communication', icon: svgIcons.communication, text: 'Communication', link: false},
+    {icon: svgIcons.SignOut, text: 'Sign Out', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/newsalic'},
+  ];
+  
   
   return (
     <>
