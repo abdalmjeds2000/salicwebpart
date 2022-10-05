@@ -30,8 +30,9 @@ function NumbersAttendance() {
     console.log(response)
   }
   useEffect(() => {
+    setNextEvents( all_events?.filter(e => new Date(e.Date).toJSON().slice(0, 10) > new Date().toJSON().slice(0, 10)).reverse() )
+
     if(Object.keys(performance).length === 0 && Object.keys(user_data).length !== 0) {
-      setNextEvents( all_events.filter(e => new Date(e.Date).toJSON().slice(0, 10) > new Date().toJSON().slice(0, 10)).reverse() )
       fetchData();
     }
   }, [user_data, all_events])

@@ -23,7 +23,7 @@ import Visitor from '../App/9Boxs/AdminServices/Visitor/Visitor';
 import Attendance from '../App/Attendance/Attendance';
 import CommunityNews from '../App/CommunityNews/CommunityNews';
 import NewsDetails from '../App/CommunityNews/NewsDetails/NewsDetails';
-import FolderExplorerPage from '../App/FolderExplorer/FolderExplorer';
+import FolderExplorerPage from '../App/9Boxs/DMS/FolderExplorer';
 import EInvoicing from '../App/9Boxs/EInvoicing/EInvoicing';
 import Performance from '../App/9Boxs/Performance/Performance';
 import AlMiraMagazine from '../App/AlMiraMagazine/AlMiraMagazine';

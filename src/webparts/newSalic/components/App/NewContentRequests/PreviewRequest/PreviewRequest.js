@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './PreviewRequest.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate } from 'react-router-dom';
@@ -27,8 +27,14 @@ function PreviewRequest() {
         },
       };
       
-
-
+    
+      useEffect(() => {
+        let elements = document.getElementsByClassName("ant-timeline-item-content");
+        console.log(elements);
+        elements[0].style = "background-color: #ffecd3; margin: 0 0 0 40px; width: auto;"
+        elements[elements.length-1].style = "width: auto;"
+      }, [])
+      
     return (
     <>
         <HistoryNavigation>
@@ -61,21 +67,21 @@ function PreviewRequest() {
                         <Reply 
                             Title="Akmal Eldahdouh" 
                             Description="2015-09-01" 
-                            Content="Create a services site network problems."
+                            Content="Create a services App services site antd layouts site."
                         />
                     </Timeline.Item>
                     <Timeline.Item dot={img}>
                         <Reply 
                             Title="Akmal Eldahdouh" 
                             Description="2015-09-01" 
-                            Content="Create a services site network problems."
+                            Content="Site network problems."
                         />
                     </Timeline.Item>
                     <Timeline.Item dot={img}>
                         <Reply 
                             Title="Akmal Eldahdouh" 
                             Description="2015-09-01" 
-                            Content="Create a services site network problems."
+                            Content="Just a Remining"
                         />
                     </Timeline.Item>
                     <Timeline.Item dot={img}>

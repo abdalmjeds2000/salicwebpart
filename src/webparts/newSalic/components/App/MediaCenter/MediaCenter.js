@@ -3,6 +3,12 @@ import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 
 
 function MediaCenter() {
+  const editStyle = () => {
+    var iframe = document.getElementById("spIframe");
+    var elmnt = iframe.contentWindow.document.getElementsByClassName("od-ItemsScopeList-content")[0];
+    elmnt.style.backgroundColor = "#fff";
+  }
+  
   return (
     <>
       <HistoryNavigation>
@@ -14,6 +20,8 @@ function MediaCenter() {
           src='https://salic.sharepoint.com/sites/dev/DevMediaCenter/Forms/AllItems.aspx'
           width='100%'
           height='100%'
+          id='spIframe'
+          onLoad={editStyle}
         >
         </iframe>
       </div>
