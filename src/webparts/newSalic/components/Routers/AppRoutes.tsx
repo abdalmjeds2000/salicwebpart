@@ -66,6 +66,10 @@ import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
 import MediaCenter from '../App/MediaCenter/MediaCenter';
 import ManageEvents from '../App/ManageEvents/ManageEvents';
 
+import SPSearch from '../App/SearchPage/SPSearch';
+
+
+
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   const defualtRoute: string = '/sites/dev/SitePages/Demo.aspx';
@@ -161,6 +165,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/media-center`} element={<MediaCenter />} />
       <Route path={`${defualtRoute}/manage-events`} element={<ManageEvents />} />
+      <Route path={`${defualtRoute}/sp-search`} element={<SPSearch />} />
 
       
     </Routes>

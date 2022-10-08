@@ -12,7 +12,7 @@ const FolderExplorerPage = (props) => {
   return (
     <>
       <HistoryNavigation>
-        <p>Folder Explorer</p>
+        <p>eDocument System</p>
       </HistoryNavigation>
 
       <div className='folder-explorer-container'>  

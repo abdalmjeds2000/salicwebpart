@@ -266,7 +266,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
                 </div>
               </div>
             </Router>
-          : <div className="loader" style={{ minHeight: '100vh' }}>
+          : <div className="loader">
               <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
               <div></div>
             </div>

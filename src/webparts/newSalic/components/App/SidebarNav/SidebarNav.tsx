@@ -4,7 +4,7 @@ import { SidebarNavProps } from './SidebarNavProps';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import SimpleUserPanel from '../Global/SimpleUserPanel/SimpleUserPanel';
-import { CalendarOutlined, CloseOutlined, MenuOutlined } from '@ant-design/icons';
+import { CalendarOutlined, CloseOutlined, MenuOutlined, SearchOutlined } from '@ant-design/icons';
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: '6px 12px 6px 8px',
@@ -263,6 +263,8 @@ const SidebarNav: React.FunctionComponent<SidebarNavProps> = () => {
     {to: '/almira-magazine', icon: svgIcons.almira, text: 'Almira Magazine', link: false},
     {to: '/content-requests', icon: svgIcons.Content, text: 'New Content', link: false},
     {to: '/manage-events', icon: <CalendarOutlined style={{...antdIconStyle, fontSize: isNavBarLarge ? '2.2rem' : '1.7rem'}} />, text: 'Manage Events', link: false},
+    {to: '/sp-search', icon: <SearchOutlined style={{...antdIconStyle, fontSize: isNavBarLarge ? '2.2rem' : '1.7rem'}} />, text: 'Sharepoint Search', link: false},
+    
     {to: '/communication', icon: svgIcons.communication, text: 'Communication', link: false},
     {icon: svgIcons.SignOut, text: 'Sign Out', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/_layouts/closeConnection.aspx?loginasanotheruser=true&Source=https://salic.sharepoint.com/sites/newsalic'},
   ];
