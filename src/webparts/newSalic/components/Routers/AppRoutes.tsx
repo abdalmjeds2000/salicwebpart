@@ -59,6 +59,8 @@ import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboar
 
 import ContentRequests from '../App/NewContentRequests/ContentRequests';
 import NewRequest from '../App/NewContentRequests/NewRequest/NewRequest';
+import AllContentRequests from '../App/NewContentRequests/AllRequests/AllContentRequests';
+import MyContentRequests from '../App/NewContentRequests/MyRequests/MyContentRequests';
 import PreviewRequest from '../App/NewContentRequests/PreviewRequest/PreviewRequest';
 
 import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
@@ -159,8 +161,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route index element={<ContentRequests />} />
         <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewRequest />} />
         <Route path={`${defualtRoute}/content-requests/preview-request`} element={<PreviewRequest />} />
+        <Route path={`${defualtRoute}/content-requests/all-content-requests`} element={<AllContentRequests />} />
+        <Route path={`${defualtRoute}/content-requests/my-content-requests`} element={<MyContentRequests />} />
         <Route path={`${defualtRoute}/content-requests/:id`} element={<PreviewRequest />} />
-
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />

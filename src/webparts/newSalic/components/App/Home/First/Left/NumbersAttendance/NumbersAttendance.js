@@ -4,6 +4,9 @@ import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
 import GetPerformance from './API/GetPerformance'
+import { RadialBar, Column } from '@ant-design/plots';
+
+
 
 const performaceGrade = (grade) => {
   if(grade >= 0 && grade <= 75) {
@@ -39,6 +42,39 @@ function NumbersAttendance() {
 
 
 
+
+  const configRadialBar = {
+    data: [
+      {name: 'Expire Leaves Balance', star: (isNaN(performance?.leaves - 15)) || (performance?.leaves - 15 < 0) ? '0' : performance?.leaves - 15},
+      {name: 'Leaves Balance', star: performance?.leaves},
+    ],
+    xField: 'name',
+    yField: 'star',
+    radius: 1,
+    innerRadius: 0.5,
+    tooltip: {
+      formatter: (datum) => {
+        return {
+          name: datum.name,
+          value: datum.star,
+        };
+      },
+    },
+    colorField: 'name',
+    color: ({ name }) => {
+      if (name === 'Leaves Balance') {
+        return '#43A2CC';
+      } else if (name === 'Expire Leaves Balance') {
+        return '#FD96A6';
+      }
+      return '#43A2CC';
+    },
+    animation: {
+      appear: {
+        animation: 'none',
+      },
+    },
+  };
   return (
     <div className="numbers-attendance-container">
       <div className="div1">
@@ -55,23 +91,11 @@ function NumbersAttendance() {
           dataTable={performance?.performace?.data}
         />
       </div>
-      {/* <div className="div2">
-        <Number 
-          pathColor='#ff272b' 
-          header="Employment Period" 
-          description="5 Days" 
-          value='5'
-          minValue='0'
-          maxValue='24'
-          text='5'
-          textColor='#ff272b'
-        />
-      </div> */}
       <div className="div2">
         <Number 
           pathColor='#277C62' 
           header="Leaves Balance" 
-          description="Remaining For This Year" 
+          description={`${(isNaN(performance?.leaves - 15)) || (performance?.leaves - 15 < 0) ? '0' : performance?.leaves - 15 } expire at 1/1/${new Date().getYear() + 1901}`}
           value={performance?.leaves ? performance?.leaves : '0'}
           minValue='0'
           maxValue='30'
@@ -89,6 +113,25 @@ function NumbersAttendance() {
           maxValue={`${Math.floor((new Date(nextEvents[0]?.Date).getTime() - new Date(nextEvents[0]?.Created).getTime())  / (1000 * 3600 * 24))}`}
           text={`${Math.floor((new Date(nextEvents[0]?.Date).getTime() - new Date().getTime())  / (1000 * 3600 * 24))}`}
           textColor='var(--main-color)'
+        />
+      </div>
+      <div className="div4">
+        {/* <Number 
+          pathColor='#ff272b' 
+          header="Employment Period" 
+          description="5 Days" 
+          value='5'
+          minValue='0'
+          maxValue='24'
+          text='5'
+          textColor='#ff272b'
+        /> */}
+        <RadialBar 
+          {...configRadialBar}
+          style={{
+            width: '100%',
+            margin: '20px 0 40px 0',
+          }} 
         />
       </div>
       <div className="div5">

@@ -12,6 +12,7 @@ import GetAllNews from '../API/News/GetAllNews.js';
 import GetAllNotes from '../API/Notes/GetAllNotes';
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter';
 import GetAllEvents from '../API/GetAllEvents/GetAllEvents';
+import ClockComponent from './Global/HistoryNavigation/ClockComponent';
 
 
 
@@ -44,6 +45,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [maintenanceData, setMaintenanceData] = React.useState([]);
   const [performance, setPerformance] = React.useState({});
   const [allEvents, setAllEvents] = React.useState([]);
+  const [contentRequestsData, setContentRequestsData] = React.useState([]);
   
   
 
@@ -221,7 +223,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     // Disable Loader
       .then((response) => { setIsLoading(false) })
       .catch(err => console.log(err))
-  }, [])
+  }, []);
 
   // Context Provider
   const AppContextProviderSample: AppContext = {
@@ -249,7 +251,9 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setMaintenanceData,
     performance: performance,
     setPerformance,
-    all_events: allEvents
+    all_events: allEvents,
+    content_requests_data: contentRequestsData,
+    setContentRequestsData
   };
 
   return (

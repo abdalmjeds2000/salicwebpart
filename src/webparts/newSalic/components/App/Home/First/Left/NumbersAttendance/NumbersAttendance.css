@@ -23,6 +23,13 @@
   border-radius: 100px;
 }
 .home-info .numbers-attendance-container .div4 { grid-area: 2 / 3 / 4 / 4; }
+.home-info .numbers-attendance-container .div4 > div {
+  margin: 0 !important;
+}
+.home-info .numbers-attendance-container .div4 canvas {
+  height: 140px !important;
+}
+
 .home-info .numbers-attendance-container .div5 { grid-area: 2 / 1 / 4 / 3; }
 .CircularProgressbar .CircularProgressbar-text {
   font-size: 1.8rem !important;

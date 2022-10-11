@@ -42,22 +42,12 @@
   transform: rotate(-90deg);
 }
 
-
-.history-navigation .time {
-  color: var(--main-color) !important;
-  font-weight: 500;
-  position: fixed;
-  right: 25px;
-}
-
 @media screen and (max-width: 800px) {
   .history-navigation {
     width: 100vw;
   }
-}
-@media screen and (max-width: 650px) {
-  .history-navigation .time {
-    display: none;
+  .app-clock {
+    display: none !important;
   }
 }
 

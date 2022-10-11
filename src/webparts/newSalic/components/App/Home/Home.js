@@ -14,6 +14,7 @@ import TranslateConverterNotes from './Third/TranslateConverterNotes';
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 import { AppCtx } from '../App';
+import ClockComponent from "../Global/HistoryNavigation/ClockComponent";
 
 function getScrollY() {
   const isScroll = typeof window !== "undefined" && window.scrollY > 0 ? true : false;
@@ -39,15 +40,22 @@ function Home() {
     <>
       { !isGlobeReady && <AntdLoader /> }
       <div className="home-container" style={{display: !isGlobeReady ? 'none' : ''}}>
-        <Header style={{width: '100%', position: 'fixed', zIndex: '4', display: !scrollSize ? 'none' : ''}}>
-          <UserPanel 
-            mobile={user_data.Data?.Mobile}
-            mailTo='https://outlook.office.com/owa/'
-            mailCount={mail_count}
-            notificationsCount={notifications_count}
-            userName={user_data.Data?.DisplayName}
-            userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
-          />
+        <Header style={{width: '100%', position: 'fixed', zIndex: '4'}}>
+          {
+            !scrollSize
+            ? <div style={{position: 'fixed', right: '25px'}}>
+                <ClockComponent EnableHijri={true} />
+              </div>
+            : <UserPanel 
+                mobile={user_data.Data?.Mobile}
+                mailTo='https://outlook.office.com/owa/'
+                mailCount={mail_count}
+                notificationsCount={notifications_count}
+                userName={user_data.Data?.DisplayName}
+                userImage={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`}
+              />
+          }
+          
         </Header>
         <div style={{display: !scrollSize ? 'none' : ''}}>
           <HistoryNavigation>

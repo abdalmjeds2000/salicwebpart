@@ -9,10 +9,12 @@ import { FileJpgOutlined, FileOutlined, FilePdfOutlined, FileWordOutlined, Uploa
 import Reply from './components/Reply';
 import Section from './components/Section';
 import AssigneeRecord from './components/AssigneeRecord';
+import SenderImg from './components/SenderImg';
 import GetContentRequest from '../API/GetContentRequest';
 import UpdateContentRequest from '../API/UpdateContentRequest';
 import AddNewReply from '../API/AddNewReply';
-
+import GetReplys from '../API/GetReplys';
+import FileIcon from './components/FileIcon'
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -24,15 +26,10 @@ function PreviewRequest() {
     const navigate = useNavigate();
     const [fileList, setFileList] = useState([]);
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-
     const [form] = Form.useForm();
-
     const [newReplyText, setNewReplyText] = useState("");
     const [replys, setReplys] = useState([]);
     const [btnDisable, setBtnDisable] = useState(false);
-
-    const img = <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=s&username=${user_data?.Data?.Mail}`} alt='' />;
-    
 
     const [requestData, setRequestData] = useState({});
     let { id } = useParams();
@@ -41,7 +38,6 @@ function PreviewRequest() {
     async function GetRequest(id) {
         const response = await GetContentRequest(id);
         if(response) {
-            console.log(response);
             document.title = `.:: SALIC Gate | ${response.Subject} ::.`;
             response.AttachmentsRows = JSON.parse(response.AttachmentsRows);
             setRequestData(response);
@@ -49,6 +45,51 @@ function PreviewRequest() {
             console.log("ERROR :: Get Content Request");
         }
     } 
+    async function GetAllReplys(id) {
+        const response = await GetReplys(id);
+        if(response) {
+            setReplys(response);
+        } else {
+            console.log("ERROR :: Get All Replys", response);
+        }
+    } 
+    async function AddReply() {
+        let isFilesFinishUpload = true;
+        const attachmentsList = fileList.map(file => {
+            if(file.status === "uploading") isFilesFinishUpload = false
+            return {
+                fileType: file.name.split(".")[file.name.split(".").length-1],
+                fileName: file.name, 
+                path: file.response?.uploadedFiles[0]?.Path
+            }
+        });
+        if(newReplyText && isFilesFinishUpload) {
+            setBtnDisable(true);
+            const replyJSON = {
+                'Title': `reply for ${requestData.Subject}.`,
+                'RequestIDId': id,
+                'Descriptions': newReplyText,
+                'AttachmentsRows': JSON.stringify(attachmentsList),
+            }
+            const response = await AddNewReply(replyJSON)
+            if(response.data) {
+                let res = response.data;
+                res.Author = {
+                    EMail: user_data.Data.Mail,
+                    Title: user_data.Data.DisplayName
+                }
+                setReplys(prev => [...prev, res]);
+                message.success("Done!");
+                setBtnDisable(false);
+                setNewReplyText('');
+                setFileList([]);
+            } else {
+                message.error("Failed Add Reply!")
+            }
+        } else {
+            message.error(!newReplyText ? "Write Something and try again." : "Wait for Uploading ...")
+        }
+    }
     // Update Request
     // async function UpdateRequest(values, id) {
     //     const response = await UpdateContentRequest(values, id);
@@ -67,10 +108,14 @@ function PreviewRequest() {
 
     //     }
     // }
+    const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
 
     useEffect(() => {
         if(id) {
             GetRequest(id)
+            .then(() => {
+                GetAllReplys(id)
+            })
             .then(() => {
                 let elements = document.getElementsByClassName("ant-timeline-item-content");
                 elements[0].style = "background-color: #ffecd3; margin: 0 0 0 40px; width: auto;"
@@ -83,42 +128,8 @@ function PreviewRequest() {
     }, [])
 
 
+   
 
-
-
-    async function AddReply() {
-        let isFilesFinishUpload = true;
-        const attachmentsList = fileList.map(file => {
-            if(file.status === "uploading") isFilesFinishUpload = false
-            return {
-                fileName: file.name, 
-                path: file.response?.uploadedFiles[0]?.Path
-            }
-        });
-        if(newReplyText && isFilesFinishUpload) {
-            setBtnDisable(true);
-            const replyJSON = {
-                'Title': `reply for ${requestData.Subject}.`,
-                'RequestId': `${id};#${id}`,
-                'Descriptions': newReplyText,
-                'AttachmentsRows': JSON.stringify(attachmentsList),
-            }
-            const response = await AddNewReply(replyJSON)
-            if(response.data) {
-                setReplys(prev => [...prev, response.data]);
-                console.log(replyJSON);
-                message.success("Done!");
-                setBtnDisable(false);
-                setNewReplyText('');
-            } else {
-                message.error("Failed Add Reply!")
-            }
-        } else {
-            message.error("Write Something and try again.")
-        }
-    }
-
-    const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
     
     return (
     <>
@@ -129,24 +140,19 @@ function PreviewRequest() {
 
         <div className='preview-request-container'>
             <div className="header">
-                <h1>Request: {requestData?.Subject}</h1>
+                <h1>Content Request: [#{requestData?.Id}]</h1>
                 <div>
                     <Button type="primary">Assign</Button>
                     <Button type="primary" danger>Close</Button>
                 </div>
             </div>
 
-
             {
                 Object.keys(requestData).length > 0 
                 ?   <div className='content'>
                         <div className='timeline'>
                             <Timeline>
-                                <Timeline.Item 
-                                    dot={<img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=s&username=${requestData.Author.EMail}`} 
-                                    title={requestData.Author.Title} />}
-                                    alt=''
-                                >
+                                <Timeline.Item dot={<SenderImg Email={requestData.Author.EMail} Name={requestData.Author.Title} />}>
                                     <Reply 
                                         Title={`RE: ${requestData?.Subject}`}
                                         Description={`${requestData?.RequestType}, ${new Date(requestData?.Created).toLocaleString()}`} 
@@ -157,18 +163,22 @@ function PreviewRequest() {
                                 {
                                     replys?.map((reply, i) => {
                                         return (
-                                            <Timeline.Item dot={img} key={i}>
+                                            <Timeline.Item 
+                                                key={i}
+                                                dot={<SenderImg Email={reply.Author.EMail} Name={reply.Author.Title} />}
+                                            >
                                                 <Reply 
-                                                    Title={reply.Title} 
-                                                    Description={reply.Description} 
+                                                    Title={reply.Author?.Title} 
+                                                    Description={new Date(reply.Created).toLocaleString()}
+                                                    Files={JSON.parse(reply.AttachmentsRows)}
                                                 >
-                                                    {reply.Content}
+                                                    {reply.Descriptions}
                                                 </Reply>
                                             </Timeline.Item>
                                         )
                                     })
                                 }
-                                <Timeline.Item dot={img}>
+                                <Timeline.Item dot={<SenderImg Email={user_data.Data.Mail} Name={user_data.Data.DisplayName} />}>
                                     <Row gutter={[10, 10]}>
                                         <Col span={24}>
                                             <TextArea rows={4} placeholder="Add Reply" maxLength={500} value={newReplyText} onChange={e => setNewReplyText(e.target.value)} />
@@ -189,8 +199,6 @@ function PreviewRequest() {
                                 </Timeline.Item>
                             </Timeline>
                         </div>
-
-
 
                         <div className='properties'>
                             {/* Update Request */}
@@ -231,10 +239,12 @@ function PreviewRequest() {
                                     {
                                         requestData.AttachmentsRows.map((file,i) => {
                                             return (
-                                                <FileOutlined
+                                                <FileIcon
                                                     key={i} 
-                                                    title={file.fileName} 
-                                                    onClick={() => window.open(file.path, "_blank")} 
+                                                    FileType={file.fileType}
+                                                    FileName={file.fileName}
+                                                    FilePath={file.path}
+                                                    IconWidth='50px'
                                                 />
                                             )
                                         })
@@ -318,9 +328,8 @@ function PreviewRequest() {
                             </Form> */}
                         </div>
                     </div>
-                : "Loading"
+                : "Loading..."
             }
-            
 
         </div>
     </>

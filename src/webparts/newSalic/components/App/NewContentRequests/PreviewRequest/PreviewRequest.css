@@ -94,6 +94,7 @@
     .preview-request-container .content .timeline .ant-timeline-item-content {
       padding: 10px !important;
       margin: 0 0 0 40px !important;
+      width: auto !important;
     }
   }
   

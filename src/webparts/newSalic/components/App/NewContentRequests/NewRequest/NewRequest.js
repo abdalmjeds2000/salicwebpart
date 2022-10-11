@@ -72,7 +72,7 @@ function NewRequest() {
   //   // Prevent upload
   //   // return false;
   // }
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log(newFileList);};
   let navigate = useNavigate();
 
 
@@ -81,7 +81,8 @@ function NewRequest() {
     const attachmentsList = fileList.map(file => {
       if(file.status === "uploading") isFilesFinishUpload = false
         return {
-          fileName: file.name, 
+          fileType: file.name.split(".")[file.name.split(".").length-1],
+          fileName: file.name,
           path: file.response?.uploadedFiles[0]?.Path
         }
       });
