@@ -21,6 +21,7 @@
 }
 .folder-explorer-container .folders .content {
   width: 85%;
+  min-height: calc(100vh - 115px);
   padding: 10px;
   background-color: #fff;
   height: inherit;

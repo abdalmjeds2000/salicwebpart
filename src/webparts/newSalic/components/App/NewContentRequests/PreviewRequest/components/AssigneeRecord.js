@@ -3,7 +3,7 @@ import React from 'react'
 function AssigneeRecord(props) {
   const recordStyle = {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     width: '100%',
     gap: '7px'
   }
@@ -12,9 +12,9 @@ function AssigneeRecord(props) {
     borderRadius: "50%",
   }
   const textStyle = {
-    color: '#000',
+    color: '#000 !important',
     fontSize: '1rem',
-    lineHeight: '1'
+    lineHeight: '1.1'
   }
   return (
     <div style={recordStyle}>

@@ -41,7 +41,7 @@ function Visitor() {
     setPreviewVisible(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log(newFileList)};
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
 
   async function CreateOfficeSupplyRequest(values) {

@@ -3,6 +3,8 @@ import './FolderExplorer.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import Organization from './components/Organization'
 import PrivateFolder from './components/PrivateFolder'
+import ESignFolder from './components/ESignFolder'
+
 import { FolderOpenOutlined } from '@ant-design/icons';
 
 
@@ -46,7 +48,7 @@ const FolderExplorerPage = (props) => {
               <PrivateFolder />
             </div>
             <div style={{display: currentItem === 4 ? "block" : 'none'}}>
-              eSign Folder
+              <ESignFolder />
             </div>
           </div>
         </div>

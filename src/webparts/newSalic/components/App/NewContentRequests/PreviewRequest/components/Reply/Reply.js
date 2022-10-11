@@ -15,7 +15,7 @@ function Reply(props) {
             <h3 style={{fontSize: '1.2rem'}}>{props.Title}</h3>
             <time style={{fontSize: '0.9rem'}}>{props.Description}</time>
             <div className="reply-content" style={contentStyle}>
-                {props.children}
+                {props.Content}
             </div>
         </div>
     )

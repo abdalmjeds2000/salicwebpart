@@ -75,7 +75,6 @@
 
   .preview-request-container textarea {
     border-radius: 5px;
-    border: navajowhite;
   }
   @media screen and (max-width: 800px) {
     .preview-request-container {

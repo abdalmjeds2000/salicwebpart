@@ -159,6 +159,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route index element={<ContentRequests />} />
         <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewRequest />} />
         <Route path={`${defualtRoute}/content-requests/preview-request`} element={<PreviewRequest />} />
+        <Route path={`${defualtRoute}/content-requests/:id`} element={<PreviewRequest />} />
+
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
