@@ -4,7 +4,7 @@ import './OracleReports.css'
 import { AppCtx } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { message } from 'antd'
+import { Divider, message } from 'antd'
 
 function OracleReports() {
   const { oracle_reports } = useContext(AppCtx);
@@ -74,8 +74,8 @@ function OracleReports() {
         <div className='departments-content'>
         <h1>{activeLink || 'Reports'}</h1>
 
-          <br /><hr /><br />
-
+          <Divider />
+          
           <div className='links-container'>
             {
               currentLinks.map((link, i) => {

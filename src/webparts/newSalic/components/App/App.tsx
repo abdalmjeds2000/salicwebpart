@@ -46,7 +46,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [performance, setPerformance] = React.useState({});
   const [allEvents, setAllEvents] = React.useState([]);
   const [contentRequestsData, setContentRequestsData] = React.useState([]);
-  
+  const [adminAssignedRequests, setAdminAssignedRequests] = React.useState([]);
+  const [adminMyRequests, setAdminMyRequests] = React.useState([]);
   
 
 
@@ -253,7 +254,11 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setPerformance,
     all_events: allEvents,
     content_requests_data: contentRequestsData,
-    setContentRequestsData
+    setContentRequestsData,
+    admin_assigned_requests: adminAssignedRequests, 
+    setAdminAssignedRequests,
+    admin_my_requests: adminMyRequests,
+    setAdminMyRequests
   };
 
   return (

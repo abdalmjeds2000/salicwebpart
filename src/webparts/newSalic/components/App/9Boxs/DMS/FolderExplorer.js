@@ -5,7 +5,7 @@ import Organization from './components/Organization'
 import PrivateFolder from './components/PrivateFolder'
 import ESignFolder from './components/ESignFolder'
 
-import { FolderOpenOutlined } from '@ant-design/icons';
+import { FolderOpenFilled, FolderOpenOutlined } from '@ant-design/icons';
 
 
 const FolderExplorerPage = (props) => {
@@ -23,16 +23,16 @@ const FolderExplorerPage = (props) => {
           <div className='tabs'>
             <ul>
               <li onClick={_ => setCurrentItem(1)} className={currentItem === 1 ? 'active' : ''}>
-                <FolderOpenOutlined /> Organization
+                {currentItem === 1 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Organization
               </li>
               <li onClick={_ => setCurrentItem(2)} className={currentItem === 2 ? 'active' : ''}>
-                <FolderOpenOutlined /> Shared With Me
+                {currentItem === 2 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Shared With Me
               </li>
               <li onClick={_ => setCurrentItem(3)} className={currentItem === 3 ? 'active' : ''}>
-                <FolderOpenOutlined /> Private Folder
+                {currentItem === 3 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Private Folder
               </li>
               <li onClick={_ => setCurrentItem(4)} className={currentItem === 4 ? 'active' : ''}>
-                <FolderOpenOutlined /> eSign Folder
+                {currentItem === 4 ? <FolderOpenFilled /> : <FolderOpenOutlined />} eSign Folder
               </li>
             </ul>
           </div>

@@ -92,25 +92,26 @@ const EditableTable = (props) => {
     {
       title: () => <>Guest Name <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'Name',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: 'Guest Email',
       dataIndex: 'Email',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: 'Mobile Number',
       dataIndex: 'Mobile',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: 'Company',
       dataIndex: 'Company',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: 'With Car',
       dataIndex: 'Car',
       render: (val, record) => {
         return <Checkbox 
           checked={val}
+          disabled={props.PreviewMode ? true : false}
           onChange={e => {
             record.Car = e.target.checked
             props.setDataSource([...props.dataSource])
@@ -188,15 +189,21 @@ const EditableTable = (props) => {
         bordered
         dataSource={props.dataSource}
         setDataSource={props.setDataSource}
-        columns={columns}
+        columns={props.PreviewMode ? columns.filter(row => row.dataIndex !== "operation") : columns}
         pagination={false}
       />
-      <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
-        * Click on table cell to edit value
-      </span>
-      <Button onClick={handleAdd} type="dashed" style={{ marginBottom: 24}}>
-        Add More
-      </Button>
+      {
+        !props.PreviewMode
+        ? <>
+            <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
+              * Click on table cell to edit value
+            </span>
+            <Button onClick={handleAdd} type="dashed" style={{ marginBottom: 24}}>
+              Add More
+            </Button>
+          </>
+        : null
+      }
     </div>
   );
 };

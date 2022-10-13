@@ -1,24 +1,32 @@
-import React, { useContext, useState } from 'react'
-import { Form, Input, message } from 'antd';
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Button, Col, Form, Input, message, Row, Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
 import MaintenanceRequest from './API/MaintenanceRequest';
+import GetMaintenanceRequestById from './API/GetMaintenanceRequestById';
+import { LoadingOutlined } from '@ant-design/icons';
+import ActionsTable from '../../components/ActionsTable/ActionsTable';
+moment.locale('en')
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
+
+
 function Maintenance() {
   const [form] = Form.useForm();
-  const { user_data, setMaintenanceData, defualt_route } = useContext(AppCtx);
-  const [btnLoader, setBtnLoader] = useState(false);
+  const { user_data, defualt_route } = useContext(AppCtx);
+  const [loading, setLoading] = useState(true);
   let navigate = useNavigate();
+  const { id } = useParams();
+  const [requestData, setRequestData] = useState({});
 
 
   async function CreateMaintenanceRequest(values) {
-    setBtnLoader(true);
+    setLoading(true);
     const formData = {
       Email: user_data?.Data?.Mail,
       ReferenceCode: "auto generated",
@@ -28,78 +36,98 @@ function Maintenance() {
     }
     if(values) {
       const response = await MaintenanceRequest(formData);
-      if(response.data) {
+      if(response) {
         form.resetFields();
-        message.success("The request has been sent successfully.")
+        message.success("The request has been sent successfully.");
         console.log(formData)
-        setBtnLoader(false);
+        setLoading(false);
       } else {
-        setBtnLoader(false);
+        setLoading(false);
         message.success("Failed to send request.")
       }
       
     } else {
       message.error("Failed to send request.")
-      setBtnLoader(false);
+      setLoading(false);
     }
   }
 
-  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
-
-
-
+  async function GetMaintenanceRequestData(email, id) {
+    setLoading(true);
+    const response = await GetMaintenanceRequestById(email, id);
+    if(response.data.Status === 200 && response.data.Data.length > 0) {
+      console.log(response.data.Data[0]);
+      setRequestData(response.data.Data[0])
+    } else {
+      message.error("Error Get Request Data")
+    }
+    setLoading(false);
+  }
+  useEffect(() => {
+    if(id) {
+      if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
+        GetMaintenanceRequestData(user_data.Data.Mail, id);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [user_data])
 
   return (
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/admin-services`)}>Admin Service</a>
-        <p>Maintenance Request</p>
+        <p>{!id && 'New '}Maintenance Request</p>
       </HistoryNavigation>
-      
+      {
+        !loading
+        ? <FormPage
+            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
+            pageTitle={!id ? 'New Maintenance Request' : 'Maintenance Request'}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
+            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
+            UserId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data.PIN, 10)}
+            tipsList={[
+              "Fill out required fields carefully.",
+              "Check your email regularly. You will receive a notification on every future actions",
+            ]}
+          >
+            <Form 
+              {...layout} 
+              form={form}
+              colon={false}
+              labelWrap 
+              name="service-request" 
+              onFinish={CreateMaintenanceRequest} 
+              onFinishFailed={() => message.error("Please, fill out the form correctly.")}
+              layout="horizontal"
+            >
 
-      <FormPage
-        user_data={user_data}
-        pageTitle='New Maintenance Request'
-        tips_userInfo={[
-          {title: 'SALIC', text: user_data.Data?.Department},
-          {title: 'Nationality', text: user_data.Data?.Nationality},
-          {title: 'ID #', text: user_data.Data?.Id},
-        ]}
-        tipsList={[
-          "Fill out required fields carefully.",
-          "Check your email regularly. You will receive a notification on every future actions",
-        ]}
-      >
-        <Form 
-          {...layout} 
-          form={form}
-          colon={false}
-          labelWrap 
-          name="service-request" 
-          onFinish={CreateMaintenanceRequest} 
-          onFinishFailed={onFinishFailed}
-          layout="horizontal"
-        >
+              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? requestData.Date : new Date()).format("MM/DD/YYYY hh:mm")} >
+                <Input placeholder='Date' size='large' disabled />
+              </Form.Item>
+              
+              <hr />
 
-          <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
-            <Input placeholder='Date' size='large' disabled />
-          </Form.Item>
-          
-          <hr />
+              <Form.Item name="Requester" label="Requester" initialValue={id ? requestData.ByUser?.DisplayName : ''}>
+                <Input placeholder='full name' size='large' disabled={id ? true : false}/>
+              </Form.Item>
+              <Form.Item name="Location" label="Location" rules={[{required: true}]} initialValue={id ? requestData.Location : ''}>
+                <Input placeholder='Location' size='large' disabled={id ? true : false}/>
+              </Form.Item>
+              <Form.Item name="Description" label="Descriptions" rules={[{required: true}]} initialValue={id ? requestData.Description : ''}>
+                <Input.TextArea rows={6} placeholder="write a brief description" disabled={id ? true : false}/>
+              </Form.Item>
 
-          <Form.Item name="Requester" label="Requester">
-            <Input placeholder='full name' size='large' />
-          </Form.Item>
-          <Form.Item name="Location" label="Location" rules={[{required: true}]} >
-            <Input placeholder='Location' size='large' />
-          </Form.Item>
-          <Form.Item name="Description" label="Descriptions" rules={[{required: true}]}>
-            <Input.TextArea rows={6} placeholder="write a brief description" />
-          </Form.Item>
-
-          <SubmitCancel loaderState={btnLoader} />
-        </Form>
-      </FormPage>
+              <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />
+            </Form>
+            {id && <ActionsTable ActionData={requestData.Status || []} />}
+          </FormPage>
+        : <div style={{display: 'flex', justifyContent: 'center'}}>
+            <Spin indicator={<LoadingOutlined spin />} />
+          </div>
+      }
     </>
   )
 }

@@ -79,7 +79,7 @@
   }
   .news-details {
     gap: 10px;
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   .news-details-page-container .content h1.news-title {
     font-size: 1.4rem;

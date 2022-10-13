@@ -123,10 +123,16 @@
 
 
 
-.content-services-request div.form .ant-table-cell {
+.content-services-request div.form .ant-table-thead .ant-table-cell {
   text-align: center !important;
 }
 .content-services-request div.form .editable-cell-value-wrap {
   width: 100% !important;
   min-height: 25px !important;
+}
+
+.content-services-request .ant-input[disabled],
+.content-services-request .ant-input-number-disabled,
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: rgba(0,0,0,.75) !important;
 }

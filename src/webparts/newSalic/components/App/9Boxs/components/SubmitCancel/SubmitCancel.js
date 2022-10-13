@@ -8,13 +8,17 @@ function SubmitCancel(props) {
   const { defualt_route } = useContext(AppCtx);
   return (
     <Row gutter={10} justify="center">
+      {
+        !props.isUpdate
+        ? <Col>
+            <Button type="primary" htmlType='submit' disabled={props.loaderState ? true : false} onClick={props.formSubmitHandler}>
+              {props.isUpdate ? "Update" : "Submit"}
+            </Button>
+          </Col>
+        : null
+      }
       <Col>
-        <Button type="primary" htmlType='submit' disabled={props.loaderState ? true : false} onClick={props.formSubmitHandler}>
-          {props.isUpdate ? "Update" : "Submit"}
-        </Button>
-      </Col>
-      <Col>
-        <Button type="ghost" onClick={() => navigate(`${defualt_route}/${props.backTo || 'admin-services'}`)}>
+        <Button danger type="ghost" onClick={() => navigate(`${defualt_route}${props.backTo || 'admin-services'}`)}>
           Cancel
         </Button>
       </Col>

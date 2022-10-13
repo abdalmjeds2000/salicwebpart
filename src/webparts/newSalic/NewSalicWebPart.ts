@@ -10,8 +10,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'NewSalicWebPartStrings';
 import NewSalic from './components/NewSalic';
 import { INewSalicProps } from './components/INewSalicProps';
-import pnp from "sp-pnp-js";
-
+import pnp, { graph } from "sp-pnp-js";
 
 export interface INewSalicWebPartProps {
   description: string;

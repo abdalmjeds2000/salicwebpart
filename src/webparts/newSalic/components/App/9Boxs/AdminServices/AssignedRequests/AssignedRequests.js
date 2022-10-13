@@ -2,16 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
-import { message, Spin, Table } from 'antd';
+import { Button, message, Spin, Table } from 'antd';
 import GetAssignedRequests from './GetAssignedRequests'
 import { LoadingOutlined } from '@ant-design/icons';
 function AssignedRequests() {
-  const { maintenance_data, setMaintenanceData, defualt_route, user_data } = useContext(AppCtx);
+  const { admin_assigned_requests, setAdminAssignedRequests, defualt_route, user_data } = useContext(AppCtx);
   let navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   
+
   async function fetchData() {
     setLoading(true)
     const response = await GetAssignedRequests()
@@ -20,23 +19,39 @@ function AssignedRequests() {
         row.Key = i+1
         return {...row}
       })
-      setData(dataTable);
-      setLoading(false)
+      setAdminAssignedRequests(dataTable);
     } else {
-      setLoading(false)
-      message.error("Failed Load Data!")
+      message.error("Failed Load Data!");
     }
-
+    setLoading(false);
   }
 
   useEffect(() => {
-    if(user_data){
+    if(Object.keys(user_data).length > 0 && admin_assigned_requests.length === 0){
       fetchData();
     }
   }, [user_data])
 
+  const ToUpdatePage = (RequestType, RequestId) => {
+    const Code = RequestType.split("-")[0];
+    if(Code === "VISA") {
+      navigate(defualt_route + `/admin-services/issuing-VISA/${RequestId}`);
+    } else if(Code === "BG") {
+      navigate(defualt_route + `/admin-services/business-gate/${RequestId}`);
+    } else if(Code === "SHP") {
+      navigate(defualt_route + `/admin-services/shipment/${RequestId}`);
+    } else if(Code === "SUP") {
+      navigate(defualt_route + `/admin-services/office-supply/${RequestId}`);
+    } else if(Code === "MAN") {
+      navigate(defualt_route + `/admin-services/maintenance/${RequestId}`);
+    } else if(Code === "VIS") {
+      navigate(defualt_route + `/admin-services/visitor/${RequestId}`);
+    } else if(Code === "TS") {
+      navigate(defualt_route + `/admin-services/transportation/${RequestId}`);
+    }
+    return null
+  }
 
-  
   const columns = [
     {
       title: '#',
@@ -44,7 +59,7 @@ function AssignedRequests() {
     },{
       title: 'Application Name',
       dataIndex: 'ApplicationName',
-      render: (val, record) => <a>{val}</a>
+      render: (code, record) => <a onClick={() => ToUpdatePage(code, record.Id)}>{code}</a>
     },{
       title: 'Created',
       dataIndex: 'CreatedAt',
@@ -52,7 +67,7 @@ function AssignedRequests() {
     },{
       title: 'Ref. Code',
       dataIndex: 'ReferenceCode',
-      render: (val) => <a>{val}</a>
+      render: (code, record) => <a onClick={() => ToUpdatePage(code, record.Id)}>{code}</a>
     },{
       title: 'Requester Name',
       dataIndex: 'ByUser',
@@ -82,14 +97,15 @@ function AssignedRequests() {
         <div className='content'>
           <div className="header">
             <h1>SALIC Automation Processes</h1>
+            <Button type='primary' size='small' onClick={fetchData}>Refresh</Button>
           </div>
 
-          <div style={{padding: '25px', overflowX: 'auto'}}>
+          <div className='form'>
             {
               !loading
               ? <Table
                   columns={columns}
-                  dataSource={data}
+                  dataSource={admin_assigned_requests}
                   pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                 />
               : <Spin indicator={<LoadingOutlined spin />} style={{width: '100%', margin: '25px auto'}} />

@@ -92,22 +92,38 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/admin-services`}>
         <Route index element={<AdminServices />} />
-        <Route path={`${defualtRoute}/admin-services/issuing-VISA`} element={<IssuingVISA />} />
-        <Route path={`${defualtRoute}/admin-services/shipment`} element={<ShipmentRequest />} />
-        
+        <Route path={`${defualtRoute}/admin-services/issuing-VISA`}>
+          <Route index element={<IssuingVISA />} />
+          <Route path={`${defualtRoute}/admin-services/issuing-VISA/:id`} element={<IssuingVISA />} />
+        </Route>
+        <Route path={`${defualtRoute}/admin-services/shipment`}>
+          <Route index element={<ShipmentRequest />} />
+          <Route path={`${defualtRoute}/admin-services/shipment/:id`} element={<ShipmentRequest />} />
+        </Route>
         <Route path={`${defualtRoute}/admin-services/maintenance`}>
           <Route index element={<Maintenance />} />
-          <Route path={`${defualtRoute}/admin-services/maintenance/:id`} element={<UpdateMaintenance />} />
+          <Route path={`${defualtRoute}/admin-services/maintenance/:id`} element={<Maintenance />} />
         </Route>
-        
-        <Route path={`${defualtRoute}/admin-services/visitor`} element={<Visitor />} />
-        <Route path={`${defualtRoute}/admin-services/transportation`} element={<Transportation />} />
-        <Route path={`${defualtRoute}/admin-services/business-gate`} element={<BusinessGate />} />
-        <Route path={`${defualtRoute}/admin-services/office-supply`} element={<OfficeSupply />} />
-
+        <Route path={`${defualtRoute}/admin-services/visitor`}>
+          <Route index element={<Visitor />} />
+          <Route path={`${defualtRoute}/admin-services/visitor/:id`} element={<Visitor />} />
+        </Route>
+        <Route path={`${defualtRoute}/admin-services/transportation`}>
+          <Route index element={<Transportation />} />
+          <Route path={`${defualtRoute}/admin-services/transportation/:id`} element={<Transportation />} />
+        </Route>
+        <Route path={`${defualtRoute}/admin-services/business-gate`}>
+          <Route index element={<BusinessGate />} />
+          <Route path={`${defualtRoute}/admin-services/business-gate/:id`} element={<BusinessGate />} />
+        </Route>
+        <Route path={`${defualtRoute}/admin-services/office-supply`}>
+          <Route index element={<OfficeSupply />} />
+          <Route path={`${defualtRoute}/admin-services/office-supply/:id`} element={<OfficeSupply />} />
+        </Route>
         <Route path={`${defualtRoute}/admin-services/assigned-requests`} element={<AssignedRequests />} />
         <Route path={`${defualtRoute}/admin-services/my-requests`} element={<MyRequests />} />
       </Route>
+      
       <Route path={`${defualtRoute}/it-services`}>
         <Route index element={<ITServices />} />
         <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />

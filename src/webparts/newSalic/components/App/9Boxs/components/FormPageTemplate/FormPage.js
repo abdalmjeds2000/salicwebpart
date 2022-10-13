@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './FormPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
+import { AppCtx } from '../../../App'
 
 
 
 function FormPageTemplate(props) {
-
+  const { user_data } = useContext(AppCtx);
   return (
     <div>
       <div className="content-services-request">
@@ -19,21 +20,22 @@ function FormPageTemplate(props) {
           <div className="tips">
             <div className="tips_user-info">
               <div className="tips_user-info_text">
-                {
-                  props.tips_userInfo?.map((a, i) => {
-                    return (
-                      <div key={i}>
-                        <p><b>{a.title}</b></p>
-                        <p>{a.text}</p>
-                      </div>
-                    )
-                  })
-                
-                }
+                <div>
+                  <p><b>{props.UserName}</b></p>
+                  <p>{props.UserDept}</p>
+                </div>
+                <div>
+                  <p><b>Nationality</b></p>
+                  <p>{props.UserNationality}</p>
+                </div>
+                <div>
+                  <p><b>ID #</b></p>
+                  <p>{props.UserId}</p>
+                </div>
               </div>
               <div className="tips_user-info_img">
                 <img 
-                  src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${props.user_data.Data?.Mail}`} 
+                  src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${props.Email || user_data.Data.Mail}`} 
                   alt="" 
                 />
               </div>
