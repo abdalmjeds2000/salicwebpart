@@ -41,7 +41,7 @@ function AllContentRequests() {
       render: (val) => val ? new Date(val).toLocaleString() : ' - '
     },{
       title: 'Subject',
-      dataIndex: 'Subject',
+      dataIndex: 'Title',
       width: '40%',
       render: (val, record) => <a onClick={() => navigate(defualt_route + `/content-requests/${record.Id}`)}>{val}</a>
     },{

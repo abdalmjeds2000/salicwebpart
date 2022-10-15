@@ -86,7 +86,6 @@ function NewRequest() {
           path: file.response?.uploadedFiles[0]?.Path
         }
       });
-    values.Title = values.Subject;
     values.AttachmentsRows = JSON.stringify(attachmentsList);
     if(values && isFilesFinishUpload) {
       const response = await AddContentRequest(values)
@@ -159,7 +158,7 @@ function NewRequest() {
           </Form.Item>
 
 
-          <Form.Item name='Subject' label="Subject" rules={[{required: true}]}>
+          <Form.Item name='Title' label="Subject" rules={[{required: true}]}>
             <Input placeholder='Subject' size='large' />
           </Form.Item>
           
@@ -186,7 +185,7 @@ function NewRequest() {
           </Form.Item>
 
 
-          <SubmitCancel loaderState={btnLoader} backTo="content-requests" />
+          <SubmitCancel loaderState={btnLoader} backTo="/content-requests" />
         </Form>
       </FormPage>
     </>

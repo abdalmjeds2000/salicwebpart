@@ -1,11 +1,17 @@
+import { Avatar, Image } from "antd"
+
 const SenderImg = (props) => {
     return (
-        <img 
-            src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=s&username=${props.Email}`}
-            title={props.Name || ''}
-            style={{borderRadius: '50%'}}
-            alt='' 
-        />
+        <Avatar
+            src={
+                <Image
+                    src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=s&username=${props.Email}`}
+                    style={{minWidth: 32}}
+                    title={props.Name || ''}
+                    alt=''
+                />
+            }
+            />
     )
 }
 

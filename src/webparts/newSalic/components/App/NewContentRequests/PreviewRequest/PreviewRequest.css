@@ -27,13 +27,13 @@
 
   .preview-request-container .content {
     display: flex;
-    gap: 25px;
+    gap: 15px;
     padding: 30px;
     background-color: #fff;
     border-radius: 0 0 10px 10px;
   }
   .preview-request-container .content .timeline {
-    width: 80%;
+    width: 75%;
   }
   .preview-request-container .content .timeline .ant-timeline-item-content {
     background-color: var(--third-color);
@@ -61,7 +61,7 @@
     border-radius: 50%;
   }
   .preview-request-container .content .properties {
-    width: 20%;
+    width: 25%;
   }
   .preview-request-container .content .properties h1.section-title {
     color: #000 !important;
@@ -98,3 +98,17 @@
     }
   }
   
+
+  .preview-request-container .attachments-container {
+    font-size: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+  }
+  .preview-request-container .attachments-container img:hover {
+    transform: translateY(-10px);
+  }
