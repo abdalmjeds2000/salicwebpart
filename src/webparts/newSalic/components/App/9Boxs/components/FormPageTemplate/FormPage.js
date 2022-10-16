@@ -21,16 +21,16 @@ function FormPageTemplate(props) {
             <div className="tips_user-info">
               <div className="tips_user-info_text">
                 <div>
-                  <p><b>{props.UserName}</b></p>
-                  <p>{props.UserDept}</p>
+                  <p><b>{props.UserName || user_data.Data?.DisplayName}</b></p>
+                  <p>{props.UserDept || user_data.Data?.Title}</p>
                 </div>
                 <div>
                   <p><b>Nationality</b></p>
-                  <p>{props.UserNationality}</p>
+                  <p>{props.UserNationality || user_data.Data?.Nationality || ' - '}</p>
                 </div>
                 <div>
                   <p><b>ID #</b></p>
-                  <p>{props.UserId}</p>
+                  <p>{parseInt(props.UserId, 10) || parseInt(user_data.Data?.PIN, 10) || ' - '}</p>
                 </div>
               </div>
               <div className="tips_user-info_img">

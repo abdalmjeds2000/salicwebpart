@@ -45,36 +45,31 @@ function NumbersAttendance() {
 
   const configRadialBar = {
     data: [
-      {name: 'Expire Leaves Balance', star: (isNaN(performance?.leaves - 15)) || (performance?.leaves - 15 < 0) ? '0' : performance?.leaves - 15},
-      {name: 'Leaves Balance', star: performance?.leaves},
+      { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
+      { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
+      { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
     ],
     xField: 'name',
-    yField: 'star',
+    yField: 'value',
     radius: 1,
     innerRadius: 0.5,
-    tooltip: {
-      formatter: (datum) => {
-        return {
-          name: datum.name,
-          value: datum.star,
-        };
-      },
-    },
-    colorField: 'name',
-    color: ({ name }) => {
-      if (name === 'Leaves Balance') {
-        return '#43A2CC';
-      } else if (name === 'Expire Leaves Balance') {
+    colorField: 'type',
+    color: ({ type }) => {
+      if (type === 'Consumed in This Year') {
+        return '#F9A654';
+      } else if (type === 'Available Balance This Year') {
+        return '#E7F0FE';
+      } else if (type === 'Expire in This Year') {
         return '#FD96A6';
       }
       return '#43A2CC';
     },
-    animation: {
-      appear: {
-        animation: 'none',
-      },
-    },
+    isStack: true,
+    maxAngle: 270,
+    animation: {appear: {animation: 'none'}},
   };
+
+
   return (
     <div className="numbers-attendance-container">
       <div className="div1">
@@ -92,7 +87,7 @@ function NumbersAttendance() {
         />
       </div>
       <div className="div2">
-        <Number 
+        {/* <Number 
           pathColor='#277C62' 
           header="Leaves Balance" 
           description={`${(isNaN(performance?.leaves - 15)) || (performance?.leaves - 15 < 0) ? '0' : performance?.leaves - 15 } expire at 1/1/${new Date().getYear() + 1901}`}
@@ -101,7 +96,7 @@ function NumbersAttendance() {
           maxValue='30'
           text={performance?.leaves ? `${performance?.leaves}` : '?'}
           textColor='#277C62' 
-        />
+        /> */}
       </div>
       <div className="div3">
         <Number

@@ -31,7 +31,7 @@ const getBase64 = (file) =>
 
 
 function NewRequest() {
-  const { defualt_route, user_data } = useContext(AppCtx);
+  const { defualt_route, user_data, setContentRequestsData } = useContext(AppCtx);
   const [requestType, setRequestType] = useState("Internal Announcement Request");
   const [form] = Form.useForm();
   const [btnLoader, setBtnLoader] = useState(false)
@@ -94,7 +94,8 @@ function NewRequest() {
         message.success("The request has been sent successfully.")
         setBtnLoader(false);
         setFileList([]);
-        navigate(`${defualt_route}/content-requests/${response.data.Id}`)
+        navigate(`${defualt_route}/content-requests/${response.data.Id}`);
+        setContentRequestsData(prev => [response.data, ...prev])
         console.log(response);
       } else {
         message.error("Failed to send request.")
@@ -108,10 +109,6 @@ function NewRequest() {
       setBtnLoader(false);
     }
   }
-  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
-
-
-
 
   return (
     <>
@@ -121,13 +118,7 @@ function NewRequest() {
       </HistoryNavigation>
 
       <FormPage
-        user_data={user_data}
         pageTitle='New Request'
-        tips_userInfo={[
-          {title: 'SALIC', text: user_data.Data?.Department},
-          {title: 'Nationality', text: user_data.Data?.Nationality},
-          {title: 'ID #', text: user_data.Data?.Id},
-        ]}
         tipsList={[
           "Fill out required fields carefully.",
           "Check your email regularly. You will receive a notification on every future actions",
@@ -141,7 +132,7 @@ function NewRequest() {
           name="content-request" 
           form={form} 
           onFinish={CreateRequest}
-          onFinishFailed={onFinishFailed}
+          onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
 
           <Form.Item name="RequestType" label="Request Type" initialValue="Internal Announcement Request">

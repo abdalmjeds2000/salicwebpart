@@ -3,7 +3,7 @@ import './PreviewRequest.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../App'
-import { Button, Col, Form, message, Radio, Row, Select, Space, Timeline, Upload, Input, Steps, Spin } from 'antd';
+import { Button, Col, Form, message, Radio, Row, Select, Space, Timeline, Upload, Input, Steps, Spin, Modal } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { FileJpgOutlined, FileOutlined, FilePdfOutlined, FileWordOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import Reply from './components/Reply';
@@ -29,10 +29,11 @@ function PreviewRequest() {
     
     const [newReplyText, setNewReplyText] = useState("");
     const [btnLoader, setBtnLoader] = useState(false);
-
     const [requestData, setRequestData] = useState({});
     const [replys, setReplys] = useState([]);
     const [assigneeHistoryData, setAssigneeHistoryData] = useState([]);
+    const [openModal, setOpenModal] = useState(false)
+    const [rejectReason, setRejectReason] = useState('')
     
     let { id } = useParams();
 
@@ -64,7 +65,7 @@ function PreviewRequest() {
             console.log("ERROR :: Get Assignee History", AssigneeHistory);
         }
     }
-    async function AddReply() {
+    async function AddReply(ReplyText, IsResult) {
         setBtnLoader(true);
         let isFilesFinishUpload = true;
         const attachmentsList = fileList.map(file => {
@@ -75,12 +76,13 @@ function PreviewRequest() {
                 path: file.response?.uploadedFiles[0]?.Path
             }
         });
-        if(newReplyText && isFilesFinishUpload) {
+        if(ReplyText && isFilesFinishUpload) {
             const replyJSON = {
-                'Title': `reply for ${requestData.Title}.`,
-                'RequestIDId': id,
-                'Descriptions': newReplyText,
-                'AttachmentsRows': JSON.stringify(attachmentsList),
+                Title: `reply for item[${requestData.Title}].`,
+                RequestIDId: id,
+                Descriptions: ReplyText,
+                AttachmentsRows: JSON.stringify(attachmentsList),
+                IsResult: IsResult
             }
             const response = await AddNewReply(replyJSON)
             if(response.data) {
@@ -103,16 +105,22 @@ function PreviewRequest() {
     }
     async function AddAction(status) {
         setBtnLoader(true);
-        const data = {Status: status}
-        const response = await UpdateAssignee(data, assigneeHistoryData[0].Id)
+        const data = {Status: status, Action: status, ActionDate: new Date()}
+        const response = await UpdateAssignee(data, assigneeHistoryData[assigneeHistoryData.length-1].Id)
         if(response) {
+            GetRequestAssigneeHistory(id);
+            setAssigneeHistoryData(prev => { prev[prev.length-1].Status = status; return prev })
             message.success(`The request has been ${status}.`, 3)
-            setRequestData(prev => { prev.Status = status; return {...prev} });
-            setAssigneeHistoryData(prev => { prev[0].Status = status; return [{...prev[0]}] })
+            if(status === "Rejected") {
+                setRequestData(prev => { prev.Status = status; return {...prev} });
+                AddReply(rejectReason, true);
+            }
+            if(assigneeHistoryData.length === 2) setRequestData(prev => { prev.Status = status; return {...prev} });
         } else {
             message.error("Failed Add Action!")
         }
         setBtnLoader(false);
+        setOpenModal(false);
     }
     useEffect(() => {
         if(id) {
@@ -130,7 +138,7 @@ function PreviewRequest() {
             navigate(defualt_route + '/content-requests/new-request');
             message.info("Not Found Item")
         }
-    }, [])
+    }, []);
 
 
     return (
@@ -139,17 +147,27 @@ function PreviewRequest() {
             <a onClick={() => navigate(`${defualt_route}/content-requests`)}>Content Requests</a>
             <p>Preview Request</p>
         </HistoryNavigation>
-
         
         <div className='preview-request-container'>
             <div className="header">
                 <h1>Content Request: [#{requestData?.Id || '###'}]</h1>
                 {
-                    assigneeHistoryData[assigneeHistoryData.length-1]?.ToUser?.EMail === user_data.Data?.Mail
+                    assigneeHistoryData[assigneeHistoryData.length-1]?.ToUser?.EMail !== 'user_data.Data?.Mail'
                     && requestData.Status === "Submitted"
                     ?   <div>
                             <Button onClick={() => AddAction("Approved")} type="primary" disabled={btnLoader}>Approve</Button>
-                            <Button onClick={() => AddAction("Rejected")} type="primary" disabled={btnLoader} danger>Reject</Button>
+                            <Button onClick={() => setOpenModal(true)} type="primary" disabled={btnLoader} danger>Reject</Button>
+                            <Modal
+                                title="Write Rejection Reason"
+                                visible={openModal}
+                                onCancel={() => setOpenModal(false)}
+                                okButtonProps={{ style: {display: 'none'}}}
+                            >
+                                <TextArea value={rejectReason} onChange={e => setRejectReason(e.target.value)} placeholder='reason of reject the request' style={{marginBottom: '15px'}}/>
+                                <Button danger type="primary" onClick={() => AddAction("Rejected", true)} disabled={rejectReason.length === 0 && true}>
+                                    Reject Request
+                                </Button>
+                            </Modal>
                         </div>
                     :   null
                 }
@@ -203,7 +221,7 @@ function PreviewRequest() {
                                             </Upload>
                                         </Col>
                                         <Col span={24} style={{marginTop: '15px'}}>
-                                            <Button type='primary' onClick={AddReply} disabled={btnLoader}>Add Feedback</Button>
+                                            <Button type='primary' onClick={() => AddReply(newReplyText, false)} disabled={btnLoader}>Add Feedback</Button>
                                         </Col>
                                     </Row>
                                 </Timeline.Item>
@@ -236,7 +254,7 @@ function PreviewRequest() {
                                 {/* <FilePdfOutlined /><FileJpgOutlined /><FileWordOutlined /> */}
                             </div>
                         </Section>
-                        <Section SectionTitle="Assignee History">
+                        {/* <Section SectionTitle="Assignee History">
                             {
                                 assigneeHistoryData.map((record, i) => {
                                     return (
@@ -250,19 +268,27 @@ function PreviewRequest() {
                                     )
                                 })
                             }
-                        </Section>
+                        </Section> */}
                         <Section SectionTitle="Requset Status">
                             <Steps 
                                 direction="vertical"
                                 size="small" 
-                                status={requestData.Status === "Submitted" ? "process" : requestData.Status === "Rejected" ? "error" : requestData.Status === "Approved" ? "finish" : "process"} 
-                                current={requestData.Status === "Submitted" ? 1 : 2}
+                                status={requestData.Status === "Rejected" ? "error" : "process"} 
+                                current={   assigneeHistoryData.length === 0 ? 0 
+                                            : assigneeHistoryData.length === 1 && assigneeHistoryData[assigneeHistoryData.length-1].Status === "Pending" ? 1 
+                                            : assigneeHistoryData.length === 2 && assigneeHistoryData[assigneeHistoryData.length-1].Status === "Pending" ? 2 
+                                            : assigneeHistoryData.length+1 }
                             >
                                 <Steps.Step title="Submitted" description="Your Request has been submitted." />
-                                <Steps.Step title="In Progress" description="Your Request is now being reviewed." />
-                                <Steps.Step 
-                                    title={requestData.Status === "Submitted" ? "Approval or Rejection" : requestData.Status} 
-                                    description={`Your Request has been ${requestData.Status}.`} />
+                                {assigneeHistoryData.map((row, i) => {
+                                    return <Steps.Step 
+                                                key={i}
+                                                title={<>In Progress With <b>{row.ToUser?.Title}</b></>} 
+                                                subTitle={new Date(row.Created).toLocaleString()}
+                                                description="Your Request is now being reviewed." 
+                                            />
+                                })}
+                                <Steps.Step title={requestData.Status === "Submitted" ? "Approval or Rejection" : requestData.Status} description={`Your Request has been ${requestData.Status}.`} />
                             </Steps>
                         </Section>
                     </div>

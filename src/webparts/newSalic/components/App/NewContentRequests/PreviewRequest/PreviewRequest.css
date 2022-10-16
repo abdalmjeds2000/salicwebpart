@@ -112,3 +112,18 @@
   .preview-request-container .attachments-container img:hover {
     transform: translateY(-10px);
   }
+
+  .preview-request-container .Approved-reply {
+    background-color: #277c62 !important;
+  }
+  .preview-request-container .Rejected-reply {
+    background-color: #ff272b !important;
+  }
+  .preview-request-container .Reason-reply h3,
+    .preview-request-container .Approved-reply time {
+    color: #fff !important;
+  }
+  .preview-request-container .Approved-reply .reply-content {
+    background-color: transparent !important;
+    color: #000 !important;
+  }

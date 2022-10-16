@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Spin, Table } from 'antd';
-import { LoadingOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Button, Input, Spin, Table, Tag } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined, PlusCircleOutlined, SyncOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable'
@@ -11,6 +11,7 @@ function MyContentRequests() {
   const { content_requests_data, setContentRequestsData, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   async function GetRequests() {
     setLoading(true);
@@ -33,7 +34,7 @@ function MyContentRequests() {
       title: 'CR[#]',
       dataIndex: 'Id',
       width: '3%',
-      render: (val, record) => <b>{`CR[#${val}]`}</b>
+      render: (val) => <b>{`CR[#${val}]`}</b>
     },{
       title: 'Date & Time',
       dataIndex: 'Created',
@@ -42,16 +43,39 @@ function MyContentRequests() {
     },{
       title: 'Subject',
       dataIndex: 'Title',
-      width: '40%',
+      width: '35%',
       render: (val, record) => <a onClick={() => navigate(defualt_route + `/content-requests/${record.Id}`)}>{val}</a>
     },{
       title: 'Requester',
       dataIndex: 'Author',
-      width: '37%',
+      width: '30%',
       render: (val) => <UserColumnInTable Mail={val?.EMail} DisplayName={val?.Title} />
+    },{
+      title: 'Status',
+      dataIndex: 'Status',
+      width: '10%',
+      render: (val) =>  val === "Submitted" 
+                          ? <Tag icon={<SyncOutlined spin />} color="processing">Submitted</Tag> 
+                        : val === "Approved"
+                          ? <Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag> 
+                        : <Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>
     }
   ];
 
+  const filtered_content_requests_data = content_requests_data?.filter(row => {
+    const searchWord = searchText?.toLowerCase();
+    if(
+        row.Title?.toLowerCase().includes(searchWord) || 
+        row.Id?.toString().includes(searchWord) || 
+        row.Status?.toLowerCase().includes(searchWord)
+      ) {
+          return true
+        }
+        return false
+  });
+
+
+  
   return (
     <>
       <HistoryNavigation>
@@ -63,7 +87,10 @@ function MyContentRequests() {
         <div className='content'>
           <div className="header">
             <h1>My Content Requests</h1>
-            <Button type='primary' size='small' onClick={GetRequests}>Refresh</Button>
+            <div style={{display: 'flex', gap: '10px'}}>
+              <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
+              <Button type='primary' size='small' onClick={GetRequests}>Refresh</Button>
+            </div>
           </div>
 
           <div className='form' style={{overflowX: 'auto'}}>
@@ -71,7 +98,7 @@ function MyContentRequests() {
                 !loading
                 ? <Table
                     columns={columns} 
-                    dataSource={content_requests_data.filter(row => row.Author.EMail === user_data.Data.Mail)} 
+                    dataSource={filtered_content_requests_data.filter(row => row.Author.EMail === user_data.Data.Mail)} 
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                   />
                 : <div style={{display: 'flex', justifyContent: 'center'}}>
