@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "new-salic-web-part": {
+    "salic-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/newSalic/NewSalicWebPart.js",
-          "manifest": "./src/webparts/newSalic/NewSalicWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/salic/SalicWebPart.js",
+          "manifest": "./src/webparts/salic/SalicWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "NewSalicWebPartStrings": "lib/webparts/newSalic/loc/{locale}.js",
+    "SalicWebPartStrings": "lib/webparts/salic/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

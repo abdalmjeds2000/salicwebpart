@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "salicwebpart",
-    "id": "38565689-425c-450d-bda4-8815172d6f71",
+    "name": "salic-client-side-solution",
+    "id": "9e836bec-c0e9-4ecc-95bd-1706ab1da044",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "salicwebpart description"
+        "default": "salic description"
       },
       "longDescription": {
-        "default": "salicwebpart description"
+        "default": "salic description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -27,14 +27,14 @@
     },
     "features": [
       {
-        "title": "salicwebpart Feature",
-        "description": "The feature that activates elements of the salicwebpart solution.",
-        "id": "7f6b9679-f724-4f20-9dc3-18a3571434dd",
+        "title": "salic Feature",
+        "description": "The feature that activates elements of the salic solution.",
+        "id": "c39b7869-dd5e-48ab-88df-72c724bf54e1",
         "version": "1.0.0.0"
       }
     ]
   },
   "paths": {
-    "zippedPackage": "solution/salicwebpart.sppkg"
+    "zippedPackage": "solution/salic.sppkg"
   }
 }

@@ -1,4 +1,4 @@
-# salicwebpart
+# salic
 
 ## Summary
 

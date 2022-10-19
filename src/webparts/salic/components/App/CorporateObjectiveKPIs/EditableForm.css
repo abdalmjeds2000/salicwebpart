@@ -1,0 +1,10 @@
+.table-page-container .editable-row .ant-form-item-explain {
+  position: absolute;
+  top: 100%;
+  font-size: 12px;
+}
+
+.table-page-container .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  font-size: 1.2rem !important;
+  font-weight: 500 !important;
+}
