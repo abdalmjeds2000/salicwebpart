@@ -62,7 +62,7 @@ function Statistics() {
   ])
   const fetchData = () => {
     setMonthlyAttendanceLoader(true);
-    if(Object.keys(user_data).length > 0) {
+    if(Object.keys(user_data)?.length > 0) {
       axios({
         method: 'GET',
         url: `https://salicapi.com/api/attendance/GetStatistics?email=${user_data.Data?.PIN}&Year=${monthlyYear.split(' ')[1]}&Month=${returnNumberOfMonth(monthlyYear.split(' ')[0])}`
@@ -126,7 +126,7 @@ function Statistics() {
   const [data, setData] = useState([]);
   useEffect(() => {
     setAnnualAttendanceLoader(true)
-    if(Object.keys(user_data).length > 0) {
+    if(Object.keys(user_data)?.length > 0) {
       axios({
         method: 'GET',
         url: `https://salicapi.com/api/attendance/GetStatistics1?email=${user_data.Data?.PIN}&Year=${annualYear}&Month=1`
@@ -211,7 +211,7 @@ function Statistics() {
       const allIds = employees.map(u => u.value).join(',');
       axios({method: 'GET', url: `https://salicapi.com/api/attendance/GetStatistics?email=${allIds}&Year=2022&Month=9`})
       .then(res => {
-        if(res?.data?.Data.length > 0){
+        if(res?.data?.Data?.length > 0){
           const response = res?.data?.Data;
           for(let key in response) {
             const getDataNeeded = [
@@ -295,7 +295,7 @@ function Statistics() {
           <select name="monthlyYear" onChange={(e) => setMonthlyYear(e.target.value)}>
             {
               monthlyAttendanceDates.map((date, i) => {
-                return <option selected={i === monthlyAttendanceDates.length-1 ? true : false} value={date} key={i}>{date}</option>
+                return <option selected={i === monthlyAttendanceDates?.length-1 ? true : false} value={date} key={i}>{date}</option>
               })
             }
           </select>

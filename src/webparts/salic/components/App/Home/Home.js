@@ -38,8 +38,8 @@ function Home() {
 
   return (
     <>
-      { !isGlobeReady && <AntdLoader /> }
-      <div className="home-container" style={{display: !isGlobeReady ? 'none' : ''}}>
+      {/* { !isGlobeReady && <AntdLoader /> } */}
+      <div className="home-container">
         <Header style={{width: '100%', position: 'fixed', zIndex: '4'}}>
           {
             !scrollSize

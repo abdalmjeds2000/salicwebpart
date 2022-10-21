@@ -66,6 +66,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     }
   }, [userData])
 
+
+
   // Requests
   React.useEffect(() => {
     // Get Current Login User
@@ -80,6 +82,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)
@@ -101,6 +104,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               .catch((error) => { console.log(error) })
             return response
           })
+          // Disable Loader
+          .then((response) => { setIsLoading(false); return response })
           // GetNotifications Count #1
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
@@ -221,8 +226,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       }).then(res => {
         setOracleReports(JSON.parse(res.data.Data))
       })
-    // Disable Loader
-      .then((response) => { setIsLoading(false) })
       .catch(err => console.log(err))
   }, []);
 
@@ -275,10 +278,15 @@ const App: React.FunctionComponent<AppProps> = (props) => {
                 </div>
               </div>
             </Router>
-          : <div className="loader">
-              <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
-              <div></div>
-            </div>
+          : null
+      }
+      {
+        !isGlobeReady
+        ? <div className="loader">
+            <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
+            <div></div>
+          </div>
+        : null
       }
     </AppCtx.Provider>
   )

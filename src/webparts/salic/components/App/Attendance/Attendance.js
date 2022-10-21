@@ -62,7 +62,7 @@ function Attendance() {
             </div>
             <div style={{display: activeId !== 2 ? 'none' : ''}}>
               {
-                departments_info.length > 0
+                departments_info?.length > 0
                 ? <DailyAttendance />
                 : <div className='daily-attendance-container' style={{height: '200px'}}>
                     <div className='loader' style={{position: 'relative'}}><div></div></div>

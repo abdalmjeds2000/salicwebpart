@@ -32,7 +32,7 @@ const getBase64 = (file) =>
 
 function NewRequest() {
   const { defualt_route, user_data, setContentRequestsData } = useContext(AppCtx);
-  const [requestType, setRequestType] = useState("Internal Announcement Request");
+  const [requestType, setRequestType] = useState("");
   const [form] = Form.useForm();
   const [btnLoader, setBtnLoader] = useState(false)
 
@@ -95,6 +95,7 @@ function NewRequest() {
         setBtnLoader(false);
         setFileList([]);
         navigate(`${defualt_route}/content-requests/${response.data.Id}`);
+        response.data.Author = { Title: user_data?.Data?.DisplayName, EMail: user_data?.Data?.Mail }
         setContentRequestsData(prev => [response.data, ...prev])
         console.log(response);
       } else {
@@ -135,16 +136,15 @@ function NewRequest() {
           onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
 
-          <Form.Item name="RequestType" label="Request Type" initialValue="Internal Announcement Request">
+          <Form.Item name="RequestType" label="Request Type" rules={[{required: true}]}>
             <Radio.Group
               options={[{label: 'Internal Announcement Request', value: 'Internal Announcement Request'}, {label: 'Media Request', value: 'Media Request'}]}
               onChange={ ({target: {value}}) => setRequestType(value) }
               value={requestType}
-              optionType="button"
-              buttonStyle="solid"
+              // optionType="button"
+              // buttonStyle="solid"
               style={radioBtnsStyle}
               size="large"
-              defaultValue="Internal Announcement Request"
             />
           </Form.Item>
 

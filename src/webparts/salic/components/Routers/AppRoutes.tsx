@@ -81,6 +81,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
     <Routes>
       <Route path={`${defualtRoute}/home`} element={<Home />} />
       <Route path={`${defualtRoute}`} element={<Navigate replace to={`${defualtRoute}/home`}/>} />
+      <Route path={"/sites/dev/_layouts/15/workbench.aspx"} element={<Navigate to={`${defualtRoute}/home`}/>} />
       <Route path={`${defualtRoute}/communication`} element={<Communication />} />
       <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage {...props}/>} />
       <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />

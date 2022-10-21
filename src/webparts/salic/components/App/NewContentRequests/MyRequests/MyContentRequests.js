@@ -34,31 +34,36 @@ function MyContentRequests() {
       title: 'CR[#]',
       dataIndex: 'Id',
       width: '3%',
-      render: (val) => <b>{`CR[#${val}]`}</b>
+      render: (val, record) => <b>{`CR[#${val}]`}</b>
     },{
       title: 'Date & Time',
       dataIndex: 'Created',
-      width: '20%',
+      width: '17%',
       render: (val) => val ? new Date(val).toLocaleString() : ' - '
     },{
       title: 'Subject',
       dataIndex: 'Title',
-      width: '35%',
+      width: '30%',
       render: (val, record) => <a onClick={() => navigate(defualt_route + `/content-requests/${record.Id}`)}>{val}</a>
     },{
       title: 'Requester',
       dataIndex: 'Author',
-      width: '30%',
+      width: '20%',
       render: (val) => <UserColumnInTable Mail={val?.EMail} DisplayName={val?.Title} />
+    },{
+      title: 'Pending With',
+      dataIndex: 'PendingWith',
+      width: '20%',
+      render: (val, record) => record.Status === "Submitted" ? <UserColumnInTable Mail={val?.EMail} DisplayName={val?.Title} /> : ' - '
     },{
       title: 'Status',
       dataIndex: 'Status',
       width: '10%',
-      render: (val) =>  val === "Submitted" 
-                          ? <Tag icon={<SyncOutlined spin />} color="processing">Submitted</Tag> 
-                        : val === "Approved"
-                          ? <Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag> 
-                        : <Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>
+      render: (val, record) =>  val === "Approved" 
+                                  ? <Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag>
+                                : val === "Rejected"
+                                  ? <Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>
+                                : <Tag icon={<SyncOutlined spin />} color="processing">{record.Status}</Tag>
     }
   ];
 

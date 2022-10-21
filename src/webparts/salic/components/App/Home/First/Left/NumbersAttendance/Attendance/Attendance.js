@@ -15,7 +15,7 @@ function Attendance(props) {
       if(props.latestAttendance.length === 0) {
         setIsNoData(true);
       }
-    }, 8000);
+    }, 5000);
   }, []);
 
 
