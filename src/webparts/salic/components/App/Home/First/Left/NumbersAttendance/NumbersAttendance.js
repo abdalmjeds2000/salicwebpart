@@ -76,8 +76,8 @@ function NumbersAttendance() {
         <Number
           pathColor={performaceGrade(performance.performace?.count.replace('%', '')).Color} 
           textColor={performaceGrade(performance.performace?.count.replace('%', '')).Color}
-          header="% Performance" 
-          description={performaceGrade(performance.performace?.count.replace('%', '')).Grade}
+          header="KPI Progress" 
+          description={'%' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
           value={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '0'}
           text={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '?'}
           minValue='0'
@@ -121,13 +121,17 @@ function NumbersAttendance() {
           text='5'
           textColor='#ff272b'
         /> */}
-        <RadialBar 
-          {...configRadialBar}
-          style={{
-            width: '100%',
-            margin: '20px 0 40px 0',
-          }} 
-        />
+        {
+          (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
+          ? <RadialBar 
+              {...configRadialBar}
+              style={{
+                width: '100%',
+                margin: '20px 0 40px 0',
+              }} 
+            />
+          : null
+        }
       </div>
       <div className="div5">
         <Attendance latestAttendance={latest_attendance} />

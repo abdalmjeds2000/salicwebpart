@@ -7,7 +7,7 @@ const AntdLoader = () => {
 
   return (
     <Spin 
-      indicator={<LoadingOutlined spin style={{fontSize: '3rem', position: 'absolute', left: 'calc(50% - 1.5rem)', top: 'calc(50% - 1.5rem)', color: 'var(--main-color)' }} />} 
+      indicator={<LoadingOutlined spin style={{fontSize: '0.8rem', position: 'relative', left: '50%', transform: 'translateX(-50)', color: 'var(--main-color)' }} />} 
     />
   )
 }

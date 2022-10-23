@@ -7,6 +7,8 @@ import { AppCtx } from '../../App'
 import FormPage from '../../9Boxs/components/FormPageTemplate/FormPage';
 import AddContentRequest from '../API/AddContentRequest';
 import SubmitCancel from '../../9Boxs/components/SubmitCancel/SubmitCancel';
+import './NewRequest.css';
+
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -19,11 +21,9 @@ const getBase64 = (file) =>
   });
   const radioBtnsStyle = {
     display: 'flex',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    lineClamp: 1,
-    webkitLineClamp: 1,
-    webkitBoxOrient: 'vertical'
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    gap: '5px',
   }
 
 
@@ -77,6 +77,8 @@ function NewRequest() {
 
 
   async function CreateRequest(values) {
+    setBtnLoader(true);
+
     let isFilesFinishUpload = true;
     const attachmentsList = fileList.map(file => {
       if(file.status === "uploading") isFilesFinishUpload = false
@@ -92,7 +94,6 @@ function NewRequest() {
       if(response.data) {
         form.resetFields();
         message.success("The request has been sent successfully.")
-        setBtnLoader(false);
         setFileList([]);
         navigate(`${defualt_route}/content-requests/${response.data.Id}`);
         response.data.Author = { Title: user_data?.Data?.DisplayName, EMail: user_data?.Data?.Mail }
@@ -100,15 +101,14 @@ function NewRequest() {
         console.log(response);
       } else {
         message.error("Failed to send request.")
-        setBtnLoader(false);
       }
       // .then((item) => {
       //    item.item.attachmentFiles.addMultiple(fileList)
       // });
     } else {
       message.error("Wait for upload")
-      setBtnLoader(false);
     }
+    setBtnLoader(false);
   }
 
   return (

@@ -3,6 +3,7 @@ import './Attendance.css';
 import { useNavigate } from 'react-router-dom';
 import { Empty } from 'antd';
 import { AppCtx } from '../../../../../App';
+import AntdLoader from '../../../../../Global/AntdLoader/AntdLoader';
 
 
 function Attendance(props) {
@@ -57,7 +58,7 @@ function Attendance(props) {
               })
             )
             : !isNoData 
-              ? <tr><td colSpan={5} style={{paddingTop: '25px'}}><div className="loader small"><div></div></div></td></tr> 
+              ? <tr><td colSpan={5} style={{paddingTop: '25px', textAlign: 'center'}}><AntdLoader /></td></tr> 
               : <tr><td colSpan={5}><div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div></td></tr>
           }
 

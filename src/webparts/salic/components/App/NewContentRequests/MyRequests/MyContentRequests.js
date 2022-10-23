@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Input, Spin, Table, Tag } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined, PlusCircleOutlined, SyncOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined, PlusCircleOutlined, PlusOutlined, RedoOutlined, SyncOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable'
@@ -94,7 +94,8 @@ function MyContentRequests() {
             <h1>My Content Requests</h1>
             <div style={{display: 'flex', gap: '10px'}}>
               <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
-              <Button type='primary' size='small' onClick={GetRequests}>Refresh</Button>
+              <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
+              <Button size='small' onClick={() => navigate(defualt_route+'/content-requests/new-request')}><PlusOutlined /> New Request</Button>
             </div>
           </div>
 

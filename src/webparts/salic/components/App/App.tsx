@@ -104,8 +104,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               .catch((error) => { console.log(error) })
             return response
           })
-          // Disable Loader
-          .then((response) => { setIsLoading(false); return response })
           // GetNotifications Count #1
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
@@ -189,12 +187,13 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             .catch((error) => { console.log(error) })
             return response
           })
-
+          // Disable Loader
+          .then(() => setIsLoading(false))
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
 
-
+    
     // Get Communication List
       axios({ method: 'GET', url: 'https://salicapi.com/api/User/GetCommunicationList' })
       .then((res) => { setCommunicationList(res.data.Data) })

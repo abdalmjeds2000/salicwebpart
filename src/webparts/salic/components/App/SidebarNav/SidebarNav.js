@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./SidebarNav.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "antd";
@@ -9,6 +9,7 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import { AppCtx } from "../App";
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
   padding: "6px 12px 6px 8px",
@@ -470,11 +471,13 @@ const svgIcons = {
 };
 
 const SidebarNav = (props) => {
+  const [isNavBarLarge, setIsNavBarLarge] = useState(false);
   const defualt_route = "/sites/dev/SitePages/Demo.aspx";
   const navigate = useNavigate();
+  const { setIsGlobeReady } = useContext(AppCtx);
 
+  // read window size
   const [windowSize, setWindowSize] = useState(getWindowSize());
-  const [isNavBarLarge, setIsNavBarLarge] = useState(false);
   useEffect(() => {
     function handleWindowResize() {
       setWindowSize(getWindowSize());
@@ -489,13 +492,15 @@ const SidebarNav = (props) => {
   const [activeRoute, setActiveRoute] = useState(location.pathname);
   useEffect(() => {
     setActiveRoute(location.pathname);
+
+    // change site title based on current location pathname
     const title = location.pathname.split("/");
     document.title = `.:: SALIC Gate | ${capitalize(
       title[title.length - 1]
     ).replace("-", " ")} ::.`;
 
 
-
+    // remove side bar and change links to old website 
     if(location.pathname.includes("/content-requests")) {
       let sidebar_nav = document.getElementsByClassName("nav-container");
       let salic_logo = document.getElementsByClassName("logoSALIC");
@@ -508,6 +513,9 @@ const SidebarNav = (props) => {
       history_navigation[0].style.width = "100vw";
       history_home_btn[0].childNodes[0].style.display = "none";
     }
+
+    // when page not home setIsGlobeReady true
+    if(location.pathname !== defualt_route+'/home') setIsGlobeReady(true)
   }, [location.pathname]);
 
   const listItems = [
