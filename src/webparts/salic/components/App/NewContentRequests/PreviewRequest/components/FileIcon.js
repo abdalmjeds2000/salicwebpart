@@ -37,7 +37,7 @@ const FileIcon = (props) => {
             title={props.FileName} 
             onClick={() => window.open(props.FilePath, "_blank")} 
             width={props.IconWidth}
-            style={{cursor: 'pointer'}}
+            className='attachment-file-icon'
         />
     )
 }

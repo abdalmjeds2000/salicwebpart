@@ -110,7 +110,11 @@
     background-color: #f8f8f8;
     border: 1px solid #eee;
   }
-  .preview-request-container .attachments-container img:hover {
+  .preview-request-container img.attachment-file-icon {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .preview-request-container img.attachment-file-icon:hover {
     transform: translateY(-10px);
   }
 

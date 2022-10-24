@@ -22,7 +22,18 @@
   background: linear-gradient(90deg,#e7f0fe,hsla(0,0%,100%,0));
   border-radius: 100px;
 }
-.home-info .numbers-attendance-container .div4 { grid-area: 2 / 3 / 4 / 4; }
+.home-info .numbers-attendance-container .div4 { 
+  grid-area: 2 / 3 / 4 / 4; 
+  position: relative; 
+}
+.home-info .numbers-attendance-container .div4 .mid-total {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 1.5rem;
+  color: #8c8c8c;
+}
 .home-info .numbers-attendance-container .div4 > div {
   margin: 0 !important;
 }

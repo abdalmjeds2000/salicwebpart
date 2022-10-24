@@ -106,6 +106,7 @@ function MyContentRequests() {
                     columns={columns} 
                     dataSource={filtered_content_requests_data.filter(row => row.Author.EMail === user_data.Data.Mail)} 
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+                    size="small"
                   />
                 : <div style={{display: 'flex', justifyContent: 'center'}}>
                     <Spin indicator={<LoadingOutlined spin />} />

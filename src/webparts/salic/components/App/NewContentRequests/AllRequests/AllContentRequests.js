@@ -107,6 +107,7 @@ function AllContentRequests() {
                     columns={columns} 
                     dataSource={filtered_content_requests_data} 
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+                    size="small"
                   />
                 : <div style={{display: 'flex', justifyContent: 'center'}}>
                     <Spin indicator={<LoadingOutlined spin />} />

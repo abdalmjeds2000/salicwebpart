@@ -136,6 +136,10 @@ function NewRequest() {
           onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
 
+          <Form.Item label="Date">
+            <Input size='large' disabled defaultValue={new Date().toLocaleString()} />
+          </Form.Item>
+
           <Form.Item name="RequestType" label="Request Type" rules={[{required: true}]}>
             <Radio.Group
               options={[{label: 'Internal Announcement Request', value: 'Internal Announcement Request'}, {label: 'Media Request', value: 'Media Request'}]}

@@ -46,8 +46,9 @@ function NumbersAttendance() {
   const configRadialBar = {
     data: [
       { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
-      { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
-      { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
+      // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
+      // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
+      { name: "Total Balance", value: performance?.leaves?.total, type: "Expire in This Year" },
     ],
     xField: 'name',
     yField: 'value',
@@ -55,18 +56,30 @@ function NumbersAttendance() {
     innerRadius: 0.5,
     colorField: 'type',
     color: ({ type }) => {
-      if (type === 'Consumed in This Year') {
+      if (type === 'Consumed') {
         return '#F9A654';
       } else if (type === 'Available Balance This Year') {
         return '#E7F0FE';
       } else if (type === 'Expire in This Year') {
-        return '#FD96A6';
+        return '#43A2CC';
       }
-      return '#43A2CC';
+      return '#FD96A6';
     },
     isStack: true,
     maxAngle: 270,
     animation: {appear: {animation: 'none'}},
+    onReady: (plot) => {
+      // Axis-label adds click events
+      plot.on('axis-label:click', (...args) => {
+        const ClickedName = args[0].gEvent.target.attrs.text;
+        if(ClickedName === "Total Balance") {
+          window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE", "_blank");
+        } else if(ClickedName === "Consumed This Year") {
+          window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=EXISTING_ABSENCES&action=NONE", "_blank");
+        }
+      })
+    },
+
   };
 
 
@@ -123,13 +136,17 @@ function NumbersAttendance() {
         /> */}
         {
           (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
-          ? <RadialBar 
-              {...configRadialBar}
-              style={{
-                width: '100%',
-                margin: '20px 0 40px 0',
-              }} 
-            />
+          ? <>
+              <span className='mid-total'>{performance?.leaves?.total}</span>
+              <RadialBar 
+                {...configRadialBar}
+                style={{
+                  width: '100%',
+                  margin: '20px 0 40px 0',
+                }} 
+                
+              />
+            </>
           : null
         }
       </div>
