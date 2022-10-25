@@ -245,7 +245,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     media_center: mediaCenter,
     notes_list: notesList,
     // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
-    defualt_route: '/sites/dev/SitePages/Demo.aspx',
+    defualt_route: '/sites/dev/SitePages/Home.aspx',
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,

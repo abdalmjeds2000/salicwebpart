@@ -76,11 +76,12 @@ import CorporateObjectiveKPIs from '../App/CorporateObjectiveKPIs/CorporateObjec
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
-  const defualtRoute: string = '/sites/dev/SitePages/Demo.aspx';
+  const defualtRoute: string = '/sites/dev/SitePages/Home.aspx';
   return (
     <Routes>
       <Route path={`${defualtRoute}/home`} element={<Home />} />
       <Route path={`${defualtRoute}`} element={<Navigate replace to={`${defualtRoute}/home`}/>} />
+      <Route path={"/sites/dev"} element={<Navigate replace to={`${defualtRoute}/home`}/>} />
       <Route path={"/sites/dev/_layouts/15/workbench.aspx"} element={<Navigate to={`${defualtRoute}/home`}/>} />
       <Route path={`${defualtRoute}/communication`} element={<Communication />} />
       <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage {...props}/>} />
