@@ -207,7 +207,7 @@ function ESignRequests() {
 
       <div className='table'>
         {
-          eSign_requests.length ? (
+          eSign_requests?.length ? (
             windowSize.innerWidth > 768 
             ? <Table 
                 columns={columns} 

@@ -10,7 +10,7 @@ import moment from 'moment';
 import VisitorRequest from './API/VisitorRequest';
 import GetVisitorRequestById from './API/GetVisitorRequestById';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
-import FileIcon from '../../../NewContentRequests/PreviewRequest/components/FileIcon';
+import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };

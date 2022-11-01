@@ -36,7 +36,7 @@ const ShareWith = (props) => {
   const [employees, setEmployees] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   useEffect(() => {
-    const filterEmp = removeDuplicates(departments_info?.filter(e => e.Enabled && e.DisplayName.length > 0).map(e => {return {email: e.Mail, name: e.DisplayName}}));
+    const filterEmp = removeDuplicates(departments_info?.filter(e => e.Enabled && e.DisplayName?.length > 0).map(e => {return {email: e.Mail, name: e.DisplayName}}));
     setEmployees(filterEmp)
   }, [user_data, departments_info])
 

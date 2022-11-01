@@ -33,6 +33,10 @@
   transform: translate(-50%,-50%);
   font-size: 1.5rem;
   color: #8c8c8c;
+  z-index: 1;
+}
+.home-info .numbers-attendance-container .div4 .mid-total:hover {
+  text-decoration: underline;
 }
 .home-info .numbers-attendance-container .div4 > div {
   margin: 0 !important;

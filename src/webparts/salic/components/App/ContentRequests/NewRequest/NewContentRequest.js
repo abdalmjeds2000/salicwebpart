@@ -30,7 +30,7 @@ const getBase64 = (file) =>
 
 
 
-function NewRequest() {
+function NewContentRequest() {
   const { defualt_route, user_data, setContentRequestsData } = useContext(AppCtx);
   const [requestType, setRequestType] = useState("");
   const [form] = Form.useForm();
@@ -72,7 +72,7 @@ function NewRequest() {
   //   // Prevent upload
   //   // return false;
   // }
-  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); console.log(newFileList);};
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   let navigate = useNavigate();
 
 
@@ -187,4 +187,4 @@ function NewRequest() {
   )
 }
 
-export default NewRequest
+export default NewContentRequest

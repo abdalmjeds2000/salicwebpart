@@ -32,7 +32,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [mailCount, setMailCount] = React.useState('');
   const [latestAttendance, setLatestAttendance] = React.useState([]);
   const [communicationList, setCommunicationList] = React.useState([]);
-  const [notificationCenterData, setNotificationCenterData] = React.useState([]);
   const [newsList, setNewsList] = React.useState([]);
   const [globeData, setGlobeData] = React.useState([]);
   const [isGlobeReady, setIsGlobeReady] = React.useState(false);
@@ -46,6 +45,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [performance, setPerformance] = React.useState({});
   const [allEvents, setAllEvents] = React.useState([]);
   const [contentRequestsData, setContentRequestsData] = React.useState([]);
+  const [researchRequestsData, setResearchRequestsData] = React.useState([]);
   const [adminAssignedRequests, setAdminAssignedRequests] = React.useState([]);
   const [adminMyRequests, setAdminMyRequests] = React.useState([]);
   
@@ -235,8 +235,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     mail_count: mailCount,
     latest_attendance: latestAttendance,
     communicationList: communicationList,
-    notification_center_data: notificationCenterData,
-    setNotificationCenterData,
     news_list: newsList,
     globe_data: globeData,
     isGlobeReady,
@@ -257,6 +255,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     all_events: allEvents,
     content_requests_data: contentRequestsData,
     setContentRequestsData,
+    research_requests_data: researchRequestsData,
+    setResearchRequestsData,
     admin_assigned_requests: adminAssignedRequests, 
     setAdminAssignedRequests,
     admin_my_requests: adminMyRequests,

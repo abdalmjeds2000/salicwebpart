@@ -41,8 +41,15 @@
     border-radius: 5px !important;
     margin: 0 0 0 70px;
     box-shadow: 0px 7px 10px -6px var(--third-color);
-    /* width: fit-content; */
     width: auto;
+  }
+  .preview-request-container .content .timeline .my-reply .ant-timeline-item-content,
+  .preview-request-container .content .timeline .request-reply .ant-timeline-item-content {
+    margin: 0 0 0 40px !important;
+    background-color: rgb(255, 236, 211) !important;
+  }
+  .preview-request-container .content .timeline .add-reply .ant-timeline-item-content {
+    margin: 0 0 0 40px !important;
   }
   .preview-request-container .content .timeline .ant-timeline-item-content::before {
     content: "";

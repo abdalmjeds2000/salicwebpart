@@ -44,7 +44,7 @@ function YouSignedIt() {
 
       <div className='table'>
         {
-          eSign_requests_you_signed_it.length > 0 
+          eSign_requests_you_signed_it?.length > 0 
           ? <Table
               columns={columns}
               dataSource={eSign_requests_you_signed_it} 

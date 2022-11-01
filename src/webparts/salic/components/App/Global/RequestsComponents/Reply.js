@@ -1,4 +1,3 @@
-import { FileOutlined } from "@ant-design/icons";
 import { Tag } from "antd";
 import React from "react";
 import FileIcon from "./FileIcon";

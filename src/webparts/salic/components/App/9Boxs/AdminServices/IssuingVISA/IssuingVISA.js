@@ -106,7 +106,7 @@ function IssuingVISA() {
           {...layout} 
           colon={false}
           labelWrap 
-          name="service-request" 
+          name="issue-visa-request" 
           layout="horizontal"
           form={form} 
           onFinish={CreateBusinessGateRequest}
@@ -201,7 +201,7 @@ function IssuingVISA() {
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList.length >= 8 ? null : <div><PlusOutlined /><div style={{marginTop: 8,}}>Upload</div></div>}
+              {fileList.length >= 15 ? null : <div><PlusOutlined /><div style={{marginTop: 8}}>Upload</div></div>}
             </Upload>
             <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img alt="example" style={{width: '100%'}} src={previewImage} />

@@ -57,11 +57,17 @@ import InternationalPrices from '../App/PowerBI/Research/InternationalPrices/Int
 import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboard'
 
 
-import ContentRequests from '../App/NewContentRequests/ContentRequests';
-import NewRequest from '../App/NewContentRequests/NewRequest/NewRequest';
-import AllContentRequests from '../App/NewContentRequests/AllRequests/AllContentRequests';
-import MyContentRequests from '../App/NewContentRequests/MyRequests/MyContentRequests';
-import PreviewRequest from '../App/NewContentRequests/PreviewRequest/PreviewRequest';
+import ContentRequests from '../App/ContentRequests/ContentRequests';
+import NewContentRequest from '../App/ContentRequests/NewRequest/NewContentRequest';
+import AllContentRequests from '../App/ContentRequests/AllRequests/AllContentRequests';
+import MyContentRequests from '../App/ContentRequests/MyRequests/MyContentRequests';
+import PreviewContentRequest from '../App/ContentRequests/PreviewRequest/PreviewContentRequest';
+
+import ResearchRequests from '../App/ResearchRequests/ResearchRequests';
+import NewResearchRequest from '../App/ResearchRequests/NewResearchRequest/NewResearchRequest';
+import MyResearchRequests from '../App/ResearchRequests/MyRequests/MyResearchRequests';
+import AllResearchRequests from '../App/ResearchRequests/AllRequests/AllResearchRequests';
+import PreviewResearchRequest from '../App/ResearchRequests/PreviewRequest/PreviewResearchRequest';
 
 import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
 
@@ -72,7 +78,7 @@ import SPSearch from '../App/SearchPage/SPSearch';
 
 import CorporateObjectiveKPIs from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
 
-
+import ResearchDashboard from '../App/ResearchCenter/Dashboard/ResearchDashboard';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
@@ -148,6 +154,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/book-meeting-room/rooms-calender`} element={<RoomsCalender />} />
       </Route>
       <Route path={`${defualtRoute}/eSignature-document`} element={<ESignatureTool />} />
+      <Route path={`${defualtRoute}/research-center`} element={<ResearchDashboard />} />
+      
+
 
       <Route path={`${defualtRoute}/org-doc-investment`} element={<Investment />} />
       <Route path={`${defualtRoute}/org-doc-finance`} element={<Finance />} />
@@ -179,11 +188,18 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/content-requests`}>
         <Route index element={<ContentRequests />} />
-        <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewRequest />} />
-        <Route path={`${defualtRoute}/content-requests/preview-request`} element={<PreviewRequest />} />
+        <Route path={`${defualtRoute}/content-requests/new-request`} element={<NewContentRequest />} />
         <Route path={`${defualtRoute}/content-requests/all-content-requests`} element={<AllContentRequests />} />
         <Route path={`${defualtRoute}/content-requests/my-content-requests`} element={<MyContentRequests />} />
-        <Route path={`${defualtRoute}/content-requests/:id`} element={<PreviewRequest />} />
+        <Route path={`${defualtRoute}/content-requests/:id`} element={<PreviewContentRequest />} />
+      </Route>
+
+      <Route path={`${defualtRoute}/research-requests`}>
+        <Route index element={<ResearchRequests />} />
+        <Route path={`${defualtRoute}/research-requests/new-request`} element={<NewResearchRequest />} />
+        <Route path={`${defualtRoute}/research-requests/all-research-requests`} element={<AllResearchRequests />} />
+        <Route path={`${defualtRoute}/research-requests/my-research-requests`} element={<MyResearchRequests />} />
+        <Route path={`${defualtRoute}/research-requests/:id`} element={<PreviewResearchRequest />} />
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />

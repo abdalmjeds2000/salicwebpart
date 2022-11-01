@@ -1,15 +1,23 @@
 import React, { useContext, useState } from 'react'
-import { Form, Input, Modal, Upload, Radio, Select, Space } from 'antd';
+import { Form, Input, Modal, Upload, Radio, Select, Space, Divider } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FormPageTemplate from '../../components/FormPageTemplate/FormPage'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
-
+import moment from 'moment';
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 
 function NewITRequest() {
@@ -21,7 +29,7 @@ function NewITRequest() {
   const handleCancel = () => setPreviewVisible(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
-      // file.preview = await getBase64(file.originFileObj);
+      file.preview = await getBase64(file.originFileObj);
     }
     setPreviewImage(file.url || file.preview);
     setPreviewVisible(true);
@@ -29,21 +37,7 @@ function NewITRequest() {
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
-  }
 
-  // let formSubmitHandler = () => {
-  //   Swal.fire({
-  //     icon: 'success',
-  //     title: 'Your work has been saved',
-  //     showConfirmButton: false,
-  //     timer: 1500
-  //   })
-  // }
 
 
   let navigate = useNavigate();
@@ -73,95 +67,86 @@ function NewITRequest() {
           colon={false}
           labelWrap 
           name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
+          onFinish={values => console.log(values)}
         >
-          <Form.Item name={'date'} label="Date" rules={[{required: true,}]} initialValue={getDateAndTime()}>
+          <Form.Item name="ReceivedDate" label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')}>
             <Input placeholder='Date' size='large' disabled />
           </Form.Item>
-          <Form.Item name={'On Behalf Of'} label="On Behalf Of">
+          <Form.Item name="onbehalf" label="On Behalf Of">
             <Select
               showSearch
               placeholder="employee name"
               optionFilterProp="children"
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
+              <Option value="name789@gmail.com">name 789</Option>
+              <Option value="name456@gmail.com">name 456</Option>
+              <Option value="name123@gmail.com">name 123</Option>
             </Select>
           </Form.Item>
-          <Form.Item name={'subject'} label="Subject" rules={[{required: true,}]}>
+          <Form.Item name="Subject" label="Subject" rules={[{required: true,}]}>
             <Input placeholder='write breif subject' size='large' />
           </Form.Item>
 
-          <hr />
+          <Divider />
 
-          <Form.Item
-            name={'Issue Category'}
-            label="Issue Category"
-            rules={[{required: true,}]}
-          >
-            <Radio.Group onChange={e => console.log(e.target.value)} value={1}>
+          <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware" rules={[{required: true}]}>
+            <Radio.Group value="Hardware" /* onChange={e => console.log(e.target.value)} */>
               <Space direction="vertical">
-                <Radio value={1}>
-                  Hardware & Devices <br />
-                  <span style={{color: 'var(--main-color)'}}>Hardware problem such as laptop or screen broken</span>
+                <Radio value="Hardware">
+                  <span>Hardware & Devices</span> <br />
+                  <p>Hardware problem such as laptop or screen broken</p>
                 </Radio>
-                <Radio value={2}>
-                  Software & Applications <br />
-                  <span style={{color: 'var(--main-color)'}}>Software issues such as Oracle, SharePoint, and Office 365 Suite</span>
+                <Radio value="Software">
+                  <span>Software & Applications</span> <br />
+                  <p>Software issues such as Oracle, SharePoint, and Office 365 Suite</p>
                 </Radio>
-                <Radio value={3}>
-                  Access, Permissions, and Licenses <br />
-                  <span style={{color: 'var(--main-color)'}}>Access Issues such as Permissions to access a resource</span>
+                <Radio value="Access">
+                  <span>Access, Permissions, and Licenses</span> <br />
+                  <p>Access Issues such as Permissions to access a resource</p>
                 </Radio>
-                <Radio value={4}>
-                  Security Incident <br />
-                  <span style={{color: 'var(--main-color)'}}>Security Incidents such as email fishing.</span>
+                <Radio value="Security">
+                  <span>Security Incident</span> <br />
+                  <p>Security Incidents such as email fishing.</p>
                 </Radio>
               </Space>
             </Radio.Group>
           </Form.Item>
           <Form.Item name="Priority" label="Priority" >
-            <Select placeholder="employee name" size="large" /* onChange={value => console.log(value)} */ >
-              <Option value="jack">Normal</Option>
-              <Option value="lucy">Critical</Option>
+            <Select placeholder="Priority" size="large" /* onChange={value => console.log(value)} */ >
+              <Option value="1">Normal</Option>
+              <Option value="2">Critical</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Issue Type" label="Issue Type" >
-            <Input placeholder='write Issue Type' size='large' />
+          <Form.Item name="IssueType" label="Issue Type" >
+            <Select placeholder="Select Issue Type" size="large" /* onChange={value => console.log(value)} */ >
+              <Option value="1">1</Option>
+              <Option value="2">2</Option>
+            </Select>
           </Form.Item>
 
-          <hr />
+          <Divider />
 
-          <Form.Item 
-            name={'Descriptions / Justifications'} 
-            label="Descriptions / Justifications"
-            rules={[{required: true}]}
-          >
-            <Input.TextArea rows={6} placeholder="write a brief description" />
+          <Form.Item name='Description' label="Descriptions / Justifications" rules={[{required: true}]}>
+            <Input.TextArea rows={8} placeholder="write a brief description" />
           </Form.Item>
-
-          <Form.Item name="Documents" label="Documents">
+          <Form.Item label="Documents">
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="https://salicapi.com/api/uploader/up"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList.length >= 8 ? null : <div><PlusOutlined /><div style={{marginTop: 8,}}>Upload</div></div>}
+              {fileList?.length >= 15 ? null : <div><PlusOutlined /><div style={{marginTop: 8}}>Upload</div></div>}
             </Upload>
             <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img alt="example" style={{width: '100%'}} src={previewImage}/>
             </Modal>
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
-
+          <SubmitCancel />
 
         </Form>
       </FormPageTemplate>

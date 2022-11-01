@@ -20,7 +20,7 @@
     justify-content: space-between;
 }
 .table-page-container .content .header h1 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #fff !important;
   font-weight: 400;
 }
@@ -28,9 +28,7 @@
 
 
 .table-page-container .content .form {
-  border: 1px solid var(--third-color);
-  border-top: none;
-  padding: 25px 10px;
+  padding: 25px 15px;
   border-radius: 0 0 15px 15px;
   overflow-x: auto;
 }
@@ -46,7 +44,7 @@
     border-radius: 10px 10px 0 0;
   }
   .table-page-container .content .header h1 {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 }
 

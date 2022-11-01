@@ -1,13 +1,13 @@
 import React from "react";
-import imgIcon from '../../../../../assets/icons/FilesIcons/jpg.png'
-import videoIcon from '../../../../../assets/icons/FilesIcons/mp4.png'
-import pdfIcon from '../../../../../assets/icons/FilesIcons/pdf.png'
-import txtIcon from '../../../../../assets/icons/FilesIcons/txt.png'
-import rarIcon from '../../../../../assets/icons/FilesIcons/zip.png'
-import wordIcon from '../../../../../assets/icons/FilesIcons/doc.png'
-import pptIcon from '../../../../../assets/icons/FilesIcons/ppt.png'
-import csvIcon from '../../../../../assets/icons/FilesIcons/csv.png'
-import fileIcon from '../../../../../assets/icons/FilesIcons/file.png'
+import imgIcon from '../../../../assets/icons/FilesIcons/jpg.png'
+import videoIcon from '../../../../assets/icons/FilesIcons/mp4.png'
+import pdfIcon from '../../../../assets/icons/FilesIcons/pdf.png'
+import txtIcon from '../../../../assets/icons/FilesIcons/txt.png'
+import rarIcon from '../../../../assets/icons/FilesIcons/zip.png'
+import wordIcon from '../../../../assets/icons/FilesIcons/doc.png'
+import pptIcon from '../../../../assets/icons/FilesIcons/ppt.png'
+import csvIcon from '../../../../assets/icons/FilesIcons/csv.png'
+import fileIcon from '../../../../assets/icons/FilesIcons/file.png'
 
 const FileIcon = (props) => {
     const checkFileType = (fileType) => {

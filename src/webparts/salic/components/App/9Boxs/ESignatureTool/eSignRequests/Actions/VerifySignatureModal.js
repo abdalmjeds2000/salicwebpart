@@ -56,7 +56,7 @@ function VerifySignatureModal() {
       method: 'GET',
       url: `https://salicapi.com/api/Signature/Verify?key=${signatureKey}`
     }).then((res) => {
-      if(res.data.Data.length > 0){
+      if(res.data?.Data?.length > 0){
         setKaySignatureData(res.data.Data)
         setSignatureKey('')
       } else {
@@ -74,10 +74,10 @@ function VerifySignatureModal() {
       content={
         <>
           <Input placeholder='enter signature key' onChange={(e) => setSignatureKey(e.target.value)} value={signatureKey} />
-          {kaySignatureData.length > 0 ? <Table columns={columnsSignatureKey} dataSource={kaySignatureData} /> : null}
+          {kaySignatureData?.length > 0 ? <Table columns={columnsSignatureKey} dataSource={kaySignatureData} /> : null}
           <Button 
             onClick={verifySignatureHandlr} 
-            disabled={signatureKey.length === 0 ? true : false} 
+            disabled={signatureKey?.length === 0 ? true : false} 
             type="primary" 
             icon={<SearchOutlined />}
             loading={loading}

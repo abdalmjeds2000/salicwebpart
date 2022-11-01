@@ -6,6 +6,7 @@ import SimpleUserPanel from "../Global/SimpleUserPanel/SimpleUserPanel";
 import {
   CalendarOutlined,
   CloseOutlined,
+  FileDoneOutlined,
   MenuOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
@@ -601,10 +602,10 @@ const SidebarNav = (props) => {
       link: false,
     },
     {
-      to: "/corporate-objective",
+      to: "https://salic.sharepoint.com/sites/MDM/SitePages/Home.aspx/corporate-objective",
       icon: svgIcons.Content,
       text: "Corporate Objective KPIs 2022",
-      link: false,
+      link: true,
     },
 
     {

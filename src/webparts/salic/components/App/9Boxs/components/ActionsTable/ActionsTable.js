@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons';
 import UserColumnInTable from '../../../Global/UserColumnInTable/UserColumnInTable';
-import FileIcon from '../../../NewContentRequests/PreviewRequest/components/FileIcon';
+import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 
 
 function ActionsTable(props) {

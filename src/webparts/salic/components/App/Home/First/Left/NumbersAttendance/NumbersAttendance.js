@@ -41,26 +41,34 @@ function NumbersAttendance() {
   }, [user_data, all_events])
 
 
-
+  const totalBalance = ((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total;
 
   const configRadialBar = {
     data: [
       { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
       // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
       // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
-      { name: "Total Balance", value: performance?.leaves?.total, type: "Expire in This Year" },
+      { name: "Total Balance", value: totalBalance, type: `Total Balance` },
     ],
     xField: 'name',
     yField: 'value',
     radius: 1,
     innerRadius: 0.5,
-    colorField: 'type',
-    color: ({ type }) => {
-      if (type === 'Consumed') {
-        return '#F9A654';
-      } else if (type === 'Available Balance This Year') {
+    colorField: 'name',
+    tooltip: {
+      formatter: (label) => {
+        if(label.name === "Total Balance") {
+          return { name: `Total balance is ${totalBalance} days, ${totalBalance-15} days of them must consumed this year`, value: `` };
+        }
+        return label
+      },
+    },
+    color: ({ name }) => {
+      if (name === 'Consumed This Year') {
+        return '#F9A654'; 
+      } else if (name === 'Available Balance This Year') {
         return '#E7F0FE';
-      } else if (type === 'Expire in This Year') {
+      } else if (name === 'Total Balance') {
         return '#43A2CC';
       }
       return '#FD96A6';
@@ -70,14 +78,14 @@ function NumbersAttendance() {
     animation: {appear: {animation: 'none'}},
     onReady: (plot) => {
       // Axis-label adds click events
-      plot.on('axis-label:click', (...args) => {
-        const ClickedName = args[0].gEvent.target.attrs.text;
-        if(ClickedName === "Total Balance") {
-          window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE", "_blank");
-        } else if(ClickedName === "Consumed This Year") {
-          window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=EXISTING_ABSENCES&action=NONE", "_blank");
-        }
-      })
+      // plot.on('axis-label:click', (...args) => {
+      //   const ClickedName = args[0].gEvent.target.attrs.text;
+      //   if(ClickedName === "Total Balance") {
+      //     window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE", "_blank");
+      //   } else if(ClickedName === "Consumed This Year") {
+      //     window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=EXISTING_ABSENCES&action=NONE", "_blank");
+      //   }
+      // })
     },
 
   };
@@ -137,7 +145,7 @@ function NumbersAttendance() {
         {
           (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
           ? <>
-              <span className='mid-total'>{performance?.leaves?.total}</span>
+              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total}</a>
               <RadialBar 
                 {...configRadialBar}
                 style={{

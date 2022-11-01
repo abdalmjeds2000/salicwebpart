@@ -6,6 +6,8 @@ import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
 import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable'
 import { AppCtx } from '../../App';
 import GetAllContentRequests from '../API/GetAllContentRequests';
+import StatusTag from '../../Global/RequestsComponents/StatusTag';
+import RequestsTable from '../../Global/RequestsComponents/RequestsTable';
 
 function MyContentRequests() {
   const { content_requests_data, setContentRequestsData, user_data, defualt_route } = useContext(AppCtx);
@@ -34,7 +36,7 @@ function MyContentRequests() {
       title: 'CR[#]',
       dataIndex: 'Id',
       width: '3%',
-      render: (val, record) => <b>{`CR[#${val}]`}</b>
+      render: (val) => <b>{`CR[#${val}]`}</b>
     },{
       title: 'Date & Time',
       dataIndex: 'Created',
@@ -59,11 +61,7 @@ function MyContentRequests() {
       title: 'Status',
       dataIndex: 'Status',
       width: '10%',
-      render: (val, record) =>  val === "Approved" 
-                                  ? <Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag>
-                                : val === "Rejected"
-                                  ? <Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>
-                                : <Tag icon={<SyncOutlined spin />} color="processing">{record.Status}</Tag>
+      render: (val) => <StatusTag Status={val} />
     }
   ];
 
@@ -79,7 +77,13 @@ function MyContentRequests() {
         return false
   });
 
-
+  const ControlPanel = (
+    <div style={{display: 'flex', gap: '10px'}}>
+      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
+      <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
+      <Button size='small' onClick={() => navigate(defualt_route+'/content-requests/new-request')}><PlusOutlined /> New Request</Button>
+    </div>
+  )
   
   return (
     <>
@@ -88,33 +92,14 @@ function MyContentRequests() {
         <p>My Content Requests</p>
       </HistoryNavigation>
 
-      <div className='table-page-container'>
-        <div className='content'>
-          <div className="header">
-            <h1>My Content Requests</h1>
-            <div style={{display: 'flex', gap: '10px'}}>
-              <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
-              <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
-              <Button size='small' onClick={() => navigate(defualt_route+'/content-requests/new-request')}><PlusOutlined /> New Request</Button>
-            </div>
-          </div>
-
-          <div className='form' style={{overflowX: 'auto'}}>
-              {
-                !loading
-                ? <Table
-                    columns={columns} 
-                    dataSource={filtered_content_requests_data.filter(row => row.Author.EMail === user_data.Data.Mail)} 
-                    pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
-                    size="small"
-                  />
-                : <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Spin indicator={<LoadingOutlined spin />} />
-                  </div>
-              }
-          </div>
-        </div>
-      </div>
+      <RequestsTable
+        Title="My Content Requests"
+        IsMyRequest={true}
+        HeaderControlPanel={ControlPanel}
+        IsLoading={loading}
+        Columns={columns}
+        DataTable={filtered_content_requests_data}
+      />
     </>
   )
 }

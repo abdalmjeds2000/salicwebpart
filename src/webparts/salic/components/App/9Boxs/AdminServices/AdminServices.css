@@ -122,7 +122,9 @@
 
 
 
-
+.ant-table-cell {
+  line-height: 1.2 !important;
+}
 .content-services-request div.form .ant-table-thead .ant-table-cell {
   text-align: center !important;
 }

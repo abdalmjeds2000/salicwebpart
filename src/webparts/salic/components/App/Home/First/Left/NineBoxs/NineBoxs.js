@@ -80,12 +80,12 @@ const icons = {
 }
 const services = [
   {header: 'Admin Services', link: false, to: '/admin-services', icon: icons.AdminServices},
-  {header: 'IT Services', link: true, /* to: '/it-services', */ to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ITServices.aspx', icon: icons.ITServices},
+  {header: 'IT Services', link: false, to: '/it-services', /* to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ITServices.aspx', */ icon: icons.ITServices},
   {header: 'e-Invoicing', link: false, to: '/e-invoicing', icon: icons.EInvoicing},
   {header: 'HR Self Services', link: false, to: '/hr-self-services', icon: icons.HRSelfServices},
   {header: 'Incidents Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Risk/Center.aspx', icon: icons.IncidentsCenter},
   {header: 'Corresponding System', link: true, to: 'https://masar.salic.com',  icon: icons.CorrespondingSystem},
-  {header: 'Research Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Research/Center.aspx', icon: icons.ResearchCenter},
+  {header: 'Research Center', link: false, to: '/research-center', icon: icons.ResearchCenter},
   // {header: 'Performance Managment', link: false, to: '/performance-managment', icon: icons.Performance},
   {header: 'e-Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
   {header: 'eDocument System', link: false, to: '/dms', icon: icons.DMS},

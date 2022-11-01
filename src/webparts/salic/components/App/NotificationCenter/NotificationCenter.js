@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import './NotificationCenter.css'
-import { Button, Checkbox, Input, Space, Table } from 'antd'
+import { Button, Checkbox, Input, Modal, Space, Table } from 'antd'
 import { DownOutlined, SearchOutlined } from '@ant-design/icons'
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
 import Highlighter from 'react-highlight-words';
 import { AppCtx } from '../App'
 import axios from 'axios'
+import AntdLoader from '../Global/AntdLoader/AntdLoader'
 
 
 function getWindowSize() {
@@ -16,23 +17,26 @@ function getWindowSize() {
 
 
 function NotificationCenter() {
-  const { user_data, notification_center_data, setNotificationCenterData } = useContext(AppCtx);
-  const [allData, setAllData] = useState(notification_center_data)
+  const { user_data } = useContext(AppCtx);
+  const [notificationCenterData, setNotificationCenterData] = useState([]);
+  const [allData, setAllData] = useState(notificationCenterData)
   const [filteredData, setFilteredData] = useState([])
-  const [selectedType, setSelectedType] = useState(['Oracle', 'eSign', 'SharedServices', 'CS']);
+  const [selectedType, setSelectedType] = useState(['Oracle']);
   const [selectedStatus, setSelectedStatus] = useState(['Pending']);
   const [typeToSearchText, setTypeToSearchText] = useState('');
-
+  const [loading, setLoading] = useState(true);
+  
 
   // Get Notification Center Data
   useEffect(() => {
-    if(Object.keys(user_data).length > 0 && notification_center_data.length === 0) {
+    if(Object.keys(user_data).length > 0) {
+      setLoading(true);
       axios({ 
         method: 'GET', 
-        url: `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=86&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=eSign&Status=Pending%2CApproved%2CRejected&_=1660747052191`
+        url: `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=9&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=${selectedType[0]}&Status=Approved%2CPending%2CRejected&_=1666821907437`
       }).then((res) => { 
         const notifi_data = res.data?.Data?.map((n, i) => {
-          const ViewDocumentUrl = n.From === "eSign" ? `https://salicapi.com/eSign/sign.html?key=${n.Body}` : '';
+          const ViewDocumentUrl = n.From === "eSign" ? `https://salicapi.com/eSign/sign.html?key=${n.Body}` : n.From === "Oracle" ? n.Body : null;
           const newRow = {
             key: i,
             id: `${i+1}`,
@@ -47,8 +51,9 @@ function NotificationCenter() {
         setNotificationCenterData(notifi_data);
         console.log('notifi_data', notifi_data);
       }).catch(err => console.log(err))
+      setLoading(false);
     }
-  }, [user_data])
+  }, [user_data, selectedType])
 
 
   
@@ -78,9 +83,9 @@ function NotificationCenter() {
   }
   // Filter by Status && Type
   useEffect(() => {
-    setAllData(notification_center_data)
-    setFilteredData(notification_center_data)
-  }, [notification_center_data])
+    setAllData(notificationCenterData)
+    setFilteredData(notificationCenterData)
+  }, [notificationCenterData])
   const filterByStatus = (checkedValues) => {
     setSelectedStatus(checkedValues)
     const filteredData = allData?.filter(g => checkedValues.includes(g.status) && selectedType.includes(g.From))
@@ -98,6 +103,9 @@ function NotificationCenter() {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState("");
+  
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -191,6 +199,17 @@ function NotificationCenter() {
         text
       ),
   });
+
+//   const DetailsModal = (data) => (
+//     <Modal
+//         title={'Oracle'}
+//         visible={openModal}
+//         onCancel={() => setOpenModal(false)}
+//         okButtonProps={{ style: {display: 'none'}}}
+//     >
+//       <div><div dangerouslySetInnerHTML={{__html: data}}></div>sdsdsdsdsd</div>
+//     </Modal>
+// )
   const columns = [
     {
       title: '#',
@@ -215,7 +234,15 @@ function NotificationCenter() {
     },{
       title: 'Action',
       dataIndex: 'action',
-      render: (url) => <a href={url} target='_blank'>View Document</a>
+      render: (val, record) => (
+        record.From === 'Oracle'
+          ? <div>
+              <a onClick={() => {setOpenModal(true); setModalData(val);}}>Details</a>
+            </div>
+        : record.From === 'eSign'
+          ? <a href={val} target='_blank'>View Document</a>
+        : null
+      )
     }
   ];
 
@@ -234,64 +261,68 @@ function NotificationCenter() {
           <div className="notification_type-container">
             <div className="notification_type"
               style={{backgroundColor: selectedType.includes('Oracle') ? 'var(--link-text-color)' : 'var(--main-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('Oracle')) {
-                  return prev.filter(t => t !== 'Oracle')
-                } else {
-                  return [...prev, 'Oracle']
-                }
-              })}
+              onClick={() => setSelectedType(["Oracle"])}
+              // onClick={() => setSelectedType(prev => {
+              //   if(prev.includes('Oracle')) {
+              //     return prev.filter(t => t !== 'Oracle')
+              //   } else {
+              //     return [...prev, 'Oracle']
+              //   }
+              // })}
             >
               <div className='text'>
-                <h1>0</h1>
+                <h1>{notificationCenterData.filter(n => n.From === "Oracle").length}</h1>
                 <h2>Oracle</h2>
               </div>
               <DownOutlined />
             </div>
             <div className="notification_type"
               style={{backgroundColor: selectedType.includes('eSign') ? 'var(--link-text-color)' : 'var(--main-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('eSign')) {
-                  return prev.filter(t => t !== 'eSign')
-                } else {
-                  return [...prev, 'eSign']
-                }
-              })}
+              onClick={() => setSelectedType(["eSign"])}
+              // onClick={() => setSelectedType(prev => {
+              //   if(prev.includes('eSign')) {
+              //     return prev.filter(t => t !== 'eSign')
+              //   } else {
+              //     return [...prev, 'eSign']
+              //   }
+              // })}
             >
               <div className='text'>
-                <h1>{notification_center_data.filter(g => g.From === 'eSign').length}</h1>
+                <h1>{notificationCenterData.filter(n => n.From === "eSign").length}</h1>
                 <h2>eSign Tool</h2>
               </div>
               <DownOutlined />
             </div>
             <div className="notification_type"
               style={{backgroundColor: selectedType.includes('SharedServices') ? 'var(--link-text-color)' : 'var(--main-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('SharedServices')) {
-                  return prev.filter(t => t !== 'SharedServices')
-                } else {
-                  return [...prev, 'SharedServices']
-                }
-              })}
+              onClick={() => setSelectedType(["SharedServices"])}
+              // onClick={() => setSelectedType(prev => {
+              //   if(prev.includes('SharedServices')) {
+              //     return prev.filter(t => t !== 'SharedServices')
+              //   } else {
+              //     return [...prev, 'SharedServices']
+              //   }
+              // })}
             >
               <div className='text'>
-                <h1>0</h1>
+                <h1>{notificationCenterData.filter(n => n.From === "SharedServices").length}</h1>
                 <h2>Shared Services</h2>
               </div>
               <DownOutlined />
             </div>
             <div className="notification_type"
               style={{backgroundColor: selectedType.includes('CS') ? 'var(--link-text-color)' : 'var(--main-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('CS')) {
-                  return prev.filter(t => t !== 'CS')
-                } else {
-                  return [...prev, 'CS']
-                }
-              })}
+              onClick={() => setSelectedType(["CS"])}
+              // onClick={() => setSelectedType(prev => {
+              //   if(prev.includes('CS')) {
+              //     return prev.filter(t => t !== 'CS')
+              //   } else {
+              //     return [...prev, 'CS']
+              //   }
+              // })}
             >
               <div className='text'>
-                <h1>0</h1>
+                <h1>{notificationCenterData.filter(n => n.From === "CS").length}</h1>
                 <h2>Correponding System</h2>
               </div>
               <DownOutlined />
@@ -314,7 +345,7 @@ function NotificationCenter() {
             </div>
             <div style={{overflowX: 'auto'}}>
               {
-                notification_center_data.length ? (
+                !loading ? (
                   windowSize.innerWidth > 600 
                   ? <Table 
                       columns={columns} 
@@ -336,12 +367,23 @@ function NotificationCenter() {
                       }}
                     />
                   )
-                : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>
+                : <div style={{fontSize: '2rem', margin: '25px'}}><AntdLoader /></div>
               }
+              
             </div>
           </div>
         </div>
+        {/* {DetailsModal(modalData)} */}
 
+        <Modal
+          title="Oracle Notification"
+          visible={openModal}
+          onCancel={() => setOpenModal(false)}
+          okButtonProps={{ style: {display: 'none'}}}
+          className="performance-antd-modal"
+        >
+          <div><div dangerouslySetInnerHTML={{__html: modalData}}></div></div>
+        </Modal>
       </div>
     </>
   )
