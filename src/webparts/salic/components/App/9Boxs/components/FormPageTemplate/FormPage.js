@@ -30,7 +30,7 @@ function FormPageTemplate(props) {
                 </div>
                 <div>
                   <p><b>ID #</b></p>
-                  <p>{parseInt(props.UserId, 10) || parseInt(user_data.Data?.PIN, 10) || ' - '}</p>
+                  <p>{parseInt(props.UserId, 10) || user_data.Data?.Iqama || ' - '}</p>
                 </div>
               </div>
               <div className="tips_user-info_img">

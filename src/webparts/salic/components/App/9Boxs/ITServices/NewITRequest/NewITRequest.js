@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Form, Input, Modal, Upload, Radio, Select, Space, Divider } from 'antd';
+import { Form, Input, Modal, Upload, Radio, Select, Space, Divider, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FormPageTemplate from '../../components/FormPageTemplate/FormPage'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
@@ -7,6 +7,8 @@ import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 import moment from 'moment';
+import { issuesTypes } from './helpers/IssueTypes/issuesTypesJSON';
+import IssueTypeForm from './helpers/IssueTypes/IssueTypeForms/IssueTypeForms';
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -22,6 +24,10 @@ const getBase64 = (file) =>
 
 function NewITRequest() {
   const { user_data, defualt_route } = useContext(AppCtx);
+  const [form] = Form.useForm();
+  let navigate = useNavigate();
+
+  const [btnLoader, setBtnLoader] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -36,11 +42,39 @@ function NewITRequest() {
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const [categoryTypeField, setCategoryTypeField] = useState("Hardware");
+  const [issueTypeField, setIssueTypeField] = useState("");
 
 
 
 
-  let navigate = useNavigate();
+  let isFilesFinishUpload = true;
+  const files = fileList.map(file => {
+    if(file.status === "uploading") isFilesFinishUpload = false
+    return file.response?.uploadedFiles[0]?.Name
+  }).join();
+
+  async function CreateItServiceRequest(FormData) {
+    setBtnLoader(true);
+    if(isFilesFinishUpload) {
+      const formData = {
+        Email: user_data?.Data?.Mail,
+        Source: "WEB",
+        FormData: JSON.stringify({}),
+        FileNames: files,
+        ...FormData,
+      }
+      message.success("The request has been sent successfully.")
+      setFileList([]);
+      form.resetFields();
+      setBtnLoader(false);
+      console.log(formData);
+    } else {
+      message.error("Wait for Uploading...")
+      setBtnLoader(false);
+    }
+  }
+
 
 
   return (
@@ -50,9 +84,7 @@ function NewITRequest() {
         <p>New Service Request</p>
       </HistoryNavigation>
       <FormPageTemplate
-        user_data={user_data}
         pageTitle='Service Request'
-        tips_userInfo={[{title: 'SALIC', text: user_data.Data?.Department}]}
         tipsList={[
           "Fill out required fields carefully.",
           "If Possile upload captured images for the problem.",
@@ -65,9 +97,11 @@ function NewITRequest() {
         <Form
           {...layout} 
           colon={false}
+          form={form} 
           labelWrap 
           name="service-request" 
-          onFinish={values => console.log(values)}
+          onFinish={CreateItServiceRequest}
+          onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
           <Form.Item name="ReceivedDate" label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')}>
             <Input placeholder='Date' size='large' disabled />
@@ -91,8 +125,8 @@ function NewITRequest() {
 
           <Divider />
 
-          <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware" rules={[{required: true}]}>
-            <Radio.Group value="Hardware" /* onChange={e => console.log(e.target.value)} */>
+          <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware">
+            <Radio.Group value={categoryTypeField} onChange={({target: {value}})=>setCategoryTypeField(value)} rules={[{required: true}]}>
               <Space direction="vertical">
                 <Radio value="Hardware">
                   <span>Hardware & Devices</span> <br />
@@ -119,12 +153,20 @@ function NewITRequest() {
               <Option value="2">Critical</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="IssueType" label="Issue Type" >
-            <Select placeholder="Select Issue Type" size="large" /* onChange={value => console.log(value)} */ >
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
+          <Form.Item name="IssueType" label="Issue Type">
+            <Select placeholder="Select Issue Type" size="large" value={issueTypeField} onChange={value => setIssueTypeField(value)}>
+              { issuesTypes
+                .filter(i => i.Category===categoryTypeField)
+                .map(option => (
+                  <Option value={option.Type}>{option.Type}</Option>
+                )) }
+              <Option value="Other">Other</Option>
             </Select>
           </Form.Item>
+
+
+          {categoryTypeField === "Access" && <IssueTypeForm IssueType={issueTypeField} />}
+
 
           <Divider />
 
@@ -146,7 +188,7 @@ function NewITRequest() {
             </Modal>
           </Form.Item>
 
-          <SubmitCancel />
+          <SubmitCancel loaderState={btnLoader} backTo="/it-services" />
 
         </Form>
       </FormPageTemplate>

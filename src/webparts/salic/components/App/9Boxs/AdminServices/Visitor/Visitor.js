@@ -11,6 +11,7 @@ import VisitorRequest from './API/VisitorRequest';
 import GetVisitorRequestById from './API/GetVisitorRequestById';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import FileIcon from '../../../Global/RequestsComponents/FileIcon';
+import NationaltiesOptions from '../../../Global/NationaltiesOptions/NationaltiesOptions'
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -119,7 +120,7 @@ function Visitor() {
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
             UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
-            UserId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data.PIN, 10)}
+            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
             tipsList={[
               "Fill out required fields carefully.",
               "Check your email regularly. You will receive a notification on every future actions",
@@ -154,9 +155,7 @@ function Visitor() {
                   disabled={id ? true : false}
                   defaultValue={id ? requestData.Nationality : ''}
                 >
-                  <Option value="Palestine">Palestine</Option>
-                  <Option value="Saudi">Saudi</Option>
-                  <Option value="India">India</Option>
+                  <NationaltiesOptions />
                 </Select>
               </Form.Item>
               <Form.Item name="Profession" label="Profession" rules={[{required: true}]} initialValue={id ? requestData.Profession : ''}>

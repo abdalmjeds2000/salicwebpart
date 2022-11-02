@@ -47,17 +47,17 @@ function IssuingVISA() {
 
 
 
+  let isFilesFinishUpload = true;
+  const files = fileList.map(file => {
+    if(file.status === "uploading") isFilesFinishUpload = false
+    return file.response?.uploadedFiles[0]?.Name
+  }).join();
+
 
   async function CreateBusinessGateRequest(values) {
     setBtnLoader(true);
-    let isFilesFinishUpload = true;
-    const files = fileList.map(file => {
-      if(file.status === "uploading") isFilesFinishUpload = false
-      return file.response?.uploadedFiles[0]?.Name
-    }).join();
-
     values.IqamaExpireDate = new Date(values.IqamaExpireDate).toLocaleDateString();
-    if(values && isFilesFinishUpload) {
+    if(isFilesFinishUpload) {
       const formData = {
         Email: user_data?.Data?.Mail,
         ReferenceCode: "auto generated",
@@ -71,11 +71,10 @@ function IssuingVISA() {
       setBtnLoader(false);
       console.log(formData);
     } else {
-      message.error("Failed to send request.")
+      message.error("Wait for Uploading...")
       setBtnLoader(false);
     }
   }
-  const onFinishFailed = () => { message.error("Please, fill out the form correctly.") }
 
 
 
@@ -93,7 +92,7 @@ function IssuingVISA() {
         tips_userInfo={[
           {title: 'SALIC', text: user_data.Data?.Department},
           {title: 'Nationality', text: user_data.Data?.Nationality},
-          {title: 'ID #', text: user_data.Data?.Id},
+          {title: 'ID #', text: user_data.Data?.Iqama},
         ]}
         tipsList={[
           "Fill out required fields carefully.",
@@ -110,7 +109,7 @@ function IssuingVISA() {
           layout="horizontal"
           form={form} 
           onFinish={CreateBusinessGateRequest}
-          onFinishFailed={onFinishFailed}
+          onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
           
 

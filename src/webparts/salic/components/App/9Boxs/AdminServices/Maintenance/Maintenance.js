@@ -87,7 +87,7 @@ function Maintenance() {
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
             UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
-            UserId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data.PIN, 10)}
+            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
             tipsList={[
               "Fill out required fields carefully.",
               "Check your email regularly. You will receive a notification on every future actions",

@@ -48,6 +48,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [researchRequestsData, setResearchRequestsData] = React.useState([]);
   const [adminAssignedRequests, setAdminAssignedRequests] = React.useState([]);
   const [adminMyRequests, setAdminMyRequests] = React.useState([]);
+  const [oracleFormData, setOracleFormData] = React.useState([]);
   
 
 
@@ -226,6 +227,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         setOracleReports(JSON.parse(res.data.Data))
       })
       .catch(err => console.log(err))
+
+    axios({method: "GET", url: "https://salicapi.com/api/Tracking/GetOracleFormData"})
+    .then(response => setOracleFormData(response.data.Data))
+    .catch(null)
   }, []);
 
   // Context Provider
@@ -260,7 +265,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     admin_assigned_requests: adminAssignedRequests, 
     setAdminAssignedRequests,
     admin_my_requests: adminMyRequests,
-    setAdminMyRequests
+    setAdminMyRequests,
+    oracle_form_data: oracleFormData
   };
 
   return (
