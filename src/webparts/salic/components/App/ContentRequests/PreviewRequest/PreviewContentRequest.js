@@ -86,7 +86,7 @@ function PreviewContentRequest() {
         }
     }
     // Add New Reply
-    async function AddReply(ReplyText, IsResult, ResultStatus) {
+    async function AddReply(ReplyText, IsResult, ResultStatus, IsShowToRequester) {
         setBtnLoader(true);
         if(ReplyText && isFilesFinishUpload) {
             const replyJSON = {
@@ -96,7 +96,7 @@ function PreviewContentRequest() {
                 AttachmentsRows: JSON.stringify(attachmentsList),
                 IsResult: IsResult,
                 ResultStatus: ResultStatus,
-                ShowToRequester: IfRequester ? true : checkboxReply
+                ShowToRequester: IfRequester ? true : IsShowToRequester
             }
             const response = await AddNewReply(replyJSON)
             if(response.data) {
@@ -111,8 +111,6 @@ function PreviewContentRequest() {
             } else {
                 message.error("Failed Add Reply!")
             }
-        } else {
-            message.error(!newReplyText ? "Write Something and try again." : "Wait for Uploading ...")
         }
         setBtnLoader(false);
     }
@@ -126,16 +124,17 @@ function PreviewContentRequest() {
             if(response) {
                 GetRequestAssigneeHistory(id);
                 if(status === "Submit") {
-                    AddReply(actionNote, false);
-                    message.success(`Your Content has been Submit Seccessfully.`, 3)
+                    AddReply(actionNote, false, null, true);
                     setOpenSubmitModal(false);
-                } else {
-                    AddReply(actionNote, true, status);
-                    message.success(`The request has been ${status}.`, 3)
+                    message.success(`Your Content has been ${status} Seccessfully.`, 1.5);
+                } else if(status === "Acknowledge") {
+                    message.success(`Your Request has been Acknowledge Seccessfully.`, 1.5);
+                } else if(status === "Approved" || status === "Rejected") {
+                    AddReply(actionNote, true, status, true);
                     setOpenApproveModal(false);
                     setOpenRejectModal(false);
+                    message.success(`Your Request has been ${status} Seccessfully.`, 1.5);
                 }
-                
             } else {
                 message.error("Failed Add Action!")
             }
@@ -152,7 +151,7 @@ function PreviewContentRequest() {
         if(response && withReply) {
             if(isFilesFinishUpload) {
                 message.success(`Done!`);
-                AddReply(actionNote, false);
+                AddReply(actionNote, false, null, true);
                 setRequestData(prev => {prev.Status = newData.Status; return prev});
             } else {
                 message.error("Wait for Uploading ...");
@@ -160,7 +159,7 @@ function PreviewContentRequest() {
         }
         setBtnLoader(false);
     }
-
+ 
 
     // Send Get's Requests (when page is rendered)
     useEffect(() => {
@@ -203,7 +202,6 @@ function PreviewContentRequest() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                 <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
                 {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
                 <Button 
                     type="primary" 
                     onClick={() => AddAction("Approved")} 
@@ -225,7 +223,6 @@ function PreviewContentRequest() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                 <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
                 {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
                 <Button 
                     type="primary" 
                     onClick={() => AddAction("Rejected")} 
@@ -248,7 +245,6 @@ function PreviewContentRequest() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                 <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
                 {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
                 <Button 
                     type="primary" 
                     onClick={() => AddAction("Submit")} 
@@ -312,7 +308,7 @@ function PreviewContentRequest() {
                 <h1>Content Request: [#{requestData?.Id || '###'}]</h1>
                 <div>
                     {
-                        !IfRequester && requestData.Status === 'Submitted' && PendingAssignee?.Status === "Pending"
+                        requestData.Status === 'Submitted' && PendingAssignee?.Status === "Pending"
                         ?   (
                                 PendingAssignee?.Action === "Approve"
                                 ?   <div>
@@ -328,8 +324,11 @@ function PreviewContentRequest() {
                                     </div>
                                 :   null
                             )
-                        :   IfRequester && requestData.Status === 'Approved'
-                        ?   <Button onClick={() => {UpdateRequest({Status: "Acknowledge"}, id, false); setRequestData(prev => {prev.Status="Acknowledge"; return prev})}} type="primary" disabled={btnLoader}>Acknowledge</Button>
+                        :   null
+                    }
+                    {
+                        IfRequester && requestData.Status === 'Approved' && PendingAssignee?.Status === "Pending"
+                        ?   <Button onClick={() => {AddAction("Approved"); setRequestData(prev => {prev.Status="Acknowledge"; return prev})}} type="primary" disabled={btnLoader}>Acknowledge</Button>
                         :   IfRequester && requestData.Status === 'Submitted'
                         ?   <>
                                 <Button onClick={() => setOpenCancelModal(true)} type="primary" disabled={btnLoader} danger>Cancel Request</Button>
@@ -394,7 +393,7 @@ function PreviewContentRequest() {
                                                         {!IfRequester && CheckboxReply()}
                                                     </Col>}
                                                     <Col span={24}>
-                                                        <Button type='primary' onClick={() => AddReply(newReplyText, false)} disabled={btnLoader}>Add Feedback</Button>
+                                                        <Button type='primary' onClick={() => AddReply(newReplyText, false, null, checkboxReply)} disabled={btnLoader}>Add Feedback</Button>
                                                     </Col>
                                                 </Row>
                                             </Timeline.Item>
@@ -445,7 +444,7 @@ function PreviewContentRequest() {
                                             subTitle={`at ${new Date(requestData.Created).toLocaleString()}`}
                                         />
                                         {
-                                            assigneeHistoryData.map((row, i) => {
+                                            assigneeHistoryData.filter(a => a.Action !== "Acknowledge").map((row, i) => {
                                                 return  <Steps.Step 
                                                             key={i}
                                                             title={<b><CaretRightOutlined />{row.ToUser?.Title}</b>} 

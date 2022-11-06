@@ -1,17 +1,26 @@
-import React, { useContext, useState } from 'react'
-import { Form, Input, Modal, Upload, Radio, Select, Space, Divider, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import FormPageTemplate from '../../components/FormPageTemplate/FormPage'
-import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
-import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
-import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../../App'
-import moment from 'moment';
-import { issuesTypes } from './helpers/IssueTypes/issuesTypesJSON';
-import IssueTypeForm from './helpers/IssueTypes/IssueTypeForms/IssueTypeForms';
+import React, { useContext, useState } from "react";
+import {
+  Form,
+  Input,
+  Modal,
+  Upload,
+  Radio,
+  Select,
+  Space,
+  Divider,
+  message,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import FormPageTemplate from "../../components/FormPageTemplate/FormPage";
+import HistoryNavigation from "../../../Global/HistoryNavigation/HistoryNavigation";
+import SubmitCancel from "../../components/SubmitCancel/SubmitCancel";
+import { useNavigate } from "react-router-dom";
+import { AppCtx } from "../../../App";
+import moment from "moment";
+import { issuesTypes } from "./helpers/IssueTypes/issuesTypesJSON";
+import IssueTypeForm from "./helpers/IssueTypes/IssueTypeForms/IssueTypeForms";
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
-
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -21,7 +30,6 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-
 function NewITRequest() {
   const { user_data, defualt_route } = useContext(AppCtx);
   const [form] = Form.useForm();
@@ -29,9 +37,10 @@ function NewITRequest() {
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState([]);
+
   const handleCancel = () => setPreviewVisible(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -39,72 +48,97 @@ function NewITRequest() {
     }
     setPreviewImage(file.url || file.preview);
     setPreviewVisible(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   const [categoryTypeField, setCategoryTypeField] = useState("Hardware");
   const [issueTypeField, setIssueTypeField] = useState("");
 
-
-
-
   let isFilesFinishUpload = true;
-  const files = fileList.map(file => {
-    if(file.status === "uploading") isFilesFinishUpload = false
-    return file.response?.uploadedFiles[0]?.Name
-  }).join();
+  const files = fileList
+    .map((file) => {
+      if (file.status === "uploading") isFilesFinishUpload = false;
+      return file.response?.uploadedFiles[0]?.Name;
+    })
+    .join();
 
   async function CreateItServiceRequest(FormData) {
     setBtnLoader(true);
-    if(isFilesFinishUpload) {
-      const formData = {
-        Email: user_data?.Data?.Mail,
-        Source: "WEB",
-        FormData: JSON.stringify({}),
-        FileNames: files,
-        ...FormData,
+    // Sub Forms Data (FormData prop => {})
+    if (isFilesFinishUpload) {
+      switch (issueTypeField) {
+        case 'Oracle':
+          const OracleFormDataProp = { Enviroment: FormData.Enviroment, NewAccount: FormData.NewAccount, Module: FormData.Module, Rules: FormData.Rules, AccessFrom: moment(FormData.TemporaryAccess[0]).format('MM/DD/YYYY'), AccessTo: moment(FormData.TemporaryAccess[1]).format('MM/DD/YYYY') };
+          FormData.FormData = JSON.stringify(OracleFormDataProp);
+          break;
+        case 'DMS':
+          const DMSFormDataProp = { PermissionType: FormData.PermissionType, MainFolder: FormData.MainFolder, };
+          FormData.FormData = JSON.stringify(DMSFormDataProp);
+          break;
+        case 'Unlock USB':
+          const USBFormDataProp = { USBAccessType: FormData.USBAccessType, USBAccessFrom: moment(FormData?.USBAccessDates[0]).format('MM/DD/YYYY'), USBAccessTo: moment(FormData?.USBAccessDates[1]).format('MM/DD/YYYY') };
+          FormData.FormData = JSON.stringify(USBFormDataProp);
+          break;
+        case 'Software Subscription & Licenses':
+          const SoftwareFormDataProp = { SoftwareName: FormData.SoftwareName };
+          FormData.FormData = JSON.stringify(SoftwareFormDataProp);
+          break;
+        case 'Phone Extensions':
+          const PhoneFormDataProp = { Extensions: FormData.Extensions, Scope: FormData.Scope };
+          FormData.FormData = JSON.stringify(PhoneFormDataProp);
+          break;
       }
-      message.success("The request has been sent successfully.")
+
+      // Final Form Data Object (this object will be send to server)
+      const formData = { Email: user_data?.Data?.Mail, IQAMA: user_data?.Data?.Iqama || "", Id: user_data?.Data?.Id.toString(), Source: "WEB", FileNames: files, ...FormData, };
+      delete formData["TemporaryAccess"];
+      delete formData["USBAccessDates"];
+      
+      // Result Submit ( After Submittion)
+      message.success("The request has been sent successfully.");
       setFileList([]);
       form.resetFields();
-      setBtnLoader(false);
+      setCategoryTypeField("");
+      setIssueTypeField("");
       console.log(formData);
     } else {
-      message.error("Wait for Uploading...")
-      setBtnLoader(false);
+      message.error("Wait for Uploading...");
     }
+    setBtnLoader(false);
   }
-
-
 
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
+        <a onClick={() => navigate(`${defualt_route}/it-services`)}>
+          IT Service Center
+        </a>
         <p>New Service Request</p>
       </HistoryNavigation>
       <FormPageTemplate
-        pageTitle='Service Request'
+        pageTitle="Service Request"
         tipsList={[
           "Fill out required fields carefully.",
           "If Possile upload captured images for the problem.",
           "Be specific in describing the problem you are facing. Please do not write fussy words or incomplete statements.",
-          "Be specific in choosing 'Issue Category' as the system will assign SR. to the appropriate team member."
+          "Be specific in choosing 'Issue Category' as the system will assign SR. to the appropriate team member.",
         ]}
       >
-
-
         <Form
-          {...layout} 
+          {...layout}
           colon={false}
-          form={form} 
-          labelWrap 
-          name="service-request" 
+          form={form}
+          labelWrap
+          name="service-request"
           onFinish={CreateItServiceRequest}
-          onFinishFailed={() => message.error("Please, fill out the form correctly.")}
+          onFinishFailed={() =>
+            message.error("Please, fill out the form correctly.")
+          }
         >
-          <Form.Item name="ReceivedDate" label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')}>
-            <Input placeholder='Date' size='large' disabled />
+          <Form.Item name="ReceivedDate" label="Date" rules={[{ required: true }]} initialValue={moment().format("MM-DD-YYYY hh:mm")} >
+            <Input placeholder="Date" size="large" disabled />
           </Form.Item>
           <Form.Item name="onbehalf" label="On Behalf Of">
             <Select
@@ -119,14 +153,18 @@ function NewITRequest() {
               <Option value="name123@gmail.com">name 123</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="Subject" label="Subject" rules={[{required: true,}]}>
-            <Input placeholder='write breif subject' size='large' />
+          <Form.Item name="Subject" label="Subject" rules={[{ required: true }]} >
+            <Input placeholder="write breif subject" size="large" />
           </Form.Item>
 
           <Divider />
 
-          <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware">
-            <Radio.Group value={categoryTypeField} onChange={({target: {value}})=>setCategoryTypeField(value)} rules={[{required: true}]}>
+          <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware" >
+            <Radio.Group
+              value={categoryTypeField}
+              onChange={({ target: { value } }) => setCategoryTypeField(value)}
+              rules={[{ required: true }]}
+            >
               <Space direction="vertical">
                 <Radio value="Hardware">
                   <span>Hardware & Devices</span> <br />
@@ -134,7 +172,10 @@ function NewITRequest() {
                 </Radio>
                 <Radio value="Software">
                   <span>Software & Applications</span> <br />
-                  <p>Software issues such as Oracle, SharePoint, and Office 365 Suite</p>
+                  <p>
+                    Software issues such as Oracle, SharePoint, and Office 365
+                    Suite
+                  </p>
                 </Radio>
                 <Radio value="Access">
                   <span>Access, Permissions, and Licenses</span> <br />
@@ -147,30 +188,38 @@ function NewITRequest() {
               </Space>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="Priority" label="Priority" >
-            <Select placeholder="Priority" size="large" /* onChange={value => console.log(value)} */ >
+          <Form.Item name="Priority" label="Priority" initialValue="1">
+            <Select placeholder="Priority" size="large">
               <Option value="1">Normal</Option>
               <Option value="2">Critical</Option>
             </Select>
           </Form.Item>
           <Form.Item name="IssueType" label="Issue Type">
-            <Select placeholder="Select Issue Type" size="large" value={issueTypeField} onChange={value => setIssueTypeField(value)}>
-              { issuesTypes
-                .filter(i => i.Category===categoryTypeField)
-                .map(option => (
+            <Select
+              placeholder="Select Issue Type"
+              size="large"
+              value={issueTypeField}
+              onChange={(value) => setIssueTypeField(value)}
+            >
+              {issuesTypes
+                .filter((i) => i.Category === categoryTypeField)
+                .map((option) => (
                   <Option value={option.Type}>{option.Type}</Option>
-                )) }
+                ))}
               <Option value="Other">Other</Option>
             </Select>
           </Form.Item>
 
-
-          {categoryTypeField === "Access" && <IssueTypeForm IssueType={issueTypeField} />}
-
+          {
+            categoryTypeField === "Access" && issueTypeField !== "" &&
+            <div style={{padding: '15px', borderRadius: '10px', backgroundColor: 'var(--third-color)'}}>
+              <IssueTypeForm IssueType={issueTypeField} />
+            </div>
+          }
 
           <Divider />
 
-          <Form.Item name='Description' label="Descriptions / Justifications" rules={[{required: true}]}>
+          <Form.Item name="Description" label="Descriptions / Justifications" rules={[{ required: true }]} >
             <Input.TextArea rows={8} placeholder="write a brief description" />
           </Form.Item>
           <Form.Item label="Documents">
@@ -181,19 +230,28 @@ function NewITRequest() {
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList?.length >= 15 ? null : <div><PlusOutlined /><div style={{marginTop: 8}}>Upload</div></div>}
+              {fileList?.length >= 15 ? null : (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              )}
             </Upload>
-            <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-              <img alt="example" style={{width: '100%'}} src={previewImage}/>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img alt="example" style={{ width: "100%" }} src={previewImage} />
             </Modal>
           </Form.Item>
 
           <SubmitCancel loaderState={btnLoader} backTo="/it-services" />
-
         </Form>
       </FormPageTemplate>
     </>
-  )
+  );
 }
 
-export default NewITRequest
+export default NewITRequest;
