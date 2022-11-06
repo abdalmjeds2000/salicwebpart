@@ -203,7 +203,7 @@ function NotificationCenter() {
 //   const DetailsModal = (data) => (
 //     <Modal
 //         title={'Oracle'}
-//         visible={openModal}
+//         open={openModal}
 //         onCancel={() => setOpenModal(false)}
 //         okButtonProps={{ style: {display: 'none'}}}
 //     >
@@ -377,7 +377,7 @@ function NotificationCenter() {
 
         <Modal
           title="Oracle Notification"
-          visible={openModal}
+          open={openModal}
           onCancel={() => setOpenModal(false)}
           okButtonProps={{ style: {display: 'none'}}}
           className="performance-antd-modal"

@@ -1,62 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './Number.css';
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { Modal, Table } from 'antd';
-import { render } from 'react-dom';
 
 
 function Number(props) {
   const [openPerformanceModal, setOpenPerformanceModal] = useState(false)
-  const columns = [
-    {
-      title: 'KPI',
-      dataIndex: 'KPI_NAME',
-      width: '15%'
-    },{
-      title: 'Objectives',
-      dataIndex: 'OBJECTIVES',
-      width: '15%'
-    },{
-      title: '%',
-      dataIndex: 'MEASURE_ACHIEVE',
-      width: '10%',
-      render: (val) => val ? `${val}%` : ' - '
-    },{
-      title: 'Target',
-      dataIndex: 'TARGET',
-      width: '10%'
-    },{
-      title: 'UOM',
-      dataIndex: 'UOM',
-      width: '10%',
-      render: (val) => val !== '%' && val !== '#' ? val : ' - '
-    },{
-      title: 'Weightage',
-      dataIndex: 'WEIGHTAGE',
-      width: '5%'
-    },{
-      title: 'Manager KPI',
-      dataIndex: 'Manager_KPI',
-      width: '5%',
-      render: (val) => val ? val : '-'
-    },{
-      title: 'Start Day',
-      dataIndex: 'START_DATE',
-      width: '10%',
-      render: (val) => val ? new Date(val).toLocaleDateString() : ' - '
-    },{
-      title: 'End Day',
-      dataIndex: 'END_DATE',
-      width: '10%',
-      render: (val) => val ? new Date(val).toLocaleDateString() : ' - '
-    },{
-      title: 'Achieve Date',
-      dataIndex: 'ACHIEVE_DATE',
-      width: '10%',
-      render: (val) => val ? new Date(val).toLocaleDateString() : ' - '
-    }
-  ]
+  const [openEventsModal, setOpenEventsModal] = useState(false)
+  
   return (
     <div className="number-box-container">
       <div className="circular-progress-bar">
@@ -77,9 +29,11 @@ function Number(props) {
       </div>
       <div className="number-box-info">
         <h3 onClick={() => {
-          props.numberType === 'performance' && props.dataTable.length > 0 
-          ? setOpenPerformanceModal(true) 
-          : null;
+          props.numberType === 'performance' && props.PerformanceDataTable.length > 0 
+          ? setOpenPerformanceModal(true)
+          : props.numberType === 'events' && props.EventsDataTable.length > 0
+          ? setOpenEventsModal(true)
+          : null
         }}>
           {props.header}
         </h3>
@@ -89,15 +43,30 @@ function Number(props) {
 
       <Modal
         title="Performance KPI’s"
-        visible={openPerformanceModal}
+        open={openPerformanceModal}
         onCancel={() => setOpenPerformanceModal(false)}
         okButtonProps={{ style: {display: 'none'}}}
         className="performance-antd-modal"
       >
         <div style={{overflowX: 'auto'}}>
           <Table 
-            columns={columns} 
-            dataSource={props.dataTable}
+            columns={props.PerformanceColumns} 
+            dataSource={props.PerformanceDataTable}
+            pagination={false}
+          />
+        </div>
+      </Modal>
+      <Modal
+        title="Next Events"
+        open={openEventsModal}
+        onCancel={() => setOpenEventsModal(false)}
+        okButtonProps={{ style: {display: 'none'}}}
+        // className="performance-antd-modal"
+      >
+        <div style={{overflowX: 'auto'}}>
+          <Table 
+            columns={props.EventsColumns} 
+            dataSource={props.EventsDataTable?.filter(nextEvnt => new Date(nextEvnt.Date).getTime() > new Date().getTime())}
             pagination={false}
           />
         </div>

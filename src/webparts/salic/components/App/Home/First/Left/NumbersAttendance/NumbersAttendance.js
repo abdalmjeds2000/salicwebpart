@@ -4,8 +4,8 @@ import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
 import GetPerformance from './API/GetPerformance'
-import { RadialBar, Column } from '@ant-design/plots';
-
+import { RadialBar } from '@ant-design/plots';
+import moment from 'moment';
 
 
 const performaceGrade = (grade) => {
@@ -90,6 +90,24 @@ function NumbersAttendance() {
 
   };
 
+  const PerformanceColumns = [
+    { title: 'KPI', dataIndex: 'KPI_NAME', width: '15%' },
+    { title: 'Objectives', dataIndex: 'OBJECTIVES', width: '15%' },
+    { title: '%', dataIndex: 'MEASURE_ACHIEVE', width: '10%', render: (val) => val ? `${val}%` : ' - ' },
+    { title: 'Target', dataIndex: 'TARGET', width: '10%' },
+    { title: 'UOM', dataIndex: 'UOM', width: '10%', render: (val) => val !== '%' && val !== '#' ? val : ' - ' },
+    { title: 'Weightage', dataIndex: 'WEIGHTAGE', width: '5%'},
+    { title: 'Manager KPI', dataIndex: 'Manager_KPI', width: '5%', render: (val) => val ? val : '-' },
+    { title: 'Start Day', dataIndex: 'START_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
+    { title: 'End Day', dataIndex: 'END_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
+    { title: 'Achieve Date', dataIndex: 'ACHIEVE_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' }
+  ];
+  const EventsColumns = [
+    { title: 'Event', dataIndex: 'Subject', width: '40%' },
+    { title: 'Date', dataIndex: 'Date', width: '40%', render: (val) => moment(val).format('MM/DD/YYYY') },
+    { title: 'Remaining', dataIndex: '', width: '20%', render: (_, record) => `${Math.floor((new Date(record.Date).getTime() - new Date().getTime())  / (1000 * 3600 * 24))} Days Left` },
+  ];
+
 
   return (
     <div className="numbers-attendance-container">
@@ -104,7 +122,8 @@ function NumbersAttendance() {
           minValue='0'
           maxValue='100'
           numberType="performance"
-          dataTable={performance?.performace?.data}
+          PerformanceDataTable={performance?.performace?.data}
+          PerformanceColumns={PerformanceColumns}
         />
       </div>
       <div className="div2">
@@ -129,6 +148,9 @@ function NumbersAttendance() {
           maxValue={`${Math.floor((new Date(nextEvents[0]?.Date).getTime() - new Date(nextEvents[0]?.Created).getTime())  / (1000 * 3600 * 24))}`}
           text={`${Math.floor((new Date(nextEvents[0]?.Date).getTime() - new Date().getTime())  / (1000 * 3600 * 24))}`}
           textColor='var(--main-color)'
+          numberType="events"
+          EventsDataTable={nextEvents}
+          EventsColumns={EventsColumns}
         />
       </div>
       <div className="div4">
@@ -145,7 +167,8 @@ function NumbersAttendance() {
         {
           (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
           ? <>
-              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total}</a>
+              {/* <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total}</a> */}
+              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
               <RadialBar 
                 {...configRadialBar}
                 style={{

@@ -174,7 +174,7 @@ function NewContentRequest() {
             >
               {fileList.length >= 8 ? null : <div><PlusOutlined /><div style={{marginTop: 8,}}>Upload</div></div>}
             </Upload>
-            <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
+            <Modal open={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img alt="example" style={{width: '100%'}} src={previewImage} />
             </Modal>
           </Form.Item>

@@ -192,7 +192,7 @@ function PreviewResearchRequest() {
     const ApproveModal = () => (
         <Modal
             title='Write a note before Approve'
-            visible={openApproveModal}
+            open={openApproveModal}
             onCancel={() => setOpenApproveModal(false)}
             okButtonProps={{ style: {display: 'none'}}}
         >
@@ -214,7 +214,7 @@ function PreviewResearchRequest() {
     const RejectModal = () => (
         <Modal
             title='Write Rejection Reason'
-            visible={openRejectModal}
+            open={openRejectModal}
             onCancel={() => setOpenRejectModal(false)}
             okButtonProps={{ style: {display: 'none'}}}
         >
@@ -237,7 +237,7 @@ function PreviewResearchRequest() {
     const SubmitModal = () => (
         <Modal
             title='Submit Your Content'
-            visible={openSubmitModal}
+            open={openSubmitModal}
             onCancel={() => setOpenSubmitModal(false)}
             okButtonProps={{ style: {display: 'none'}}}
         >
@@ -259,7 +259,7 @@ function PreviewResearchRequest() {
     const CancelModal = () => (
         <Modal
             title='Cancel Your Request'
-            visible={openCancelModal}
+            open={openCancelModal}
             onCancel={() => setOpenCancelModal(false)}
             okButtonProps={{ style: {display: 'none'}}}
             footer={false}

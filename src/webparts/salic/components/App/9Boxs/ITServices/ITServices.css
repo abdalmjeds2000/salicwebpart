@@ -1,0 +1,8 @@
+.new-account-fields-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.new-account-fields-container .ant-form-item {
+  margin-bottom: 5px !important;
+}

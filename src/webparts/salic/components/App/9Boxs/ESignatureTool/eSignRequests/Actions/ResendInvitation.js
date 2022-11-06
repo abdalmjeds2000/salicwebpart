@@ -70,7 +70,7 @@ const ResendInvitation = (props) => {
       <a onClick={getInvitation}><SyncOutlined /> Resend Invitation</a>
       <Modal
         title="Resend Invitation"
-        visible={openModal}
+        open={openModal}
         onCancel={() => setOpenModal(false)}
         okButtonProps={{ style: {display: 'none'}}}
       >

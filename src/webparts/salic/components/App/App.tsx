@@ -49,6 +49,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [adminAssignedRequests, setAdminAssignedRequests] = React.useState([]);
   const [adminMyRequests, setAdminMyRequests] = React.useState([]);
   const [oracleFormData, setOracleFormData] = React.useState([]);
+  const [salicDepartments, setSalicDepartments] = React.useState([]);
   
 
 
@@ -80,8 +81,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
         })
@@ -231,6 +232,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     axios({method: "GET", url: "https://salicapi.com/api/Tracking/GetOracleFormData"})
     .then(response => setOracleFormData(response.data.Data))
     .catch(null)
+
+
+    axios({method: "GET", url: "https://salicapi.com/api/user/departments"})
+    .then(response => setSalicDepartments(response.data.Data))
+    .catch(null)
+    
   }, []);
 
   // Context Provider
@@ -266,7 +273,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setAdminAssignedRequests,
     admin_my_requests: adminMyRequests,
     setAdminMyRequests,
-    oracle_form_data: oracleFormData
+    oracle_form_data: oracleFormData,
+    salic_departments: salicDepartments,
   };
 
   return (

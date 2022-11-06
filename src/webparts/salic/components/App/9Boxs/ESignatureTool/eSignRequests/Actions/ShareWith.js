@@ -112,7 +112,7 @@ const ShareWith = (props) => {
       <a onClick={getShareWith}><SyncOutlined /> Share With</a>
       <Modal
         title="Share With"
-        visible={openModal}
+        open={openModal}
         onCancel={() => setOpenModal(false)}
         okButtonProps={{ style: {display: 'none'}}}
       >

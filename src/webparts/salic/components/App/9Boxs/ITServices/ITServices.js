@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
 import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../App'
-
+import { AppCtx } from '../../App';
+import './ITServices.css';
 
 function ITServices() {
   const { defualt_route } = useContext(AppCtx);
