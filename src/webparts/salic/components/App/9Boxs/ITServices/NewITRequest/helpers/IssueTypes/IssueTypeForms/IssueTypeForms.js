@@ -5,11 +5,8 @@ import USBFields from "./Types/USBFields";
 import SoftwareFields from "./Types/SoftwareFields";
 import PhoneExtensionsFields from "./Types/PhoneExtensionsFields";
 import NewAccountFields from "./Types/NewAccountFields";
-<<<<<<< HEAD
 import SharedEmailFields from "./Types/SharedEmailFields";
 import GLAccountFields from "./Types/GLAccountFields";
-=======
->>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
 
 function IssueTypeForms({ IssueType }) {
   if (IssueType === "Oracle") {
@@ -24,13 +21,10 @@ function IssueTypeForms({ IssueType }) {
     return <PhoneExtensionsFields />;
   } else if (IssueType === "New Account") {
     return <NewAccountFields />;
-<<<<<<< HEAD
   } else if (IssueType === "Shared Email") {
     return <SharedEmailFields />;
   } else if (IssueType === "GL Account") {
     return <GLAccountFields />;
-=======
->>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
   }
   return <></>;
 }
