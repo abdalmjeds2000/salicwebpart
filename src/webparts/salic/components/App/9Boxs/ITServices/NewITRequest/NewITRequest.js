@@ -1,5 +1,19 @@
 import React, { useContext, useState } from "react";
+<<<<<<< HEAD
 import { Form, Input, Modal, Upload, Radio, Select, Space, Divider, message } from "antd";
+=======
+import {
+  Form,
+  Input,
+  Modal,
+  Upload,
+  Radio,
+  Select,
+  Space,
+  Divider,
+  message,
+} from "antd";
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
 import { PlusOutlined } from "@ant-design/icons";
 import FormPageTemplate from "../../components/FormPageTemplate/FormPage";
 import HistoryNavigation from "../../../Global/HistoryNavigation/HistoryNavigation";
@@ -7,10 +21,15 @@ import SubmitCancel from "../../components/SubmitCancel/SubmitCancel";
 import { useNavigate } from "react-router-dom";
 import { AppCtx } from "../../../App";
 import moment from "moment";
+<<<<<<< HEAD
 import { issuesTypes } from "./helpers/IssueTypes/it_json";
 import IssueTypeForm from "./helpers/IssueTypes/IssueTypeForms/IssueTypeForms";
 
 
+=======
+import { issuesTypes } from "./helpers/IssueTypes/issuesTypesJSON";
+import IssueTypeForm from "./helpers/IssueTypes/IssueTypeForms/IssueTypeForms";
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -81,6 +100,7 @@ function NewITRequest() {
           const PhoneFormDataProp = { Extensions: FormData.Extensions, Scope: FormData.Scope };
           FormData.FormData = JSON.stringify(PhoneFormDataProp);
           break;
+<<<<<<< HEAD
         case 'New Account':
           const NewAccountFormDataProp = { 
             FirstName: FormData.FirstName,
@@ -110,14 +130,19 @@ function NewITRequest() {
           const GLAccountFormDataProp = { AccountCode: FormData.AccountCode, AccountDescription: FormData.AccountDescription, Summary: FormData.Summary, AllowPosting: FormData.AllowPosting, AllowBudgeting: FormData.AllowBudgeting, GLParentCode: FormData.GLParentCode, IntercompanyAccount: FormData.IntercompanyAccount, EliminationRequired: FormData.EliminationRequired, FinancialStatement: FormData.FinancialStatement, MappingUnderFSLI: FormData.MappingUnderFSLI, AccountType: FormData.AccountType };
           FormData.FormData = JSON.stringify(GLAccountFormDataProp);
           break;
+=======
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
       }
 
       // Final Form Data Object (this object will be send to server)
       const formData = { Email: user_data?.Data?.Mail, IQAMA: user_data?.Data?.Iqama || "", Id: user_data?.Data?.Id.toString(), Source: "WEB", FileNames: files, ...FormData, };
       delete formData["TemporaryAccess"];
       delete formData["USBAccessDates"];
+<<<<<<< HEAD
       delete formData["StartEndDate"];
       delete formData["DateOfEmployee"];
+=======
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
       
       // Result Submit ( After Submittion)
       message.success("The request has been sent successfully.");
@@ -183,7 +208,15 @@ function NewITRequest() {
           <Divider />
 
           <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware" >
+<<<<<<< HEAD
             <Radio.Group value={categoryTypeField} onChange={({ target: { value } }) => setCategoryTypeField(value)} rules={[{ required: true }]} >
+=======
+            <Radio.Group
+              value={categoryTypeField}
+              onChange={({ target: { value } }) => setCategoryTypeField(value)}
+              rules={[{ required: true }]}
+            >
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
               <Space direction="vertical">
                 <Radio value="Hardware">
                   <span>Hardware & Devices</span> <br />
@@ -257,7 +290,11 @@ function NewITRequest() {
               )}
             </Upload>
             <Modal
+<<<<<<< HEAD
               open={previewVisible}
+=======
+              visible={previewVisible}
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
               title={previewTitle}
               footer={null}
               onCancel={handleCancel}

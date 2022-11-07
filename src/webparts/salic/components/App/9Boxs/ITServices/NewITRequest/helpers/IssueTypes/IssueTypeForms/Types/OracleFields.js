@@ -32,7 +32,11 @@ function OracleFields() {
         </Radio.Group>
       </Form.Item>
       <Form.Item name="TemporaryAccess" label="Temporary Access" rules={[{ required: true, message: false }]}>
+<<<<<<< HEAD
         <DatePicker.RangePicker format="MM/DD/YYYY" style={{ width: "100%" }} />
+=======
+        <DatePicker.RangePicker format="MM-DD-YYYY" style={{ width: "100%" }} />
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
       </Form.Item>
       <Form.Item name="Module" label="Module" rules={[{ required: true, message: false }]}>
         <Select

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext } from "react";
 import { DatePicker, Form, Input, Radio, Select, Space } from "antd";
 import { NationaltiesOptions } from "../../../../../../../Global/NationaltiesOptions/NationaltiesOptions";
@@ -28,10 +29,28 @@ function NewAccountFields() {
             <Input placeholder="Enter First Name" />
           </Form.Item>
           <Form.Item name="LastName" rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)', margin: '0 0 0 10px' }} >
+=======
+import React from "react";
+import { Form, Input, Select } from "antd";
+import NationaltiesOptions from "../../../../../../../Global/NationaltiesOptions/NationaltiesOptions";
+
+function NewAccountFields() {
+
+  return (
+    <>
+      <Form.Item label="Account Information" rules={[{ required: true, message: false }]}>
+
+        <Form.Item label="Name">
+          <Form.Item name="FirstName" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(50% - 8px)' }} >
+            <Input placeholder="Enter First Name" />
+          </Form.Item>
+          <Form.Item name="LastName" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }} >
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
             <Input placeholder="Enter Last Name" />
           </Form.Item>
         </Form.Item>
 
+<<<<<<< HEAD
         <span>Company</span>
         <Form.Item name="Company" rules={[{ required: true, message: '' }]} >
           <Input placeholder="Write Here" />
@@ -127,6 +146,37 @@ function NewAccountFields() {
         
       </Form.Item>
     </div>
+=======
+        <Form.Item name="Company" label="Company" rules={[{ required: true }]} >
+          <Input placeholder="write here" />
+        </Form.Item>
+        
+        <Form.Item name="JobTitle" label="Job Title" rules={[{ required: true }]} >
+          <Input placeholder="write here" />
+        </Form.Item>
+
+        <Form.Item name="Nationality" label="Nationality" rules={[{ required: true }]} >
+          <Select placeholder="select country">
+            <NationaltiesOptions />
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="departments" label="Department" rules={[{ required: true }]} >
+          <Select placeholder="select department">
+            <NationaltiesOptions />
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="Mobile" label="Mobile #" rules={[{ required: true }]} >
+          <Input placeholder="write here" />
+        </Form.Item>
+
+        <Form.Item name="Phone" label="Phone #" rules={[{ required: true }]} >
+          <Input placeholder="write here" />
+        </Form.Item>
+      </Form.Item>
+    </>
+>>>>>>> fc6a8efb549689c4138b26a601ce182f0d2dc8e3
   );
 }
 
