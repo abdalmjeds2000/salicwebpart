@@ -214,6 +214,7 @@ function PreviewContentRequest() {
             >
                 <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                     <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
+                    <Typography.Text disabled>* You can choose one or more documents already attached to this request, or you can upload new one.</Typography.Text>
                     <div className='attachments-container'>
                         {
                             ReplysAttachments.map((file, i) => (
@@ -241,7 +242,6 @@ function PreviewContentRequest() {
                         
                             ))
                         }
-                        <Typography.Text disabled>* You can choose one or more documents already attached to this request, or you can upload new one.</Typography.Text>
                     </div>
                     {ReplyUploader}
                     <Button 
@@ -337,8 +337,18 @@ function PreviewContentRequest() {
     }, [openCancelModal, openApproveModal, openRejectModal, openSubmitModal])
 
 
-
-
+    // Get Unique Assignee History for steps and dont show "acknowledge assignee" (because it for requester)
+    const AssigneeOrders = [];
+    const UniqueAssigneeSteps = assigneeHistoryData.filter(a => {
+        if(a.Action !== "Acknowledge") {
+            const isDuplicate = AssigneeOrders.includes(a.ApprovalOrder);
+            if (!isDuplicate) {
+                AssigneeOrders.push(a.ApprovalOrder);
+                return true
+            }
+            return false;
+        }
+    })
     return (
     <>
         <HistoryNavigation>
@@ -486,14 +496,24 @@ function PreviewContentRequest() {
                                             title="Submitted"
                                             subTitle={`at ${new Date(requestData.Created).toLocaleString()}`}
                                         />
-                                        {
-                                            assigneeHistoryData.filter(a => a.Action !== "Acknowledge").map((row, i) => {
-                                                return  <Steps.Step 
-                                                            key={i}
-                                                            title={<b><CaretRightOutlined />{row.ToUser?.Title}</b>} 
-                                                            subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
-                                                            description={row.Action !== "Submit" ? (row.ActionDate ? <>{row.ToUser?.Title} <b>{row.Status}</b> this Request at {new Date(row.ActionDate).toLocaleString()}</> : "Request is now being Reviewed.") : null}
-                                                        />
+                                        {   
+                                            UniqueAssigneeSteps?.map((row, i) => {
+                                                if(row.Action == "Approve") {
+                                                    return  <Steps.Step 
+                                                                key={i}
+                                                                title={<b><CaretRightOutlined />{row.ToUser?.Title}</b>} 
+                                                                subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
+                                                                description={row.ActionDate ? <>{row.ToUser?.Title} <b>{row.Status}</b> this Request at {new Date(row.ActionDate).toLocaleString()}</> : "Request is now being Reviewed."}
+                                                            />
+                                                } else if(row.Action == "Submit") {
+                                                    return  <Steps.Step 
+                                                                key={i}
+                                                                title={<b><CaretRightOutlined /> Media Team</b>} 
+                                                                subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
+                                                                description={null}
+                                                            />
+                                                }
+                                                
                                             })
                                         }
                                         {

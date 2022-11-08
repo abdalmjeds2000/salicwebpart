@@ -50,7 +50,7 @@ function ITServices() {
 
           <h4 className='services-second-header'>Request Center</h4>
           <div className="services-boxs-container">
-            <a className='box' onClick={() => navigate(defualt_route + '/it-services/my-it-service-requests')}>
+            <a className='box' onClick={() => navigate(defualt_route + '/it-services/my-requests')}>
               <div style={{backgroundColor: '#43A2CC'}}>
                 <svg id="Group_312" data-name="Group 312" xmlns="http://www.w3.org/2000/svg" width="33.204" height="33.203" viewBox="0 0 33.204 33.203">
                   <path id="Path_4986" data-name="Path 4986" d="M191.155,115.625h6.178a.973.973,0,0,0,0-1.946h-6.178a.973.973,0,0,0,0,1.946Z" transform="translate(-177.849 -106.307)" fill="#fff"/>
@@ -66,7 +66,7 @@ function ITServices() {
               </div>
               <h3>My Requests</h3>
             </a>
-            <a className='box' href='/'>
+            <a className='box' onClick={() => navigate(defualt_route + '/it-services/requests-assigned-for-me')}>
               <div style={{backgroundColor: '#FBBE82'}}>
                 <svg id="Group_314" data-name="Group 314" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
                   <path id="Path_4995" data-name="Path 4995" d="M10.683,251.525a5.883,5.883,0,1,0-7.215,0A7.068,7.068,0,0,0,0,257.615V260a1.113,1.113,0,0,0,1.113,1.113H13.038A1.113,1.113,0,0,0,14.151,260v-2.385A7.068,7.068,0,0,0,10.683,251.525Zm-7.264-4.642a3.657,3.657,0,1,1,3.657,3.657A3.661,3.661,0,0,1,3.419,246.883Zm8.506,12h-9.7v-1.272a4.849,4.849,0,0,1,9.7,0v1.272Z" transform="translate(0 -223.113)" fill="#fff"/>

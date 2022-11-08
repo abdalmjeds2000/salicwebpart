@@ -9,6 +9,8 @@ import ITServices from '../App/9Boxs/ITServices/ITServices';
 import NewITRequest from '../App/9Boxs/ITServices/IT/NewITRequest/NewITRequest';
 import RegisterNewAssets from '../App/9Boxs/ITServices/Assets/RegisterNewAssets/RegisterNewAssets';
 import MyItServiceRequests from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
+import ITRequestsAssignedForMe from '../App/9Boxs/ITServices/IT/AssignedForMe/ITRequestsAssignedForMe';
+
 import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
 import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
 import BusinessGate from '../App/9Boxs/AdminServices/BusinessGate/BusinessGate';
@@ -138,7 +140,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route index element={<ITServices />} />
         <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
         <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
-        <Route path={`${defualtRoute}/it-services/my-it-service-requests`} element={<MyItServiceRequests />} />
+        <Route path={`${defualtRoute}/it-services/my-requests`} element={<MyItServiceRequests />} />
+        <Route path={`${defualtRoute}/it-services/requests-assigned-for-me`} element={<ITRequestsAssignedForMe />} />
         
       </Route>
       <Route path={`${defualtRoute}/e-invoicing`}>

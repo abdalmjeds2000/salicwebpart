@@ -50,7 +50,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [adminMyRequests, setAdminMyRequests] = React.useState([]);
   const [oracleFormData, setOracleFormData] = React.useState([]);
   const [salicDepartments, setSalicDepartments] = React.useState([]);
-  const [itRequestsData, setItRequestsData] = React.useState([]);
+  const [myItRequestsData, setMyItRequestsData] = React.useState([]);
+  const [itRequestsAssignedForMeData, setItRequestsAssignedForMeData] = React.useState([]);
   
 
 
@@ -276,8 +277,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setAdminMyRequests,
     oracle_form_data: oracleFormData,
     salic_departments: salicDepartments,
-    it_requests_data: itRequestsData, 
-    setItRequestsData
+    my_it_requests_data: myItRequestsData, 
+    setMyItRequestsData,
+    it_requests_assigned_for_me_data: itRequestsAssignedForMeData,
+    setItRequestsAssignedForMeData
   };
 
   return (
