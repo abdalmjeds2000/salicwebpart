@@ -46,7 +46,7 @@ function MyItServiceRequests() {
       title: 'Subject',
       dataIndex: 'Subject',
       width: '30%',
-      render: (val, record) => <Typography.Link onClick={() => navigate(defualt_route + `/content-requests/${record.Id}`)}>{val}</Typography.Link>
+      render: (val, record) => <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
     },{
       title: 'Assigned To',
       dataIndex: 'ClosedBy',
