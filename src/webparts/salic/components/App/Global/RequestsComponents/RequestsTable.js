@@ -1,17 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react';
 import { Spin, Table } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons'
-import { AppCtx } from '../../App';
+import { LoadingOutlined } from '@ant-design/icons';
 
 function RequestsTable(props) {
-  const { user_data } = useContext(AppCtx);
 
   return (
       <div className='table-page-container'>
         <div className='content'>
           <div className="header">
             <h1>{props.Title}</h1>
-            <div style={{display: 'flex', gap: '10px'}}>
+            <div>
               {props.HeaderControlPanel}
             </div>
           </div>
@@ -21,7 +19,7 @@ function RequestsTable(props) {
                 !props.IsLoading
                 ? <Table
                     columns={props.Columns} 
-                    dataSource={!props.IsMyRequest ? props.DataTable : props.DataTable.filter(row => row.Author.EMail === user_data.Data.Mail)} 
+                    dataSource={props.DataTable} 
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                     size="small"
                   />

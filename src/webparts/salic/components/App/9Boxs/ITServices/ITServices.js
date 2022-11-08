@@ -50,7 +50,7 @@ function ITServices() {
 
           <h4 className='services-second-header'>Request Center</h4>
           <div className="services-boxs-container">
-            <a className='box' href='/'>
+            <a className='box' onClick={() => navigate(defualt_route + '/it-services/my-it-service-requests')}>
               <div style={{backgroundColor: '#43A2CC'}}>
                 <svg id="Group_312" data-name="Group 312" xmlns="http://www.w3.org/2000/svg" width="33.204" height="33.203" viewBox="0 0 33.204 33.203">
                   <path id="Path_4986" data-name="Path 4986" d="M191.155,115.625h6.178a.973.973,0,0,0,0-1.946h-6.178a.973.973,0,0,0,0,1.946Z" transform="translate(-177.849 -106.307)" fill="#fff"/>

@@ -6,6 +6,7 @@ import {AppCtx} from '../../../../App';
 import GetPerformance from './API/GetPerformance'
 import { RadialBar } from '@ant-design/plots';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 
 
 const performaceGrade = (grade) => {
@@ -168,7 +169,9 @@ function NumbersAttendance() {
           (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
           ? <>
               {/* <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total}</a> */}
-              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
+              <Tooltip placement="top" title="Current Balance">
+                <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
+              </Tooltip>
               <RadialBar 
                 {...configRadialBar}
                 style={{

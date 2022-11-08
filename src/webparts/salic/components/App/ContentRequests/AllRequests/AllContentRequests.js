@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Input } from 'antd';
+import { Button, Input, Space } from 'antd';
 import { PlusOutlined, RedoOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
@@ -79,11 +79,11 @@ function AllContentRequests() {
   });
 
   const ControlPanel = (
-    <div style={{display: 'flex', gap: '10px'}}>
+    <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/content-requests/new-request')}><PlusOutlined /> New Request</Button>
-    </div>
+    </Space>
   )
 
   return (

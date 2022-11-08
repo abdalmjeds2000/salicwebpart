@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Input, Upload, Radio, Select, Space, DatePicker, InputNumber, Modal } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation'
-import FormPage from '../../components/FormPageTemplate/FormPage';
-import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
-import { AppCtx } from '../../../App';
-import { useNavigate } from 'react-router-dom'
+import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
+import FormPage from '../../../components/FormPageTemplate/FormPage';
+import SubmitCancel from '../../../components/SubmitCancel/SubmitCancel';
+import { AppCtx } from '../../../../App';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };

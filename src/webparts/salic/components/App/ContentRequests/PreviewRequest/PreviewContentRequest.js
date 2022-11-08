@@ -3,7 +3,7 @@ import './PreviewRequest.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../App'
-import { Button, Col, message, Row, Timeline, Upload, Steps, Spin, Modal, Alert, Typography, Checkbox } from 'antd';
+import { Button, Col, message, Row, Timeline, Upload, Steps, Spin, Modal, Alert, Typography, Checkbox, Space } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { CaretRightOutlined, CheckOutlined, CloseOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import Reply from '../../Global/RequestsComponents/Reply';
@@ -16,7 +16,7 @@ import AddNewReply from '../API/AddNewReply';
 import GetReplys from '../API/GetReplys';
 import FileIcon from '../../Global/RequestsComponents/FileIcon';
 import UpdateAssignee from '../API/UpdateAssignee';
-
+import moment from 'moment';
 
 function PreviewContentRequest() {
     let { id } = useParams();
@@ -39,6 +39,7 @@ function PreviewContentRequest() {
     const [openSubmitModal, setOpenSubmitModal] = useState(false);
     const [actionNote, setActionNote] = useState('');
     const [checkboxReply, setCheckboxReply] = useState(false);
+    const [previousAttachment, setPreviousAttachment] = useState([]);
 
     // check if there files is uploading...
     let isFilesFinishUpload = true;
@@ -93,7 +94,7 @@ function PreviewContentRequest() {
                 Title: requestData.Title,
                 RequestIDId: id,
                 Descriptions: ReplyText,
-                AttachmentsRows: JSON.stringify(attachmentsList),
+                AttachmentsRows: JSON.stringify([...attachmentsList, ...previousAttachment]),
                 IsResult: IsResult,
                 ResultStatus: ResultStatus,
                 ShowToRequester: IfRequester ? true : IsShowToRequester
@@ -159,7 +160,7 @@ function PreviewContentRequest() {
         }
         setBtnLoader(false);
     }
- 
+
 
     // Send Get's Requests (when page is rendered)
     useEffect(() => {
@@ -191,27 +192,69 @@ function PreviewContentRequest() {
     )
     // Checkbox If Show Reply To Requester  Component
     const CheckboxReply = () => <Checkbox onClick={() => setCheckboxReply(!checkboxReply)} value={checkboxReply}>Do you want the Requester to see this reply?</Checkbox>
+
     // Approve Modal Component
-    const ApproveModal = () => (
-        <Modal
-            title='Write a note before Approve'
-            open={openApproveModal}
-            onCancel={() => setOpenApproveModal(false)}
-            okButtonProps={{ style: {display: 'none'}}}
-        >
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
-                {ReplyUploader}
-                <Button 
-                    type="primary" 
-                    onClick={() => AddAction("Approved")} 
-                    disabled={actionNote.length === 0 || btnLoader}
-                >
-                    Approve Request
-                </Button>
-            </div>
-        </Modal>
-    )
+    const ApproveModal = () => {
+        const ParseReplysAttachments = replys.map(reply => JSON.parse(reply.AttachmentsRows).map(row => {row.Author = reply.Author; row.Created = reply.Created; return {...row}}));
+        const ReplysAttachments = [].concat.apply([], ParseReplysAttachments);
+        // const UniqueReplysAttachments = new Set();
+        // var uniqueModuels = ReplysAttachments.filter(f => {
+        //     if (UniqueReplysAttachments.has(f)) {
+        //     return false;
+        //     }
+        //     UniqueReplysAttachments.add(f);
+        //     return true;
+        // });
+        return (
+            <Modal
+                title='Write a note before Approve'
+                open={openApproveModal}
+                onCancel={() => setOpenApproveModal(false)}
+                okButtonProps={{ style: {display: 'none'}}}
+            >
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
+                    <div className='attachments-container'>
+                        {
+                            ReplysAttachments.map((file, i) => (
+                                <Checkbox key={i} onChange={e => {
+                                    if(e.target.checked) {
+                                        setPreviousAttachment(prev => [...prev, file])
+                                    } else {
+                                        const updateSelectedFiles = previousAttachment.filter(f => f.path !== file.path);
+                                        setPreviousAttachment(updateSelectedFiles);
+                                    }
+                                }}>
+                                    <div style={{display: 'flex', gap: '5px', backgroundColor: '#f5f5f5', padding: '4px', borderRadius: '5px'}}>
+                                        <FileIcon
+                                            FileType={file.fileType}
+                                            FileName={file.fileName}
+                                            FilePath={file.path}
+                                            IconWidth='25px'
+                                        />
+                                        <div style={{fontSize: '0.8rem', lineHeight: 1.2}}>
+                                            <Typography.Text strong>{file.fileName}</Typography.Text><br />
+                                            <Typography.Text type="secondary">by {file.Author.Title}, at {moment(file.Created).format('MM/DD/YYYY hh:mm')}</Typography.Text>
+                                        </div>
+                                    </div>
+                                </Checkbox>
+                        
+                            ))
+                        }
+                        <Typography.Text disabled>* You can choose one or more documents already attached to this request, or you can upload new one.</Typography.Text>
+                    </div>
+                    {ReplyUploader}
+                    <Button 
+                        type="primary" 
+                        onClick={() => AddAction("Approved")} 
+                        disabled={actionNote.length === 0 || btnLoader}
+                    >
+                        Approve Request
+                    </Button>
+                </div>
+            </Modal>
+        )
+    }
     // Reject Modal Component
     const RejectModal = () => (
         <Modal

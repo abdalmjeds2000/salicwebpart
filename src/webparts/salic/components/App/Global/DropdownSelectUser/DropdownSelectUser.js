@@ -1,74 +1,61 @@
-import { Select, Spin } from 'antd';
-import debounce from 'lodash/debounce';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { AutoComplete, Image, Form, Avatar } from 'antd';
+import AutoCompleteUsers from './AutoCompleteUsers';
 
-function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
-  const [fetching, setFetching] = useState(false);
-  const [options, setOptions] = useState([]);
-  const fetchRef = useRef(0);
-  const debounceFetcher = useMemo(() => {
-    const loadOptions = (value) => {
-      fetchRef.current += 1;
-      const fetchId = fetchRef.current;
-      setOptions([]);
-      setFetching(true);
-      fetchOptions(value).then((newOptions) => {
-        if (fetchId !== fetchRef.current) {
-          // for fetch callback order
-          return;
+const OptionCard = ({ DisplayName, Email, JobTitle, Department }) => {
+  return(
+    <div style={{display: 'flex', gap: 10}}>
+      <Avatar
+        src={
+          <Image
+            width={25}
+            src={`/sites/newsalic/_layouts/15/userphoto.aspx?size=S&username=${Email}`}
+            preview={{src: `/sites/newsalic/_layouts/15/userphoto.aspx?size=L&username=${Email}`,}}
+          />
         }
-
-        setOptions(newOptions);
-        setFetching(false);
-      });
-    };
-
-    return debounce(loadOptions, debounceTimeout);
-  }, [fetchOptions, debounceTimeout]);
-  return (
-    <Select
-      labelInValue
-      filterOption={false}
-      onSearch={debounceFetcher}
-      notFoundContent={fetching ? <Spin size="small" /> : null}
-      {...props}
-      options={options}
-    />
-  );
-} // Usage of DebounceSelect
-
-async function fetchUserList(username) {
-  console.log('fetching user', username);
-  return fetch('https://randomuser.me/api/?results=5')
-    .then((response) => response.json())
-    .then((body) =>
-      body.results.map((user) => ({
-        label: `${user.name.first} ${user.name.last}`,
-        value: user.login.username,
-      })),
-    );
+      />
+      <div style={{lineHeight: 1.1}}>
+        <span style={{fontSize: '0.9rem', display: 'block'}}><b>{DisplayName}</b></span>
+        <span style={{fontSize: '0.75rem', display: 'block'}}>{Email}</span>
+        <span style={{fontSize: '0.75rem', display: 'block'}}>{JobTitle} - {Department}</span>
+      </div>
+    </div>
+  )
 }
 
+function DropdownSelectUser(props) {
+  const [options, setOptions] = useState([]);
 
+  const handleSearch = async (value) => {
+    if(value.length >= 3) {
+      const response = await AutoCompleteUsers(value);
+      const values = response.data.Data.value;
+      const selectOptions = values.map(value => ({
+        value: value.mail, 
+        label: (
+          <OptionCard
+            DisplayName={value.displayName}
+            Email={value.mail}
+            JobTitle={value.jobTitle} 
+            Department={value.department}
+          />
+        )
+      }));
+      setOptions(selectOptions);
+    }
+  }
 
-
-
-const DropdownSelectUser = () => {
-  const [value, setValue] = useState([]);
   return (
-    <DebounceSelect
-      mode="multiple"
-      value={value}
-      placeholder="Select users"
-      fetchOptions={fetchUserList}
-      onChange={(newValue) => {
-        setValue(newValue);
-      }}
-      style={{
-        width: '100%',
-      }}
-    />
-  );
-};
+    <Form.Item name={props.name} style={{marginBottom: 0}} rules={[{ required: props.required, message: false }]}>
+      <AutoComplete
+        size='large'
+        style={{ width: '100%' }}
+        onSearch={handleSearch}
+        placeholder={props.placeholder}
+        options={options}
+      />
+    </Form.Item>
+  )
+}
 
-export default DropdownSelectUser;
+export default DropdownSelectUser

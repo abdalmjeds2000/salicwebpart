@@ -1,14 +1,11 @@
-import { ClockCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons'
-import { Button, Input, Tag } from 'antd'
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AppCtx } from '../../App'
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
-import RequestsTable from '../../Global/RequestsComponents/RequestsTable'
-import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable'
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../../App';
+import { Button, Input, Space, Tag } from 'antd';
+import { ClockCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
+import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import RequestsTable from '../../Global/RequestsComponents/RequestsTable';
+import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable';
 import GetAllResearchRequests from '../API/GetAllResearchRequests';
 import StatusTag from '../../Global/RequestsComponents/StatusTag';
 
@@ -76,11 +73,11 @@ function AllResearchRequests() {
 
 
   const ControlPanel = (
-    <div style={{display: 'flex', gap: '10px'}}>
+    <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/research-requests/new-request')}><PlusOutlined /> New Request</Button>
-    </div>
+    </Space>
   )
 
   const filtered_research_requests_data = research_requests_data?.filter(row => {

@@ -1,6 +1,6 @@
 import { DatePicker, Form, Radio, Select } from "antd";
 import React, { useContext, useState } from "react";
-import { AppCtx } from "../../../../../../../App";
+import { AppCtx } from "../../../../../../../../App";
 
 function OracleFields() {
   const { oracle_form_data } = useContext(AppCtx);
@@ -49,7 +49,6 @@ function OracleFields() {
         <Select
           mode="tags"
           placeholder="Select the Module first"
-          onChange={(v) => console.log(v)}
           options={rules.map((rule) => {
             return { value: rule.Rule, label: rule.Rule };
           })}

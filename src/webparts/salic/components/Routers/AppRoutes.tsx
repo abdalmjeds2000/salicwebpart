@@ -4,15 +4,15 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../App/Home/Home.js';
 import Communication from '../App/Communication/Communication.js';
 import AdminServices from '../App/9Boxs/AdminServices/AdminServices';
-import ITServices from '../App/9Boxs/ITServices/ITServices';
 import HRSelf from '../App/9Boxs/HRSelf/HRSelf';
-import NewITRequest from '../App/9Boxs/ITServices/NewITRequest/NewITRequest';
-import RegisterNewAssets from '../App/9Boxs/ITServices/RegisterNewAssets/RegisterNewAssets';
+import ITServices from '../App/9Boxs/ITServices/ITServices';
+import NewITRequest from '../App/9Boxs/ITServices/IT/NewITRequest/NewITRequest';
+import RegisterNewAssets from '../App/9Boxs/ITServices/Assets/RegisterNewAssets/RegisterNewAssets';
+import MyItServiceRequests from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
 import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
 import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
 import BusinessGate from '../App/9Boxs/AdminServices/BusinessGate/BusinessGate';
 import Maintenance from '../App/9Boxs/AdminServices/Maintenance/Maintenance';
-import UpdateMaintenance from '../App/9Boxs/AdminServices/Maintenance/UpdateMaintenance';
 import ShipmentRequest from '../App/9Boxs/AdminServices/ShipmentRequest/ShipmentRequest';
 import OfficeSupply from '../App/9Boxs/AdminServices/OfficeSupply/OfficeSupply';
 import Transportation from '../App/9Boxs/AdminServices/Transportation/Transportation';
@@ -138,6 +138,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route index element={<ITServices />} />
         <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
         <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
+        <Route path={`${defualtRoute}/it-services/my-it-service-requests`} element={<MyItServiceRequests />} />
+        
       </Route>
       <Route path={`${defualtRoute}/e-invoicing`}>
         <Route index element={<EInvoicing />} />

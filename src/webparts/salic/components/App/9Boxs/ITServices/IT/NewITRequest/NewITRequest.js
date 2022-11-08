@@ -1,60 +1,48 @@
-import React, { useContext, useState } from "react";
-import { Form, Input, Modal, Upload, Radio, Select, Space, Divider, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import FormPageTemplate from "../../components/FormPageTemplate/FormPage";
-import HistoryNavigation from "../../../Global/HistoryNavigation/HistoryNavigation";
-import SubmitCancel from "../../components/SubmitCancel/SubmitCancel";
+import React, { useContext, useEffect, useState } from "react";
+import { Form, Input, Radio, Select, Space, Divider, message } from "antd";
+import FormPageTemplate from "../../../components/FormPageTemplate/FormPage";
+import HistoryNavigation from "../../../../Global/HistoryNavigation/HistoryNavigation";
+import SubmitCancel from "../../../components/SubmitCancel/SubmitCancel";
 import { useNavigate } from "react-router-dom";
-import { AppCtx } from "../../../App";
+import { AppCtx } from "../../../../App";
 import moment from "moment";
-import { issuesTypes } from "./helpers/IssueTypes/it_json";
 import IssueTypeForm from "./helpers/IssueTypes/IssueTypeForms/IssueTypeForms";
+import GetIssuesTypes from '../../API/GetIssuesTypes';
+import DropdownSelectUser from '../../../../Global/DropdownSelectUser/DropdownSelectUser';
+import AddItServiceRequest from '../../API/AddItServiceRequest';
+import CustomAntUploader from '../../../../Global/CustomAntUploader/CustomAntUploader';
 
-const { Option } = Select;
-const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
-
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
 
 function NewITRequest() {
   const { user_data, defualt_route } = useContext(AppCtx);
   const [form] = Form.useForm();
   let navigate = useNavigate();
-
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState([]);
-
-  const handleCancel = () => setPreviewVisible(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
-  };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [issueTypes, setIssueTypes] = useState([]);
   const [categoryTypeField, setCategoryTypeField] = useState("Hardware");
   const [issueTypeField, setIssueTypeField] = useState("");
 
-  let isFilesFinishUpload = true;
-  const files = fileList
-    .map((file) => {
-      if (file.status === "uploading") isFilesFinishUpload = false;
-      return file.response?.uploadedFiles[0]?.Name;
-    })
-    .join();
+  // Get Issue Types from shrepoint
+  const GetIssuesFromSP = async () => {
+    const response = await GetIssuesTypes();
+    return response;
+  }
+  // When open page Get Issue Types from shrepoint (Once)
+  useEffect(() => {
+    GetIssuesFromSP().then(res => setIssueTypes(res))
+  }, []);
 
+  // Get Files Nemes Uploaded & check if all files finish uploading
+  let isFilesFinishUpload = true;
+  const files = fileList.map((file) => {
+    if (file.status === "uploading") isFilesFinishUpload = false;
+    return file.response?.uploadedFiles[0]?.Name;
+  }).join();
+  
+
+
+  // Submit It Service Form (call when no problem with what user input in fields)
   async function CreateItServiceRequest(FormData) {
     setBtnLoader(true);
     // Sub Forms Data (FormData prop => {})
@@ -110,20 +98,31 @@ function NewITRequest() {
           FormData.FormData = JSON.stringify(GLAccountFormDataProp);
           break;
       }
-
       // Final Form Data Object (this object will be send to server)
-      const formData = { Email: user_data?.Data?.Mail, IQAMA: user_data?.Data?.Iqama || "", Id: user_data?.Data?.Id.toString(), Source: "WEB", FileNames: files, ...FormData, };
+      const formData = { 
+        Email: user_data?.Data?.Mail, 
+        IQAMA: user_data?.Data?.Iqama || "", 
+        Id: user_data?.Data?.Id.toString(), 
+        Source: "WEB", 
+        FileNames: files, 
+        ...FormData, 
+      };
+      // Delete some unnecessary propraties after take need from them
       delete formData["TemporaryAccess"];
       delete formData["USBAccessDates"];
       delete formData["StartEndDate"];
       delete formData["DateOfEmployee"];
       
-      // Result Submit ( After Submittion)
+      const _response = await AddItServiceRequest(formData)
+      console.log(_response);
+
       message.success("The request has been sent successfully.");
-      setFileList([]);
+      // Reset form & attachments list
       form.resetFields();
+      setFileList([]);
       setCategoryTypeField("");
       setIssueTypeField("");
+
       console.log(formData);
     } else {
       message.error("Wait for Uploading...");
@@ -131,14 +130,16 @@ function NewITRequest() {
     setBtnLoader(false);
   }
 
+
+  
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>
-          IT Service Center
-        </a>
+        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
         <p>New Service Request</p>
       </HistoryNavigation>
+
+
       <FormPageTemplate
         pageTitle="Service Request"
         tipsList={[
@@ -149,31 +150,19 @@ function NewITRequest() {
         ]}
       >
         <Form
-          {...layout}
+          {...{ labelCol: { span: 6 }, wrapperCol: { span: 12 } }}
           colon={false}
           form={form}
           labelWrap
           name="service-request"
           onFinish={CreateItServiceRequest}
-          onFinishFailed={() =>
-            message.error("Please, fill out the form correctly.")
-          }
+          onFinishFailed={() => message.error("Please, fill out the form correctly.") }
         >
           <Form.Item name="ReceivedDate" label="Date" rules={[{ required: true }]} initialValue={moment().format("MM-DD-YYYY hh:mm")} >
             <Input placeholder="Date" size="large" disabled />
           </Form.Item>
-          <Form.Item name="onbehalf" label="On Behalf Of">
-            <Select
-              showSearch
-              placeholder="employee name"
-              optionFilterProp="children"
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-              size="large"
-            >
-              <Option value="name789@gmail.com">name 789</Option>
-              <Option value="name456@gmail.com">name 456</Option>
-              <Option value="name123@gmail.com">name 123</Option>
-            </Select>
+          <Form.Item label="On Behalf Of">
+            <DropdownSelectUser name="onbehalf" placeholder="Select Employee" required={false} />
           </Form.Item>
           <Form.Item name="Subject" label="Subject" rules={[{ required: true }]} >
             <Input placeholder="write breif subject" size="large" />
@@ -182,7 +171,7 @@ function NewITRequest() {
           <Divider />
 
           <Form.Item name="CategoryType" label="Issue Category" initialValue="Hardware" >
-            <Radio.Group value={categoryTypeField} onChange={({ target: { value } }) => setCategoryTypeField(value)} rules={[{ required: true }]} >
+            <Radio.Group value={categoryTypeField} onChange={({ target: { value } }) => {setCategoryTypeField(value); setIssueTypeField("")}} rules={[{ required: true }]} >
               <Space direction="vertical">
                 <Radio value="Hardware">
                   <span>Hardware & Devices</span> <br />
@@ -208,8 +197,8 @@ function NewITRequest() {
           </Form.Item>
           <Form.Item name="Priority" label="Priority" initialValue="1">
             <Select placeholder="Priority" size="large">
-              <Option value="1">Normal</Option>
-              <Option value="2">Critical</Option>
+              <Select.Option value="1">Normal</Select.Option>
+              <Select.Option value="2">Critical</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item name="IssueType" label="Issue Type">
@@ -219,12 +208,12 @@ function NewITRequest() {
               value={issueTypeField}
               onChange={(value) => setIssueTypeField(value)}
             >
-              {issuesTypes
+              {issueTypes
                 .filter((i) => i.Category === categoryTypeField)
                 .map((option) => (
-                  <Option value={option.Type}>{option.Type}</Option>
+                  <Select.Option value={option.IssueType}>{option.IssueType}</Select.Option>
                 ))}
-              <Option value="Other">Other</Option>
+              <Select.Option value="Other">Other</Select.Option>
             </Select>
           </Form.Item>
 
@@ -241,28 +230,10 @@ function NewITRequest() {
             <Input.TextArea rows={8} placeholder="write a brief description" />
           </Form.Item>
           <Form.Item label="Documents">
-            <Upload
-              action="https://salicapi.com/api/uploader/up"
-              listType="picture-card"
+            <CustomAntUploader 
               fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList?.length >= 15 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
-            </Upload>
-            <Modal
-              open={previewVisible}
-              title={previewTitle}
-              footer={null}
-              onCancel={handleCancel}
-            >
-              <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal>
+              GetFilesList={(files) => setFileList(files)}
+            />
           </Form.Item>
 
           <SubmitCancel loaderState={btnLoader} backTo="/it-services" />

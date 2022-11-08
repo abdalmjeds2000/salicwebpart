@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { DatePicker, Form, Input, Radio, Select, Space } from "antd";
-import { NationaltiesOptions } from "../../../../../../../Global/NationaltiesOptions/NationaltiesOptions";
-import { AppCtx } from "../../../../../../../App";
+import { NationaltiesOptions } from "../../../../../../../../Global/NationaltiesOptions/NationaltiesOptions";
+import { AppCtx } from "../../../../../../../../App";
+import DropdownSelectUser from "../../../../../../../../Global/DropdownSelectUser/DropdownSelectUser";
 
 function NewAccountFields() {
   const { salic_departments } = useContext(AppCtx);
@@ -72,10 +73,8 @@ function NewAccountFields() {
         <Form.Item rules={[{ required: true }]}>
           <span style={{display: 'inline-block', width: 'calc(50% - 5px)'}}>Manager</span>
           <span style={{display: 'inline-block', width: 'calc(50% - 5px)', margin: '0 0 0 10px'}}>Hire Date</span>
-          <Form.Item name="Manager" rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)' }} >
-            <Select placeholder="Select Manager">
-              {NationaltiesOptions.map(n => <Select.Option value={n.value}>{n.label}</Select.Option>)}
-            </Select>
+          <Form.Item rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)' }} >
+            <DropdownSelectUser name="Manager" placeholder="Select Manager" required={true} />
           </Form.Item>
           <Form.Item name="DateOfEmployee" rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)', margin: '0 0 0 10px' }} >
             <DatePicker format="MM/DD/YYYY" style={{ width: "100%" }} />

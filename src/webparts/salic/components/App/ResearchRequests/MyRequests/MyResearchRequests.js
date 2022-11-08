@@ -1,11 +1,11 @@
-import { ClockCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons'
-import { Button, Input, Tag } from 'antd'
-import React, { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AppCtx } from '../../App'
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
-import RequestsTable from '../../Global/RequestsComponents/RequestsTable'
-import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable'
+import { ClockCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
+import { Button, Input, Space, Tag } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../../App';
+import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import RequestsTable from '../../Global/RequestsComponents/RequestsTable';
+import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable';
 import GetAllResearchRequests from '../API/GetAllResearchRequests';
 import StatusTag from '../../Global/RequestsComponents/StatusTag';
 
@@ -84,11 +84,11 @@ function MyResearchRequests() {
   });
 
   const ControlPanel = (
-    <div style={{display: 'flex', gap: '10px'}}>
+    <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/research-requests/new-request')}><PlusOutlined /> New Request</Button>
-    </div>
+    </Space>
   )
 
   
@@ -105,7 +105,7 @@ function MyResearchRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={filtered_research_requests_data}
+        DataTable={filtered_research_requests_data.filter(row => row.Author.EMail === user_data.Data.Mail)}
       />
     </>
     
