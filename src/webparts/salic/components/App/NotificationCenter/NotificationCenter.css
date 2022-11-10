@@ -152,9 +152,9 @@
 .ant-table-tbody > tr > td {
   padding: 7px !important;
 }
-.ant-table-tbody > tr:nth-child(2n+2) {
+/* .ant-table-tbody > tr:nth-child(2n+2) {
   background-color: rgb(250, 250, 250) !important;
-}
+} */
 
 /* Set Width of Id Column smaller */
 @media screen and (max-width: 599px) {

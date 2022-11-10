@@ -48,6 +48,10 @@
     margin: 0 0 0 40px !important;
     background-color: rgb(255, 236, 211) !important;
   }
+  .preview-request-container .content .timeline .close-reply .ant-timeline-item-content {
+    margin: 0 0 0 40px !important;
+    background-color: #c7ffee !important;
+  }
   .preview-request-container .content .timeline .add-reply .ant-timeline-item-content {
     margin: 0 0 0 40px !important;
   }

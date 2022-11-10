@@ -11,6 +11,7 @@ import RegisterNewAssets from '../App/9Boxs/ITServices/Assets/RegisterNewAssets/
 import MyItServiceRequests from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
 import ITRequestsAssignedForMe from '../App/9Boxs/ITServices/IT/AssignedForMe/ITRequestsAssignedForMe';
 import PreviewITServiceRequest from '../App/9Boxs/ITServices/IT/PreviewRequest/PreviewITServiceRequest';
+import ServiceRequestsDashboard from '../App/9Boxs/ITServices/IT/ServiceRequestDashboard/ServiceRequestsDashboard';
 
 import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
 import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
@@ -143,6 +144,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
         <Route path={`${defualtRoute}/it-services/my-requests`} element={<MyItServiceRequests />} />
         <Route path={`${defualtRoute}/it-services/requests-assigned-for-me`} element={<ITRequestsAssignedForMe />} />
+        <Route path={`${defualtRoute}/it-services/service-requests-dashboard`} element={<ServiceRequestsDashboard />} />
         <Route path={`${defualtRoute}/it-services/:id`} element={<PreviewITServiceRequest />} />
       </Route>
       <Route path={`${defualtRoute}/e-invoicing`}>

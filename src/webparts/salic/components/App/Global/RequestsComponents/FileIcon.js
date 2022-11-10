@@ -11,21 +11,21 @@ import fileIcon from '../../../../assets/icons/FilesIcons/file.png'
 
 const FileIcon = (props) => {
     const checkFileType = (fileType) => {
-        if(['jpg', 'jpeg', 'tif', 'tiff', 'bmp', 'png', 'gif', 'raw'].includes(fileType.toLowerCase())) {
+        if(['jpg', 'jpeg', 'tif', 'tiff', 'bmp', 'png', 'gif', 'raw'].includes(fileType?.toLowerCase())) {
             return imgIcon
-        } else if(['mp4', 'mp3', 'webm', 'mkv', 'avi', 'mpeg'].includes(fileType.toLowerCase())) {
+        } else if(['mp4', 'mp3', 'webm', 'mkv', 'avi', 'mpeg'].includes(fileType?.toLowerCase())) {
             return videoIcon
-        } else if(['pdf'].includes(fileType.toLowerCase())) {
+        } else if(['pdf'].includes(fileType?.toLowerCase())) {
             return pdfIcon
-        } else if(['txt'].includes(fileType.toLowerCase())) {
+        } else if(['txt'].includes(fileType?.toLowerCase())) {
             return txtIcon
-        } else if(['zip', 'rar'].includes(fileType.toLowerCase())) {
+        } else if(['zip', 'rar'].includes(fileType?.toLowerCase())) {
             return rarIcon
-        } else if(['docx'].includes(fileType.toLowerCase())) {
+        } else if(['docx', 'doc'].includes(fileType?.toLowerCase())) {
             return wordIcon
-        } else if(['pptx'].includes(fileType.toLowerCase())) {
+        } else if(['pptx', 'ppt'].includes(fileType?.toLowerCase())) {
             return pptIcon
-        } else if(['xlsx'].includes(fileType.toLowerCase())) {
+        } else if(['xlsx', 'xls'].includes(fileType?.toLowerCase())) {
             return csvIcon
         } else {
             return fileIcon

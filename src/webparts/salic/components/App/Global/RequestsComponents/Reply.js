@@ -11,7 +11,8 @@ function Reply(props) {
         margin: '10px 0',
         fontWeight: 400,
         fontSize: '1.1rem',
-        whiteSpace: "pre-line"
+        whiteSpace: "pre-line",
+        overflowX: "auto"
     }
     return (
         <div className="reply-container">
@@ -28,7 +29,7 @@ function Reply(props) {
                 {props.children}
                 <div style={{marginTop: '10px'}}>
                     {
-                        props.Files
+                        props.Files != undefined
                         ?   props.Files.map((file,i) => {
                                 return (
                                     <FileIcon
