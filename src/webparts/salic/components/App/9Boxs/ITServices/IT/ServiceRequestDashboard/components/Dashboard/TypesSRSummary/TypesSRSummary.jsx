@@ -51,11 +51,11 @@ function TypesSRSummary(props) {
     },
   };
   return (
-    <Card title={<Typography.Text strong style={{fontSize: '1.2rem'}}>SR's By Type</Typography.Text>}>
-      <div className='sr-by-types-chart'>
+    <div className='sr-by-types-chart card-container'>
+      <Card title={<Typography.Text strong style={{fontSize: '1.2rem'}}>SR's By Type</Typography.Text>}>
         <Pie {...config} />
-      </div>
-    </Card>
+      </Card>
+    </div>
   )
 }
 

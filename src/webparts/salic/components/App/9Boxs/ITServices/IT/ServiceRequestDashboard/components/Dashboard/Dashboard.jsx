@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, Col, Row } from 'antd';
-import UserSRSummary from './UserSRSummary';
-import TypesSRSummary from './TypesSRSummary';
-import DepartmentSRSummary from './DepartmentSRSummary';
+import { Col, Row } from 'antd';
+import UserSRSummary from './UserSRSummary/UserSRSummary';
+import TypesSRSummary from './TypesSRSummary/TypesSRSummary';
+import DepartmentSRSummary from './DepartmentSRSummary/DepartmentSRSummary';
 
 function Dashboard(props) {
   return (

@@ -83,8 +83,16 @@
   height: 300px !important;
 }
 
-
-
+.service-requests-dashboard-container .card-container {
+  height: 100%;
+}
+.service-requests-dashboard-container .card-container .ant-card {
+  height: 100% !important;
+}
+.service-requests-dashboard-container .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: var(--third-color) !important;
+  font-weight: 500 !important;
+}
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .service-requests-dashboard-container {
     padding: 15px;

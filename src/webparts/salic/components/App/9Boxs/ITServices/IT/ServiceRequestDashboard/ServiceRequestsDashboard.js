@@ -16,30 +16,18 @@ import GetITRequests from '../../API/GetITRequests';
 
 const treeData = [
   {
-    title: 'parent 1',
-    key: '0-0',
+    title: "Akmal Eldahdouh",
+    key: "Akmal.Eldahdouh@salic.com",
     children: [
       {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-          {title: 'leaf',key: '0-0-0-0',},
-          {title: 'leaf',key: '0-0-0-1',},
-          {title: 'leaf',key: '0-0-0-2',},
-        ],
-      },
-      {
-        title: 'parent 1-1',
-        key: '0-0-1',
-        children: [{title: 'leaf',key: '0-0-1-0',},],
-      },
-      {
-        title: 'parent 1-2',
-        key: '0-0-2',
-        children: [
-          {title: 'leaf',key: '0-0-2-0',},{title: 'leaf',key: '0-0-2-1',},
-        ],
-      },
+        title: "Abdullah Alsuheem",
+        key: "Abdullah.Alsuheem@salic.com",
+        children: [],
+      },{
+        title: "Abdulmohsen Alaiban",
+        key: "abdulmohsen.alaiban@salic.com",
+        children: [],
+      }
     ],
   },
 ];
@@ -51,49 +39,51 @@ function ServiceRequestsDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(1);
   const [pageLoading, setPageLoading] = useState(true);
-
   const [summaryByStatus, setSummaryByStatus] = useState([]);
   const [summaryByPriority, setSummaryByPriority] = useState([]);
   const [summaryByDepartment, setSummaryByDepartment] = useState([]);
   const [summaryByRequestType, setSummaryByRequestType] = useState([]);
   const [ITRequests, setITRequests] = useState([]);
+  const [dataForUser, setDataForUser] = useState(null);
 
-  const [dataForUser, setDataForUser] = useState({});
-  
+
+  useEffect(() => {
+    setDataForUser({title: user_data?.Data?.DisplayName, key: user_data?.Data?.Mail})
+  }, [user_data])
+
   const FetchData = async () => {
     setPageLoading(true);
-
-    const _email = user_data.Data?.Mail;
+    const _email = dataForUser.key || user_data.Data?.Mail;
     const _byStatus = await GetSummaryByStatus(_email);
     const _byPriority = await GetSummaryByPriority(_email);
     const _byDepartment = await GetSummaryByDepartment(_email);
     const _byRequestType = await GetSummaryByRequestType(_email);
     const _itRequests = await GetITRequests();
-    
     setSummaryByStatus(_byStatus.data.Data);
     setSummaryByPriority(_byPriority.data.Data);
     setSummaryByDepartment(_byDepartment.data.Data);
     setSummaryByRequestType(_byRequestType.data.Data);
     setITRequests(_itRequests.data.data);
-
     setPageLoading(false);
   }
+
   useEffect(() => {
-    if(
-      Object.keys(user_data).length > 0 &&
-      summaryByStatus.length == 0 &&
-      summaryByPriority.length == 0 &&
-      summaryByDepartment.length == 0 &&
-      summaryByRequestType.length == 0 &&
-      ITRequests.length == 0
-    ) {
-      setDataForUser(user_data.Data);
-      FetchData();
+    if( Object.keys(user_data).length > 0 && dataForUser ) {
+      FetchData()
     }
-  })
+  }, [user_data, dataForUser])
+
   const onSelect = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);
+    setDataForUser(_ => {
+      if(info.selectedNodes.length > 0) {
+        return {...info.selectedNodes[0]}
+      }
+      return {title: user_data?.Data?.DisplayName, key: user_data?.Data?.Mail}
+    })
   };
+
+
   return (
     <>
       <HistoryNavigation>
