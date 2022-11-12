@@ -16,6 +16,8 @@ import UpdateRequestForm from './helpers/UpdateRequestForm';
 import AssignAction from './helpers/AssignAction';
 import CloseAction from './helpers/CloseAction';
 import ApproveAction from './helpers/ApproveAction';
+import DeleteAction from './helpers/DeleteAction';
+import ReOpenAction from './helpers/ReOpenAction';
 
 
 function PreviewITServiceRequest() {
@@ -28,7 +30,6 @@ function PreviewITServiceRequest() {
   const [fileList, setFileList] = useState([]);
   const [replyText, setReplyText] = useState("");
 
-  
 
   // Get Content Request by {id} and display it on preview
   async function GetRequest() {
@@ -85,12 +86,59 @@ function PreviewITServiceRequest() {
     }
   }, []);
 
+  var requester = requestData.Requester;
+  var onbehalf = requestData.OnBehalfOf;
+  if (onbehalf != null){ requester = onbehalf; }
+
 
   // Get Current Assignee for current user
-  let PendingAssignee = requestData?.referingHistory?.filter(a => a.Action == null && a.ToUser.Mail === user_data.Data?.Mail)[0];
+  let PendingAssignee = requestData?.referingHistory?.filter(a => a.Response == null && a.Action !== null && a.ToUser.Mail === user_data.Data?.Mail)[0];
   // check if current user is requester or not
-  let IfRequester = requestData?.Requester?.Mail === user_data?.Data?.Mail;
+  let IfRequester = requester?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase();
+  // check if request pending with current loggin user or not
+  let IsPendingWith = requestData.PendingWith?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase();
+  // check if current loggin user exist in EmployeesList or not
+  // const IsITMember = requestData?.EmployeeList?.findIndex(e => e.Mail == user_data?.Data?.Mail);
 
+  const RenderApproveAction = () => {
+    if(requestData?.Status === "Waiting For Approval" && IsPendingWith) {
+      return <ApproveAction RequestId={requestData.Id} />
+    }
+    return <></>
+  }
+  const RenderAssignAction = () => {
+    if(!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith) {
+      return <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />
+    }
+    return <></>
+  }
+  const RenderCloseAction = () => {
+    if(!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith) {
+      return <CloseAction RequestId={requestData.Id} />
+    }
+    return <></>
+  }
+  const RenderDeleteAction = () => {
+    if(user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com') {
+      return <DeleteAction RequestId={requestData.Id} />
+    }
+    return <></>
+  }
+  const RenderReOpenAction = () => {
+    if(requestData.Status === "CLOSED" && IfRequester) {
+      return <ReOpenAction RequestId={requestData.Id} />
+    }
+    return <></>
+  }
+
+  // const ActionsButtons = () => {
+  //   if(requestData.Status != "CLOSED" && PendingAssignee.Action == "APPROVE") // Approve & Reject
+  //   if(requestData.Status != "CLOSED" /* && user_data.Data?.Mail in requestData.EmployeeList */) // Assign
+  //   if(requestData.Status != "CLOSED"/*  && user_data.Data?.Mail in requestData.EmployeeList */) // Close
+  //   if(requestData.Status === "CLOSED" && requestData.Requester?.Mail === user_data.Data?.Mail) // Re-Open
+  //   if(user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com') // Delete
+  //   return <></>
+  // }
   return (
     <>
       <HistoryNavigation>
@@ -102,9 +150,11 @@ function PreviewITServiceRequest() {
         <div className="header">
           <h1>It Service Request: [#{requestData?.Id || '###'}]</h1>
           <div>
-            <ApproveAction />
-            <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />
-            <CloseAction RequestId={requestData.Id} />
+            <RenderApproveAction />{' | '}
+            <RenderAssignAction />
+            <RenderCloseAction />
+            <RenderDeleteAction />
+            <RenderReOpenAction />
           </div>
         </div>
         {
@@ -199,7 +249,7 @@ function PreviewITServiceRequest() {
 
 
                 <div className='properties'>
-                  <UpdateRequestForm CategoryType={requestData.Category} IssueType={requestData.IssueType} Priority={requestData.Priority} />
+                  <UpdateRequestForm RequestData={requestData} />
                   <Section SectionTitle="Attached Files">
                     <div className='attachments-container'>
                       {requestData.Files.map((file,i) => {
@@ -245,14 +295,13 @@ function PreviewITServiceRequest() {
                           )
                         })
                       }
-
-                      {
+                      {/* {
                         requestData?.Status == "CLOSED" &&
                         <Steps.Step
                           title={<b>{requestData?.Status}</b>} 
                           description={`Request #${id} has been ${requestData?.Status}.`} 
                         />
-                      }
+                      } */}
                     </Steps>
                   </Section>
               </div>

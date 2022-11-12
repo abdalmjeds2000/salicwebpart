@@ -45,6 +45,7 @@ html {
 .app-container {
   display: flex;
   min-height: 100vh;
+  max-width: 100vw;
   position: relative;
 }
 .content-container {
@@ -290,3 +291,16 @@ img.img-bg {
 .ms-CommandBar {
   display: none !important;
 } */
+
+
+#s4-workspace {
+  height: auto !important;
+  width: auto !important;
+  padding-bottom: 0 !important;
+}
+#contentBox {
+  min-width: 0 !important;
+}
+h1, h2, h3, h4, h5, h6, .ms-h1, .ms-h2, .ms-h3, .ms-h4, .ms-h5, .ms-h6 {
+  margin: none !important;
+}

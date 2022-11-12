@@ -2,13 +2,18 @@ import React, { useState, useContext } from 'react';
 import { Button, message, Modal, Select, Typography } from 'antd';
 import { AppCtx } from '../../../../../App';
 import { SendOutlined } from '@ant-design/icons';
+import AssignSeriveRequest from '../../../API/AssignSeriveRequest';
+
 
 function AssignAction(props) {
   const { user_data } = useContext(AppCtx);
   const [openModal, setOpenModal] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [isShowing, setIsShowing] = useState(true);
 
-  const assignAction = () => {
+  const assignAction = async () => {
+    setBtnLoading(true);
     if(selectedEmp) {
       const payload = {
         Email: user_data.Data.Mail,
@@ -16,31 +21,42 @@ function AssignAction(props) {
         ByUser: user_data.Data.Mail,
         ServiceRequestId: props.RequestId
       }
-      console.log('assign payload', payload)
+      const AssignRequest = await AssignSeriveRequest(payload);
+      message.success("Service request has assigned")
+      console.log('Assign Request', AssignRequest)
+      setIsShowing(false);
+      setSelectedEmp(null);
+      setOpenModal(false);  
     } else {
       message.error("Select Employee First!")
     }
+    setBtnLoading(false);
   }
+
   return (
     <>
-      <Button size="middle" type='primary' onClick={() => setOpenModal(true)}>Assign</Button>
-      <Modal 
-        title={<><SendOutlined /> Assign Service Request</>}
-        open={openModal} 
-        onOk={assignAction} 
-        onCancel={() => setOpenModal(false)}
-        okButtonProps={{type: 'primary', danger: true}} 
-        okText="Assign"
-      >
-        <Typography.Text strong>Select Employee</Typography.Text>
-        <Select value={selectedEmp} size="large" placeholder="Select Employee" onChange={value => setSelectedEmp(value)} style={{width: '100%'}}>
-          {
-            props.EmployeesList?.map((emp, i) => (
-              <Select.Option value={emp.Mail} key={i}>{emp.DisplayName}</Select.Option>
-            ))
-          }
-        </Select>
-      </Modal>
+      {isShowing && <>
+        <Button size="middle" type='default' onClick={() => setOpenModal(true)}>Assign</Button>
+        <Modal 
+          title={<><SendOutlined /> Assign Service Request</>}
+          open={openModal} 
+          onOk={assignAction} 
+          onCancel={() => setOpenModal(false)}
+          okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
+          okText="Assign"
+        >
+          <Typography.Text strong>Select Employee</Typography.Text>
+          <Select value={selectedEmp} size="large" placeholder="Select Employee" onChange={value => setSelectedEmp(value)} style={{width: '100%'}}>
+            {
+              props.EmployeesList?.map((emp, i) => {
+                if(emp.Mail !== user_data.Data?.Mail) {
+                  return <Select.Option value={emp.Mail} key={i}>{emp.DisplayName}</Select.Option>
+                }
+              })
+            }
+          </Select>
+        </Modal>
+      </>}
     </>
   )
 }

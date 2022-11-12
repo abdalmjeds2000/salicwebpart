@@ -10,7 +10,8 @@
 
 /* DIVISIONS */
 .service-requests-dashboard-container .employees-tree {
-  width: 200px;
+  width: 250px;
+  min-width: 220px;
   overflow-x: auto;
   padding: 20px 10px;
   background-color: #fff;
@@ -62,7 +63,7 @@
 .service-requests-dashboard-container .tab-content {
   padding: 15px;
   background-color: #fff;
-  border-radius: 0 0 25px 25px;
+  border-radius: 0 25px 25px 25px;
   box-shadow: 0 5px 10px var(--third-color);
 }
 
@@ -93,6 +94,23 @@
   background-color: var(--third-color) !important;
   font-weight: 500 !important;
 }
+
+.service-requests-dashboard-container .ant-tree .ant-tree-node-content-wrapper {
+  line-height: 15px !important;
+  font-size: 0.7rem !important;
+  top: 0px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Increase Border Radius to antd Card */
+.ant-card {
+  border-radius: 15px !important;
+}
+.service-requests-dashboard-container .ant-card-head {
+  border-radius: 15px 15px 0 0 !important;
+}
+
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .service-requests-dashboard-container {
     padding: 15px;

@@ -21,7 +21,7 @@ function UserSRSummary(props) {
   
   const CardTitle = (
     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap'}}>
-      <Typography.Text strong style={{fontSize: '1.2rem'}}>{props.DataForUser?.title}'s SR</Typography.Text>
+      <Typography.Text strong style={{fontSize: '1.2rem'}}>{props.DataForUser?.DisplayName}'s SR</Typography.Text>
       <Select
         defaultValue="Status"
         bordered={false}

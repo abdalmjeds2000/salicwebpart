@@ -7,8 +7,6 @@ export interface ISalicProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   name: string;  
-  serverRelativeURL: string;  
   context: WebPartContext; 
-
   spWebUrl: any
 }

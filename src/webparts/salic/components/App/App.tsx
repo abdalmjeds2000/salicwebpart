@@ -83,14 +83,15 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)
             console.log(response.data)
+            console.log('CONTEXT =======> ', props)
             return response
           })
           // Get Latest Attendance
@@ -257,7 +258,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     media_center: mediaCenter,
     notes_list: notesList,
     // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
-    defualt_route: '/sites/dev/SitePages/Home.aspx',
+    // defualt_route: '/sites/dev/SitePages/Home.aspx',
+    defualt_route: props.spWebUrl,
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
@@ -289,7 +291,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         !isLoading
           ? <Router>
               <div className="app-container">
-                <SidebarNav />
+                <SidebarNav spWebUrl={props.spWebUrl} />
                 <div className="content-container">
                   <img src={require('../../assets/images/world.svg')} className='img-bg' />
                   <Header />

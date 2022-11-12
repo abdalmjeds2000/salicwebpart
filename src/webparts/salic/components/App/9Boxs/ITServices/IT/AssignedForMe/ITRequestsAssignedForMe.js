@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Input, Space, Tag, Typography } from 'antd';
-import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { InfoCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
+import { useNavigate, useParams } from 'react-router-dom';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import UserColumnInTable from '../../../../Global/UserColumnInTable/UserColumnInTable';
 import { AppCtx } from '../../../../App';
@@ -10,10 +10,12 @@ import RequestsTable from '../../../../Global/RequestsComponents/RequestsTable';
 import moment from 'moment';
 
 function ITRequestsAssignedForMe() {
+  const { query } = useParams();
+
   const { it_requests_assigned_for_me_data, setItRequestsAssignedForMeData, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(query ? query : '');
 
   async function GetRequests() {
     setLoading(true);
@@ -33,43 +35,56 @@ function ITRequestsAssignedForMe() {
 
   const columns = [
     {
-      title: 'SR. Number',
+      title: 'SR. #',
       dataIndex: 'Id',
-      width: '7%',
+      width: '5%',
       render: (val) => <b>{`SR[#${val}]`}</b>
     },{
       title: 'Date & Time',
       dataIndex: 'CreatedAt',
-      width: '14%',
+      width: '12%',
       render: (val) => moment(val).format('MM/DD/YYYY hh:mm:ss')
     },{
       title: 'Subject',
       dataIndex: 'Subject',
-      width: '28%',
-      render: (val, record) => <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
+      width: '33%',
+      render: (val, record) => (
+        <Space direction='horizontal'>
+          <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
+          <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
+        </Space>
+      )
     },{
       title: 'Requester',
       dataIndex: 'Requester',
-      width: '15%',
-      render: (val) => <UserColumnInTable Mail={val.Mail} DisplayName={val.DisplayName} />
-    },{
+      width: '16%',
+      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
+    }/* ,{
       title: 'Priority',
       dataIndex: 'Priority',
       width: '12%',
       render: (val) => val == "1" ? <Tag color="#0c508c">Normal</Tag> : val == "2" ? <Tag color="#ff272b">Critical</Tag> : <Tag color="#bbb">Unknown</Tag>
+    } */,
+    {
+      title: 'Pending With',
+      dataIndex: 'PendingWith',
+      width: '16%',
+      render: (val) => val ? <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /> : '-'
     },{
       title: 'Status',
       dataIndex: 'Status',
-      width: '12%',
+      width: '8%',
     },{
       title: 'Request Type',
       dataIndex: 'RequestType',
-      width: '12%',
+      width: '10%',
     }
   ];
 
   const filtered_it_requests_data = it_requests_assigned_for_me_data?.filter(row => {
     const searchWord = searchText?.toLowerCase();
+    if(row.Priority == "1") { row.Priority = "Normal" }
+    else if(row.Priority == "2") { row.Priority = "Critical" }
     if(
         row.Subject?.toLowerCase().includes(searchWord) || 
         row.Id?.toString().includes(searchWord) || 
@@ -82,7 +97,7 @@ function ITRequestsAssignedForMe() {
 
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
+      <Input size='small' placeholder='Type To Search' defaultValue={query ? query : ''} onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/it-services/services-request')}><PlusOutlined /> New Request</Button>
     </Space>

@@ -86,7 +86,7 @@ import ResearchDashboard from '../App/ResearchCenter/Dashboard/ResearchDashboard
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
-  const defualtRoute: string = '/sites/dev/SitePages/Home.aspx';
+  const defualtRoute: string = props.spWebUrl;
   return (
     <Routes>
       <Route path={`${defualtRoute}/home`} element={<Home />} />
@@ -143,7 +143,10 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
         <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
         <Route path={`${defualtRoute}/it-services/my-requests`} element={<MyItServiceRequests />} />
-        <Route path={`${defualtRoute}/it-services/requests-assigned-for-me`} element={<ITRequestsAssignedForMe />} />
+        <Route path={`${defualtRoute}/it-services/requests-assigned-for-me`}>
+          <Route index element={<ITRequestsAssignedForMe />} />
+          <Route path={`${defualtRoute}/it-services/requests-assigned-for-me/:query`} element={<ITRequestsAssignedForMe />} />
+        </Route>
         <Route path={`${defualtRoute}/it-services/service-requests-dashboard`} element={<ServiceRequestsDashboard />} />
         <Route path={`${defualtRoute}/it-services/:id`} element={<PreviewITServiceRequest />} />
       </Route>

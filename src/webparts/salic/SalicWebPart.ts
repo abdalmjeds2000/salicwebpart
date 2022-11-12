@@ -18,7 +18,6 @@ export interface ISalicWebPartProps {
   description: string;
   spWebUrl: any,
   name: string;  
-  serverRelativeURL: string;  
 }
 
 export default class SalicWebPart extends BaseClientSideWebPart<ISalicWebPartProps> {
@@ -36,9 +35,8 @@ export default class SalicWebPart extends BaseClientSideWebPart<ISalicWebPartPro
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         name: this.properties.name,  
-        serverRelativeURL: this.properties.serverRelativeURL,  
         context: this.context,
-        spWebUrl: this.context.pageContext.web.absoluteUrl,
+        spWebUrl: this.context.pageContext.list?.serverRelativeUrl ? this.context.pageContext.list?.serverRelativeUrl + '/' + this.context.pageContext.site.serverRequestPath.split("/")[4] : '/sites/dev/_layouts/15/workbench.aspx',
       }
     );
 

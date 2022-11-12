@@ -11,7 +11,6 @@ export default class Salic extends React.Component<ISalicProps, {}> {
       hasTeamsContext,
       userDisplayName,
       name,
-      serverRelativeURL,  
       context,
       spWebUrl
     } = this.props;

@@ -12,6 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   .preview-request-container .header h1 {
     color: #fff !important;
@@ -21,6 +23,7 @@
   }
   .preview-request-container .header div {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 5px;
   }

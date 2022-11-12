@@ -471,9 +471,9 @@ const svgIcons = {
   ),
 };
 
-const SidebarNav = (props) => {
+const SidebarNav = ({spWebUrl}) => {
   const [isNavBarLarge, setIsNavBarLarge] = useState(false);
-  const defualt_route = "/sites/dev/SitePages/Home.aspx";
+  const defualt_route = spWebUrl;
   const navigate = useNavigate();
   const { setIsGlobeReady } = useContext(AppCtx);
 
@@ -624,7 +624,7 @@ const SidebarNav = (props) => {
 
   return (
     <>
-      {activeRoute !== "/sites/dev/SitePages/Home.aspx/home" && (
+      {activeRoute !== `${spWebUrl}/home` && (
         <SimpleUserPanel />
       )}
       <nav

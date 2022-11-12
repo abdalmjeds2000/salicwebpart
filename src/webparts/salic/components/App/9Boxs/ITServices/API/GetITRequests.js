@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export default async function GetITRequests() {
+export default async function GetITRequests(email) {
   try {
     let request = await axios(
       {
         method: 'GET',
-        url: `https://salicapi.com/api/tracking/Get?draw=1&order=&start=0&length=50&search%5Bvalue%5D=&search%5Bregex%5D=false&query=&_=1668102425918`,
+        url: `https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=0&length=20&search[value]=&search[regex]=false&email=${email}&query=&_=1668265007659`,
       }
     )
     let response = request;

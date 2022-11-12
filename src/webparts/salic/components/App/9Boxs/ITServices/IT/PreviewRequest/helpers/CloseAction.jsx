@@ -3,7 +3,7 @@ import { Button, message, Modal, Select, Space, Table, Typography, Upload } from
 import { AppCtx } from '../../../../../App';
 import { SendOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
-
+import CloseSeriveRequest from '../../../API/CloseSeriveRequest';
 
 
 // FileUploderComponent
@@ -44,10 +44,14 @@ function CloseAction(props) {
   const [UATiles, setUATiles] = useState([]);
   const [UGFiles, setUGFiles] = useState([]);
 
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [isShowing, setIsShowing] = useState(true);
 
 
 
-  const closeAction = () => {
+  const closeAction = async () => {
+    setBtnLoading(true);
+
     // check if there files is uploading...
     let isFilesFinishUpload = true;
     const attachmentsList = fileList.map(file => {
@@ -87,12 +91,18 @@ function CloseAction(props) {
             request_type: selectedType,
             change_classification: classification
           }
+          const CloseRequest = await CloseSeriveRequest(payload);
+          message.success("Service request has been closed");
           // reset modal fields
-          setOpenModal(false); setSelectedType(null); setClassification(null); setCloseReason(null); setFileList([]); setBIAFiles([]); setSCRFiles([]); setCONFFiles([]); setUATiles([]); setUGFiles([]);
-          console.log('close payload', payload)
+          setOpenModal(false); setSelectedType(null); setClassification("Major"); setCloseReason(null); setFileList([]); setBIAFiles([]); setSCRFiles([]); setCONFFiles([]); setUATiles([]); setUGFiles([]);
+          setIsShowing(false);
+          console.log('Close Request', CloseRequest)
         } else message.error("Please Attach files for all Documents");
       } else message.error("Fill Field Correctly");
     } else message.error("Wait For Uploading...");
+
+
+    setBtnLoading(false);
   }
 
 
@@ -100,88 +110,92 @@ function CloseAction(props) {
 
   return (
     <>
-      <Button size="middle" type='primary' danger onClick={() => setOpenModal(true)}>Close</Button>
-      <Modal 
-        title={<><SendOutlined /> Close Service Request</>}
-        open={openModal} 
-        onOk={closeAction} 
-        onCancel={() => setOpenModal(false)}
-        okButtonProps={{type: 'primary', danger: true}} 
-        okText="Close"
-      >
-        
-        <Space direction='vertical' style={{width: '100%', gap: '25pz'}}>
-          <Typography.Text strong>HelpDesk Technical Feedback</Typography.Text>
-          <TextArea rows={4} placeholder="HelpDesk Technical Feedback" value={closeReason} onChange={e => setCloseReason(e.target.value)} />
-
-
-          <Typography.Text strong>Request Type</Typography.Text>
-          <Select value={selectedType} size="middle" placeholder="Select Request Type" onChange={value => setSelectedType(value)} style={{width: '100%'}}>
-            <Select.Option value="CR">Change Request</Select.Option>
-            <Select.Option value="ER">Enhancement Request</Select.Option>
-            <Select.Option value="HelpDesk">Help Desk</Select.Option>
-            <Select.Option value="BUG">Bugs Fixing</Select.Option>
-            <Select.Option value="Permission">Permissions</Select.Option>
-            <Select.Option value="Incident">Incident</Select.Option>
-          </Select>
-
-
-          {
-            selectedType === "CR"
-            ? (
-              <>
-                <Typography.Text strong>Change Classification</Typography.Text>
-                <Select defaultValue="Major" value={classification} size="middle" placeholder="Select Change Classification Type" onChange={value => setClassification(value)} style={{width: '100%'}}>
-                  <Select.Option value="Major">Major</Select.Option>
-                  <Select.Option value="Medium">Medium</Select.Option>
-                  <Select.Option value="Minor">Minor</Select.Option>
-                </Select>
-
-                <Typography.Text strong>Required Documents</Typography.Text>
-                <Table 
-                  pagination={false}
-                  bordered
-                  columns={[
-                    {title: 'Document Name', dataIndex: 'DocumentName'},
-                    {title: 'File', dataIndex: 'File'}
-                  ]}
-                  dataSource={[
-                    { 
-                      key: '1', 
-                      DocumentName: 'BIA', 
-                      File: <CustomAntdFileUploder FileType="bia_file" GetFilesList={files => setBIAFiles(files)} />},
-                    { 
-                      key: '2', 
-                      DocumentName: 'Signed Change request', 
-                      File: <CustomAntdFileUploder FileType="scr_file" GetFilesList={files => setSCRFiles(files)} />},
-                    { 
-                      key: '3', 
-                      DocumentName: 'configuration Document', 
-                      File: <CustomAntdFileUploder FileType="conf_file" GetFilesList={files => setCONFFiles(files)} />},
-                    { 
-                      key: '4', 
-                      DocumentName: 'UAT', 
-                      File: <CustomAntdFileUploder FileType="uat_file" GetFilesList={files => setUATiles(files)} />},
-                    { 
-                      key: '5', 
-                      DocumentName: 'User Guide', 
-                      File: <CustomAntdFileUploder FileType="user_guide_file" GetFilesList={files => setUGFiles(files)} />},
-                  ]}
-                />
-              </>
-            ) : null
-          }
-
-
-          <Upload
-            action="https://salicapi.com/api/uploader/up"
-            fileList={fileList}
-            onChange={({ fileList: newFileList }) => setFileList(newFileList)}
+      {
+        isShowing && <>
+          <Button size="middle" type='primary' danger onClick={() => setOpenModal(true)}>Close</Button>
+          <Modal 
+            title={<><SendOutlined /> Close Service Request</>}
+            open={openModal} 
+            onOk={closeAction} 
+            onCancel={() => setOpenModal(false)}
+            okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
+            okText="Close"
           >
-            <Button type='ghost' size='middle' icon={<UploadOutlined />}>Attach Files</Button>
-          </Upload>
-        </Space>
-      </Modal>
+            
+            <Space direction='vertical' style={{width: '100%', gap: '25px'}}>
+              <Typography.Text strong>HelpDesk Technical Feedback</Typography.Text>
+              <TextArea rows={4} placeholder="HelpDesk Technical Feedback" value={closeReason} onChange={e => setCloseReason(e.target.value)} />
+
+
+              <Typography.Text strong>Request Type</Typography.Text>
+              <Select value={selectedType} size="large" placeholder="Select Request Type" onChange={value => setSelectedType(value)} style={{width: '100%'}}>
+                <Select.Option value="CR">Change Request</Select.Option>
+                <Select.Option value="ER">Enhancement Request</Select.Option>
+                <Select.Option value="HelpDesk">Help Desk</Select.Option>
+                <Select.Option value="BUG">Bugs Fixing</Select.Option>
+                <Select.Option value="Permission">Permissions</Select.Option>
+                <Select.Option value="Incident">Incident</Select.Option>
+              </Select>
+
+
+              {
+                selectedType === "CR"
+                ? (
+                  <>
+                    <Typography.Text strong>Change Classification</Typography.Text>
+                    <Select defaultValue="Major" value={classification} size="large" placeholder="Select Change Classification Type" onChange={value => setClassification(value)} style={{width: '100%'}}>
+                      <Select.Option value="Major">Major</Select.Option>
+                      <Select.Option value="Medium">Medium</Select.Option>
+                      <Select.Option value="Minor">Minor</Select.Option>
+                    </Select>
+
+                    <Typography.Text strong>Required Documents</Typography.Text>
+                    <Table 
+                      pagination={false}
+                      bordered
+                      columns={[
+                        {title: 'Document Name', dataIndex: 'DocumentName'},
+                        {title: 'File', dataIndex: 'File'}
+                      ]}
+                      dataSource={[
+                        { 
+                          key: '1', 
+                          DocumentName: 'BIA', 
+                          File: <CustomAntdFileUploder FileType="bia_file" GetFilesList={files => setBIAFiles(files)} />},
+                        { 
+                          key: '2', 
+                          DocumentName: 'Signed Change request', 
+                          File: <CustomAntdFileUploder FileType="scr_file" GetFilesList={files => setSCRFiles(files)} />},
+                        { 
+                          key: '3', 
+                          DocumentName: 'configuration Document', 
+                          File: <CustomAntdFileUploder FileType="conf_file" GetFilesList={files => setCONFFiles(files)} />},
+                        { 
+                          key: '4', 
+                          DocumentName: 'UAT', 
+                          File: <CustomAntdFileUploder FileType="uat_file" GetFilesList={files => setUATiles(files)} />},
+                        { 
+                          key: '5', 
+                          DocumentName: 'User Guide', 
+                          File: <CustomAntdFileUploder FileType="user_guide_file" GetFilesList={files => setUGFiles(files)} />},
+                      ]}
+                    />
+                  </>
+                ) : null
+              }
+
+
+              <Upload
+                action="https://salicapi.com/api/uploader/up"
+                fileList={fileList}
+                onChange={({ fileList: newFileList }) => setFileList(newFileList)}
+              >
+                <Button type='ghost' size='middle' icon={<UploadOutlined />}>Attach Files</Button>
+              </Upload>
+            </Space>
+          </Modal>
+        </>
+      }
     </>
   )
 }
