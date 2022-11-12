@@ -83,8 +83,10 @@ function ITRequestsAssignedForMe() {
 
   const filtered_it_requests_data = it_requests_assigned_for_me_data?.filter(row => {
     const searchWord = searchText?.toLowerCase();
-    if(row.Priority == "1") { row.Priority = "Normal" }
-    else if(row.Priority == "2") { row.Priority = "Critical" }
+    if(query) {
+      if(row.Priority == "1" && searchWord=="1") { row.Priority = "Normal" }
+      else if(row.Priority == "2" && searchWord=="2") { row.Priority = "Critical" }
+    }
     if(
         row.Subject?.toLowerCase().includes(searchWord) || 
         row.Id?.toString().includes(searchWord) || 

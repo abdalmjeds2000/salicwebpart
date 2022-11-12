@@ -79,7 +79,10 @@ function PreviewITServiceRequest() {
     if(id) {
       setLoading(true);
       GetRequest()
-      .then(() => setLoading(false));
+      .then(() => setLoading(false))
+      .then(() => console.log("NNNNOOOOOWWWWW"))
+      .then(() => correctImgs())
+
     } else {
       navigate(defualt_route + '/it-services/services-request');
       message.info("Error ::: Not Found Request")
@@ -139,6 +142,26 @@ function PreviewITServiceRequest() {
   //   if(user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com') // Delete
   //   return <></>
   // }
+
+
+
+  const correctImgs = () => {
+    let imgs = document.getElementsByTagName("img");
+    console.log(imgs);
+    for (const element of imgs) {
+      if(element.src.startsWith("cid")) {
+          let name = element.src.split('@')[0].replace('cid:','');
+          var deleteImg = document.querySelector('[title="'+name+'"]');
+          let src = deleteImg.getAttribute("data-guid");
+          deleteImg.style.display = "none";
+          element.setAttribute('src', src)
+          console.log(deleteImg)
+          // document.getElementsByClassName('attachments-container')[0].innerHTML = "No Attachments"
+      }
+    }
+  }
+
+
   return (
     <>
       <HistoryNavigation>
@@ -150,7 +173,7 @@ function PreviewITServiceRequest() {
         <div className="header">
           <h1>It Service Request: [#{requestData?.Id || '###'}]</h1>
           <div>
-            <RenderApproveAction />{' | '}
+            <RenderApproveAction />
             <RenderAssignAction />
             <RenderCloseAction />
             <RenderDeleteAction />

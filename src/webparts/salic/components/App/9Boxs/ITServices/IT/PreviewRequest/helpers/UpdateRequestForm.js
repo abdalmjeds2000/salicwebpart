@@ -42,6 +42,9 @@ function UpdateRequestForm(props) {
   var requester = props.RequestData?.Requester;
   var onbehalf = props.RequestData?.OnBehalfOf;
   if (onbehalf != null){ requester = onbehalf; }
+
+  const IsUpdatable = props.RequestData?.EmployeeList?.findIndex(e => e.Mail == user_data?.Data?.Mail);
+
   return (
     <Form
       form={form}
@@ -52,7 +55,7 @@ function UpdateRequestForm(props) {
       <div>
         <Section SectionTitle="Issue Category">
           <Form.Item name="CategoryType" initialValue={props.RequestData?.Category} style={{marginBottom: 5}}>
-            <Radio.Group size='middle' value={categoryTypeField} onChange={({ target: { value } }) => {setCategoryTypeField(value); setIssueTypeField("")}} rules={[{ required: true }]} >
+            <Radio.Group disabled={!(IsUpdatable > -1) && props.RequestData?.Status !== "CLOSED"} size='middle' value={categoryTypeField} onChange={({ target: { value } }) => {setCategoryTypeField(value); setIssueTypeField("")}} rules={[{ required: true }]} >
               <Space direction="vertical">
                 <Radio value="Hardware">
                   <span>Hardware & Devices</span> <br />
@@ -77,6 +80,7 @@ function UpdateRequestForm(props) {
               size="middle"
               value={issueTypeField}
               onChange={(value) => setIssueTypeField(value)}
+              disabled={!(IsUpdatable > -1) && props.RequestData?.Status !== "CLOSED"}
             >
               {issueTypes
                 .filter((i) => i.Category === categoryTypeField)
@@ -89,14 +93,14 @@ function UpdateRequestForm(props) {
         </Section>
         <Section SectionTitle="Priority">
           <Form.Item name="Priority" initialValue={props.RequestData?.Priority}  style={{marginBottom: 5}}>
-            <Select placeholder="Priority" size="middle">
+            <Select placeholder="Priority" size="middle" disabled={!(IsUpdatable > -1) && props.RequestData?.Status !== "CLOSED"}>
               <Select.Option value="1">Normal</Select.Option>
               <Select.Option value="2">Critical</Select.Option>
             </Select>
           </Form.Item>
         </Section>
 
-        {user_data.Data?.Mail?.toLowerCase() === requester.Mail?.toLowerCase() && <Button type="primary" htmlType='submit' style={{width: '100%', marginTop: 10}}>
+        {IsUpdatable > -1 && props.RequestData?.Status !== "CLOSED" && <Button type="primary" htmlType='submit' style={{width: '100%', marginTop: 10}}>
           Update Request Information
         </Button>}
       </div>

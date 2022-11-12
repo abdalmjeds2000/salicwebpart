@@ -16,15 +16,19 @@ import GetITRequests from '../../API/GetITRequests';
 
 
 function ServiceRequestsDashboard() {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { 
+    user_data, 
+    defualt_route, 
+    summaryByStatus, setSummaryByStatus, 
+    summaryByPriority, setSummaryByPriority, 
+    summaryByDepartment, setSummaryByDepartment,
+    summaryByRequestType, setSummaryByRequestType,
+    ITRequests, setITRequests
+  } = useContext(AppCtx);
+  
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(1);
   const [pageLoading, setPageLoading] = useState(true);
-  const [summaryByStatus, setSummaryByStatus] = useState([]);
-  const [summaryByPriority, setSummaryByPriority] = useState([]);
-  const [summaryByDepartment, setSummaryByDepartment] = useState([]);
-  const [summaryByRequestType, setSummaryByRequestType] = useState([]);
-  const [ITRequests, setITRequests] = useState([]);
   const [dataForUser, setDataForUser] = useState(null);
 
 
@@ -48,6 +52,19 @@ function ServiceRequestsDashboard() {
     setPageLoading(false);
   }
 
+  useEffect(() => {
+    if( 
+      Object.keys(user_data).length > 0 && 
+      Object.keys(summaryByStatus).length === 0 && 
+      Object.keys(summaryByPriority).length === 0 && 
+      Object.keys(summaryByDepartment).length === 0 && 
+      Object.keys(summaryByRequestType).length === 0 && 
+      Object.keys(ITRequests).length === 0 && 
+      dataForUser 
+    ) {
+      FetchData()
+    }
+  }, [user_data])
   useEffect(() => {
     if( Object.keys(user_data).length > 0 && dataForUser ) {
       FetchData()

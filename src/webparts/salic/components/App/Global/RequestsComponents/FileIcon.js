@@ -34,7 +34,8 @@ const FileIcon = (props) => {
     return (
         <img 
             src={checkFileType(props.FileType)}
-            title={props.FileName} 
+            title={props.FileName}
+            data-guid={props.FilePath} 
             onClick={() => window.open(props.FilePath, "_blank")} 
             width={props.IconWidth}
             className='attachment-file-icon'

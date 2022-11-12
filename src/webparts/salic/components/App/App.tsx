@@ -53,6 +53,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [myItRequestsData, setMyItRequestsData] = React.useState([]);
   const [itRequestsAssignedForMeData, setItRequestsAssignedForMeData] = React.useState([]);
   
+  // IT SERVICE REQUEST PAGE DATA
+  const [summaryByStatus, setSummaryByStatus] = React.useState([]);
+  const [summaryByPriority, setSummaryByPriority] = React.useState([]);
+  const [summaryByDepartment, setSummaryByDepartment] = React.useState([]);
+  const [summaryByRequestType, setSummaryByRequestType] = React.useState([]);
+  const [ITRequests, setITRequests] = React.useState([]);
 
 
 
@@ -83,10 +89,10 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)
@@ -282,7 +288,17 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     my_it_requests_data: myItRequestsData, 
     setMyItRequestsData,
     it_requests_assigned_for_me_data: itRequestsAssignedForMeData,
-    setItRequestsAssignedForMeData
+    setItRequestsAssignedForMeData,
+    summaryByStatus: summaryByStatus, 
+    setSummaryByStatus, 
+    summaryByPriority: summaryByPriority, 
+    setSummaryByPriority, 
+    summaryByDepartment: summaryByDepartment, 
+    setSummaryByDepartment,
+    summaryByRequestType: summaryByRequestType, 
+    setSummaryByRequestType,
+    ITRequests: ITRequests, 
+    setITRequests
   };
 
   return (
