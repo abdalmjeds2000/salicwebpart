@@ -20,13 +20,10 @@ import moment from 'moment';
 
 function PreviewContentRequest() {
     let { id } = useParams();
-
     const { user_data, defualt_route } = useContext(AppCtx);
     const navigate = useNavigate();
-
     const [fileList, setFileList] = useState([]);
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-    
     const [newReplyText, setNewReplyText] = useState("");
     const [loading, setLoading] = useState(true);
     const [btnLoader, setBtnLoader] = useState(false);
@@ -197,14 +194,6 @@ function PreviewContentRequest() {
     const ApproveModal = () => {
         const ParseReplysAttachments = replys.map(reply => JSON.parse(reply.AttachmentsRows).map(row => {row.Author = reply.Author; row.Created = reply.Created; return {...row}}));
         const ReplysAttachments = [].concat.apply([], ParseReplysAttachments);
-        // const UniqueReplysAttachments = new Set();
-        // var uniqueModuels = ReplysAttachments.filter(f => {
-        //     if (UniqueReplysAttachments.has(f)) {
-        //     return false;
-        //     }
-        //     UniqueReplysAttachments.add(f);
-        //     return true;
-        // });
         return (
             <Modal
                 title='Write a note before Approve'
@@ -478,7 +467,7 @@ function PreviewContentRequest() {
                                         }
                                         {
                                             requestData.AttachmentsRows.length === 0
-                                            ? <span style={{fontStyle: 'italic', color: '#aaa', fontSize: '1rem', lineHeight: 1}}>No Attachments</span>
+                                            ? <Typography.Text disabled>No Attachments</Typography.Text>
                                             : null
                                         }
 

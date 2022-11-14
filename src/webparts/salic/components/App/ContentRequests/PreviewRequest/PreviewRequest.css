@@ -12,6 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   .preview-request-container .header h1 {
     color: #fff !important;
@@ -21,6 +23,7 @@
   }
   .preview-request-container .header div {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 5px;
   }
@@ -47,6 +50,10 @@
   .preview-request-container .content .timeline .request-reply .ant-timeline-item-content {
     margin: 0 0 0 40px !important;
     background-color: rgb(255, 236, 211) !important;
+  }
+  .preview-request-container .content .timeline .close-reply .ant-timeline-item-content {
+    margin: 0 0 0 40px !important;
+    background-color: #c7ffee !important;
   }
   .preview-request-container .content .timeline .add-reply .ant-timeline-item-content {
     margin: 0 0 0 40px !important;
@@ -108,7 +115,6 @@
   
 
   .preview-request-container .attachments-container {
-    font-size: 2rem;
     display: flex;
     flex-wrap: wrap;
     gap: 5px;

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Input, Space, Tag, Typography } from 'antd';
-import { PlusOutlined, RedoOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import UserColumnInTable from '../../../../Global/UserColumnInTable/UserColumnInTable';
@@ -33,34 +33,49 @@ function MyItServiceRequests() {
 
   const columns = [
     {
-      title: 'SR. Number',
+      title: 'SR. #',
       dataIndex: 'Id',
       width: '5%',
       render: (val) => <b>{`SR[#${val}]`}</b>
     },{
       title: 'Date & Time',
       dataIndex: 'CreatedAt',
-      width: '15%',
+      width: '12%',
       render: (val) => moment(val).format('MM/DD/YYYY hh:mm:ss')
     },{
       title: 'Subject',
       dataIndex: 'Subject',
-      width: '30%',
-      render: (val, record) => <Typography.Link onClick={() => navigate(defualt_route + `/content-requests/${record.Id}`)}>{val}</Typography.Link>
+      width: '33%',
+      render: (val, record) => (
+        <Space direction='horizontal'>
+          <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
+          <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
+        </Space>
+      )
     },{
-      title: 'Assigned To',
-      dataIndex: 'ClosedBy',
-      width: '20%',
-      render: (val) => <UserColumnInTable Mail={val.Mail} DisplayName={val.DisplayName} />
-    },{
+      title: 'Requester',
+      dataIndex: 'Requester',
+      width: '16%',
+      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
+    }/* ,{
       title: 'Priority',
       dataIndex: 'Priority',
-      width: '15%',
+      width: '12%',
       render: (val) => val == "1" ? <Tag color="#0c508c">Normal</Tag> : val == "2" ? <Tag color="#ff272b">Critical</Tag> : <Tag color="#bbb">Unknown</Tag>
+    } */,
+    {
+      title: 'Pending With',
+      dataIndex: 'PendingWith',
+      width: '16%',
+      render: (val) => val ? <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /> : '-'
     },{
       title: 'Status',
       dataIndex: 'Status',
-      width: '15%',
+      width: '8%',
+    },{
+      title: 'Request Type',
+      dataIndex: 'RequestType',
+      width: '10%',
     }
   ];
 

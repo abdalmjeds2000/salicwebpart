@@ -78,7 +78,7 @@ function ITServices() {
               </div>
               <h3>Requests Assigned</h3>
             </a>
-            <a className='box' href='/'>
+            <a className='box' onClick={() => navigate(defualt_route + '/it-services/service-requests-dashboard')}>
               <div style={{backgroundColor: '#FD96A6'}}>
                 <svg id="Group_316" data-name="Group 316" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
                   <path id="Path_4995" data-name="Path 4995" d="M10.683,251.525a5.883,5.883,0,1,0-7.215,0A7.068,7.068,0,0,0,0,257.615V260a1.113,1.113,0,0,0,1.113,1.113H13.038A1.113,1.113,0,0,0,14.151,260v-2.385A7.068,7.068,0,0,0,10.683,251.525Zm-7.264-4.642a3.657,3.657,0,1,1,3.657,3.657A3.661,3.661,0,0,1,3.419,246.883Zm8.506,12h-9.7v-1.272a4.849,4.849,0,0,1,9.7,0v1.272Z" transform="translate(0 -223.113)" fill="#fff"/>

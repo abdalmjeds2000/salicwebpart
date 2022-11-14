@@ -26,12 +26,12 @@ const performaceGrade = (grade) => {
 function NumbersAttendance() {
   const { latest_attendance, user_data, performance, setPerformance, all_events } = useContext(AppCtx);
   const [nextEvents, setNextEvents] = useState([]);
+  
   async function fetchData() {
     const response = await GetPerformance(user_data.Data?.PIN);
     if(response.status === 200) {
       setPerformance(response?.data)
     }
-    console.log(response)
   }
   useEffect(() => {
     setNextEvents( all_events?.filter(e => new Date(e.Date).toJSON().slice(0, 10) > new Date().toJSON().slice(0, 10)).reverse() )
@@ -49,7 +49,7 @@ function NumbersAttendance() {
       { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
       // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
       // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
-      { name: "Total Balance", value: totalBalance, type: `Total Balance` },
+      { name: "Leave Balance", value: totalBalance, type: `Total balance till end of the year.` },
     ],
     xField: 'name',
     yField: 'value',
@@ -58,8 +58,8 @@ function NumbersAttendance() {
     colorField: 'name',
     tooltip: {
       formatter: (label) => {
-        if(label.name === "Total Balance") {
-          return { name: `Total balance is ${totalBalance} days, ${totalBalance-15} days of them must consumed this year`, value: `` };
+        if(label.name === "Leave Balance") {
+          return { name: `Total balance is ${totalBalance} days till end of the year, ${totalBalance-15} days of them must consumed this year`, value: `` };
         }
         return label
       },
@@ -69,7 +69,7 @@ function NumbersAttendance() {
         return '#F9A654'; 
       } else if (name === 'Available Balance This Year') {
         return '#E7F0FE';
-      } else if (name === 'Total Balance') {
+      } else if (name === 'Leave Balance') {
         return '#43A2CC';
       }
       return '#FD96A6';
@@ -88,7 +88,6 @@ function NumbersAttendance() {
       //   }
       // })
     },
-
   };
 
   const PerformanceColumns = [

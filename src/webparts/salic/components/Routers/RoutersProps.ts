@@ -1,1 +1,3 @@
-export interface RoutersProps {}
+export interface RoutersProps {
+  spWebUrl: string;
+}

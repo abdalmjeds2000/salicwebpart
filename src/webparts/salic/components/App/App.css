@@ -7,6 +7,9 @@
   --third-color: #E7F0FE;
   --text-color: #6477AA;
   --link-text-color: #4098FF;
+  --brand-green-color: #277c62;
+  --brand-orange-color: #e99b4d;
+  --brand-red-color: #ff272b;
   --main-animation-duration: 0.3s;
   --page-tb-padding: 50px 0;
 }
@@ -42,6 +45,7 @@ html {
 .app-container {
   display: flex;
   min-height: 100vh;
+  max-width: 100vw;
   position: relative;
 }
 .content-container {
@@ -287,3 +291,22 @@ img.img-bg {
 .ms-CommandBar {
   display: none !important;
 } */
+
+
+#s4-workspace, #s4-bodyContainer {
+  width: auto !important;
+  padding-bottom: 0 !important;
+  overflow: unset !important;
+}
+#contentBox {
+  min-width: 0 !important;
+}
+.ms-backgroundImage {
+  overflow: auto !important;
+}
+h1, h2, h3, h4, h5, h6, .ms-h1, .ms-h2, .ms-h3, .ms-h4, .ms-h5, .ms-h6, #MSOZoneCell_WebPartWPQ5 {
+  margin: 0 !important;
+}
+h1, .ms-h1 {
+  font-family: unset !important;
+}

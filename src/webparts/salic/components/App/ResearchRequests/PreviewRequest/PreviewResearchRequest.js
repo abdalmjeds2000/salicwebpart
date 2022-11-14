@@ -22,9 +22,7 @@ function PreviewResearchRequest() {
 
     const { user_data, defualt_route } = useContext(AppCtx);
     const navigate = useNavigate();
-
     const [fileList, setFileList] = useState([]);
-    
     const [newReplyText, setNewReplyText] = useState("");
     const [loading, setLoading] = useState(true);
     const [btnLoader, setBtnLoader] = useState(false);

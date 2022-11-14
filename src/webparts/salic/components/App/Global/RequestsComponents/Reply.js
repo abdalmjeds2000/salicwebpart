@@ -1,5 +1,5 @@
-import { Tag } from "antd";
 import React from "react";
+import { Tag } from "antd";
 import FileIcon from "./FileIcon";
 
 
@@ -11,8 +11,9 @@ function Reply(props) {
         margin: '10px 0',
         fontWeight: 400,
         fontSize: '1.1rem',
-        whiteSpace: "pre-line"
-    }
+        whiteSpace: "pre-line",
+        overflowX: "auto"
+    };
     return (
         <div className="reply-container">
             <h3 style={{fontSize: '1.2rem'}}>{props.Title}</h3>
@@ -28,7 +29,7 @@ function Reply(props) {
                 {props.children}
                 <div style={{marginTop: '10px'}}>
                     {
-                        props.Files
+                        props.Files != undefined
                         ?   props.Files.map((file,i) => {
                                 return (
                                     <FileIcon

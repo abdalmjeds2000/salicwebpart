@@ -11,21 +11,21 @@ import fileIcon from '../../../../assets/icons/FilesIcons/file.png'
 
 const FileIcon = (props) => {
     const checkFileType = (fileType) => {
-        if(['jpg', 'jpeg', 'tif', 'tiff', 'bmp', 'png', 'gif', 'raw'].includes(fileType)) {
+        if(['jpg', 'jpeg', 'tif', 'tiff', 'bmp', 'png', 'gif', 'raw'].includes(fileType?.toLowerCase())) {
             return imgIcon
-        } else if(['mp4', 'mp3', 'webm', 'mkv', 'avi', 'mpeg'].includes(fileType)) {
+        } else if(['mp4', 'mp3', 'webm', 'mkv', 'avi', 'mpeg'].includes(fileType?.toLowerCase())) {
             return videoIcon
-        } else if(['pdf'].includes(fileType)) {
+        } else if(['pdf'].includes(fileType?.toLowerCase())) {
             return pdfIcon
-        } else if(['txt'].includes(fileType)) {
+        } else if(['txt'].includes(fileType?.toLowerCase())) {
             return txtIcon
-        } else if(['zip', 'rar'].includes(fileType)) {
+        } else if(['zip', 'rar'].includes(fileType?.toLowerCase())) {
             return rarIcon
-        } else if(['docx'].includes(fileType)) {
+        } else if(['docx', 'doc'].includes(fileType?.toLowerCase())) {
             return wordIcon
-        } else if(['pptx'].includes(fileType)) {
+        } else if(['pptx', 'ppt'].includes(fileType?.toLowerCase())) {
             return pptIcon
-        } else if(['xlsx'].includes(fileType)) {
+        } else if(['xlsx', 'xls'].includes(fileType?.toLowerCase())) {
             return csvIcon
         } else {
             return fileIcon
@@ -34,7 +34,8 @@ const FileIcon = (props) => {
     return (
         <img 
             src={checkFileType(props.FileType)}
-            title={props.FileName} 
+            title={props.FileName}
+            data-guid={props.FilePath} 
             onClick={() => window.open(props.FilePath, "_blank")} 
             width={props.IconWidth}
             className='attachment-file-icon'

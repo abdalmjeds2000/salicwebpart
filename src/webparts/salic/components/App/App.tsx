@@ -12,7 +12,6 @@ import GetAllNews from '../API/News/GetAllNews.js';
 import GetAllNotes from '../API/Notes/GetAllNotes';
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter';
 import GetAllEvents from '../API/GetAllEvents/GetAllEvents';
-import ClockComponent from './Global/HistoryNavigation/ClockComponent';
 
 
 
@@ -53,6 +52,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [myItRequestsData, setMyItRequestsData] = React.useState([]);
   const [itRequestsAssignedForMeData, setItRequestsAssignedForMeData] = React.useState([]);
   
+  // IT SERVICE REQUEST PAGE DATA
+  const [summaryByStatus, setSummaryByStatus] = React.useState([]);
+  const [summaryByPriority, setSummaryByPriority] = React.useState([]);
+  const [summaryByDepartment, setSummaryByDepartment] = React.useState([]);
+  const [summaryByRequestType, setSummaryByRequestType] = React.useState([]);
+  const [ITRequests, setITRequests] = React.useState([]);
 
 
 
@@ -91,6 +96,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
           .then((response) => {
             setUserData(response.data)
             console.log(response.data)
+            console.log('CONTEXT =======> ', props)
             return response
           })
           // Get Latest Attendance
@@ -257,7 +263,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     media_center: mediaCenter,
     notes_list: notesList,
     // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
-    defualt_route: '/sites/dev/SitePages/Home.aspx',
+    // defualt_route: '/sites/dev/SitePages/Home.aspx',
+    defualt_route: props.spWebUrl,
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
@@ -280,7 +287,17 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     my_it_requests_data: myItRequestsData, 
     setMyItRequestsData,
     it_requests_assigned_for_me_data: itRequestsAssignedForMeData,
-    setItRequestsAssignedForMeData
+    setItRequestsAssignedForMeData,
+    summaryByStatus: summaryByStatus, 
+    setSummaryByStatus, 
+    summaryByPriority: summaryByPriority, 
+    setSummaryByPriority, 
+    summaryByDepartment: summaryByDepartment, 
+    setSummaryByDepartment,
+    summaryByRequestType: summaryByRequestType, 
+    setSummaryByRequestType,
+    ITRequests: ITRequests, 
+    setITRequests
   };
 
   return (
@@ -289,7 +306,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         !isLoading
           ? <Router>
               <div className="app-container">
-                <SidebarNav />
+                <SidebarNav spWebUrl={props.spWebUrl} />
                 <div className="content-container">
                   <img src={require('../../assets/images/world.svg')} className='img-bg' />
                   <Header />

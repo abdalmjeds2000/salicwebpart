@@ -66,7 +66,7 @@ function Number(props) {
         <div style={{overflowX: 'auto'}}>
           <Table 
             columns={props.EventsColumns} 
-            dataSource={props.EventsDataTable?.filter(nextEvnt => new Date(nextEvnt.Date).getTime() > new Date().getTime())}
+            dataSource={props.EventsDataTable?.filter(nextEvnt => new Date(nextEvnt.Date).getTime() > new Date().getTime()).slice(0, 5)}
             pagination={false}
           />
         </div>
