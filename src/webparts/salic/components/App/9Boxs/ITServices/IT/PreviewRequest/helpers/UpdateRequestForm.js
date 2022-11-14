@@ -92,7 +92,7 @@ function UpdateRequestForm(props) {
           </Form.Item>
         </Section>
         <Section SectionTitle="Priority">
-          <Form.Item name="Priority" initialValue={props.RequestData?.Priority}  style={{marginBottom: 5}}>
+          <Form.Item name="Priority" initialValue={props.RequestData?.Priority} style={{marginBottom: 5}}>
             <Select placeholder="Priority" size="middle" disabled={!(IsUpdatable > -1)}>
               <Select.Option value="1">Normal</Select.Option>
               <Select.Option value="2">Critical</Select.Option>

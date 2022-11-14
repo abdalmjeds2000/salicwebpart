@@ -20,7 +20,6 @@ import DeleteAction from './helpers/DeleteAction';
 import ReOpenAction from './helpers/ReOpenAction';
 
 
-
 function PreviewITServiceRequest() {
   let { id } = useParams();
   const { user_data, defualt_route } = useContext(AppCtx);
@@ -93,7 +92,6 @@ function PreviewITServiceRequest() {
     }
     setBtnLoader(false);
 }
-
 
   var requester = requestData.Requester;
   var onbehalf = requestData.OnBehalfOf;
