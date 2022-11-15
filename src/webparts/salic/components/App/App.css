@@ -25,14 +25,18 @@ ul {
   margin: 0 !important;
   padding: 0;
 }
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0 !important;
-  color: var(--text-color) !important;
+  color: var(--main-color) !important;
   line-height: 1;
 }
 p {
+  color: var(--text-color) !important;
   line-height: normal;
+  margin-bottom: 0 !important;
 }
+
+
 a { text-decoration: none; }
 a:hover, a:focus, a:active { color: var(--text-color) !important; }
 body {
@@ -125,6 +129,28 @@ img.img-bg {
 
 
 
+
+
+/* standard app page */
+.standard-page {
+  padding: 25px;
+  position: relative;
+  top: 85px;
+  margin-bottom: 85px;
+  min-height: calc(100vh - 85px);
+}
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+  .standard-page {
+    padding: 15px;
+  }
+}
+
+
+@media screen and (min-width: 0px) and (max-width: 799px) {
+  .standard-page {
+    padding: 10px;
+  }
+}
 /* Custom Scroll Bar */
 /* width */
 ::-webkit-scrollbar {

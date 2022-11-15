@@ -17,7 +17,7 @@ function EmployeeAnalyticsDashboard() {
         <p>Employee Analytics Dashboard</p>
       </HistoryNavigation>
       
-      <div className='services-page-container'>
+      <div className='folder-explorer-container'>
 
         <div className='power-bi-iframe-container'>
           <iframe 

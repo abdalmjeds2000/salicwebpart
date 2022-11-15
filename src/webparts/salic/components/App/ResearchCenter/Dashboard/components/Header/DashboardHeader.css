@@ -1,5 +1,7 @@
 .research_header-container {
   display: flex;
+  position: relative;
+  top: 85px;
   gap: 5px;
   justify-content: end;
   background-color: #fff;
@@ -15,10 +17,11 @@
   align-items: center;
   justify-content: center;
   color: var(--main-color);
+  background-color: var(--third-color);
   font-size: 1rem;
   transition: 0.3s;
 }
 .research_header-container .header-item:hover {
   cursor: pointer;
-  background-color: var(--third-color);
+  transform: scale(1.015);
 }

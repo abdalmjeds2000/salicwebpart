@@ -18,7 +18,7 @@ function SubmitCancel(props) {
         : null
       }
       <Col>
-        <Button danger type="ghost" onClick={() => navigate(`${defualt_route}${props.backTo || 'admin-services'}`)}>
+        <Button danger type="ghost" onClick={() => navigate(`${defualt_route}${props.backTo || '/admin-services'}`)}>
           Cancel
         </Button>
       </Col>

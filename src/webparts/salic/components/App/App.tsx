@@ -104,27 +104,27 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             axios({
               method: 'POST', url: `https://salicapi.com/api/attendance/Get`,
               data: {
-                Email: response.data.Data.Mail,
+                Email: response.data?.Data.Mail,
                 Month: new Date().getMonth() + 1,
                 Year: new Date().getUTCFullYear(),
                 status: -1
               }
             })
-              .then((res) => setLatestAttendance(res.data.Data))
+              .then((res) => setLatestAttendance(res.data?.Data))
               .catch((error) => { console.log(error) })
             return response
           })
           // GetNotifications Count #1
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
-              .then((res) => { setNotificationsCount(res.data.Data) })
+              .then((res) => { setNotificationsCount(res.data?.Data) })
               .catch((error) => { console.log(error) })
             return response
           })
           // Get Notifications Count #2
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}` })
-              .then((res) => { setNotificationsCount(prev => prev + res.data.Data) })
+              .then((res) => { setNotificationsCount(prev => prev + res.data?.Data) })
               .catch((error) => { console.log(error) })
             return response
           })
@@ -297,34 +297,37 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     summaryByRequestType: summaryByRequestType, 
     setSummaryByRequestType,
     ITRequests: ITRequests, 
-    setITRequests
+    setITRequests,
+
   };
 
   return (
-    <AppCtx.Provider value={AppContextProviderSample}>
-      {
-        !isLoading
-          ? <Router>
-              <div className="app-container">
-                <SidebarNav spWebUrl={props.spWebUrl} />
-                <div className="content-container">
-                  <img src={require('../../assets/images/world.svg')} className='img-bg' />
-                  <Header />
-                  <AppRoutes {...props} />
+    <React.StrictMode>
+      <AppCtx.Provider value={AppContextProviderSample}>
+        {
+          !isLoading
+            ? <Router>
+                <div className="app-container">
+                  <SidebarNav spWebUrl={props.spWebUrl} />
+                  <div className="content-container">
+                    <img src={require('../../assets/images/world.svg')} className='img-bg' />
+                    <Header />
+                    <AppRoutes {...props} />
+                  </div>
                 </div>
-              </div>
-            </Router>
+              </Router>
+            : null
+        }
+        {
+          !isGlobeReady
+          ? <div className="loader">
+              <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
+              <div></div>
+            </div>
           : null
-      }
-      {
-        !isGlobeReady
-        ? <div className="loader">
-            <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
-            <div></div>
-          </div>
-        : null
-      }
-    </AppCtx.Provider>
+        }
+      </AppCtx.Provider>
+    </React.StrictMode>
   )
 }
 export default App;

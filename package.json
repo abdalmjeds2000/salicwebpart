@@ -34,6 +34,7 @@
     "axios": "^0.27.2",
     "draft-js": "^0.11.7",
     "infinite-react-carousel": "^1.2.11",
+    "insane": "^2.6.2",
     "moment-hijri": "^2.1.2",
     "office-ui-fabric-react": "7.185.7",
     "plyr-react": "^5.1.0",

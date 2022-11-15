@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './CommunityNews.css';
-import NewsBox from './NewsBox';
+import ArticleBox from '../Global/ArticleBox/ArticleBox';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { Pagination } from 'antd';
@@ -34,15 +34,12 @@ function CommunityNews() {
       <div className='news-boxs'>
         {filteredNewslist?.map((box, i) => {
           return (
-            <NewsBox 
+            <ArticleBox 
               key={i}
-              AuthorImg={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${box.Author?.EMail}`}
-              AuthorName={box.Author?.Title}
-              AuthorTitle={box.Author?.JobTitle}
-              NewTitle={box.Subject}
-              NewDescription ={box.Description?.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
+              Title={box.Subject}
+              Description ={box.Description?.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
               Poster={box.AttachmentFiles[0]?.ServerRelativeUrl}
-              Id={box.Id}
+              To={`/community-news/${box.Id}`}
             />
           )
         })}

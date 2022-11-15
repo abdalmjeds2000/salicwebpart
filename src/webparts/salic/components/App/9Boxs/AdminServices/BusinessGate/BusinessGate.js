@@ -24,8 +24,6 @@ function BusinessGate() {
   const [loading, setLoading] = useState(false)
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
-
-
   const [dataSource, setDataSource] = useState([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
 
 
@@ -77,6 +75,7 @@ function BusinessGate() {
     }
     setLoading(false);
   }
+
   useEffect(() => {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
@@ -85,7 +84,7 @@ function BusinessGate() {
     } else {
       setLoading(false);
     }
-  }, [user_data])
+  }, [user_data]);
 
 
 

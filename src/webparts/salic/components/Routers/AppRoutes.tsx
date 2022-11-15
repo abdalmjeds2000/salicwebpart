@@ -72,6 +72,15 @@ import NewResearchRequest from '../App/ResearchRequests/NewResearchRequest/NewRe
 import MyResearchRequests from '../App/ResearchRequests/MyRequests/MyResearchRequests';
 import AllResearchRequests from '../App/ResearchRequests/AllRequests/AllResearchRequests';
 import PreviewResearchRequest from '../App/ResearchRequests/PreviewRequest/PreviewResearchRequest';
+import ArticlePage from '../App/ResearchCenter/Dashboard/components/ArticlePage/ArticlePage';
+
+import ManageDashboardData from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/ManageDashboardData';
+import ResearchArticles from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchArticles';
+import ResearchNews from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchNews';
+import ResearchCountry from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchCountry';
+import ResearchPulse from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchPulse';
+import CommodityPrices from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/CommodityPrices';
+
 
 import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
 
@@ -83,6 +92,7 @@ import SPSearch from '../App/SearchPage/SPSearch';
 import CorporateObjectiveKPIs from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
 
 import ResearchDashboard from '../App/ResearchCenter/Dashboard/ResearchDashboard';
+import CategoryPage from '../App/ResearchCenter/Dashboard/components/CategoryPage/CategoryPage';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
@@ -165,9 +175,12 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/book-meeting-room/rooms-calender`} element={<RoomsCalender />} />
       </Route>
       <Route path={`${defualtRoute}/eSignature-document`} element={<ESignatureTool />} />
-      <Route path={`${defualtRoute}/research-center`} element={<ResearchDashboard />} />
       
-
+      <Route path={`${defualtRoute}/research-center`}>
+        <Route index element={<ResearchDashboard />} />
+        <Route path={`${defualtRoute}/research-center/categories/:category`} element={<CategoryPage />} />
+        <Route path={`${defualtRoute}/research-center/:id`} element={<ArticlePage />} />
+      </Route>
 
       <Route path={`${defualtRoute}/org-doc-investment`} element={<Investment />} />
       <Route path={`${defualtRoute}/org-doc-finance`} element={<Finance />} />
@@ -211,6 +224,15 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/research-requests/all-research-requests`} element={<AllResearchRequests />} />
         <Route path={`${defualtRoute}/research-requests/my-research-requests`} element={<MyResearchRequests />} />
         <Route path={`${defualtRoute}/research-requests/:id`} element={<PreviewResearchRequest />} />
+      </Route>
+
+      <Route path={`${defualtRoute}/manage-research-library`}>
+        <Route index element={<ManageDashboardData />} />
+        <Route path={`${defualtRoute}/manage-research-library/research-articles`} element={<ResearchArticles />} />
+        <Route path={`${defualtRoute}/manage-research-library/research-news`} element={<ResearchNews />} />
+        <Route path={`${defualtRoute}/manage-research-library/research-pulse`} element={<ResearchPulse />} />
+        <Route path={`${defualtRoute}/manage-research-library/research-country`} element={<ResearchCountry />} />
+        <Route path={`${defualtRoute}/manage-research-library/commodity-prices`} element={<CommodityPrices />} />
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />

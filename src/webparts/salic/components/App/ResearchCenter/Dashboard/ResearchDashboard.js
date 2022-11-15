@@ -1,17 +1,108 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Dashboard.css';
 import DashboardHeader from './components/Header/DashboardHeader';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import { Col, Row, Spin } from 'antd';
+import ResearchSection from './components/ResearchSection/ResearchSection';
+import NewsSection from './components/NewsSection/NewsSection';
+import PulseSection from './components/PulseSection/PulseSection';
+import CountrySection from './components/CountrySection/CountrySection';
+import CommodityPrices from './components/CommodityPrices/CommodityPrices';
+import GetResearchArticles from './API/GetResearchArticles';
+import GetResearchNews from './API/GetResearchNews';
+import GetResearchPulse from './API/GetResearchPulse';
+import GetResearchCountries from './API/GetResearchCountries';
+
+import { AppCtx } from '../../App';
+import { LoadingOutlined } from '@ant-design/icons';
+
+
 
 function ResearchDashboard() {
+  const { user_data } = useContext(AppCtx)
+  const [loading, setLoading] = React.useState(true);
+  const [researchArticlesData, setResearchArticlesData] = React.useState([]);
+  const [researchNewsData, setResearchNewsData] = React.useState([]);
+  const [researchPulseData, setResearchPulseData] = React.useState([]);
+  const [researchCountriesData, setResearchCountriesData] = React.useState([]);
+
+
+  const FetchData = async () => {
+    const responseArticles = await GetResearchArticles();
+    setResearchArticlesData(responseArticles);
+    const responseNews = await GetResearchNews();
+    setResearchNewsData(responseNews);
+    const responsePulse = await GetResearchPulse();
+    setResearchPulseData(responsePulse);
+    const responseCountries = await GetResearchCountries();
+    setResearchCountriesData(responseCountries);
+    
+    setLoading(false);
+  }
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0 && researchArticlesData.length === 0) {
+      FetchData();
+    }
+  }, [user_data]);
+
+
   return (
     <>
       <HistoryNavigation>
         <p>Research Center</p>
       </HistoryNavigation>
+      <DashboardHeader />
 
       <div className='research-center_dashboard-container'>
-        <DashboardHeader />
+        {
+          !loading
+          ? (
+              <div>
+                <Row gutter={[30, 30]}>
+                  <Col xs={24} sm={24} md={12} lg={8}>
+                    <ResearchSection 
+                      data={researchArticlesData.filter(r => r.ResearchType === "Latest")} 
+                      sectionTitle="Latest Research" 
+                      id="1"
+                      category="Latest"
+                    />
+                  </Col>
+                  <Col xs={24} sm={24} md={12} lg={8}>
+                    <ResearchSection 
+                      data={researchArticlesData.filter(r => r.ResearchType === "Primary")} 
+                      sectionTitle="Primary Research" 
+                      id="2" 
+                      category="Primary"
+                    />
+                  </Col>
+                  <Col xs={24} sm={24} md={12} lg={8}>
+                    <ResearchSection 
+                      data={researchArticlesData.filter(r => r.ResearchType === "Secondary")}
+                      sectionTitle="Secondary Research" 
+                      id="3" 
+                      category="Secondary"
+                    />
+                  </Col>
+                  <Col xs={24} sm={24} md={12} lg={14}>
+                    <NewsSection data={researchNewsData} sectionTitle="Top News" />
+                  </Col>
+                  <Col xs={24} sm={12} md={12} lg={5}>
+                    <PulseSection data={researchPulseData} sectionTitle="Pulse" />
+                  </Col>
+                  <Col xs={24} sm={12} md={12} lg={5}>
+                    <CountrySection data={researchCountriesData} sectionTitle="Country Outlook" />
+                  </Col>
+                  <Col xs={24} sm={24} md={24} lg={24}>
+                    <CommodityPrices />
+                  </Col>
+                </Row>
+              </div>
+            )
+            : <div style={{display: 'flex', justifyContent: 'center', margin: 25}}>
+                <Spin indicator={<LoadingOutlined spin />} />
+              </div>
+        }
+        
       </div>
     </>
   )

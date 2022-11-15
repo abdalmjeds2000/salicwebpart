@@ -1,0 +1,38 @@
+.research-news-container {
+  max-height: 350px;
+  border-radius: 10px;
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+@media screen and (max-width: 990px) {
+  .research-news-container {
+    max-height: 325px;
+  }
+}
+.research-news-container::-webkit-scrollbar {
+  display: none;
+}
+.research-center_dashboard-container .arrow.arrow-btm {
+  top: calc(100% - 50px);
+}
+.research-center_dashboard-container .bottom-scroll-icon {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ellipsis-paragraph {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.stop-ellipsis {
+  overflow: initial;
+  text-overflow: initial;
+  display: initial;
+  -webkit-line-clamp: initial;
+  line-clamp: initial;
+  -webkit-box-orient: initial;
+}
