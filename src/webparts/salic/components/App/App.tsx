@@ -12,6 +12,7 @@ import GetAllNews from '../API/News/GetAllNews.js';
 import GetAllNotes from '../API/Notes/GetAllNotes';
 import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter';
 import GetAllEvents from '../API/GetAllEvents/GetAllEvents';
+import GetPerformance from './Home/First/Left/NumbersAttendance/API/GetPerformance';
 
 
 
@@ -88,8 +89,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       .then((user) => {
         axios({
           method: 'GET',
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
         })
@@ -114,6 +115,14 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               .catch((error) => { console.log(error) })
             return response
           })
+          // Get Performance KPI's
+          .then(response => {
+            GetPerformance(response.data?.Data?.PIN).then((res: any) => setPerformance(res?.data)).catch((err: any) => console.log(err))
+            return response
+          })
+          // Disable Loader
+          .then((response) => {setIsLoading(false); return response})
+
           // GetNotifications Count #1
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
@@ -135,6 +144,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               .catch((error) => { console.log(error) })
             return response
           })
+          
           //Get eSign Requests
           .then((response) => {
             axios({
@@ -197,8 +207,8 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             .catch((error) => { console.log(error) })
             return response
           })
-          // Disable Loader
-          .then(() => setIsLoading(false))
+          
+          
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
@@ -214,9 +224,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
         method: 'GET',
         url: 'https://vasturiano.github.io/react-globe.gl/example/datasets/ne_110m_admin_0_countries.geojson'
       })
-      .then(res => {
-        setGlobeData(res.data?.features)
-      })
+      .then(res => setGlobeData(res.data?.features))
       .catch((error) => { console.log(error) })
 
 
@@ -319,7 +327,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
             : null
         }
         {
-          !isGlobeReady
+          !isGlobeReady || Object.keys(performance).length === 0
           ? <div className="loader">
               <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
               <div></div>

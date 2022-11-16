@@ -19,3 +19,22 @@
     padding: 0 20px 20px 20px;
   }
 }
+
+
+
+
+/* Pulse and country section */
+.research-scrollable-container {
+  max-height: 55rem;
+  scroll-behavior: smooth;
+  overflow: auto;
+  transition: .3s;
+}
+@media screen and (max-width: 990px){
+  .research-scrollable-container {
+    max-height: 40rem;
+  }
+}
+.research-scrollable-container::-webkit-scrollbar {
+  display: none;
+}

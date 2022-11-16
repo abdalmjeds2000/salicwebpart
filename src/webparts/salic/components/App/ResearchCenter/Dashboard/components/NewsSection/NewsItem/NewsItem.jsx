@@ -11,7 +11,8 @@ function NewsItem({ body, createdDate }) {
   const [counter, setCounter] = useState(0);
 
   var newsStyle = {
-    backgroundColor: '#f3f8ff',
+    backgroundColor: '#fff',
+    border: '1px solid #efefef',
     padding: '10px',
     borderRadius: '10px',
     marginBottom: 10

@@ -48,7 +48,7 @@ function CategoryPage() {
                   data.map((article, i) => {
                     let _CardImg = '';
                     article.AttachmentFiles?.forEach(file => {
-                      if(["jpeg", "jpg", "png", "gif", "tiff", "raw"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
+                      if(["jpeg", "jpg", "png", "gif", "tiff", "raw", "webp", "avif", "bpg", "flif"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
                         _CardImg = file?.ServerRelativePath?.DecodedUrl;
                       }
                       });
@@ -60,6 +60,7 @@ function CategoryPage() {
                           Description ={article.Body}
                           Poster={_CardImg}
                           To={`/research-center/${article.Id}`}
+                          date={article.Created}
                           customImgStyle={{backgroundSize: 'cover'}}
                         />
                       </Col>

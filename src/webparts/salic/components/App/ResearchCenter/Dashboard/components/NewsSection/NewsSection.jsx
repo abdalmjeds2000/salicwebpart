@@ -20,7 +20,7 @@ function NewsSection({ sectionTitle, data }) {
       {
         data?.length !== 0 || !data
         ? (
-            <div id="research-news-slider" className='research-news-container'>
+            <div id="research-news-slider" className='research-scrollable-container'>
               {data?.map((article, i) => (
                 <NewsItem key={i} body={article.Body} createdDate={article.Created} />
               ))}

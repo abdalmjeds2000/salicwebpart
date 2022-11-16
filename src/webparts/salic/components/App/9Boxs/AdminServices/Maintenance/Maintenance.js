@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Form, Input, message, Row, Spin } from 'antd';
+import { Form, Input, message, Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -10,7 +10,7 @@ import MaintenanceRequest from './API/MaintenanceRequest';
 import GetMaintenanceRequestById from './API/GetMaintenanceRequestById';
 import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
-moment.locale('en')
+moment.locale('en');
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -63,6 +63,7 @@ function Maintenance() {
     }
     setLoading(false);
   }
+
   useEffect(() => {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
@@ -84,6 +85,9 @@ function Maintenance() {
         ? <FormPage
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             pageTitle={!id ? 'New Maintenance Request' : 'Maintenance Request'}
+            RequestType="Maintenance"
+            ActionModalTitle="Maintenance Request"
+            IsAdminRequest={true}
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
             UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}

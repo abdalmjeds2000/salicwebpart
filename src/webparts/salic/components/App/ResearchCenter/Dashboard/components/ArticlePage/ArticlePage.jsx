@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect} from 'react';
 import './ArticlePage.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Image, message, Spin, Typography } from 'antd';
+import { Divider, Image, message, Spin, Typography } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import GetArticleById from '../../API/GetArticleById';
@@ -43,7 +43,7 @@ function ArticlePage() {
     <>
     <HistoryNavigation>
       <a onClick={() => navigate(defualt_route+'/research-center')}>Research Center</a>
-      <p>Research Article</p>
+      <p>Preview Research</p>
     </HistoryNavigation>
 
     {
@@ -60,6 +60,15 @@ function ArticlePage() {
               <Typography.Text style={{fontSize: '1.2rem'}}><br/>
                 <div dangerouslySetInnerHTML={{__html: article.Body}}></div>
               </Typography.Text>
+              {
+                article.Hyperlink != null && (
+                  <>
+                    <Divider />
+                    <Typography.Text strong>Links:</Typography.Text>
+                    <div dangerouslySetInnerHTML={{__html: article.Hyperlink}}></div>
+                  </>
+                )
+              }
             </div>
           </div>
         </div>

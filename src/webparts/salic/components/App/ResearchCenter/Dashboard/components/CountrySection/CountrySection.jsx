@@ -1,5 +1,4 @@
 import React from 'react';
-import './CountrySection.css';
 import { Col, Row, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import Card from '../Card/Card';
@@ -20,18 +19,19 @@ function CountrySection({ sectionTitle, data }) {
       {
         data?.length !== 0 || !data 
         ? (
-          <div id='country-section' className='research-pulse-container'>
+          <div id='country-section' className='research-scrollable-container'>
             <Row gutter={[20, 20]}>
             {
               data.map((country, i) => {
                 let _CardImg = '';
                 let _CardDocument = '';
                   country.AttachmentFiles?.forEach(file => {
-                    if(["jpeg", "jpg", "png", "gif", "tiff", "raw"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
+                    if(["jpeg", "jpg", "png", "gif", "tiff", "raw", "webp", "avif", "bpg", "flif"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
                       _CardImg = file?.ServerRelativePath?.DecodedUrl;
                     } else if(["pdf", "doc", "docx", "html", "htm","xls", "xlsx", "txt", "ppt", "pptx", "ods"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
                       _CardDocument = "https://salic.sharepoint.com" + file?.ServerRelativePath?.DecodedUrl;
                     }
+                    if(_CardDocument === '' && country.AttachmentLink != null) _CardDocument = country.AttachmentLink
                   });
                 return (
                   // <Col xs={12} sm={12} md={12} lg={12} >

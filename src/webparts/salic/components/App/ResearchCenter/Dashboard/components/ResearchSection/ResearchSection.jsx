@@ -24,7 +24,7 @@ function ResearchSection({sectionTitle, id, data, category}) {
   }
 
   let _mainCard = data?.filter(row => row.IsFeature)[0];
-  let _secondaryCards = data?.filter(row => !row.IsFeature);
+  let _secondaryCards = data?.filter(row => row.Id != _mainCard.Id);
 
   return (
     <>
@@ -41,13 +41,13 @@ function ResearchSection({sectionTitle, id, data, category}) {
             <>
               <MainArticle articleId={_mainCard?.Id} imgSrc={_mainCard?.AttachmentFiles[0]?.ServerRelativePath?.DecodedUrl} title={_mainCard?.Title} body={_mainCard?.Body} />
               <div className='secondary-articles-container'>
-                <LeftOutlined onClick={slideLeft} className="prev-icon arrow" />
+                { _secondaryCards?.length > 3 && <LeftOutlined onClick={slideLeft} className="prev-icon arrow" /> }
                 <div id={`slider-${id}`} className='slider'>
                   {_secondaryCards?.map((article, i) => (
                     <SecondaryArticles articleId={article?.Id} key={i} imgSrc={article.AttachmentFiles[0]?.ServerRelativePath?.DecodedUrl} title={article.Title} />
                   ))}
                 </div>
-                <RightOutlined onClick={slideRight} className="next-icon arrow" />
+                { _secondaryCards?.length > 3 && <RightOutlined onClick={slideRight} className="next-icon arrow" /> }
               </div>
             </>
           )

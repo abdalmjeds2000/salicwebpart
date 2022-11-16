@@ -16,15 +16,12 @@
   background-size: cover;
   width: 100%;
   cursor: pointer;
-  height: 6.4rem;
+  height: 10rem;
   transition: .3s;
 }
 @media screen and (max-width: 990px){
   .custom-img-card .card-container {
-    height: 8.5rem;
-  }
-  .research-pulse-container {
-    max-height: 450px;
+    height: 12.5rem;
   }
 }
 #country-section .custom-img-card .card-container.full-w-h {

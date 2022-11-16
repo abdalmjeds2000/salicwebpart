@@ -7,8 +7,11 @@
 }
 .content-services-request .header {
   background-color: var(--main-color);
-  padding: 15px 25px;
+  padding: 10px 20px;
   border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .content-services-request .header h1 {
   color: #fff !important;

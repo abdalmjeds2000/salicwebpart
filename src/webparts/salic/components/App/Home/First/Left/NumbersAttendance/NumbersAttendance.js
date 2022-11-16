@@ -24,21 +24,21 @@ const performaceGrade = (grade) => {
 }
 
 function NumbersAttendance() {
-  const { latest_attendance, user_data, performance, setPerformance, all_events } = useContext(AppCtx);
+  const { latest_attendance, user_data, performance, all_events } = useContext(AppCtx);
   const [nextEvents, setNextEvents] = useState([]);
   
-  async function fetchData() {
-    const response = await GetPerformance(user_data.Data?.PIN);
-    if(response.status === 200) {
-      setPerformance(response?.data)
-    }
-  }
+  // async function fetchData() {
+  //   const response = await GetPerformance(user_data.Data?.PIN);
+  //   if(response.status === 200) {
+  //     setPerformance(response?.data)
+  //   }
+  // }
   useEffect(() => {
     setNextEvents( all_events?.filter(e => new Date(e.Date).toJSON().slice(0, 10) > new Date().toJSON().slice(0, 10)).reverse() )
 
-    if(Object.keys(performance).length === 0 && Object.keys(user_data).length !== 0) {
-      fetchData();
-    }
+    // if(Object.keys(performance).length === 0 && Object.keys(user_data).length !== 0) {
+    //   fetchData();
+    // }
   }, [user_data, all_events])
 
 

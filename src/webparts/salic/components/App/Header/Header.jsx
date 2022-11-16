@@ -11,7 +11,7 @@ const Navbar = (props) => {
 
   return ( 
     <div className="navbar" style={props.style}>
-      <img src={logo} alt="logo" className="logoSALIC" /* onClick={() => navigate(defualt_route+'/home')} */ />
+      <img src={logo} alt="logo" className="logoSALIC" onClick={() => navigate(defualt_route+'/home')} />
       <img src={VisionLogo} alt='2030 Vision Logo' className="logo_2030" />
       {props.children}
     </div>
