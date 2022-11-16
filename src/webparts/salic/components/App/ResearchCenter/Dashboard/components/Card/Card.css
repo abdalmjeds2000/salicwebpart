@@ -1,4 +1,5 @@
 .custom-img-card {
+  position: relative;
   border-radius: 10px;
   transition: .3s;
   overflow: hidden;
@@ -29,19 +30,24 @@
   background-repeat: round;
 }
 .custom-img-card .card-container .content {
-  display: none;
-  padding: 15px;
+  display: flex;
+  padding: 15px 10px;
   height: inherit;
   width: inherit;
-  background-color: #00000090;
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%);
   flex-direction: column;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-end;
+  font-size: 1.1rem;
   transition: .3s;
 }
 .custom-img-card:hover .card-container {
   transform: scale(1.04);
 }
+
 .custom-img-card:hover .card-container .content {
-  display: flex;
+  font-size: 1.2rem;
+  font-weight: 500;
+  background-color: rgb(0,0,0,.5);
 }

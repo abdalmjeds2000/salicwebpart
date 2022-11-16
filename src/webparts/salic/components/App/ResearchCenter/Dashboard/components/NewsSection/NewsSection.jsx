@@ -20,9 +20,9 @@ function NewsSection({ sectionTitle, data }) {
       {
         data?.length !== 0 || !data
         ? (
-            <div id="research-news-slider" className='research-scrollable-container'>
+            <div id="research-news-slider" className='research-scrollable-container research-news-container'>
               {data?.map((article, i) => (
-                <NewsItem key={i} body={article.Body} createdDate={article.Created} />
+                <NewsItem key={i} body={article.Body} title={article.Title} createdDate={article.Created} />
               ))}
               <DownOutlined onClick={slideBottom} className="bottom-scroll-icon arrow arrow-btm" />
             </div>

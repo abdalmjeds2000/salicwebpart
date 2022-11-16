@@ -12,12 +12,12 @@ function DashboardHeader() {
   return (
     <div className='research_header-container'>
       <HeaderButton
-        title="Research Requests"
+        title="Submit Research Request"
         icon={<FileSearchOutlined style={{color: 'var(--main-color)'}} />}
         onClick={() => navigate(defualt_route+'/research-requests')} 
       />
       <HeaderButton
-        title="Manage Research Library"
+        title="Manage Library"
         icon={<SettingOutlined style={{color: 'var(--main-color)'}} />}
         onClick={() => navigate(defualt_route+'/manage-research-library')} 
       />

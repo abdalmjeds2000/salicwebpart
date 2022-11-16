@@ -1,3 +1,9 @@
+.research-news-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
 .research-center_dashboard-container .arrow.arrow-btm {
   top: calc(100% - 50px);
 }
@@ -10,8 +16,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
 }
 .stop-ellipsis {

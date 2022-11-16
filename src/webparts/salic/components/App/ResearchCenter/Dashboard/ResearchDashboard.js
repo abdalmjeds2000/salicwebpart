@@ -8,10 +8,12 @@ import NewsSection from './components/NewsSection/NewsSection';
 import PulseSection from './components/PulseSection/PulseSection';
 import CountrySection from './components/CountrySection/CountrySection';
 import CommodityPrices from './components/CommodityPrices/CommodityPrices';
+import KnowledgeSection from './components/KnowledgeSection/KnowledgeSection';
 import GetResearchArticles from './API/GetResearchArticles';
 import GetResearchNews from './API/GetResearchNews';
 import GetResearchPulse from './API/GetResearchPulse';
 import GetResearchCountries from './API/GetResearchCountries';
+import GetResearchKnowledge from './API/GetResearchKnowledge';
 
 import { AppCtx } from '../../App';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -25,7 +27,8 @@ function ResearchDashboard() {
   const [researchNewsData, setResearchNewsData] = React.useState([]);
   const [researchPulseData, setResearchPulseData] = React.useState([]);
   const [researchCountriesData, setResearchCountriesData] = React.useState([]);
-
+  const [knowledgeData, setKnowledgeData] = React.useState([]);
+  
 
   const FetchData = async () => {
     const responseArticles = await GetResearchArticles();
@@ -36,6 +39,8 @@ function ResearchDashboard() {
     setResearchPulseData(responsePulse);
     const responseCountries = await GetResearchCountries();
     setResearchCountriesData(responseCountries);
+    const responseKnowledge = await GetResearchKnowledge();
+    setKnowledgeData(responseKnowledge);
     
     setLoading(false);
   }
@@ -49,7 +54,7 @@ function ResearchDashboard() {
   return (
     <>
       <HistoryNavigation>
-        <p>Research Center</p>
+        <p>Research Library</p>
       </HistoryNavigation>
       <DashboardHeader />
 
@@ -59,14 +64,6 @@ function ResearchDashboard() {
           ? (
               <div>
                 <Row gutter={[30, 30]}>
-                  <Col xs={24} sm={24} md={12} lg={8}>
-                    <ResearchSection 
-                      data={researchArticlesData.filter(r => r.ResearchType === "Latest")} 
-                      sectionTitle="Latest Research" 
-                      id="1"
-                      category="Latest"
-                    />
-                  </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
                     <ResearchSection 
                       data={researchArticlesData.filter(r => r.ResearchType === "Primary")} 
@@ -83,14 +80,30 @@ function ResearchDashboard() {
                       category="Secondary"
                     />
                   </Col>
+                  <Col xs={24} sm={24} md={12} lg={8}>
+                    <ResearchSection 
+                      data={researchArticlesData.filter(r => r.ResearchType === "AdHoc")} 
+                      sectionTitle="Ad Hoc Research" 
+                      id="1"
+                      category="AdHoc"
+                    />
+                  </Col>
+                  
                   <Col xs={24} sm={24} md={12} lg={14}>
-                    <NewsSection data={researchNewsData} sectionTitle="Top News" />
+                    <NewsSection data={researchNewsData} sectionTitle="Weakly News" />
                   </Col>
                   <Col xs={24} sm={12} md={12} lg={5}>
                     <PulseSection data={researchPulseData} sectionTitle="Pulse" />
                   </Col>
                   <Col xs={24} sm={12} md={12} lg={5}>
                     <CountrySection data={researchCountriesData} sectionTitle="Country Outlook" />
+                  </Col>
+                  
+                  <Col xs={24} sm={24} md={24} lg={24}>
+                    <KnowledgeSection 
+                      data={knowledgeData} 
+                      sectionTitle="Knowledge Center" 
+                    />
                   </Col>
                   <Col xs={24} sm={24} md={24} lg={24}>
                     <CommodityPrices />

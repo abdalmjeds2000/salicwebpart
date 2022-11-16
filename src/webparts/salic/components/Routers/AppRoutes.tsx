@@ -93,6 +93,9 @@ import CorporateObjectiveKPIs from '../App/CorporateObjectiveKPIs/CorporateObjec
 
 import ResearchDashboard from '../App/ResearchCenter/Dashboard/ResearchDashboard';
 import CategoryPage from '../App/ResearchCenter/Dashboard/components/CategoryPage/CategoryPage';
+import PulseSection from '../App/ResearchCenter/Dashboard/components/CardsPage/PulseCardsPage';
+import CountryCardsPage from '../App/ResearchCenter/Dashboard/components/CardsPage/CountryCardsPage';
+import KnowledgeCardsPage from '../App/ResearchCenter/Dashboard/components/CardsPage/KnowledgeCardsPage';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
@@ -178,6 +181,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       
       <Route path={`${defualtRoute}/research-center`}>
         <Route index element={<ResearchDashboard />} />
+        <Route path={`${defualtRoute}/research-center/country`} element={<CountryCardsPage />} />
+        <Route path={`${defualtRoute}/research-center/pulse`} element={<PulseSection />} />
+        <Route path={`${defualtRoute}/research-center/knowledge`} element={<KnowledgeCardsPage />} />
         <Route path={`${defualtRoute}/research-center/categories/:category`} element={<CategoryPage />} />
         <Route path={`${defualtRoute}/research-center/:id`} element={<ArticlePage />} />
       </Route>

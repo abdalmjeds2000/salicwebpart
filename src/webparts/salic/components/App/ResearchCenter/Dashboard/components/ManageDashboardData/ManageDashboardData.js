@@ -22,7 +22,7 @@ function ManageDashboardData() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Center</a>
+        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
         <p>Manage Research Library Content</p>
       </HistoryNavigation>
       <div className='services-page-container'>

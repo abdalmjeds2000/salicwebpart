@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Col, Row, Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import Card from '../Card/Card';
 import EmptySection from '../EmptySection/EmptySection';
+import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../../../../App';
 
 
 
 function CountrySection({ sectionTitle, data }) {
+  const { defualt_route } = useContext(AppCtx);
+  const navigate = useNavigate();
 
   const slideBottom = () => {
     var newsSlider = document.getElementById(`country-section`);
@@ -15,9 +19,14 @@ function CountrySection({ sectionTitle, data }) {
 
   return (
     <>
-      <Typography.Title level={3} style={{lineHeight: 2.5, whiteSpace: 'nowrap'}}>{sectionTitle}</Typography.Title>
+      <Row justify="space-between" align="middle">
+        <Typography.Title level={3} style={{lineHeight: 2.5, whiteSpace: 'nowrap'}}>{sectionTitle}</Typography.Title>
+        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/country`)}>
+          See All
+        </Typography.Link>
+      </Row>
       {
-        data?.length !== 0 || !data 
+        data?.slice(0, 10)?.length !== 0 || !data 
         ? (
           <div id='country-section' className='research-scrollable-container'>
             <Row gutter={[20, 20]}>

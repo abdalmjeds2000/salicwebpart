@@ -32,7 +32,7 @@
 }
 @media screen and (max-width: 990px){
   .research-scrollable-container {
-    max-height: 40rem;
+    max-height: calc(20rem + 10px);
   }
 }
 .research-scrollable-container::-webkit-scrollbar {

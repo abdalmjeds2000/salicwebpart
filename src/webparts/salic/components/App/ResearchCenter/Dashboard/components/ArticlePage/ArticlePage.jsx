@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect} from 'react';
 import './ArticlePage.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Divider, Image, message, Spin, Typography } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Divider, Image, message, Spin, Tooltip, Typography } from 'antd';
+import { LoadingOutlined, PaperClipOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import GetArticleById from '../../API/GetArticleById';
 import { AppCtx } from '../../../../App';
@@ -57,9 +57,20 @@ function ArticlePage() {
             <div className='body'>
               <Typography.Title level={3}>{article.Title}</Typography.Title>
               <Typography.Text type="secondary">by <b>{article.Author?.Title}</b>, at {moment(article.Created).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>
+              <br />
+              { 
+                article.FullReportLink && 
+                <Typography.Link 
+                  onClick={() => window.open(article.FullReportLink, '_blank')}>
+                    <Tooltip title="Click to Download">
+                      <PaperClipOutlined /> Download Full Report
+                    </Tooltip>
+                </Typography.Link> 
+              }
               <Typography.Text style={{fontSize: '1.2rem'}}><br/>
                 <div dangerouslySetInnerHTML={{__html: article.Body}}></div>
               </Typography.Text>
+              { article.PublishedDate && <Typography.Text type="secondary">Published at {moment(article.PublishedDate).format('MM/DD/YYYY')}</Typography.Text> }
               {
                 article.Hyperlink != null && (
                   <>
@@ -73,7 +84,7 @@ function ArticlePage() {
           </div>
         </div>
         )
-      : <div style={{display: 'flex', justifyContent: 'center'}}>
+      : <div style={{display: 'flex', justifyContent: 'center', margin: '100px 25px 25px 25px'}}>
           <Spin indicator={<LoadingOutlined spin />} />
         </div>
     }
