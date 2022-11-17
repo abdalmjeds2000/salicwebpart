@@ -89,13 +89,3 @@
 
 
 
-@media screen and (min-width: 1000px) {
-  .performance-antd-modal {
-    width: 900px !important;
-  }
-}
-@media screen and (min-width: 1500px) {
-  .performance-antd-modal {
-    width: 1100px !important;
-  }
-}

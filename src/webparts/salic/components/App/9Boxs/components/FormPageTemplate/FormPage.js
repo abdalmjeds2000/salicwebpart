@@ -3,7 +3,6 @@ import './FormPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { AppCtx } from '../../../App';
-import AddAction from '../../AdminServices/components/AddAction';
 
 
 
@@ -14,7 +13,7 @@ function FormPageTemplate(props) {
       <div className="content-services-request">
         <div className="header">
           <h1>{props.pageTitle}</h1>
-          { props.IsAdminRequest && <AddAction RequestType={props.RequestType} ModalTitle={props.ActionModalTitle} /> }
+          { props.Header }
         </div>
         
         <div className="content">

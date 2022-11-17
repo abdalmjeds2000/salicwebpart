@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Typography } from 'antd';
 import moment from 'moment';
-import { CalendarOutlined, CaretDownOutlined, CaretUpOutlined, ReadOutlined } from '@ant-design/icons';
+import { CalendarOutlined } from '@ant-design/icons';
 import './NewsItem.css';
 
 
@@ -9,36 +9,31 @@ import './NewsItem.css';
 function NewsItem({ title, body, createdDate }) {
   const [openModal, setOpenModal] = useState(false);
 
-  const [expand, setExpand] = useState(false);
-  const [counter, setCounter] = useState(0);
-
-
-  var newsStyle = {
-
-  }
-
-
-  const toggleExpand = () => {
-    setExpand(!expand);
-    setCounter(prev => !expand ? prev+0 : prev+1);
-  };
-
+  const newsTitle = <Typography.Title level={4} style={{fontSize: '1.2rem'}}>{title}</Typography.Title>;
+  const newsBody = <div className='research-news-paragraph'><div dangerouslySetInnerHTML={{__html: body}}></div></div>;
+  const newsDate = <Typography.Text type='secondary'><CalendarOutlined /> {moment(createdDate).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>;
   return (
     <>
-      <div className='research-weakly-news-item' key={counter} onClick={() => setOpenModal(true)}>
-        <Typography.Title level={5}>{title}</Typography.Title>
-        <div key={counter} className='ellipsis-paragraph'>
-          <div dangerouslySetInnerHTML={{__html: body}}></div>
+      <div className='research-weakly-news-item' onClick={() => setOpenModal(true)}>
+        {newsTitle}
+        <div className='ellipsis-paragraph'>
+          {newsBody}
         </div>
-        <Typography.Text type='secondary'><CalendarOutlined /> {moment(createdDate).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>
+        {newsDate}
       </div>
       <Modal
-        title={<><ReadOutlined /> {title}</>}
+        title="The whole story"
         open={openModal} 
         okButtonProps={{style: {display: 'none'}}}
         onCancel={() => setOpenModal(false)}
+        cancelText="Close"
+        destroyOnClose
+        closable={false}
+        className='more-width-antd-modal'
       >
-        <div dangerouslySetInnerHTML={{__html: body}}></div>
+        {newsTitle}
+        {newsBody}
+        {newsDate}
       </Modal>
     </>
 

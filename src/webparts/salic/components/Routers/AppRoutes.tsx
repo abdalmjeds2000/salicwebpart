@@ -80,6 +80,7 @@ import ResearchNews from '../App/ResearchCenter/Dashboard/components/ManageDashb
 import ResearchCountry from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchCountry';
 import ResearchPulse from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchPulse';
 import CommodityPrices from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/CommodityPrices';
+import KnowledgeCenter from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/KnowledgeCenter';
 
 
 import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
@@ -239,6 +240,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/manage-research-library/research-pulse`} element={<ResearchPulse />} />
         <Route path={`${defualtRoute}/manage-research-library/research-country`} element={<ResearchCountry />} />
         <Route path={`${defualtRoute}/manage-research-library/commodity-prices`} element={<CommodityPrices />} />
+        <Route path={`${defualtRoute}/manage-research-library/knowledge-center`} element={<KnowledgeCenter />} />
+        
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />

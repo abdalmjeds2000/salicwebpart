@@ -13,7 +13,6 @@ function NewsSection({ sectionTitle, data }) {
     var newsSlider = document.getElementById(`research-news-slider`);
     newsSlider.scrollTop = newsSlider.scrollTop + 170
   }
-
   return (
     <>
       <Typography.Title level={3} style={{lineHeight: 2.5}}>{sectionTitle}</Typography.Title>

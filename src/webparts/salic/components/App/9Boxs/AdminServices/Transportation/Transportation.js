@@ -74,7 +74,7 @@ function Transportation() {
     if(response.data.Status === 200 && response.data.Data.length > 0) {
       console.log(response);
       setRequestData(response.data.Data[0]);
-      // setDataSource(JSON.parse(response.data.Data[0].Guests));
+      setPassenger(JSON.parse(response.data.Data[0].Passengers));
     } else {
       message.error("Error Get Request Data")
     }
@@ -126,36 +126,39 @@ function Transportation() {
               >
 
                 
-                {
-                  !id
-                  ? <Form.Item name="Date" label="Date" rules={[{required: true,}]}>
-                      <DatePicker showTime format="YYYY-MM-DD HH:mm" disabledDate={(current) => current.isBefore(moment().subtract(1,"day"))} size='large' /* onChange={} onOk={} */ />
-                    </Form.Item>
-                  : <Input size='large' disabled defaultValue={moment(requestData.Date).format("MM-DD-YYYY hh:mm")} />
-                }
-                <Form.Item name="From" label="From" rules={[{required: true}]} initialValue={id ? requestData.From : ''} disabled={id ? true : false} style={{marginBottom: '12px'}}>
-                  <Input placeholder='' size='large' gutter={10} />
+
+                <Form.Item name="Date" label="Date" rules={[{required: true,}]}>
+                  {
+                    !id
+                    ? <DatePicker showTime format="MM/DD/YYYY HH:mm" disabledDate={(current) => current.isBefore(moment().subtract(1,"day"))} size='large' /* onChange={} onOk={} */ />
+                    : <Input size='large' disabled defaultValue={moment(requestData.Date).format("MM/DD/YYYY hh:mm")} />
+                  }
                 </Form.Item>
-                <Form.Item name="FromLink" label="From Link" initialValue={id ? requestData.FromLink : ''} disabled={id ? true : false} rules={[{required: true}]} >
+                <Form.Item name="From" label="From" rules={[{required: true}]} initialValue={id ? requestData.From : ''} style={{marginBottom: '12px'}}>
+                  <Input placeholder='' size='large' gutter={10} disabled={id ? true : false} />
+                </Form.Item>
+                <Form.Item name="FromLink" label="From Link" initialValue={id ? requestData.FromLink : ''} rules={[{required: true}]} >
                   <Search 
                     placeholder="google map link" 
-                    allowClear 
+                    allowClear
+                    disabled={id ? true : false}
                     enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
                   />
                 </Form.Item>
-                <Form.Item name="To" label="To" rules={[{required: true}]} initialValue={id ? requestData.To : ''} disabled={id ? true : false} style={{marginBottom: '12px'}}>
-                  <Input placeholder='' size='large' gutter={10} />
+                <Form.Item name="To" label="To" rules={[{required: true}]} initialValue={id ? requestData.To : ''} style={{marginBottom: '12px'}}>
+                  <Input placeholder='' size='large' gutter={10} disabled={id ? true : false} />
                 </Form.Item>
-                <Form.Item name="ToLink" label="To Link" initialValue={id ? requestData.ToLink : ''} disabled={id ? true : false} rules={[{required: true}]} >
+                <Form.Item name="ToLink" label="To Link" initialValue={id ? requestData.ToLink : ''} rules={[{required: true}]} >
                   <Search 
                     placeholder="google map link" 
-                    allowClear 
+                    allowClear
+                    disabled={id ? true : false}
                     enterButton={<a href='https://www.google.com/maps' target="blank"><EnvironmentOutlined /></a>}
                   />
                 </Form.Item>
                 <hr />
                 
-                <Form.Item name="ServiceType" label="Serivce Type" initialValue={id ? requestData.ServiceType : 'OneWay'} disabled={id ? true : false}>
+                <Form.Item name="ServiceType" label="Serivce Type" initialValue={id ? requestData.ServiceType : 'OneWay'}>
                   <Radio.Group
                     options={[{label: 'One Way', value: 'OneWay'}, {label: 'Round Trip', value: 'RoundTrip'}]}
                     onChange={ ({target: {value}}) => setSerivceType(value) }
@@ -165,16 +168,17 @@ function Transportation() {
                     style={{width: '100%'}}
                     size="large"
                     defaultValue="One Way"
+                    disabled={id ? true : false}
                   />
                 </Form.Item>
-                {serivceType === 'RoundTrip' && 
-                <Form.Item name="WaitingTime" label="Waiting Time" initialValue={id ? requestData.WaitingTime : ''} disabled={id ? true : false}>
-                  <Input placeholder='' size='large' />
-                </Form.Item>}
+                {serivceType === 'RoundTrip' || (id && requestData.WaitingTime !== "")
+                ? <Form.Item name="WaitingTime" label="Waiting Time" initialValue={id ? requestData.WaitingTime : ''}>
+                    <Input placeholder='' size='large' disabled={id ? true : false} />
+                  </Form.Item> : null}
                 
                 <hr />
 
-                <EditableTable dataSource={passenger} setDataSource={setPassenger} />
+                <EditableTable dataSource={passenger} setDataSource={setPassenger} PreviewMode={id ? true : false} />
                 <hr />
 
                 <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/home" />

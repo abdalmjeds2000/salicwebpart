@@ -46,7 +46,7 @@ function Number(props) {
         open={openPerformanceModal}
         onCancel={() => setOpenPerformanceModal(false)}
         okButtonProps={{ style: {display: 'none'}}}
-        className="performance-antd-modal"
+        className="more-width-antd-modal"
       >
         <div style={{overflowX: 'auto'}}>
           <Table 
@@ -61,7 +61,7 @@ function Number(props) {
         open={openEventsModal}
         onCancel={() => setOpenEventsModal(false)}
         okButtonProps={{ style: {display: 'none'}}}
-        // className="performance-antd-modal"
+        // className="more-width-antd-modal"
       >
         <div style={{overflowX: 'auto'}}>
           <Table 

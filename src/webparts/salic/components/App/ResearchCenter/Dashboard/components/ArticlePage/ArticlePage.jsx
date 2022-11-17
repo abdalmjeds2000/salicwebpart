@@ -18,7 +18,7 @@ function ArticlePage() {
 
   const FetchData = async () => {
     const response = await GetArticleById(id);
-    document.title = response?.Title;
+    document.title = `.:: SALIC Gate | ${response?.Title} ::.`;
     if(Object.keys(response).length > 1) {
       setArticle(response);
     } else {
@@ -56,21 +56,26 @@ function ArticlePage() {
             </div>
             <div className='body'>
               <Typography.Title level={3}>{article.Title}</Typography.Title>
-              <Typography.Text type="secondary">by <b>{article.Author?.Title}</b>, at {moment(article.Created).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>
+              <Typography.Text type="secondary">
+                {/* by <b>{article.Author?.Title}</b>, at {moment(article.Created).format('MM/DD/YYYY hh:mm:ss')} */}
+                {article.PublishedDate && <>Publish Date {moment(article.PublishedDate).format('MM/DD/YYYY')}</>}
+              </Typography.Text>
               <br />
               { 
                 article.FullReportLink && 
                 <Typography.Link 
                   onClick={() => window.open(article.FullReportLink, '_blank')}>
-                    <Tooltip title="Click to Download">
-                      <PaperClipOutlined /> Download Full Report
+                    <Tooltip title="Click to Open">
+                      <PaperClipOutlined /> View Full Report
                     </Tooltip>
                 </Typography.Link> 
               }
-              <Typography.Text style={{fontSize: '1.2rem'}}><br/>
-                <div dangerouslySetInnerHTML={{__html: article.Body}}></div>
-              </Typography.Text>
-              { article.PublishedDate && <Typography.Text type="secondary">Published at {moment(article.PublishedDate).format('MM/DD/YYYY')}</Typography.Text> }
+              <div className='research-article-paragraph'>
+                <Typography.Text style={{fontSize: '1.2rem'}}><br/>
+                  <div dangerouslySetInnerHTML={{__html: article.Body}}></div>
+                </Typography.Text>
+              </div>
+
               {
                 article.Hyperlink != null && (
                   <>

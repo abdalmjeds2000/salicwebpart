@@ -16,6 +16,7 @@ function CountrySection({ sectionTitle, data }) {
     var newsSlider = document.getElementById(`country-section`);
     newsSlider.scrollTop = newsSlider.scrollTop + 160
   }
+  const sortedData = data.sort((a,b) => a.Title > b.Title ? 1 : a.Title < b.Title ? -1 : 0)
 
   return (
     <>
@@ -31,7 +32,7 @@ function CountrySection({ sectionTitle, data }) {
           <div id='country-section' className='research-scrollable-container'>
             <Row gutter={[20, 20]}>
             {
-              data.map((country, i) => {
+              sortedData?.map((country, i) => {
                 let _CardImg = '';
                 let _CardDocument = '';
                   country.AttachmentFiles?.forEach(file => {
@@ -45,7 +46,13 @@ function CountrySection({ sectionTitle, data }) {
                 return (
                   // <Col xs={12} sm={12} md={12} lg={12} >
                   <Col xs={24} sm={24} md={24} lg={24}>
-                    <Card key={i} imgSrc={_CardImg} title={country.Title} openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} />
+                    <Card 
+                      key={i} 
+                      imgSrc={_CardImg} 
+                      title={country.Title} 
+                      imgCustomStyle={{height: '10.5rem'}}
+                      openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} 
+                    />
                   </Col>
                 )
               })

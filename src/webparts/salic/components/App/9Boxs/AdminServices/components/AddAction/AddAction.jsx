@@ -28,8 +28,9 @@ function AddAction({ RequestType, ModalTitle }) {
       formValues.ByUser = user_data.Data.Mail;
       formValues.Files = files;
       formValues.OriginalFiles = "";
-      // const response = await AddActionRequest('Maintenance', formValues)
-      console.log('Maintenance', formValues)
+      // const response = await AddActionRequest(RequestType, formValues);
+      // console.log(response);
+      console.log(RequestType, formValues)
       setOpenModal(false);
       form.resetFields();
       setFileList([]);

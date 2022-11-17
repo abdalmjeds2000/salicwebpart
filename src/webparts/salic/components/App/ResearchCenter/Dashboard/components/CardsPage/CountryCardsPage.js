@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
-import { Col, Input, Row, Spin, Typography } from 'antd';
+import { Col, Input, Pagination, Row, Spin, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../App';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -14,11 +14,17 @@ function CountryCardsPage() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [textSearch, setTextSearch] = useState("");
-  
+  const pageSize = 25;
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
+
   const FetchData = async () => {
     const response = await GetResearchCountries();
     if(response) {
-      setData(response)
+      setData(response);
+      setMinIndex(0);
+      setMaxIndex(pageSize);
     }
     setLoading(false);
   }
@@ -26,7 +32,7 @@ function CountryCardsPage() {
       FetchData();
   }, []);
 
-  const filtered_data = data.filter(row => row.Title?.toLowerCase().includes(textSearch?.toLowerCase()))
+  const filtered_data = data.filter(row => row.Title?.toLowerCase().includes(textSearch?.toLowerCase()));
 
   return (
     <>
@@ -61,6 +67,8 @@ function CountryCardsPage() {
                       if(_CardDocument === '' && country.AttachmentLink != null) _CardDocument = country.AttachmentLink
                       });
                     return (
+                      i >= minIndex &&
+                      i < maxIndex &&
                       <Col xs={24} sm={12} md={8} lg={4}>
                         <Card 
                           key={i} 
@@ -73,6 +81,25 @@ function CountryCardsPage() {
                   })
                 }
               </Row>
+              {
+                filtered_data.length > pageSize
+                ? (
+                    <Row justify="center">
+                      <Pagination
+                        pageSize={pageSize}
+                        current={current}
+                        total={filtered_data.length}
+                        onChange={(page) => {
+                          setCurrent(page),
+                          setMinIndex((page - 1) * pageSize),
+                          setMaxIndex(page * pageSize)
+                        }}
+                        style={{ margin: "15px auto" }}
+                      />
+                    </Row>
+                  )
+                : null
+              }
             </div>
           )
         : <div style={{display: 'flex', justifyContent: 'center', margin: '100px 25px 25px 25px'}}>

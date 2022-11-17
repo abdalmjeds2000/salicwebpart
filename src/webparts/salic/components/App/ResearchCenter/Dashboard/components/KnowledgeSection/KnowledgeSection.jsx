@@ -51,15 +51,16 @@ function KnowledgeSection({sectionTitle, data}) {
         ? (
             <>
               <Row gutter={[20, 20]} align="middle">
-                <Col xs={24} sm={24} md={10} lg={10}>
+                <Col xs={24} sm={24} md={24} lg={8}>
                   <Card 
                     imgSrc={_MainCardImg} 
                     title={_mainCard.Title} 
+                    imgCustomStyle={{height: '20rem'}}
                     openFile={() => __MainCardDocument.length > 0 ? window.open(__MainCardDocument) : null} 
                   />
                 </Col>
 
-                <Col xs={24} sm={24} md={14} lg={14}>
+                <Col xs={24} sm={24} md={24} lg={16}>
                   <div className='knowledge-slider-container'>
                     { _secondaryCards?.length > 3 && <LeftOutlined onClick={slideLeft} className="prev-icon arrow" /> }
                       <div id="knowledge-slider" className='knowledge-slider'>
@@ -79,7 +80,7 @@ function KnowledgeSection({sectionTitle, data}) {
                               key={i}
                               imgSrc={_CardImg} 
                               title={card.Title} 
-                              imgCustomStyle={{minWidth: 'calc(100%/3 - 40px/3)'}}
+                              imgCustomStyle={{minWidth: 'calc(100%/3 - 40px/3)', height: '15rem'}}
                               openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} 
                             />
                           )

@@ -45,7 +45,13 @@ function PulseSection({ sectionTitle, data }) {
                   return (
                     // <Col xs={12} sm={12} md={12} lg={12}>
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <Card key={i} imgSrc={_CardImg} title={pulse.Title} openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} />
+                      <Card 
+                        key={i} 
+                        imgSrc={_CardImg} 
+                        title={pulse.Title} 
+                        imgCustomStyle={{height: '10.5rem'}}
+                        openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} 
+                      />
                     </Col>
                   )
                   

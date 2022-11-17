@@ -7,6 +7,7 @@
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 5px 12px #00000015;
+  height: 100%;
 }
 .news-box:hover {
   transition: 0.5s;
@@ -64,15 +65,19 @@
 .news-box > h2:hover {
   color: var(--second-color) !important;
 }
-.news-box > p {
+.news-box > p * {
   font-weight: 400;
-  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   line-clamp: 4;
   -webkit-box-orient: vertical;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  background: transparent !important;
+  font-family: unset !important;
+  color: var(--text-color) !important;
 }
 .news-box > a {
   font-weight: 400;

@@ -6,7 +6,7 @@ moment.locale('ar')
 
 const ClockComponent = (props) => {
   const [cTime, setTime] = useState(new Date().toUTCString().slice(0, 16) + ' ' + new Date().toLocaleTimeString());
-  var arMoment = moment().format('iYYYY/iM/iDهـ الموافق YYYY/M/Dم');
+  var arMoment = moment().format('iYYYY/iM/iDهـ ');
   useEffect(() => {
     setInterval(() => {
       setTime(new Date().toUTCString().slice(0, 16) + ' ' + new Date().toLocaleTimeString());

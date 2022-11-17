@@ -90,7 +90,7 @@ function ResearchDashboard() {
                   </Col>
                   
                   <Col xs={24} sm={24} md={12} lg={14}>
-                    <NewsSection data={researchNewsData} sectionTitle="Weakly News" />
+                    <NewsSection data={researchNewsData} sectionTitle="Weekly News" />
                   </Col>
                   <Col xs={24} sm={12} md={12} lg={5}>
                     <PulseSection data={researchPulseData} sectionTitle="Pulse" />

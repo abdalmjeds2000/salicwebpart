@@ -6,15 +6,19 @@ function SPSearch() {
   const [loading, setLoading] = useState(true);
 
   const removeSpElements = () => {
-    const element = document.getElementById("sp-modern-search");
-    let elmnt1 = element.contentWindow.document.getElementsByClassName("rf_bu_ada2ac09")[0];
-    let elmnt2 = element.contentWindow.document.getElementById("RecommendedItems");
-    let elmnt3 = element.contentWindow.document.getElementById("CommentsWrapper");
-    let elmnt4 = element.contentWindow.document.getElementById("RecommendedItems");
-    elmnt1.style = "display: none;"
-    elmnt2.style = "display: none;"
-    elmnt3.style = "display: none;"
-    elmnt4.style = "display: none;"
+    // try {
+    //   let element = document.getElementById("sp-modern-search");
+    //   let elmnt2 = element.contentWindow.document.getElementById("RecommendedItems");
+    //   elmnt2.style = "display: none;"
+    //   let elmnt3 = element.contentWindow.document.getElementById("CommentsWrapper");
+    //   elmnt3.style = "display: none;"
+    //   let elmnt4 = element.contentWindow.document.getElementById("RecommendedItems");
+    //   elmnt4.style = "display: none;"
+    //   let elmnt1 = element.contentWindow.document.getElementsByClassName("er_t_ada2ac09")[0];
+    //   elmnt1.style = "display: none;"
+    // } catch {
+    //   console.log('sp')
+    // }
 
     setLoading(false);
   }

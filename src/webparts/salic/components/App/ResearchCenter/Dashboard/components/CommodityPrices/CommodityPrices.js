@@ -1,7 +1,8 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import { Col, Row, Spin, Tabs, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
+import './CommodityPrices.css';
 import GetCommodityPrices from '../../API/GetCommodityPrices';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin, Tabs, Typography } from 'antd';
 
 function CommodityPrices() {
   const [loading, setLoading] = useState(true);
@@ -22,10 +23,10 @@ function CommodityPrices() {
 
   return (
     
-    <div>
+    <div className='commodity-prices-container'>
       <Typography.Title level={3} style={{lineHeight: 2.5}}>Business Intelligence Dashboards</Typography.Title>
-      <div style={{backgroundColor: '#fff', padding: 15, borderRadius: 15}}>
-        <Tabs defaultActiveKey="0">
+      <div style={{/* backgroundColor: '#fff', padding: 15, borderRadius: 15, overflow: 'hidden' */}}>
+        <Tabs defaultActiveKey="0" tabPosition='left'>
           {
             !loading
             ? (
@@ -39,7 +40,7 @@ function CommodityPrices() {
                         src={link.Link}
                         frameborder="0" 
                         allowFullScreen="true"
-                        style={{minHeight: '450px', marginBottom: 25}}
+                        style={{minHeight: '990px', marginBottom: 25}}
                       ></iframe>
                     </Tabs.TabPane>
                   )

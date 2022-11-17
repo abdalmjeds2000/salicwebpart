@@ -17,7 +17,7 @@ function MainArticle({ imgSrc, title, body, articleId }) {
             {title}
           </Typography.Title>
           <Typography.Paragraph ellipsis={{rows: 7, expandable: false}}>
-            {body?.replace(/<[^>]*>/g, '')}
+            <div dangerouslySetInnerHTML={{__html: body?.replace(/<[^>]*>/g, '')}}></div>
           </Typography.Paragraph>
         </div>
       </div>

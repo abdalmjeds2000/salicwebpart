@@ -3,8 +3,13 @@
   border-radius: 10px;
   transition: .3s;
   overflow: hidden;
+  height: 10rem;
 }
-
+@media screen and (max-width: 990px){
+  .custom-img-card {
+    height: 12.5rem;
+  }
+}
 .custom-img-card .card-container {
   display: flex;
   align-items: flex-start;
@@ -16,22 +21,18 @@
   background-position: 50%;
   background-size: cover;
   width: 100%;
+  height: 100%;
   cursor: pointer;
-  height: 10rem;
   transition: .3s;
 }
-@media screen and (max-width: 990px){
-  .custom-img-card .card-container {
-    height: 12.5rem;
-  }
-}
+
 #country-section .custom-img-card .card-container.full-w-h {
   background-position: initial;
   background-repeat: round;
 }
 .custom-img-card .card-container .content {
   display: flex;
-  padding: 15px 10px;
+  padding: 15px;
   height: inherit;
   width: inherit;
   background: rgb(0,0,0);
@@ -50,4 +51,5 @@
   font-size: 1.2rem;
   font-weight: 500;
   background-color: rgb(0,0,0,.5);
+  padding: 20px;
 }

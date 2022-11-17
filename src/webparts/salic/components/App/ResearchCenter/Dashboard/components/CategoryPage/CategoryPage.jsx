@@ -1,5 +1,5 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
-import { Col, Input, Row, Spin, Typography } from 'antd';
+import { Col, Input, Pagination, Row, Spin, Typography } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,16 +11,24 @@ import GetArticlesByType from '../../API/GetArticlesByType';
 
 function CategoryPage() {
   const { category } = useParams();
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+
   const [textSearch, setTextSearch] = useState("");
-  
+
+  const pageSize = 25;
+  const [current, setCurrent] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
+
   const FetchData = async () => {
     const response = await GetArticlesByType(category);
     if(response) {
-      setData(response)
+      setData(response);
+      setMinIndex(0);
+      setMaxIndex(pageSize);
     }
     setLoading(false);
   }
@@ -30,7 +38,9 @@ function CategoryPage() {
     }
   }, []);
 
-  const filtered_data = data.filter(row => row.Title?.toLowerCase().includes(textSearch?.toLowerCase()))
+
+  const filtered_data = data.filter(row => row.Title?.toLowerCase().includes(textSearch?.toLowerCase()));
+
 
   return (
     <>
@@ -61,6 +71,8 @@ function CategoryPage() {
                       }
                       });
                     return (
+                      i >= minIndex &&
+                      i < maxIndex &&
                       <Col xs={24} sm={12} md={8} lg={6}>
                         <ArticleBox 
                           key={i}
@@ -68,7 +80,7 @@ function CategoryPage() {
                           Description ={article.Body}
                           Poster={_CardImg}
                           To={`/research-center/${article.Id}`}
-                          date={article.Created}
+                          date={article.PublishedDate}
                           customImgStyle={{backgroundSize: 'cover'}}
                         />
                       </Col>
@@ -76,6 +88,26 @@ function CategoryPage() {
                   })
                 }
               </Row>
+              {
+                filtered_data.length > pageSize
+                ? (
+                    <Row justify="center">
+                      <Pagination
+                        pageSize={pageSize}
+                        current={current}
+                        total={filtered_data.length}
+                        onChange={(page) => {
+                          setCurrent(page),
+                          setMinIndex((page - 1) * pageSize),
+                          setMaxIndex(page * pageSize)
+                        }}
+                        style={{ margin: "15px auto" }}
+                      />
+                    </Row>
+                  )
+                : null
+              }
+              
             </div>
           )
         : <div style={{display: 'flex', justifyContent: 'center', margin: '100px 25px 25px 25px'}}>

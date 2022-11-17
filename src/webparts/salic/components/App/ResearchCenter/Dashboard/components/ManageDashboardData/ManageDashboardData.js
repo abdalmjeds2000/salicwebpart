@@ -16,6 +16,7 @@ function ManageDashboardData() {
     {icon: srvsIcons.servicesRequest, to: '/manage-research-library/research-pulse', bgColor: '#ff8084', text: 'Pulse'},
     {icon: srvsIcons.servicesRequest, to: '/manage-research-library/research-country', bgColor: '#4f6bed', text: 'Country Outlook'},
     {icon: srvsIcons.servicesRequest, to: '/manage-research-library/commodity-prices', bgColor: '#ffaa66', text: 'Commodity Prices'},
+    {icon: srvsIcons.servicesRequest, to: '/manage-research-library/knowledge-center', bgColor: '#0088ff', text: 'Knowledge Center'},
   ];
 
 

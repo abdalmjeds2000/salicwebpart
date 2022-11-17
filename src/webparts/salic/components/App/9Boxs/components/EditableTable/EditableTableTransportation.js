@@ -89,17 +89,17 @@ const EditableTable = (props) => {
       title: () => <>Passenger Name <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'Name',
       width: '30%',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: <>Passenger Phone <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'Phone',
       width: '30%',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: <>Reason Of Request <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'Reason',
       width: '30%',
-      editable: true,
+      editable: props.PreviewMode ? false : true,
     },{
       title: <>Operation <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'operation',
@@ -166,15 +166,21 @@ const EditableTable = (props) => {
         rowClassName={() => 'editable-row'}
         bordered
         dataSource={props.dataSource}
-        columns={columns}
+        columns={props.PreviewMode ? columns.filter(row => row.dataIndex !== "operation") : columns}
         pagination={false}
       />
-      <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
-        * Click on table cell to edit value
-      </span>
-      <Button onClick={handleAdd} type="dashed" style={{marginBottom: 24}}>
-        Add More
-      </Button>
+      {
+        !props.PreviewMode
+        ? <>
+            <span style={{color: '#bbb', fontStyle: 'italic', fontSize: '0.8rem', margin: '12px 0', display: 'block'}}>
+              * Click on table cell to edit value
+            </span>
+            <Button onClick={handleAdd} type="dashed" style={{marginBottom: 24}}>
+              Add More
+            </Button>
+          </>
+        : null
+      }
     </div>
   );
 };

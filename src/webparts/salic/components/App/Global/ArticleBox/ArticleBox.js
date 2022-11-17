@@ -19,7 +19,9 @@ function ArticleBox(props) {
       <h2 onClick={() => navigate(defualt_route + props.To)}>
         {props.Title}
       </h2>
-      <p dangerouslySetInnerHTML={{__html: props.Description}}></p>
+      {/* <p dangerouslySetInnerHTML={{__html: props.Description}}></p> */}
+      <p><div dangerouslySetInnerHTML={{__html: props.Description?.replace(/<[^>]*>/g, '')}}></div></p>
+      
       {props.date && <Typography.Text type='secondary'><CalendarOutlined /> {moment(props.date).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>}
       <a onClick={() => navigate(defualt_route + props.To)}>More</a>
     </div>
