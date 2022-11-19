@@ -3,9 +3,9 @@ import './PreviewRequest.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../App'
-import { Button, Col, message, Row, Timeline, Upload, Steps, Spin, Modal, Alert, Typography, Checkbox, Space } from 'antd';
+import { Button, Col, message, Row, Timeline, Upload, Steps, Modal, Alert, Typography, Checkbox } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { CaretRightOutlined, CheckOutlined, CloseOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import Reply from '../../Global/RequestsComponents/Reply';
 import Section from '../../Global/RequestsComponents/Section';
 import SenderImg from '../../Global/RequestsComponents/SenderImg';
@@ -17,6 +17,7 @@ import GetReplys from '../API/GetReplys';
 import FileIcon from '../../Global/RequestsComponents/FileIcon';
 import UpdateAssignee from '../API/UpdateAssignee';
 import moment from 'moment';
+import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
 function PreviewContentRequest() {
     let { id } = useParams();
@@ -527,9 +528,7 @@ function PreviewContentRequest() {
                             action={<Button size="small" type="primary" onClick={() => navigate(defualt_route+'/content-requests')}>Back</Button>}
                         />
                 )
-            :   <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Spin indicator={<LoadingOutlined spin />} />
-                </div>
+            :   <AntdLoader />
         }
         </div>
     </>

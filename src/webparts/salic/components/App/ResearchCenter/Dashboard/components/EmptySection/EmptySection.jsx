@@ -1,5 +1,5 @@
-import { Empty } from 'antd'
-import React from 'react'
+import React from 'react';
+import { Empty } from 'antd';
 
 function EmptySection() {
   return (

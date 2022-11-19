@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import './NotificationCenter.css'
-import { Button, Checkbox, Input, Modal, Space, Table } from 'antd'
-import { DownOutlined, SearchOutlined } from '@ant-design/icons'
-import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import './NotificationCenter.css';
+import { Button, Checkbox, Input, Modal, Space, Table } from 'antd';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
+import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import Highlighter from 'react-highlight-words';
-import { AppCtx } from '../App'
-import axios from 'axios'
-import AntdLoader from '../Global/AntdLoader/AntdLoader'
+import { AppCtx } from '../App';
+import axios from 'axios';
+import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 
 function getWindowSize() {
@@ -367,7 +367,7 @@ function NotificationCenter() {
                       }}
                     />
                   )
-                : <div style={{fontSize: '2rem', margin: '25px'}}><AntdLoader /></div>
+                : <AntdLoader />
               }
               
             </div>

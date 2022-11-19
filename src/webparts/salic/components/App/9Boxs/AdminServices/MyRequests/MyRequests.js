@@ -5,6 +5,7 @@ import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigati
 import { Button, message, Spin, Table } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import GetMyRequests from './GetMyRequests';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 
 
@@ -119,7 +120,7 @@ function MyRequests() {
                   dataSource={admin_my_requests}
                   pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                 />
-              : <Spin indicator={<LoadingOutlined spin />} style={{width: '100%', margin: '25px auto'}} />
+              : <AntdLoader />
             }
           </div>
         </div>

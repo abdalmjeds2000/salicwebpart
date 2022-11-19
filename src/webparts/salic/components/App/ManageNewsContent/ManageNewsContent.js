@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import React, { useContext, useEffect, useState } from 'react';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { Checkbox, Table } from 'antd';
-import UserColumnInTable from '../Global/UserColumnInTable/UserColumnInTable'
+import UserColumnInTable from '../Global/UserColumnInTable/UserColumnInTable';
 import { useNavigate } from 'react-router-dom';
 
 function ManageNewsContent() {

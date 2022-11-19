@@ -3,8 +3,7 @@ import axios from 'axios';
 import { AppCtx } from '../../App'; 
 import CustomSelect from '../components/CustomSelect';
 import './DailyAttendance.css';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
 
 function DailyAttendance() {
@@ -138,7 +137,7 @@ function DailyAttendance() {
               {
                 loader
                 ? <tr><td colSpan={14} style={{padding: '25px 0'}}>
-                    <Spin indicator={<LoadingOutlined spin />} />
+                    <AntdLoader />
                   </td></tr>
                 : tableData.map((row, i) => {
                     return <tr key={i}>

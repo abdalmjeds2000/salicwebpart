@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import './Dashboard.css';
 import DashboardHeader from './components/Header/DashboardHeader';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
-import { Col, Row, Spin } from 'antd';
+import { Col, Row } from 'antd';
 import ResearchSection from './components/ResearchSection/ResearchSection';
 import NewsSection from './components/NewsSection/NewsSection';
 import PulseSection from './components/PulseSection/PulseSection';
@@ -10,14 +10,8 @@ import CountrySection from './components/CountrySection/CountrySection';
 import CommodityPrices from './components/CommodityPrices/CommodityPrices';
 import KnowledgeSection from './components/KnowledgeSection/KnowledgeSection';
 import pnp from 'sp-pnp-js';
-import GetResearchArticles from './API/GetResearchArticles';
-import GetResearchNews from './API/GetResearchNews';
-import GetResearchPulse from './API/GetResearchPulse';
-import GetResearchCountries from './API/GetResearchCountries';
-import GetResearchKnowledge from './API/GetResearchKnowledge';
-
 import { AppCtx } from '../../App';
-import { LoadingOutlined } from '@ant-design/icons';
+import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
 
 
@@ -34,13 +28,13 @@ function ResearchDashboard() {
   const FetchData = async () => {
     const responseArticles = await pnp.sp.web.lists.getByTitle('Research Articles').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').top(50).expand('AttachmentFiles').get();
     setResearchArticlesData(responseArticles);
-    const responseNews = await GetResearchNews();
+    const responseNews = await pnp.sp.web.lists.getByTitle('Research News').items.orderBy("Created_x0020_Date", false).top(25).get();
     setResearchNewsData(responseNews);
-    const responsePulse = await GetResearchPulse();
+    const responsePulse = await pnp.sp.web.lists.getByTitle('Research Pulse').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').expand('AttachmentFiles').top(25).get();
     setResearchPulseData(responsePulse);
-    const responseCountries = await GetResearchCountries();
+    const responseCountries = await pnp.sp.web.lists.getByTitle('Research Country Outlook').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').expand('AttachmentFiles').top(25).get();
     setResearchCountriesData(responseCountries);
-    const responseKnowledge = await GetResearchKnowledge();
+    const responseKnowledge = await pnp.sp.web.lists.getByTitle('Knowledge Center').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').expand('AttachmentFiles').top(25).get();
     setKnowledgeData(responseKnowledge);
     
     setLoading(false);
@@ -70,7 +64,6 @@ function ResearchDashboard() {
                       data={researchArticlesData} 
                       sectionTitle="Latest Research" 
                       id="2" 
-                      // category={["Latest"]}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
@@ -78,7 +71,6 @@ function ResearchDashboard() {
                       data={researchArticlesData.filter(r => r.ResearchType === "Primary" || r.ResearchType === "Secondary")}
                       sectionTitle="Commodity Research" 
                       id="3" 
-                      category={["Primary", "Secondary"]}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
@@ -86,10 +78,8 @@ function ResearchDashboard() {
                       data={researchArticlesData.filter(r => r.ResearchType === "AdHoc")} 
                       sectionTitle="Ad Hoc Research" 
                       id="1"
-                      category={["AdHoc"]}
                     />
                   </Col>
-                  
                   <Col xs={24} sm={24} md={12} lg={14}>
                     <NewsSection data={researchNewsData} sectionTitle="Weekly News" />
                   </Col>
@@ -99,7 +89,6 @@ function ResearchDashboard() {
                   <Col xs={24} sm={12} md={12} lg={5}>
                     <CountrySection data={researchCountriesData} sectionTitle="Country Outlook" />
                   </Col>
-                  
                   <Col xs={24} sm={24} md={24} lg={24}>
                     <KnowledgeSection 
                       data={knowledgeData} 
@@ -112,9 +101,7 @@ function ResearchDashboard() {
                 </Row>
               </div>
             )
-            : <div style={{display: 'flex', justifyContent: 'center', margin: 25}}>
-                <Spin indicator={<LoadingOutlined spin />} />
-              </div>
+            : <AntdLoader />
         }
         
       </div>

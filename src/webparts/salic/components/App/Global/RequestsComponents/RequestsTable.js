@@ -1,6 +1,6 @@
 import React from 'react';
-import { Spin, Table } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
+import AntdLoader from '../AntdLoader/AntdLoader';
 
 function RequestsTable(props) {
 
@@ -23,9 +23,7 @@ function RequestsTable(props) {
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                     size="small"
                   />
-                : <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Spin indicator={<LoadingOutlined spin />} />
-                  </div>
+                : <AntdLoader />
               }
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { Typography } from 'antd';
 import React from 'react';
+import { Typography } from 'antd';
 import './Card.css';
 
 function Card({ imgSrc, title, openFile, imgCustomStyle }) {

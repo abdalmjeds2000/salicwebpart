@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 
 const icons = {

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
-import './HistoryNavigation.css'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react';
+import './HistoryNavigation.css';
+import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
-import ClockComponent from './ClockComponent'
+import ClockComponent from './ClockComponent';
 
 const HistoryNavigation = (props) => {
   const { defualt_route } = useContext(AppCtx)

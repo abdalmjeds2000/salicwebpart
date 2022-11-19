@@ -12,6 +12,7 @@ import GetSummaryByPriority from '../../API/GetSummaryByPriority';
 import GetSummaryByDepartment from '../../API/GetSummaryByDepartment';
 import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
 import GetITRequests from '../../API/GetITRequests';
+import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 
 
 
@@ -140,9 +141,7 @@ function ServiceRequestsDashboard() {
                     </div>
                   </>
                 )
-              : <div style={{display: 'flex', justifyContent: 'center'}}>
-                  <Spin indicator={<LoadingOutlined spin />} />
-                </div>
+              : <AntdLoader />
             }
           </div>
         </div>

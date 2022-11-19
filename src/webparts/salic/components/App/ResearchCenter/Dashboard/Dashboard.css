@@ -38,3 +38,12 @@
 .research-scrollable-container::-webkit-scrollbar {
   display: none;
 }
+
+
+/* Customize Pagination */
+.ms-Stack-inner {
+  gap: 5px !important;
+}
+.ms-Stack-inner button {
+  border: none !important;
+}

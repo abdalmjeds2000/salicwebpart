@@ -14,6 +14,7 @@ import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 import NationaltiesOptions from '../../../Global/NationaltiesOptions/NationaltiesOptions'
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -260,9 +261,7 @@ function Visitor() {
             </Form>
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>
-        : <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Spin indicator={<LoadingOutlined spin />} />
-          </div>
+        : <AntdLoader />
       }
         
     </>

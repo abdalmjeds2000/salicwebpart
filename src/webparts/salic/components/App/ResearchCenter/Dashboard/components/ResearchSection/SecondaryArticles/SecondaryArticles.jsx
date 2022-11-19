@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import './SecondaryArticles.css';
-import { Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../../App';
 

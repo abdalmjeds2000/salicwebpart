@@ -1,14 +1,14 @@
+import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import React from 'react';
 
 
 const AntdLoader = () => {
 
   return (
-    <Spin 
-      indicator={<LoadingOutlined spin style={{fontSize: '1rem', position: 'relative', left: '50%', transform: 'translateX(-50)', color: 'var(--main-color)' }} />} 
-    />
+    <div style={{display: 'flex', justifyContent: 'center', margin: '100px 25px 25px 25px'}}>
+      <Spin indicator={<LoadingOutlined spin />} />
+    </div>
   )
 }
 

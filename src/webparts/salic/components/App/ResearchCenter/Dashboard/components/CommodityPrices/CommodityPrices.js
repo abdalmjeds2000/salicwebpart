@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './CommodityPrices.css';
 import GetCommodityPrices from '../../API/GetCommodityPrices';
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Tabs, Typography } from 'antd';
+import { Tabs, Typography } from 'antd';
+import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 
 function CommodityPrices() {
   const [loading, setLoading] = useState(true);
@@ -67,9 +67,7 @@ function CommodityPrices() {
                 //   }
                 // </Row>
               )
-            : <div style={{display: 'flex', justifyContent: 'center', margin: 25}}>
-                <Spin indicator={<LoadingOutlined spin />} />
-              </div>
+            : <AntdLoader />
           }
         </Tabs>
       </div>

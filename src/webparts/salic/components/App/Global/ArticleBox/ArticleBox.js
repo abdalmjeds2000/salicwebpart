@@ -1,6 +1,6 @@
+import React, { useContext } from 'react';
 import { CalendarOutlined } from '@ant-design/icons';
 import { Tag, Typography } from 'antd';
-import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import './ArticleBox.css';
@@ -8,9 +8,6 @@ import './ArticleBox.css';
 function ArticleBox(props) {
   const { defualt_route }  = useContext(AppCtx);
   const navigate = useNavigate();
-
-  
-  
 
   return (
     <div className='news-box'>
@@ -24,7 +21,7 @@ function ArticleBox(props) {
       {props.date && <Typography.Text type='secondary'><CalendarOutlined /> {props.date}</Typography.Text>}
       <div>
         {
-          props.Tags.length > 0
+          props.Tags !== undefined && props.Tags.length > 0
           ? props.Tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
           : null
         }

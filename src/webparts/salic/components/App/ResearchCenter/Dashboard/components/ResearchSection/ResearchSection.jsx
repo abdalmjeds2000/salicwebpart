@@ -30,13 +30,9 @@ function ResearchSection({sectionTitle, id, data, category}) {
     <>
       <Row justify="space-between" align="middle">
         <Typography.Title level={3} style={{lineHeight: 2.5}}>{sectionTitle}</Typography.Title>
-        {
-          category &&
-          <Typography.Link onClick={() => navigate(defualt_route + `/research-center/categories/${category?.join()}`)}>
-            See All
-          </Typography.Link>
-        }
-        
+        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/categories/all`)}>
+          See All
+        </Typography.Link>
       </Row>
       <div className='research-section-container'>
       {

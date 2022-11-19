@@ -22,7 +22,7 @@ axios.interceptors.response.use(undefined, function (error) {
   }
 })
 
-const App: React.FunctionComponent<AppProps> = (props) => {
+const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userData, setUserData] = React.useState({Data: {Mail: null}});
   const [notificationsCount, setNotificationsCount] = React.useState('');
@@ -56,9 +56,6 @@ const App: React.FunctionComponent<AppProps> = (props) => {
   const [summaryByDepartment, setSummaryByDepartment] = React.useState([]);
   const [summaryByRequestType, setSummaryByRequestType] = React.useState([]);
   const [ITRequests, setITRequests] = React.useState([]);
-
-
-
 
 
 
@@ -247,7 +244,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       })
       .catch(err => console.log(err))
 
-    // Get Gate Departments
+    // Get Oracle Form Data
     axios({method: "GET", url: "https://salicapi.com/api/Tracking/GetOracleFormData"})
     .then(response => setOracleFormData(response.data.Data))
     .catch(null)
@@ -309,16 +306,16 @@ const App: React.FunctionComponent<AppProps> = (props) => {
     setSummaryByRequestType,
     ITRequests: ITRequests, 
     setITRequests,
-
+    sp_context: props.context,
   };
 
-  // let link = document.querySelector("link[rel~='icon']");
-  // if (!link) {
-  //   link = document.createElement('link');
-  //   link.rel = 'icon';
-  //   document.getElementsByTagName('head')[0].appendChild(link);
-  // }
-  // link.href = 'https://salicapi.com/File/9244ecd5-d273-4ee9-bffe-2a8fcb140860.png';
+  let link: any = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  }
+  link.href = 'https://salicapi.com/File/9244ecd5-d273-4ee9-bffe-2a8fcb140860.png';
 
   
   return (

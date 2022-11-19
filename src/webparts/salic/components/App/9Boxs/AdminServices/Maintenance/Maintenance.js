@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form, Input, message, Spin } from 'antd';
+import { Form, Input, message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -8,10 +8,10 @@ import { AppCtx } from '../../../App';
 import moment from 'moment';
 import MaintenanceRequest from './API/MaintenanceRequest';
 import GetMaintenanceRequestById from './API/GetMaintenanceRequestById';
-import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 moment.locale('en');
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -154,9 +154,7 @@ function Maintenance() {
             </Form>
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>
-        : <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Spin indicator={<LoadingOutlined spin />} />
-          </div>
+        : <AntdLoader />
       }
     </>
   )

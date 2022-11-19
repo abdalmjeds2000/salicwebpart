@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
-import { Button, message, Spin, Table } from 'antd';
+import { Button, message, Table } from 'antd';
 import GetAssignedRequests from './GetAssignedRequests'
-import { LoadingOutlined } from '@ant-design/icons';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 function AssignedRequests() {
   const { admin_assigned_requests, setAdminAssignedRequests, defualt_route, user_data } = useContext(AppCtx);
   let navigate = useNavigate();
@@ -108,7 +108,7 @@ function AssignedRequests() {
                   dataSource={admin_assigned_requests}
                   pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                 />
-              : <Spin indicator={<LoadingOutlined spin />} style={{width: '100%', margin: '25px auto'}} />
+              : <AntdLoader />
             }
           </div>
         </div>

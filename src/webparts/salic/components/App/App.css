@@ -49,7 +49,7 @@ html {
 .app-container {
   display: flex;
   min-height: 100vh;
-  max-width: 100vw;
+  max-width: calc(100vw - 10px);
   position: relative;
 }
 .content-container {

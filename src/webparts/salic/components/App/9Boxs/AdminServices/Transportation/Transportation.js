@@ -13,6 +13,7 @@ import GetTransportationRequest from './API/GetTransportationRequest';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 const { Search } = Input;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -218,9 +219,7 @@ function Transportation() {
               {id && <ActionsTable ActionData={requestData.Status || []} />}
             </FormPage>
           )
-        : <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Spin indicator={<LoadingOutlined spin />} />
-          </div>
+        : <AntdLoader />
       }
       
     </>

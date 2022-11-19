@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
-import { Form, DatePicker, message, Spin, Input } from 'antd';
+import { Form, DatePicker, message, Input } from 'antd';
 import moment from 'moment';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -9,10 +9,10 @@ import EditableTable from '../../components/EditableTable/EditableTableBusinessG
 import { AppCtx } from '../../../App';
 import BusinessGateRequest from './API/BusinessGateRequest';
 import GetBusinessGateById from './API/GetBusinessGateById';
-import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -193,9 +193,7 @@ function BusinessGate() {
 
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>
-        : <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Spin indicator={<LoadingOutlined spin />} />
-          </div>
+        : <AntdLoader />
       }
     </>
   )

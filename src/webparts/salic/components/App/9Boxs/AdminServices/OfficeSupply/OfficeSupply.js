@@ -12,6 +12,7 @@ import GetOfficeSupplyRequestById from './API/GetOfficeSupplyRequestById'
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -210,9 +211,7 @@ function OfficeSupply() {
             </Form>
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>
-        : <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Spin indicator={<LoadingOutlined spin />} />
-          </div>
+        : <AntdLoader />
       }
     </>
   )

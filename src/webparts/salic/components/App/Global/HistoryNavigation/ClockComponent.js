@@ -14,8 +14,8 @@ const ClockComponent = (props) => {
   });
 
   return (
-    <div className='app-clock' style={{display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--main-color)'}}>
-      <FontAwesomeIcon icon={faCalendarDays} style={{fontSize: '1.4rem'}} />
+    <div className='app-clock' style={{display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--main-color)', opacity: '0.6'}}>
+      <FontAwesomeIcon icon={faCalendarDays} style={{fontSize: props.EnableHijri ? '1.4rem' : '1rem'}} />
       <div style={{fontWeight: '500'}}>
         <span style={{display: 'block', lineHeight: '1.1'}}>{cTime}</span>
         {props.EnableHijri ? <span style={{display: 'block', lineHeight: '1.1'}}>{arMoment}</span> : null}

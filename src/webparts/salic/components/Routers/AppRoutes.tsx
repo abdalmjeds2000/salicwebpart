@@ -173,7 +173,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/research-center/country`} element={<CountryCardsPage />} />
         <Route path={`${defualtRoute}/research-center/pulse`} element={<PulseSection />} />
         <Route path={`${defualtRoute}/research-center/knowledge`} element={<KnowledgeCardsPage />} />
-        <Route path={`${defualtRoute}/research-center/categories/:category`} element={<CategoryPage />} />
+        <Route path={`${defualtRoute}/research-center/categories/all`} element={<CategoryPage />} />
         <Route path={`${defualtRoute}/research-center/:id`} element={<ArticlePage />} />
       </Route>
 

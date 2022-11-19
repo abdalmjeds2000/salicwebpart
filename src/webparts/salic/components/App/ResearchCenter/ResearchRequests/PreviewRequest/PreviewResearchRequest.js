@@ -16,6 +16,7 @@ import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 import GetResearchRequestAssignee from '../API/GetResearchRequestAssignee';
 import UpdateAssignee from '../API/UpdateAssignee';
 import UpdateResearchRequest from '../API/UpdateResearchRequest';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 function PreviewResearchRequest() {
     let { id } = useParams();
@@ -467,9 +468,7 @@ function PreviewResearchRequest() {
                             action={<Button size="small" type="primary" onClick={() => navigate(defualt_route+'/research-requests')}>Back</Button>}
                         />
                 )
-            :   <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Spin indicator={<LoadingOutlined spin />} />
-                </div>
+            :   <AntdLoader />
         }
         </div>
     </>

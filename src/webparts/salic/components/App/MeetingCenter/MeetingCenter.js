@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import './MeetingCenter.css'
+import React, { useContext } from 'react';
+import './MeetingCenter.css';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
 import { useNavigate } from 'react-router-dom';
