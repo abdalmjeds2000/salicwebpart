@@ -1,10 +1,9 @@
 import { CalendarOutlined } from '@ant-design/icons';
-import { Typography } from 'antd';
+import { Tag, Typography } from 'antd';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import './ArticleBox.css';
-import moment from 'moment';
 
 function ArticleBox(props) {
   const { defualt_route }  = useContext(AppCtx);
@@ -22,7 +21,14 @@ function ArticleBox(props) {
       {/* <p dangerouslySetInnerHTML={{__html: props.Description}}></p> */}
       <p><div dangerouslySetInnerHTML={{__html: props.Description?.replace(/<[^>]*>/g, '')}}></div></p>
       
-      {props.date && <Typography.Text type='secondary'><CalendarOutlined /> {moment(props.date).format('MM/DD/YYYY hh:mm:ss')}</Typography.Text>}
+      {props.date && <Typography.Text type='secondary'><CalendarOutlined /> {props.date}</Typography.Text>}
+      <div>
+        {
+          props.Tags.length > 0
+          ? props.Tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
+          : null
+        }
+      </div>
       <a onClick={() => navigate(defualt_route + props.To)}>More</a>
     </div>
   )

@@ -11,6 +11,8 @@ import BusinessGateRequest from './API/BusinessGateRequest';
 import GetBusinessGateById from './API/GetBusinessGateById';
 import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -25,7 +27,12 @@ function BusinessGate() {
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
   const [dataSource, setDataSource] = useState([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
+  const [approvals, setApprovals] = useState([]);
 
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Business Gate'").expand('Email').get();
+    setApprovals(response);
+  }
 
   async function CreateBusinessGateRequest(values) {
     setLoading(true);
@@ -80,6 +87,7 @@ function BusinessGate() {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetBusinessGateRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
@@ -88,6 +96,23 @@ function BusinessGate() {
 
 
 
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
+  
   return (
     <>
       <HistoryNavigation>
@@ -99,6 +124,10 @@ function BusinessGate() {
         !loading
         ? <FormPage
             pageTitle={!id ? 'New Business Gate Entry' : 'Business Gate Entry'}
+            Header={
+              id && requestStatus !== "FIN" && IsApproval &&
+              <AddAction RequestType="BusniessGate" ModalTitle="Approve Busniess Gate Request" /> 
+            }
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}

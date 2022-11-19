@@ -7,6 +7,7 @@ import { AppCtx } from '../../../../App';
 import ArticleBox from '../../../../Global/ArticleBox/ArticleBox';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import GetArticlesByType from '../../API/GetArticlesByType';
+import moment from 'moment';
 
 
 function CategoryPage() {
@@ -24,7 +25,7 @@ function CategoryPage() {
   const [maxIndex, setMaxIndex] = useState(0);
 
   const FetchData = async () => {
-    const response = await GetArticlesByType(category);
+    const response = await GetArticlesByType(category?.split(","));
     if(response) {
       setData(response);
       setMinIndex(0);
@@ -46,7 +47,7 @@ function CategoryPage() {
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
-        <p>{category} Research</p>
+        <p>{category.replace(',', ', ')} Research</p>
       </HistoryNavigation>
 
       {
@@ -55,7 +56,7 @@ function CategoryPage() {
             <div className='standard-page'>
               <Row justify="space-between" align="middle" wrap={true}>
                 <Col flex={8}>
-                  <Typography.Title level={2} style={{lineHeight: 2.5}}>{category} Research</Typography.Title>
+                  <Typography.Title level={2} style={{lineHeight: 2.5}}>{category.replace(',', ', ')} Research</Typography.Title>
                 </Col>
                 <Col flex={1}>
                   <Input placeholder="Type To Search" style={{width: '100%'}} value={textSearch} onChange={e => setTextSearch(e.target.value)} prefix={<SearchOutlined />} />
@@ -80,8 +81,9 @@ function CategoryPage() {
                           Description ={article.Body}
                           Poster={_CardImg}
                           To={`/research-center/${article.Id}`}
-                          date={article.PublishedDate}
+                          date={article.PublishedDate ? moment(article.PublishedDate).format('MM/DD/YYYY') : null}
                           customImgStyle={{backgroundSize: 'cover'}}
+                          Tags={article.Tags ? article.Tags : []}
                         />
                       </Col>
                     )

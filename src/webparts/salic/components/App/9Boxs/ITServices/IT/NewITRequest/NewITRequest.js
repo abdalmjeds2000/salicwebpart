@@ -162,7 +162,7 @@ function NewITRequest() {
             <Input placeholder="Date" size="large" disabled />
           </Form.Item>
           <Form.Item label="On Behalf Of">
-            <DropdownSelectUser name="onbehalf" placeholder="Select Employee" required={false} />
+            <DropdownSelectUser name="onbehalf" placeholder="Select Employee" required={false} isDisabled={false} />
           </Form.Item>
           <Form.Item name="Subject" label="Subject" rules={[{ required: true }]} >
             <Input placeholder="write breif subject" size="large" />

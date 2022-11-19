@@ -12,6 +12,8 @@ import GetVisitorRequestById from './API/GetVisitorRequestById';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 import NationaltiesOptions from '../../../Global/NationaltiesOptions/NationaltiesOptions'
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -49,6 +51,12 @@ function Visitor() {
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
 
+  const [approvals, setApprovals] = useState([]);
+
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Visitor VISA'").expand('Email').get();
+    setApprovals(response);
+  }
   async function CreateVisitorRequest(values) {
     setLoading(true);
     let isFilesFinishUpload = true;
@@ -98,11 +106,28 @@ function Visitor() {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetVisitorRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
     }
   }, [user_data])
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
 
 
   return (
@@ -116,6 +141,10 @@ function Visitor() {
         !loading
         ? <FormPage
             pageTitle={!id ? 'New VISA Visitor Request' : 'VISA Visitor Request'}
+            Header={
+              id && requestStatus !== "FIN" && IsApproval &&
+              <AddAction RequestType="Visitor" ModalTitle=" Approve Visitor Visa Request" /> 
+            }
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}

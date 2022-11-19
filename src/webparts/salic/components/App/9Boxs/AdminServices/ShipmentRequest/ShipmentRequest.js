@@ -10,6 +10,8 @@ import ShipmentRequest from './API/ShipmentRequest';
 import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import GetShipmentRequestById from './API/GetShipmentRequestById'
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -22,9 +24,13 @@ function Shipment() {
   const [loading, setLoading] = useState(true)
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
+  const [approvals, setApprovals] = useState([]);
 
 
-
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Shipment'").expand('Email').get();
+    setApprovals(response);
+  }
   async function CreateShipmentRequest(values) {
     setLoading(true);
     const formData = {
@@ -62,15 +68,35 @@ function Shipment() {
     }
     setLoading(false);
   }
+
   useEffect(() => {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetShipmentRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
     }
-  }, [user_data])
+  }, [user_data]);
+
+
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
 
 
   return (
@@ -83,6 +109,10 @@ function Shipment() {
         !loading
         ? <FormPage
             pageTitle={!id ? 'New Shipment Request' : 'Shipment Request'}
+            Header={
+              id && requestStatus !== "FIN" && IsApproval &&
+              <AddAction RequestType="BusniessGate" ModalTitle="Approve Busniess Gate Request" /> 
+            }
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
@@ -104,7 +134,7 @@ function Shipment() {
               layout="horizontal"
             >
 
-              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? requestData.Date : new Date()).format('MM-DD-YYYY hh:mm')} >
+              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? requestData.Date : new Date()).format('MM/DD/YYYY hh:mm')} >
                 <Input placeholder='Date' size='large' disabled />
               </Form.Item>
               

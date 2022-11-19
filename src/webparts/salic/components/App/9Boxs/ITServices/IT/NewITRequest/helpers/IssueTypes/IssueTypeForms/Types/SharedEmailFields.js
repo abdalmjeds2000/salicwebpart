@@ -7,7 +7,7 @@ function SharedEmailFields() {
   return (
     <>
       <Form.Item label="Business Owner">
-        <DropdownSelectUser name="BusinessOwner" placeholder="Employee Name" required={true} />
+        <DropdownSelectUser name="BusinessOwner" placeholder="Employee Name" required={true} isDisabled={false} />
       </Form.Item>
       <Form.Item name="SenderName" label="Email Name" rules={[{ required: true, message: false }]}>
         <Input placeholder="Sender Name" />

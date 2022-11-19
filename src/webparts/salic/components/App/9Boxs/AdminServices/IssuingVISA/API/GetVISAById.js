@@ -1,12 +1,11 @@
 import axios from "axios"
 
-export default async function IssuingVISARequest(data) {
+export default async function GetVISAById(email, id) {
   try {
     let request = await axios(
       {
-        method: 'POST',
-        url: 'https://salicapi.com/api/VISA/Add',
-        data: data
+        method: 'GET',
+        url: `https://salicapi.com/api/VISA/Get?Email=${email}&Id=${id}`,
       }
     )
     let response = request;

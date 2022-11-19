@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect} from 'react';
 import './ArticlePage.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Divider, Image, message, Spin, Tooltip, Typography } from 'antd';
-import { LoadingOutlined, PaperClipOutlined } from '@ant-design/icons';
+import { Divider, Image, message, Spin, Tag, Tooltip, Typography } from 'antd';
+import { CalendarOutlined, LoadingOutlined, PaperClipOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import GetArticleById from '../../API/GetArticleById';
 import { AppCtx } from '../../../../App';
@@ -58,7 +58,7 @@ function ArticlePage() {
               <Typography.Title level={3}>{article.Title}</Typography.Title>
               <Typography.Text type="secondary">
                 {/* by <b>{article.Author?.Title}</b>, at {moment(article.Created).format('MM/DD/YYYY hh:mm:ss')} */}
-                {article.PublishedDate && <>Publish Date {moment(article.PublishedDate).format('MM/DD/YYYY')}</>}
+                {article.PublishedDate && <><CalendarOutlined /> Publish Date {moment(article.PublishedDate).format('MM/DD/YYYY')}</>}
               </Typography.Text>
               <br />
               { 
@@ -71,9 +71,17 @@ function ArticlePage() {
                 </Typography.Link> 
               }
               <div className='research-article-paragraph'>
-                <Typography.Text style={{fontSize: '1.2rem'}}><br/>
+                <Typography.Text style={{fontSize: '1.2rem'}}>
                   <div dangerouslySetInnerHTML={{__html: article.Body}}></div>
                 </Typography.Text>
+              </div>
+
+              <div style={{marginTop: 25}}>
+              {
+                article.Tags
+                ? article.Tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
+                : null
+              }
               </div>
 
               {

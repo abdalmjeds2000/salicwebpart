@@ -10,6 +10,8 @@ import moment from 'moment';
 import OfficeRequest from './API/OfficeRequest';
 import GetOfficeSupplyRequestById from './API/GetOfficeSupplyRequestById'
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -24,7 +26,12 @@ function OfficeSupply() {
   const [loading, setLoading] = useState(true)
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
+  const [approvals, setApprovals] = useState([]);
 
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Office Supply'").expand('Email').get();
+    setApprovals(response);
+  }
 
   async function CreateOfficeSupplyRequest(values) {
     setLoading(true);
@@ -52,6 +59,7 @@ function OfficeSupply() {
       setLoading(false);
     }
   }
+
   async function GetOfficeSupplyRequestData(email, id) {
     setLoading(true);
     const response = await GetOfficeSupplyRequestById(email, id);
@@ -63,15 +71,35 @@ function OfficeSupply() {
     }
     setLoading(false);
   }
+
   useEffect(() => {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetOfficeSupplyRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
     }
   }, [user_data])
+
+
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
 
 
 
@@ -87,6 +115,10 @@ function OfficeSupply() {
         !loading
         ? <FormPage
             pageTitle={!id ? 'New Office Supply Request' : 'Office Supply Request'}
+            Header={
+              id && requestStatus !== "FIN" && IsApproval &&
+              <AddAction RequestType="Office" ModalTitle=" Approve Office Request" /> 
+            }
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}

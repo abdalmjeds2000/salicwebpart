@@ -74,7 +74,7 @@ function NewAccountFields() {
           <span style={{display: 'inline-block', width: 'calc(50% - 5px)'}}>Manager</span>
           <span style={{display: 'inline-block', width: 'calc(50% - 5px)', margin: '0 0 0 10px'}}>Hire Date</span>
           <Form.Item rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)' }} >
-            <DropdownSelectUser name="Manager" placeholder="Select Manager" required={true} />
+            <DropdownSelectUser name="Manager" placeholder="Select Manager" required={true} isDisabled={false} />
           </Form.Item>
           <Form.Item name="DateOfEmployee" rules={[{ required: true, message: '' }]} style={{ display: 'inline-block', width: 'calc(50% - 5px)', margin: '0 0 0 10px' }} >
             <DatePicker format="MM/DD/YYYY" style={{ width: "100%" }} />

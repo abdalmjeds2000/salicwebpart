@@ -80,7 +80,7 @@ function KnowledgeSection({sectionTitle, data}) {
                               key={i}
                               imgSrc={_CardImg} 
                               title={card.Title} 
-                              imgCustomStyle={{minWidth: 'calc(100%/3 - 40px/3)', height: '15rem'}}
+                              imgCustomStyle={{minWidth: 'calc(100%/4 - 60px/4)', height: '13rem'}}
                               openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} 
                             />
                           )

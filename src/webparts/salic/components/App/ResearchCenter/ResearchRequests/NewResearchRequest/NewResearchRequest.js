@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { Form, Input, Modal, Upload, message, DatePicker, Divider } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../App'
-import FormPage from '../../9Boxs/components/FormPageTemplate/FormPage';
-import SubmitCancel from '../../9Boxs/components/SubmitCancel/SubmitCancel';
+import { AppCtx } from '../../../App'
+import FormPage from '../../../9Boxs/components/FormPageTemplate/FormPage';
+import SubmitCancel from '../../../9Boxs/components/SubmitCancel/SubmitCancel';
 import AddResearchRequest from '../API/AddResearchRequest'
 
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };

@@ -11,7 +11,7 @@ import { AppCtx } from '../../../../App';
 
 
 function ResearchSection({sectionTitle, id, data, category}) {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
 
   const slideLeft = () => {
@@ -30,9 +30,13 @@ function ResearchSection({sectionTitle, id, data, category}) {
     <>
       <Row justify="space-between" align="middle">
         <Typography.Title level={3} style={{lineHeight: 2.5}}>{sectionTitle}</Typography.Title>
-        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/categories/${category}`)}>
-          See All
-        </Typography.Link>
+        {
+          category &&
+          <Typography.Link onClick={() => navigate(defualt_route + `/research-center/categories/${category?.join()}`)}>
+            See All
+          </Typography.Link>
+        }
+        
       </Row>
       <div className='research-section-container'>
       {

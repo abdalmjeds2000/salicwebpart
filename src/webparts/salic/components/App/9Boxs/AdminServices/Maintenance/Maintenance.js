@@ -10,7 +10,8 @@ import MaintenanceRequest from './API/MaintenanceRequest';
 import GetMaintenanceRequestById from './API/GetMaintenanceRequestById';
 import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
-import AddAction from '../components/AddAction/AddAction';
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 moment.locale('en');
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -23,7 +24,12 @@ function Maintenance() {
   let navigate = useNavigate();
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
+  const [approvals, setApprovals] = useState([]);
 
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Maintenance'").expand('Email').get();
+    setApprovals(response);
+  }
 
   async function CreateMaintenanceRequest(values) {
     setLoading(true);
@@ -57,6 +63,7 @@ function Maintenance() {
     const response = await GetMaintenanceRequestById(email, id);
     if(response.data.Status === 200 && response.data.Data.length > 0) {
       console.log(response.data.Data[0]);
+      document.title = ".:: SALIC Gate | Maintenance Request ::.";
       setRequestData(response.data.Data[0])
     } else {
       message.error("Error Get Request Data")
@@ -68,11 +75,29 @@ function Maintenance() {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetMaintenanceRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
     }
   }, [user_data])
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
+
 
   return (
     <>
@@ -85,7 +110,10 @@ function Maintenance() {
         ? <FormPage
             Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
             pageTitle={!id ? 'New Maintenance Request' : 'Maintenance Request'}
-            Header={id ? <AddAction RequestType="Maintenance" ModalTitle=" Approve Maintenance Request" /> : null}
+            Header={
+              id && requestStatus !== "FIN" && IsApproval &&
+              <AddAction RequestType="Maintenance" ModalTitle=" Approve Maintenance Request" /> 
+            }
             UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
             UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
             UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}

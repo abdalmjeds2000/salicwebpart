@@ -1,23 +1,20 @@
 import * as React from 'react';
 import './App.css';
 import { AppProps } from './AppProps';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import SidebarNav from './SidebarNav/SidebarNav';
 import AppRoutes from '../Routers/AppRoutes';
 import Header from '../App/Header/Header'
 import pnp from 'sp-pnp-js';
 import { createContext } from "react";
 import axios from 'axios';
-import GetAllNews from '../API/News/GetAllNews.js';
-import GetAllNotes from '../API/Notes/GetAllNotes';
-import GetlAllMediaCenter from '../API/MediaCenter/GetlAllMediaCenter';
-import GetAllEvents from '../API/GetAllEvents/GetAllEvents';
 import GetPerformance from './Home/First/Left/NumbersAttendance/API/GetPerformance';
 
 
 
 interface AppContext { }
 export const AppCtx = createContext<AppContext | null>(null);
+
 
 axios.interceptors.response.use(undefined, function (error) {
   if (error.response.status == 401) {
@@ -229,13 +226,18 @@ const App: React.FunctionComponent<AppProps> = (props) => {
 
 
     // Get All News
-      GetAllNews().then((res: any) => setNewsList(res)).catch((err: any) => { console.log(err) });
+    pnp.sp.web.lists.getByTitle('News').items.select('Author/Title,Author/EMail,Author/JobTitle,Subject,Photos,Id,ID,IsDraft,Description,CreatedOn,Created,IsPerson,AttachmentFiles').expand('Author,AttachmentFiles').top(500).orderBy("CreatedOn", false).get()
+    .then((res: any) => setNewsList(res)).catch((err: any) => { console.log(err) });
     // Get All Notes
-      GetAllNotes().then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
+    pnp.sp.web.lists.getByTitle('Sticky Notes').items.orderBy("CreateAt", false).top(10).get()
+    .then((res: any) => setNotesList(res)).catch((err: any) => { console.log(err) });
     // Get All Images for Media Center
-      GetlAllMediaCenter().then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
+    pnp.sp.web.lists.getByTitle('MediaCenter').renderListDataAsStream({
+      ViewXml: `<View Scope="RecursiveAll"><Query><Where><And><In><FieldRef Name="DocIcon"/><Values><Value Type="Computed">jpg</Value><Value Type="Computed">mp4</Value><Value Type="Computed">avi</Value><Value Type="Computed">png</Value><Value Type="Computed">gif</Value><Value Type="Computed">bmp</Value></Values></In><Eq><FieldRef Name="ContentType" /><Value Type="ContentType">Document</Value></Eq></And></Where></Query></View>`
+    }).then((res: any) => setMediaCenter(res)).catch((err: any) => { console.log(err) })
     // Get All Events
-      GetAllEvents().then((res: any) => setAllEvents(res)).catch((err: any) => { console.log(err) })
+    pnp.sp.web.lists.getByTitle('Saudi Arabia Events').items.orderBy("Date", false).get()
+    .then((res: any) => setAllEvents(res)).catch((err: any) => { console.log(err) })
     // Get Oracle Reports Data
       axios({
         method: 'GET',
@@ -245,11 +247,12 @@ const App: React.FunctionComponent<AppProps> = (props) => {
       })
       .catch(err => console.log(err))
 
+    // Get Gate Departments
     axios({method: "GET", url: "https://salicapi.com/api/Tracking/GetOracleFormData"})
     .then(response => setOracleFormData(response.data.Data))
     .catch(null)
 
-
+    // Get Gate Departments
     axios({method: "GET", url: "https://salicapi.com/api/user/departments"})
     .then(response => setSalicDepartments(response.data.Data))
     .catch(null)
@@ -309,10 +312,36 @@ const App: React.FunctionComponent<AppProps> = (props) => {
 
   };
 
+  // let link = document.querySelector("link[rel~='icon']");
+  // if (!link) {
+  //   link = document.createElement('link');
+  //   link.rel = 'icon';
+  //   document.getElementsByTagName('head')[0].appendChild(link);
+  // }
+  // link.href = 'https://salicapi.com/File/9244ecd5-d273-4ee9-bffe-2a8fcb140860.png';
+
+  
   return (
     <React.StrictMode>
       <AppCtx.Provider value={AppContextProviderSample}>
-        {
+        <div style={{display: isLoading ? 'none' : ''}}>
+          <Router>
+            <div className="app-container">
+              <SidebarNav spWebUrl={props.spWebUrl} />
+              <div className="content-container">
+                <img src={require('../../assets/images/world.svg')} className='img-bg' />
+                <Header />
+                <AppRoutes {...props} />
+              </div>
+            </div>
+          </Router>
+        </div>
+        <div className="loader" style={{display: !isLoading ? 'none' : ''}}>
+          <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
+          <div></div>
+        </div>
+
+        {/* {
           !isLoading
             ? <Router>
                 <div className="app-container">
@@ -333,7 +362,7 @@ const App: React.FunctionComponent<AppProps> = (props) => {
               <div></div>
             </div>
           : null
-        }
+        } */}
       </AppCtx.Provider>
     </React.StrictMode>
   )

@@ -1,102 +1,90 @@
 import * as React from 'react';
 import { RoutersProps } from './RoutersProps';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from '../App/Home/Home.js';
-import Communication from '../App/Communication/Communication.js';
-import AdminServices from '../App/9Boxs/AdminServices/AdminServices';
-import HRSelf from '../App/9Boxs/HRSelf/HRSelf';
-import ITServices from '../App/9Boxs/ITServices/ITServices';
-import NewITRequest from '../App/9Boxs/ITServices/IT/NewITRequest/NewITRequest';
-import RegisterNewAssets from '../App/9Boxs/ITServices/Assets/RegisterNewAssets/RegisterNewAssets';
-import MyItServiceRequests from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
-import ITRequestsAssignedForMe from '../App/9Boxs/ITServices/IT/AssignedForMe/ITRequestsAssignedForMe';
-import PreviewITServiceRequest from '../App/9Boxs/ITServices/IT/PreviewRequest/PreviewITServiceRequest';
-import ServiceRequestsDashboard from '../App/9Boxs/ITServices/IT/ServiceRequestDashboard/ServiceRequestsDashboard';
+import {
+  Home,
+  Communication,
+  AdminServices,
+  HRSelf,
+  ITServices,
+  NewITRequest,
+  RegisterNewAssets,
+  MyItServiceRequests,
+  ITRequestsAssignedForMe,
+  PreviewITServiceRequest,
+  ServiceRequestsDashboard,
+  NotificationCenter,
+  IssuingVISA,
+  BusinessGate,
+  Maintenance,
+  ShipmentRequest,
+  OfficeSupply,
+  Transportation,
+  AssignedRequests,
+  MyRequests,
+  Visitor,
+  Attendance,
+  CommunityNews,
+  NewsDetails,
+  FolderExplorerPage,
+  EInvoicing,
+  Performance,
+  AlMiraMagazine,
+  MeetingCenter,
+  NewMeeting,
+  MyMeetings,
+  RoomsCalender,
+  OracleReports,
+  ESignatureTool,
+  Investment,
+  Finance,
+  CorporateServices,
+  Legal,
+  RiskStrategy,
+  CorporateCommunication,
+  PowerBIInteractiveDashboards,
+  HumanCapital,
+  HRDashboard,
+  EmployeeAnalyticsDashboard,
+  Research,
+  CountryOutlook,
+  DelegationVisit,
+  CrisisPlan,
+  DemandForecast,
+  DomesticPrices,
+  InternationalPrices,
+  DailyDashboard,
+  ContentRequests,
+  NewContentRequest,
+  AllContentRequests,
+  MyContentRequests,
+  PreviewContentRequest,
+  ResearchRequests,
+  NewResearchRequest,
+  MyResearchRequests,
+  AllResearchRequests,
+  PreviewResearchRequest,
+  ArticlePage,
+  ManageDashboardData,
+  ResearchArticles,
+  ResearchNews,
+  ResearchCountry,
+  ResearchPulse,
+  CommodityPrices,
+  KnowledgeCenter,
+  ManageNewsContent,
+  MediaCenter,
+  ManageEvents,
+  SPSearch,
+  CorporateObjectiveKPIs,
+  ResearchDashboard,
+  CategoryPage,
+  PulseSection,
+  CountryCardsPage,
+  KnowledgeCardsPage,
+} from './ImportFiles';
 
-import NotificationCenter from '../App/NotificationCenter/NotificationCenter';
-import IssuingVISA from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';
-import BusinessGate from '../App/9Boxs/AdminServices/BusinessGate/BusinessGate';
-import Maintenance from '../App/9Boxs/AdminServices/Maintenance/Maintenance';
-import ShipmentRequest from '../App/9Boxs/AdminServices/ShipmentRequest/ShipmentRequest';
-import OfficeSupply from '../App/9Boxs/AdminServices/OfficeSupply/OfficeSupply';
-import Transportation from '../App/9Boxs/AdminServices/Transportation/Transportation';
-import AssignedRequests from '../App/9Boxs/AdminServices/AssignedRequests/AssignedRequests';
-import MyRequests from '../App/9Boxs/AdminServices/MyRequests/MyRequests';
 
-import Visitor from '../App/9Boxs/AdminServices/Visitor/Visitor';
-import Attendance from '../App/Attendance/Attendance';
-import CommunityNews from '../App/CommunityNews/CommunityNews';
-import NewsDetails from '../App/CommunityNews/NewsDetails/NewsDetails';
-import FolderExplorerPage from '../App/9Boxs/DMS/FolderExplorer';
-import EInvoicing from '../App/9Boxs/EInvoicing/EInvoicing';
-import Performance from '../App/9Boxs/Performance/Performance';
-import AlMiraMagazine from '../App/AlMiraMagazine/AlMiraMagazine';
-import MeetingCenter from '../App/MeetingCenter/MeetingCenter';
-import NewMeeting from '../App/MeetingCenter/NewMeeting/NewMeeting';
-import MyMeetings from '../App/MeetingCenter/MyMeetings/MyMeetings';
-import RoomsCalender from '../App/MeetingCenter/RoomsCalender/RoomsCalender';
-import OracleReports from '../App/OracleReports/OracleReports';
-import ESignatureTool from '../App/9Boxs/ESignatureTool/ESignatureTool';
-
-import Investment from '../App/6Boxs/Investment/Investment';
-import Finance from '../App/6Boxs/Finance/Finance';
-import CorporateServices from '../App/6Boxs/CorporateServices/CorporateServices';
-import Legal from '../App/6Boxs/Legal/Legal';
-import RiskStrategy from '../App/6Boxs/RiskStrategy/RiskStrategy';
-import CorporateCommunication from '../App/6Boxs/CorporateCommunication/CorporateCommunication';
-import PowerBIInteractiveDashboards from '../App/PowerBI/PowerBIInteractiveDashboards';
-
-import HumanCapital from '../App/PowerBI/HumanCapital/HumanCapital';
-import HRDashboard from '../App/PowerBI/HumanCapital/HRDashboard/HRDashboard';
-import EmployeeAnalyticsDashboard from '../App/PowerBI/HumanCapital/EmployeeAnalyticsDashboard/EmployeeAnalyticsDashboard';
-
-
-import Research from '../App/PowerBI/Research/Research';
-import CountryOutlook from '../App/PowerBI/Research/CountryOutlook/CountryOutlook'
-import DelegationVisit from '../App/PowerBI/Research/DelegationVisit/DelegationVisit'
-import CrisisPlan from '../App/PowerBI/Research/CrisisPlan/CrisisPlan'
-import DemandForecast from '../App/PowerBI/Research/DemandForecast/DemandForecast'
-import DomesticPrices from '../App/PowerBI/Research/DomesticPrices/DomesticPrices'
-import InternationalPrices from '../App/PowerBI/Research/InternationalPrices/InternationalPrices'
-import DailyDashboard from '../App/PowerBI/Research/DailyDashboard/DailyDashboard'
-
-
-import ContentRequests from '../App/ContentRequests/ContentRequests';
-import NewContentRequest from '../App/ContentRequests/NewRequest/NewContentRequest';
-import AllContentRequests from '../App/ContentRequests/AllRequests/AllContentRequests';
-import MyContentRequests from '../App/ContentRequests/MyRequests/MyContentRequests';
-import PreviewContentRequest from '../App/ContentRequests/PreviewRequest/PreviewContentRequest';
-
-import ResearchRequests from '../App/ResearchRequests/ResearchRequests';
-import NewResearchRequest from '../App/ResearchRequests/NewResearchRequest/NewResearchRequest';
-import MyResearchRequests from '../App/ResearchRequests/MyRequests/MyResearchRequests';
-import AllResearchRequests from '../App/ResearchRequests/AllRequests/AllResearchRequests';
-import PreviewResearchRequest from '../App/ResearchRequests/PreviewRequest/PreviewResearchRequest';
-import ArticlePage from '../App/ResearchCenter/Dashboard/components/ArticlePage/ArticlePage';
-
-import ManageDashboardData from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/ManageDashboardData';
-import ResearchArticles from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchArticles';
-import ResearchNews from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchNews';
-import ResearchCountry from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchCountry';
-import ResearchPulse from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/ResearchPulse';
-import CommodityPrices from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/CommodityPrices';
-import KnowledgeCenter from '../App/ResearchCenter/Dashboard/components/ManageDashboardData/Iframes/KnowledgeCenter';
-
-
-import ManageNewsContent from '../App/ManageNewsContent/ManageNewsContent';
-
-import MediaCenter from '../App/MediaCenter/MediaCenter';
-import ManageEvents from '../App/ManageEvents/ManageEvents';
-
-import SPSearch from '../App/SearchPage/SPSearch';
-
-import CorporateObjectiveKPIs from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
-
-import ResearchDashboard from '../App/ResearchCenter/Dashboard/ResearchDashboard';
-import CategoryPage from '../App/ResearchCenter/Dashboard/components/CategoryPage/CategoryPage';
-import PulseSection from '../App/ResearchCenter/Dashboard/components/CardsPage/PulseCardsPage';
-import CountryCardsPage from '../App/ResearchCenter/Dashboard/components/CardsPage/CountryCardsPage';
-import KnowledgeCardsPage from '../App/ResearchCenter/Dashboard/components/CardsPage/KnowledgeCardsPage';
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {

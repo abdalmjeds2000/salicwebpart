@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import '../../ContentRequests/PreviewRequest/PreviewRequest.css';
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import '../../../ContentRequests/PreviewRequest/PreviewRequest.css';
+import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppCtx } from '../../App'
+import { AppCtx } from '../../../App'
 import { Button, Col, message, Row, Timeline, Upload, Steps, Spin, Modal, Alert, Checkbox, Typography } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { CaretRightOutlined, CheckOutlined, CloseOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
-import Reply from '../../Global/RequestsComponents/Reply';
-import Section from '../../Global/RequestsComponents/Section';
-import SenderImg from '../../Global/RequestsComponents/SenderImg';
+import Reply from '../../../Global/RequestsComponents/Reply';
+import Section from '../../../Global/RequestsComponents/Section';
+import SenderImg from '../../../Global/RequestsComponents/SenderImg';
 import GetResearchRequest from '../API/GetReserchRequest';
 import AddNewReply from '../API/AddNewReply';
 import GetResearchReplys from '../API/GetResearchReplys';
-import FileIcon from '../../Global/RequestsComponents/FileIcon';
+import FileIcon from '../../../Global/RequestsComponents/FileIcon';
 import GetResearchRequestAssignee from '../API/GetResearchRequestAssignee';
 import UpdateAssignee from '../API/UpdateAssignee';
 import UpdateResearchRequest from '../API/UpdateResearchRequest';

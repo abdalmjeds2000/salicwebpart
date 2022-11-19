@@ -9,6 +9,7 @@ import PulseSection from './components/PulseSection/PulseSection';
 import CountrySection from './components/CountrySection/CountrySection';
 import CommodityPrices from './components/CommodityPrices/CommodityPrices';
 import KnowledgeSection from './components/KnowledgeSection/KnowledgeSection';
+import pnp from 'sp-pnp-js';
 import GetResearchArticles from './API/GetResearchArticles';
 import GetResearchNews from './API/GetResearchNews';
 import GetResearchPulse from './API/GetResearchPulse';
@@ -31,7 +32,7 @@ function ResearchDashboard() {
   
 
   const FetchData = async () => {
-    const responseArticles = await GetResearchArticles();
+    const responseArticles = await pnp.sp.web.lists.getByTitle('Research Articles').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').top(50).expand('AttachmentFiles').get();
     setResearchArticlesData(responseArticles);
     const responseNews = await GetResearchNews();
     setResearchNewsData(responseNews);
@@ -66,18 +67,18 @@ function ResearchDashboard() {
                 <Row gutter={[30, 30]}>
                   <Col xs={24} sm={24} md={12} lg={8}>
                     <ResearchSection 
-                      data={researchArticlesData.filter(r => r.ResearchType === "Primary")} 
-                      sectionTitle="Primary Research" 
+                      data={researchArticlesData} 
+                      sectionTitle="Latest Research" 
                       id="2" 
-                      category="Primary"
+                      // category={["Latest"]}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
                     <ResearchSection 
-                      data={researchArticlesData.filter(r => r.ResearchType === "Secondary")}
-                      sectionTitle="Secondary Research" 
+                      data={researchArticlesData.filter(r => r.ResearchType === "Primary" || r.ResearchType === "Secondary")}
+                      sectionTitle="Commodity Research" 
                       id="3" 
-                      category="Secondary"
+                      category={["Primary", "Secondary"]}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
@@ -85,7 +86,7 @@ function ResearchDashboard() {
                       data={researchArticlesData.filter(r => r.ResearchType === "AdHoc")} 
                       sectionTitle="Ad Hoc Research" 
                       id="1"
-                      category="AdHoc"
+                      category={["AdHoc"]}
                     />
                   </Col>
                   

@@ -11,6 +11,8 @@ import { AppCtx } from '../../../App';
 import TransportationRequest from './API/TransportationRequest';
 import GetTransportationRequest from './API/GetTransportationRequest';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
+import AddAction from '../AddAction/AddAction';
+import pnp from 'sp-pnp-js';
 
 const { Search } = Input;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
@@ -27,7 +29,12 @@ function Transportation() {
   const [passenger, setPassenger] = useState([{ key: 0, Name: '', Phone: '', Reason: '' }]);
   const [requestData, setRequestData] = useState({});
   const [serivceType, setSerivceType] = useState(id ? requestData.ToLink : 'OneWay');
+  const [approvals, setApprovals] = useState([]);
 
+  async function GetApprovals() {
+    const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Transportation'").expand('Email').get();
+    setApprovals(response);
+  }
 
   async function CreateBusinessGateRequest(values) {
     setLoading(true);
@@ -85,11 +92,31 @@ function Transportation() {
     if(id) {
       if(Object.keys(user_data).length > 0 && Object.keys(requestData).length === 0) {
         GetBusinessGateRequestData(user_data.Data.Mail, id);
+        GetApprovals();
       }
     } else {
       setLoading(false);
     }
   }, [user_data]);
+
+
+  // Check Request Status
+  let requestStatus = '';
+  if(requestData !== undefined && Object.keys(requestData).length > 0) {
+    requestStatus = requestData?.Status[requestData?.Status?.length-1]?.Type
+  }
+  // Check Is Approval
+  let IsApproval = false;
+  if(approvals !== undefined && Object.keys(approvals).length > 0) {
+    for (const approval of approvals) {
+      if (approval.Email?.EMail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        IsApproval = true;
+        break;
+      }
+    }
+  }
+
+
 
   return (
     <>
@@ -103,6 +130,10 @@ function Transportation() {
         ? (
             <FormPage
               pageTitle={!id ? 'New Transportation Request' : 'Transportation Request'}
+              Header={
+                id && requestStatus !== "FIN" && IsApproval &&
+                <AddAction RequestType="Transportation" ModalTitle="Approve Transportation Request" /> 
+              }
               Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
               UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
               UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}

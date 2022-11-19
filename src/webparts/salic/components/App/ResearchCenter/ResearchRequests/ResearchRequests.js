@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import HistoryNavigation from "../Global/HistoryNavigation/HistoryNavigation";
+import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
 import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../App'
+import { AppCtx } from '../../App'
 
 
 function ResearchRequests() {

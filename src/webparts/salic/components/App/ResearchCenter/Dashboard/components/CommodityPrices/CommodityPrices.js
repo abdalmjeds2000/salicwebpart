@@ -40,7 +40,7 @@ function CommodityPrices() {
                         src={link.Link}
                         frameborder="0" 
                         allowFullScreen="true"
-                        style={{minHeight: '990px', marginBottom: 25}}
+                        style={{minHeight: 'calc(100vh - 85px)', marginBottom: 25}}
                       ></iframe>
                     </Tabs.TabPane>
                   )

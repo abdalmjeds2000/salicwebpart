@@ -6,7 +6,6 @@ import SimpleUserPanel from "../Global/SimpleUserPanel/SimpleUserPanel";
 import {
   CalendarOutlined,
   CloseOutlined,
-  FileDoneOutlined,
   MenuOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
@@ -515,8 +514,8 @@ const SidebarNav = ({spWebUrl}) => {
       history_home_btn[0].childNodes[0].style.display = "none";
     }
 
-    // when page not home setIsGlobeReady true
-    if(location.pathname !== defualt_route+'/home') setIsGlobeReady(true)
+    // // when page not home setIsGlobeReady true
+    // if(location.pathname !== defualt_route+'/home') setIsGlobeReady(true)
   }, [location.pathname]);
 
   const listItems = [

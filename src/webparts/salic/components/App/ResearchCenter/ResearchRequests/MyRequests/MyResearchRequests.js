@@ -1,13 +1,13 @@
+import React, { useState, useEffect, useContext } from 'react';
 import { ClockCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Tag } from 'antd';
-import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../App';
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
-import RequestsTable from '../../Global/RequestsComponents/RequestsTable';
-import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable';
+import { AppCtx } from '../../../App';
+import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
+import RequestsTable from '../../../Global/RequestsComponents/RequestsTable';
+import UserColumnInTable from '../../../Global/UserColumnInTable/UserColumnInTable';
 import GetAllResearchRequests from '../API/GetAllResearchRequests';
-import StatusTag from '../../Global/RequestsComponents/StatusTag';
+import StatusTag from '../../../Global/RequestsComponents/StatusTag';
 
 function MyResearchRequests() {
   const { defualt_route, user_data, research_requests_data, setResearchRequestsData } = useContext(AppCtx);
