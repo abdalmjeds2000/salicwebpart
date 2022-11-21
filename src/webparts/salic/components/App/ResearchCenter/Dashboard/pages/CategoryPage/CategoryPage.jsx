@@ -77,13 +77,15 @@ function CategoryPage() {
 
   const ApplyFilter = async (values) => {
     values.Tags = selectedTags;
-    if(values.PublishDate) values.PublishDate = new Date(values.PublishDate).toLocaleDateString();
-    if(values.Title || values.Type || values.PublishDate || values.Tags.length > 0) {
+    if(values.PublishYear) values.PublishYear = new Date(values.PublishYear).toLocaleDateString();
+    if(values.Title || values.Type || values.PublishYear || values.Tags.length > 0) {
+      const startDate = new Date(new Date(values.PublishYear).getYear()+1900, 0, 1);
+      const endDate = new Date(new Date(values.PublishYear).getYear()+1901, 0, 1);
       console.log(values);
       setLoading(true);
-      if(values.Title) values.Title = `Title eq '${values.Title}'`;
+      if(values.Title) values.Title = `substringof('${values.Title}',Title)`;
       if(values.Type) values.Type = `ResearchType eq '${values.Type}'`;
-      if(values.PublishDate) values.PublishDate = `PublishedDate ge '${new Date(values.PublishDate).toISOString()}'`;
+      if(values.PublishYear) values.PublishYear = `PublishedDate ge '${startDate.toISOString()}' and PublishedDate le '${endDate.toISOString()}'`;
       // if(values.Tags.length === 0) values.Tags = undefined;
       values.Tags = undefined;
 
@@ -131,13 +133,15 @@ function CategoryPage() {
                     allowClear
                     placeholder="Search by Type"
                     style={{width: '100%'}}
-                    options={[{value: 'Primary', label: 'Primary Research'},{value: 'Secondary', label: 'Secondary Research'},{value: 'AdHoc', label: 'Ad Hoc Research'},]}
+                    options={[{value: 'Commodity', label: 'Commodity Research'},{value: 'AdHoc', label: 'Ad Hoc Research'}]}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Divider orientation="left" orientationMargin="0">Start Date</Divider>
-                <Form.Item name="PublishDate"><DatePicker size='middle' style={{width: '100%'}} format="MM/DD/YYYY" placeholder='Pick Publish Date' /></Form.Item>
+                <Divider orientation="left" orientationMargin="0">Select Publish Year</Divider>
+                <Form.Item name="PublishYear">
+                  <DatePicker size='middle' placeholder='Pick Publish Year' style={{width: '100%'}} picker="year" />
+                </Form.Item>
               </Col>
               <Col span={24}>
                 <Divider orientation="left" orientationMargin="0">By Tags</Divider>
@@ -172,7 +176,7 @@ function CategoryPage() {
                           }
                           });
                         return (
-                          <Col xs={24} sm={24} md={12} lg={8}>
+                          <Col xs={24} sm={24} md={24} lg={12} xl={6} xxl={4}>
                             <ArticleBox 
                               key={i}
                               Title={article.Title}

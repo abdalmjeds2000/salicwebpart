@@ -63,7 +63,7 @@ function ArticlePage() {
               </Typography.Text>
               <br />
               { 
-                article.FullReportLink && 
+                article.FullReportLink && article.ShowReportLink && 
                 <Typography.Link 
                   onClick={() => window.open(article.FullReportLink, '_blank')}>
                     <Tooltip title="Click to Open">
@@ -90,7 +90,7 @@ function ArticlePage() {
                   <>
                     <Divider />
                     <Typography.Text strong>Links:</Typography.Text>
-                    <div dangerouslySetInnerHTML={{__html: article.Hyperlink}}></div>
+                    { article.Hyperlink?.replace(/<[^>]*>/g, '')?.length > 0 && <div dangerouslySetInnerHTML={{__html: article.Hyperlink}}></div> }
                   </>
                 )
               }

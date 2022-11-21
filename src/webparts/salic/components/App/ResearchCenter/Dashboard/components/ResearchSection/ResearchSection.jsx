@@ -10,7 +10,7 @@ import { AppCtx } from '../../../../App';
 
 
 
-function ResearchSection({sectionTitle, id, data, category}) {
+function ResearchSection({sectionTitle, id, data, IsFeature}) {
   const { defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
 
@@ -23,9 +23,16 @@ function ResearchSection({sectionTitle, id, data, category}) {
     slider.scrollLeft = slider.scrollLeft + 175
   }
 
-  let _mainCard = data?.filter(row => row.IsFeature)[0];
-  let _secondaryCards = data?.filter(row => row.Id != _mainCard.Id);
+  let _mainCard = [];
+  let _secondaryCards = [];
 
+  if(data.length > 0 && IsFeature) {
+    _mainCard = data?.filter(row => row.IsFeature)[0];
+    _secondaryCards = data?.filter(row => row?.Id != _mainCard?.Id);
+  } else if(data.length > 0 && !IsFeature) {
+    _mainCard = data[0];
+    _secondaryCards = data?.filter(row => row?.Id != _mainCard?.Id);
+  } 
   return (
     <>
       <Row justify="space-between" align="middle">

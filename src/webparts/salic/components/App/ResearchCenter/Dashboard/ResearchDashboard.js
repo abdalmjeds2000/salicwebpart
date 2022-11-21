@@ -64,13 +64,15 @@ function ResearchDashboard() {
                       data={researchArticlesData} 
                       sectionTitle="Latest Research" 
                       id="2" 
+                      IsFeature={false}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
                     <ResearchSection 
-                      data={researchArticlesData.filter(r => r.ResearchType === "Primary" || r.ResearchType === "Secondary")}
+                      data={researchArticlesData.filter(r => r.ResearchType === "Commodity")}
                       sectionTitle="Commodity Research" 
                       id="3" 
+                      IsFeature={true}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={8}>
@@ -78,6 +80,7 @@ function ResearchDashboard() {
                       data={researchArticlesData.filter(r => r.ResearchType === "AdHoc")} 
                       sectionTitle="Ad Hoc Research" 
                       id="1"
+                      IsFeature={true}
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={14}>
