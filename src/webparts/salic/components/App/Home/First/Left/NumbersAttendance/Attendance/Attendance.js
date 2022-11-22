@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './Attendance.css';
 import { useNavigate } from 'react-router-dom';
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
 import { AppCtx } from '../../../../../App';
 import AntdLoader from '../../../../../Global/AntdLoader/AntdLoader';
+import { LoadingOutlined } from '@ant-design/icons';
 
 
 function Attendance(props) {
@@ -58,7 +59,7 @@ function Attendance(props) {
               })
             )
             : !isNoData 
-              ? <tr><td colSpan={5} style={{paddingTop: '25px', textAlign: 'center'}}><AntdLoader /></td></tr> 
+              ? <tr><td colSpan={5} style={{paddingTop: '30px', textAlign: 'center'}}><Spin indicator={<LoadingOutlined spin />} /></td></tr> 
               : <tr><td colSpan={5}><div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Attendance information is not available." /></div></td></tr>
           }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Col, Divider, Form, Input, message, Row, Typography } from 'antd';
+import { Button, Col, Input, message, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
@@ -8,19 +8,17 @@ import { SPHttpClient } from '@microsoft/sp-http'
 import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
-import FilterPanel from '../components/FilterPanel/FilterPanel';
 
 
 function PulseCardsPage() {
   const { defualt_route, sp_context } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const _pageSize = 25;
+  const _pageSize = 24;
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsCount, setItemsCount] = useState(0);
   const [isFilterData, setIsFilterData] = useState(false);
-  const [form] = Form.useForm();
 
 
   const FetchData = async (page, pageSize) => {
@@ -50,27 +48,41 @@ function PulseCardsPage() {
       FetchData(1, _pageSize);
   }, []);
 
-  const ApplyFilter = async (values) => {
-    if(values.Title) {
-      console.log(values);
-      setLoading(true);
-      if(values.Title) values.Title = `Title eq '${values.Title}'`;
-      Object.keys(values).forEach(key => (values[key] === undefined || values[key] === null || values[key] === '') && delete values[key])
 
-      const items = await pnp.sp.web.lists.getByTitle("Research Pulse").items
-        .filter(Object.values(values).join(' and '))
-        .select('Author/Title,AttachmentFiles,*')
-        .expand('Author,AttachmentFiles').get()
-      if(items.length > 0) {
-        setData(items);
-        message.success(`Found: ${items.length} item.`)
-        setIsFilterData(true);
-      } else {
-        message.info("No Data Match!");
+  const ApplyFilter = async (values) => {
+    setLoading(true);
+    if(values.Title || values.Type || values.PublishYear || values.Tags.length > 0) {
+      let filterList = [];
+      if(values.Title.length > 0) filterList.push(`<Contains><FieldRef Name='Title' /><Value Type='Text'>${values.Title}</Value></Contains>`);
+      Object.keys(values).forEach(key => (values[key] === undefined || values[key] === null || values[key] === '') && delete values[key])
+      const q = {
+        ViewXml: `<View Scope='RecursiveAll'>
+          <Query>
+            <Where>
+              ${filterList.map((_, i) => i != 0 ? '<And>' : '')}
+              ${filterList.map((filter, i) => i != 0 ? filter+'</And>' : filter)}
+            </Where>
+            <OrderBy>
+              <FieldRef Name='Created' Ascending='False' />
+            </OrderBy>
+          </Query>
+          <RowLimit>50</RowLimit>
+        </View>`
       }
-      setLoading(false);
+      const items = await pnp.sp.web.lists.getByTitle("Research Pulse")
+      .getItemsByCAMLQuery(q, 'AttachmentFiles')
+      .then(responseData => {
+        if(responseData.length > 0) {
+          setData(responseData);
+          setIsFilterData(true);
+        } else {
+          message.info("No Data Match!");
+        }
+      })
     }
+    setLoading(false);
   }
+
 
   const pageCount = Math.ceil(itemsCount / _pageSize);
 
@@ -85,20 +97,13 @@ function PulseCardsPage() {
       
       <div className='standard-page'>
         <div style={{display: 'flex'}}>
-          <Form form={form} onFinish={ApplyFilter}>
-            <FilterPanel 
-              onResetFilter={() => {FetchData(1, _pageSize); setIsFilterData(false); form.resetFields();}} 
-              IsShowRemoveFilter={isFilterData}
-            >
-              <Col span={24}>
-                <Divider orientation="left" orientationMargin="0">By Title</Divider>
-                <Form.Item name="Title"><Input placeholder="Search by Title" size='middle' /></Form.Item>
-              </Col>
-            </FilterPanel>
-          </Form>
           <div style={{width: '100%'}}>
             <Row justify="space-between" align="middle" wrap={true}>
-              <Col flex={8}>
+              <Col span={24} style={{maxWidth: '65%', margin: '0 auto', display: 'flex', alignItems: 'center'}}>
+                <Input.Search placeholder="Search by Title" size='large' loading={loading} onSearch={value => value?.length >= 3 ? ApplyFilter({Title: value}) : message.info("Enter 3 charachter or more!")} enterButton  />
+                {isFilterData && <Button type="primary" size='large' danger onClick={() => {setIsFilterData(false); FetchData(1, _pageSize);} }>Remove Filter</Button>}
+              </Col>
+              <Col span={24}>
                 <Typography.Title level={2} style={{lineHeight: 2.5}}>Pulse</Typography.Title>
               </Col>
             </Row>
@@ -139,7 +144,7 @@ function PulseCardsPage() {
                 currentPage={currentPage}
                 totalPages={pageCount}
                 onChange={(page) => FetchData(page, _pageSize)}
-                limiter={25}
+                limiter={24}
               />
             </Row>}
           </div>

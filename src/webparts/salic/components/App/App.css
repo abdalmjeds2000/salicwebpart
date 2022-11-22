@@ -192,6 +192,18 @@ img.img-bg {
 }
 
 
+/* fix antd test input */
+.ant-input {
+  padding: 4px 11px !important;
+  border: 1px solid #d9d9d9 !important;
+}
+.ant-input-lg {
+  padding: 6.5px 11px !important;
+}
+
+
+
+
 
 
 

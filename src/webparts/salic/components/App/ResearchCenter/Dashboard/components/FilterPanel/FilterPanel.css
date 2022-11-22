@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 20px;
   justify-content: space-between;
-  min-height: calc(100vh - 135px);
+  height: calc(100vh - 135px);
   width: 15rem;
   box-shadow: 0 5px 12px rgb(0 0 0 / 8%);
   overflow: hidden;
@@ -23,17 +23,10 @@
   z-index: 1;
   box-shadow: 0 10px 25px #00000035;
 }
-.mobile-filter-icon {
-  display: none;
-  position: absolute;
-  right: 25px;
-  top: 40px;
-  z-index: 1;
-}
 @media screen and (max-width: 999px) {
   .search-center-filter-panel {
     position: absolute;
-    top: 115px;
+    top: 155px;
     left: 50%;
     width: calc(100% - 50px);
     min-height: calc(100vh - 250px);
@@ -41,15 +34,11 @@
     overflow: auto;
     box-shadow: 0 10px 60px rgba(0,0,0,.5);
   }
-  .mobile-filter-icon {
-    display: flex;
-  }
 }
 
 @media screen and (min-width: 1000px) {
   .search-center-filter-panel {
     display: flex;
-    overflow: auto;
     margin-right: 15px;
   }
 }
