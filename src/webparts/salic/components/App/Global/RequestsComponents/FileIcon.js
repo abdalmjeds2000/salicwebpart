@@ -7,7 +7,10 @@ import rarIcon from '../../../../assets/icons/FilesIcons/zip.png'
 import wordIcon from '../../../../assets/icons/FilesIcons/doc.png'
 import pptIcon from '../../../../assets/icons/FilesIcons/ppt.png'
 import csvIcon from '../../../../assets/icons/FilesIcons/csv.png'
+import folderIcon from '../../../../assets/icons/FilesIcons/folder.png'
 import fileIcon from '../../../../assets/icons/FilesIcons/file.png'
+
+import { Tooltip } from "antd";
 
 const FileIcon = (props) => {
     const checkFileType = (fileType) => {
@@ -27,19 +30,22 @@ const FileIcon = (props) => {
             return pptIcon
         } else if(['xlsx', 'xls'].includes(fileType?.toLowerCase())) {
             return csvIcon
+        } else if(['folder'].includes(fileType?.toLowerCase())) {
+            return folderIcon
         } else {
             return fileIcon
         }
     }
     return (
-        <img 
-            src={checkFileType(props.FileType)}
-            title={props.FileName}
-            data-guid={props.FilePath} 
-            onClick={() => window.open(props.FilePath, "_blank")} 
-            width={props.IconWidth}
-            className='attachment-file-icon'
-        />
+        <Tooltip title={props.FileName}>
+            <img 
+                src={checkFileType(props.FileType)}
+                data-guid={props.FilePath} 
+                onClick={() => window.open(props.FilePath, "_blank")} 
+                width={props.IconWidth}
+                className='attachment-file-icon'
+            />
+        </Tooltip>
     )
 }
 

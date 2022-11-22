@@ -3,6 +3,7 @@ import '../CustomProgressChart/CustomChart.css';
 import { Card, Select, Typography } from 'antd';
 import { useState } from 'react';
 import ProgressRowItem from '../CustomProgressChart/ProgressRowItem';
+import LineChart from '../../../../../../../Global/CustomLineChart/LineChart';
 
 
 function UserSRSummary(props) {
@@ -46,17 +47,17 @@ function UserSRSummary(props) {
           {
             dataBy == "Status"
             ? (
-              <div className='custom-progress'>
-                <div className='progress'>
-                  <div style={{width: `${(ProcessingCount/TotalCount)*100}%`}} className='progress-bar bg-warning' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(SubmittedCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(ClosedCount/TotalCount)*100}%`}} className='progress-bar bg-success' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                <div className='custom-progress'>
+                  <div className='progress'>
+                    <div style={{width: `${(ProcessingCount/TotalCount)*100}%`}} className='progress-bar bg-warning' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div style={{width: `${(SubmittedCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div style={{width: `${(ClosedCount/TotalCount)*100}%`}} className='progress-bar bg-success' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
 
-                <ProgressRowItem type="info" title="Submitted" desc="Submitted and No Action" count={`${SubmittedCount} SR.`} />
-                <ProgressRowItem type="warning" title="Processing" desc="SR. currently you are working on" count={`${ProcessingCount} SR.`} />
-                <ProgressRowItem type="success" title="Closed" desc="SR. you Handled" count={`${ClosedCount} SR.`} />
-              </div>
+                  <ProgressRowItem type="info" title="Submitted" desc="Submitted and No Action" count={`${SubmittedCount} SR.`} />
+                  <ProgressRowItem type="warning" title="Processing" desc="SR. currently you are working on" count={`${ProcessingCount} SR.`} />
+                  <ProgressRowItem type="success" title="Closed" desc="SR. you Handled" count={`${ClosedCount} SR.`} />
+                </div>
               )
             : (
               <div className='custom-progress'>
@@ -70,6 +71,17 @@ function UserSRSummary(props) {
               </div>
               )
           }
+
+
+
+          {/* <LineChart 
+                  totalCount={TotalCount}
+                  items={[
+                    {title: "Processing from component", count: ProcessingCount, type: "warning", description: "SR. currently you are working on", countLabel: `${ProcessingCount} SR.`},
+                    {title: "Submitted from component", count: SubmittedCount, type: "info", description: "Submitted and No Action", countLabel: `${SubmittedCount} SR.`},
+                    {title: "Closed from component", count: ClosedCount, type: "success", description: "SR. you Handled", countLabel: `${ClosedCount} SR.`},
+                  ]}
+                /> */}
         </div>
       </Card>
     </div>

@@ -1,21 +1,33 @@
-import React, { useContext, useState } from 'react'
-import { Button, Form, Input, Upload, Radio, Select, Space, DatePicker, InputNumber, Modal } from 'antd';
+import React, { useContext, useEffect, useState } from 'react'
+import { Button, Form, Input, Upload, Radio, Select, Space, DatePicker, InputNumber, Modal, message, Divider, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../../components/SubmitCancel/SubmitCancel';
+import moment from 'moment';
 import { AppCtx } from '../../../../App';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 
 function RegisterNewAssets() {
   const { user_data, defualt_route } = useContext(AppCtx);
-  
+  let navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [categoryType, setCategoryType] = useState("Hardware");
+  const [lookupsData, setLookupsData] = useState([]);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -23,36 +35,82 @@ function RegisterNewAssets() {
   const handleCancel = () => setPreviewVisible(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
-      // file.preview = await getBase64(file.originFileObj);
+      file.preview = await getBase64(file.originFileObj);
     }
-
     setPreviewImage(file.url || file.preview);
     setPreviewVisible(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  let getDateAndTime = () => {
-    const today = new Date();
-    const date = today.getDate() +'-'+ (today.getMonth()+1)+'-' + today.getFullYear();
-    const time = today.getHours() + ":" + today.getMinutes() 
-    return date + ' ' + time
+
+
+
+
+  var types = lookupsData?.filter(x=>x.Property === 'Type');
+  var brands = lookupsData?.filter(x=>x.Property === 'Brand');
+  var models = lookupsData?.filter(x=>x.Property === 'Model');
+  var supplier = lookupsData?.filter(x=>x.Property === 'Supplier');
+  const getLookups = async () => {
+    const lookupsResponse = await axios.get('https://salicapi.com/api/Asset/GetLookups');
+    if(lookupsResponse.data?.Status === 200) {
+      setLookupsData(lookupsResponse.data?.Data);
+    }
   }
 
 
-  let navigate = useNavigate();
+
+  const SubmitForm = async (formData) => {
+    setBtnLoader(true);
+
+    // Get Files Nemes Uploaded & check if all files finish uploading
+    let isFilesFinishUpload = true;
+    const files = fileList.map((file) => {
+      if (file.status === "uploading") isFilesFinishUpload = false;
+      return file.response?.uploadedFiles[0]?.Name;
+    });
+    if(isFilesFinishUpload) {
+      formData.ReceivedDate = new Date(formData.ReceivedDate).toLocaleDateString()
+      formData.Email = user_data.Data?.Mail;
+      formData.FileNames = files.join();
+      formData.Id = user_data.Data?.Id;
+      formData.SubDevices = JSON.stringify(formData.SubDevices);
+      
+      const requestResponse = await axios.post('https://salicapi.com/api/Asset/Add', formData);
+      if(requestResponse) {
+        notification.success({message: 'Your request has been sent successfully'})
+        setFileList([]);
+        setCategoryType("Hardware");
+        form.resetFields();
+      }
+      console.log('assets formData', formData);
+    } else {
+      message.error("Wait For Uploading...")
+    }
+    
+    setBtnLoader(false);
+  }
+
+
+  useEffect(() => {
+    getLookups();
+  }, [])
+
 
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
+        <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>Register New Asset</p>
       </HistoryNavigation>
       
 
       <FormPage
-        user_data={user_data}
-        pageTitle='Service Request'
-        tips_userInfo={[{title: 'SALIC', text: user_data.Data?.Department}]}
+        pageTitle='VISA Visitor Request'
+        Email={user_data.Data.Mail}
+        UserName={user_data.Data.DisplayName}
+        UserDept={user_data.Data.Title}
+        UserNationality={user_data.Data.Nationality || ' - '}
+        UserId={user_data.Data?.Iqama || ' - '}
         tipsList={[
           "Fill out required fields carefully.",
           "If Possile upload captured images for the problem.",
@@ -64,52 +122,55 @@ function RegisterNewAssets() {
           {...layout} 
           colon={false}
           labelWrap 
-          name="service-request" 
-          onFinish={values => console.log(values)} /* validateMessages={validateMessages} */
+          form={form}
+          name="asset-register" 
           layout="horizontal"
+          onFinish={SubmitForm}
+          onFinishFailed={() => message.error("Please, fill out the form correctly.")}
         >
 
 
-          <Form.Item name="Creation Date" label="Creation Date" initialValue={getDateAndTime()} >
-            <Input placeholder='Date' size='large' disabled />
+
+          <Form.Item name="createdAt" label="Creation Date" initialValue={moment(new Date()).format("MM/DD/YYYY hh:mm")}>
+            <Input size='large' disabled />
           </Form.Item>
-          <Form.Item name="Receiving Date" label="Receiving Date" rules={[{required: true,}]} >
+          <Form.Item name="ReceivedDate" label="Receiving Date" rules={[{required: true}]} >
             <DatePicker format='MM/DD/YYYY' size='large' placeholder='select the date you recieved the asset' />
           </Form.Item>
-          <Form.Item name="Tag Number" label="Tag Number" rules={[{required: true,}]} >
+          <Form.Item name="TagNumber" label="Tag Number" rules={[{required: true}]} >
             <Input placeholder='auto generated' size='large' />
           </Form.Item>
-          <Form.Item name="S/N" label="S/N" rules={[{required: true,}]} >
+          <Form.Item name="SN" label="S/N" rules={[{required: true}]} >
             <Input placeholder='(i.e. 0A4WHMCD700181R)' size='large' />
           </Form.Item>
-          <Form.Item name="Asset Number" label="Asset Number " rules={[{required: true,}]} >
+          <Form.Item name="AssetNumber" label="Asset Number" rules={[{required: true,}]} >
             <Input placeholder='full asset number' size='large' />
           </Form.Item>
-          <Form.Item name="Asset Name" label="Asset Name" rules={[{required: true,}]} >
+          <Form.Item name="Name" label="Asset Name" rules={[{required: true,}]} >
             <Input placeholder='enter full name' size='large' />
           </Form.Item>
 
-          <hr />
+          <Divider />
 
-          <Form.Item name="Category" label="Category" rules={[{required: true,}]} >
-            <Radio.Group onChange={e => console.log(e.target.value)} value={1}>
+          <Form.Item name="CategoryType" label="Category" initialValue="Hardware" rules={[{required: true}]} >
+            <Radio.Group value={categoryType} onChange={({ target: { value } }) => {setCategoryType(value)}}>
               <Space direction="vertical">
-                <Radio value={1}>
-                  Hardware Devices <br />
-                  <span style={{color: 'var(--main-color)'}}>Hardware such as laptop, screen, or phone</span>
+                <Radio value="Hardware">
+                  <span>Hardware Devices</span> <br />
+                  <p>Hardware such as laptop, screen, or phone</p>
                 </Radio>
-                <Radio value={2}>
-                  Software Licenses<br />
-                  <span style={{color: 'var(--main-color)'}}>Software licenses such as Adobe and Office 365 Suite</span>
+                <Radio value="Software">
+                  <span>Software Licenses</span> <br />
+                  <p>Software licenses such as Adobe and Office 365 Suite</p>
                 </Radio>
-                <Radio value={3}>
-                  Cables & Accessories <br />
-                  <span style={{color: 'var(--main-color)'}}>Computer or phone accessories such as USB cables, USB HUB, and USB Flashs</span>
+                <Radio value="Accessories">
+                  <span>Cables & Accessories</span> <br />
+                  <p>Computer or phone accessories such as USB cables, USB HUB, and USB Flashs</p>
                 </Radio>
               </Space>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="Type" label="Type" rules={[{required: true,}]}>
+          {categoryType === "Hardware" && <Form.Item name="Type" label="Type" rules={[{required: true,}]}>
             <Select
               showSearch
               placeholder="select device type"
@@ -121,72 +182,35 @@ function RegisterNewAssets() {
               <Option value="Laptop">Laptop</Option>
               <Option value="Monitor">Monitor</Option>
               <Option value="Printer">Printer</Option>
-              <Option value="Disktop">Disktop</Option>
+              <Option value="Desktop">Desktop</Option>
               <Option value="Server">Server</Option>
-              <Option value="Access Point">Access Point</Option>
-              <Option value="Codec">Codec</Option>
-              <Option value="Core Switch">Core Switch</Option>
-              <Option value="DC Monitor">DC Monitor</Option>
-              <Option value="Fiber Connector">Fiber Connector</Option>
-              <Option value="Fiber Patch Panel">Fiber Patch Panel</Option>
-              <Option value="Firewall">Firewall</Option>
-              <Option value="Internet Router">Internet Router</Option>
-              <Option value="Ipad">Ipad</Option>
-              <Option value="Multiplexer">Multiplexer</Option>
-              <Option value="NVR">NVR</Option>
-              <Option value="Patch Panel">Patch Panel</Option>
-              <Option value="PC">PC</Option>
-              <Option value="Port Replicator">Port Replicator</Option>
-              <Option value="Printer">Printer</Option>
-              <Option value="Rack">Rack</Option>
-              <Option value="Rack Server">Rack Server</Option>
-              <Option value="Scheduling Panel">Scheduling Panel</Option>
-              <Option value="Server">Server</Option>
-              <Option value="Siemens Simatic">Siemens Simatic</Option>
-              <Option value="Storage Server">Storage Server</Option>
-              <Option value="Switch">Switch</Option>
-              <Option value="UPS">UPS</Option>
-              <Option value="UPS 2">UPS 2</Option>
-              <Option value="Video Conference">Video Conference</Option>
-              <Option value="Voice Router">Voice Router</Option>
-              <Option value="Wireless Controller">Wireless Controller</Option>
-              <Option value="Undefined">Undefined</Option>
-              <Option value="Module">Module</Option>
-              <Option value="SDS">SDS</Option>
-              <Option value="Attendance">Attendance</Option>
+              {types?.map((row, i) => <Option key={i} value={row.Value}>{row.Value}</Option>)}
             </Select>
-          </Form.Item>
-          <Form.Item name="Brand/Manufacture/Company" label="Brand/Manufacture/Company" rules={[{required: true,}]}>
+          </Form.Item>}
+          
+          <Form.Item name="Brand" label="Brand/Manufacture/Company" rules={[{required: true}]}>
             <Select
               showSearch
               placeholder="select one value"
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
             >
-              <Option value="Laptop">Laptop</Option>
-              <Option value="Monitor">Monitor</Option>
-              <Option value="Printer">Printer</Option>
+              {brands?.map((row, i) => <Option key={i} value={row.Value}>{row.Value}</Option>)}
             </Select>
           </Form.Item>
-          <Form.Item name="Model/Version" label="Model/Version" rules={[{required: true,}]}>
+          <Form.Item name="Model" label="Model/Version" rules={[{required: true}]}>
             <Select
               showSearch
               placeholder="select device model"
               optionFilterProp="children"
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
             >
-              <Option value="jack">Lorem, ipsum dolor.</Option>
-              <Option value="lucy">Lorem ipsum dolor sit amet consectetur.</Option>
-              <Option value="tom">Lorem ipsum dolor sit.</Option>
+              {models?.map((row, i) => <Option key={i} value={row.Value}>{row.Value}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item name="Classification" label="Classification" >
-            <Select placeholder="employee name" size="large" /* onChange={value => console.log(value)} */ >
+            <Select placeholder="employee name" size="large">
               <Option value="Normal">Normal</Option>
               <Option value="Meduim">Meduim</Option>
               <Option value="High">High</Option>
@@ -194,56 +218,52 @@ function RegisterNewAssets() {
             </Select>
           </Form.Item>
 
-          <hr />
+          <Divider />
 
           <Form.Item name="Quantity" label="Quantity" initialValue={1}>
-            <InputNumber size="large" min={1} max={1000000} placeholder="default is 1" />
+            <InputNumber size="large" min={1} placeholder="default is 1" />
           </Form.Item>
-          <Form.Item name="Cost" label="Cost" rules={[{required: true,}]}>
-            <InputNumber size="large" min={1} max={1000000} placeholder="asset cost in SAR" />
+          <Form.Item name="Cost" label="Cost" rules={[{required: true}]}>
+            <InputNumber size="large" min={1} placeholder="asset cost in SAR" />
           </Form.Item>
-          <Form.Item name="Purchase Order #" label="Purchase Order #">
+          <Form.Item name="PurchaseOrder" label="Purchase Order #">
             <Input placeholder='PO# (i.e. 800)' size='large' />
           </Form.Item>
-          <Form.Item name="Warranty/Expiration" label="Warranty/Expiration" rules={[{required: true,}]}>
-            <InputNumber size="large" min={-1000000} max={1000000} placeholder="warranty in months" />
+          <Form.Item name="Warranty" label="Warranty/Expiration" rules={[{required: true}]}>
+            <InputNumber size="large" placeholder="warranty in months" />
           </Form.Item>
 
-          <hr />
+          <Divider />
 
-          <Form.Item name="Supplier" label="Supplier" rules={[{required: true,}]}>
+          <Form.Item name="Supplier" label="Supplier" rules={[{required: true}]}>
             <Select
               showSearch
               placeholder="select supplier name"
-              // onChange={value => console.log(value)}
-              // onSearch={value => console.log(value)}
               filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
               size="large"
             >
-              <Option value="jack">Lorem, ipsum dolor.</Option>
-              <Option value="lucy">Lorem ipsum dolor sit amet consectetur.</Option>
-              <Option value="tom">Lorem ipsum dolor sit.</Option>
+              {supplier?.map((row, i) => <Option key={i} value={row.Value}>{row.Value}</Option>)}
             </Select>
           </Form.Item>
-          <Form.Item name="Contact Info" label="Contact Info">
+          <Form.Item name="SupplierInfo" label="Contact Info">
             <Input placeholder='supplier address / telephone' size='large' />
           </Form.Item>
 
-          <hr />
+          <Divider />
 
-          <Form.Item name="Sub devices" label="Sub devices">
-            <Form.List name="users">
+          <Form.Item label="Sub devices">
+            <Form.List name="SubDevices">
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
                     <Space key={key} align="baseline">
-                      <Form.Item {...restField} name={[name, 'device name']}>
+                      <Form.Item {...restField} name={[name, 'name']} rules={[{required: true, message: false}]}>
                         <Input placeholder="device name (e.g. HP charge 75W)" />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'tag number']}>
+                      <Form.Item {...restField} name={[name, 'tag']} rules={[{required: true, message: false}]}>
                         <Input placeholder="tag number" />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'serial number']}>
+                      <Form.Item {...restField} name={[name, 'sn']} rules={[{required: true, message: false}]}>
                         <Input placeholder="serial number" />
                       </Form.Item>
                       <MinusCircleOutlined onClick={() => remove(name)} />
@@ -258,25 +278,25 @@ function RegisterNewAssets() {
               )}
             </Form.List>
           </Form.Item>
-          <Form.Item name="Descriptions" label="Descriptions">
+          <Form.Item name="Description" label="Description">
             <Input.TextArea rows={6} placeholder="write a brief description" />
           </Form.Item>
-          <Form.Item name="Photos" label="Photos">
+          <Form.Item label="Photos">
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="https://salicapi.com/api/uploader/up"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList.length >= 8 ? null : <div><PlusOutlined /><div style={{marginTop: 8,}}>Upload</div></div>}
+              {fileList.length >= 25 ? null : <div><PlusOutlined /><div style={{marginTop: 8}}>Upload</div></div>}
             </Upload>
             <Modal open={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img alt="example" style={{width: '100%'}} src={previewImage} />
             </Modal>
           </Form.Item>
 
-          <SubmitCancel formSubmitHandler={_ => {alert('Submit')}} />
+          <SubmitCancel loaderState={btnLoader} backTo="/services-requests" />
         </Form>
       </FormPage>
     </>

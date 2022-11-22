@@ -60,14 +60,22 @@ html {
   background: linear-gradient(0deg,#e0e9ff,#fff);
 }
 .container {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
   max-width: 2560px;
   position: relative;
-  top: 50px;
-  margin-bottom: 50px;
+  margin: 25px auto 25px auto;
 }
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+  .container {
+    margin: 15px auto 15px auto;
+  }
+}
+@media screen and (min-width: 0px) and (max-width: 799px) {
+  .container {
+    margin: 10px auto 10px auto;
+  }
+}
+
+
 
 
 
@@ -133,24 +141,24 @@ img.img-bg {
 
 /* standard app page */
 .standard-page {
-  padding: 25px;
+  margin: 110px 25px 25px 25px;
   position: relative;
-  top: 85px;
-  margin-bottom: 85px;
-  min-height: calc(100vh - 85px);
 }
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .standard-page {
-    padding: 15px;
+    margin: 100px 15px 15px 15px;
   }
 }
-
-
 @media screen and (min-width: 0px) and (max-width: 799px) {
   .standard-page {
-    padding: 10px;
+    margin: 95px 10px 10px 10px;
   }
 }
+
+
+
+
+
 /* Custom Scroll Bar */
 /* width */
 ::-webkit-scrollbar {

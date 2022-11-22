@@ -1,46 +1,44 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import './searchStyle.css';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
+import Header from './components/Header';
+import Result from './components/Result';
+import axios from 'axios';
+import { AppCtx } from '../App';
+
 
 
 function SPSearch() {
   const [loading, setLoading] = useState(true);
+  const { sp_context } = useContext(AppCtx);
 
-  const removeSpElements = () => {
-    // try {
-    //   let element = document.getElementById("sp-modern-search");
-    //   let elmnt2 = element.contentWindow.document.getElementById("RecommendedItems");
-    //   elmnt2.style = "display: none;"
-    //   let elmnt3 = element.contentWindow.document.getElementById("CommentsWrapper");
-    //   elmnt3.style = "display: none;"
-    //   let elmnt4 = element.contentWindow.document.getElementById("RecommendedItems");
-    //   elmnt4.style = "display: none;"
-    //   let elmnt1 = element.contentWindow.document.getElementsByClassName("er_t_ada2ac09")[0];
-    //   elmnt1.style = "display: none;"
-    // } catch {
-    //   console.log('sp')
-    // }
-
-    setLoading(false);
+  const textsearch = async (SearhcTerm) => {
+    const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`)
+    const response = await axios({
+      method: 'POST',
+      url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json;odata=verbose",
+        "X-RequestDigest": cntxtX.data.FormDigestValue,
+      },
+      data: JSON.stringify({ 'request': { Querytext: SearhcTerm, RowLimit: 10, StartRow: 25, } }),
+    })
   }
-
+  useEffect(() => {textsearch("Akmal")}, [])
 
   return (
     <>
       <HistoryNavigation>
         <p>Modern Search</p>
       </HistoryNavigation>
-      <div className='folder-explorer-container' style={{padding: 0, display: loading ? 'none' : 'block'}}>  
-        <iframe
-          name='Modern Search'
-          src='https://salic.sharepoint.com/sites/dev/SitePages/Modern-Search.aspx'
-          width='100%'
-          height='100%'
-          id='sp-modern-search'
-          onLoad={removeSpElements}
-          style={{minHeight: 'calc(100vh - 85px)'}}
-        >
-        </iframe>
-        {loading ? "LOADING..." : null}
+
+
+      <div className='search-page'>  
+        <Header />
+        <div className='result-container'>
+          <Result />
+        </div>
       </div>
     </>
   )

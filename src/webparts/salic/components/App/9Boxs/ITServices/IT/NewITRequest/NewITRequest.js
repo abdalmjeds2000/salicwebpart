@@ -135,7 +135,7 @@ function NewITRequest() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
+        <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>New Service Request</p>
       </HistoryNavigation>
 
@@ -236,7 +236,7 @@ function NewITRequest() {
             />
           </Form.Item>
 
-          <SubmitCancel loaderState={btnLoader} backTo="/it-services" />
+          <SubmitCancel loaderState={btnLoader} backTo="/services-requests" />
         </Form>
       </FormPageTemplate>
     </>

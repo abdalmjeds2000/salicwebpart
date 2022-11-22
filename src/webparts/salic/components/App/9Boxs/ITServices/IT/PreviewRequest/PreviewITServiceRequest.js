@@ -58,7 +58,7 @@ function PreviewITServiceRequest() {
       .then(() => correctImgs())
   
     } else {
-      navigate(defualt_route + '/it-services/services-request');
+      navigate(defualt_route + '/services-requests/services-request');
       message.info("Error ::: Not Found Request")
     }
   }, []);
@@ -122,7 +122,7 @@ function PreviewITServiceRequest() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
+        <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>Preview It Service Request</p>
       </HistoryNavigation>
       

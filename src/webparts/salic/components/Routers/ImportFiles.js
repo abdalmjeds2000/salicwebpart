@@ -5,6 +5,7 @@ export { default as HRSelf } from '../App/9Boxs/HRSelf/HRSelf';
 export { default as ITServices } from '../App/9Boxs/ITServices/ITServices';
 export { default as NewITRequest } from '../App/9Boxs/ITServices/IT/NewITRequest/NewITRequest';
 export { default as RegisterNewAssets } from '../App/9Boxs/ITServices/Assets/RegisterNewAssets/RegisterNewAssets';
+export { default as AllAssets } from '../App/9Boxs/ITServices/Assets/AllAssets/AllAssets';
 export { default as MyItServiceRequests } from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
 export { default as ITRequestsAssignedForMe } from '../App/9Boxs/ITServices/IT/AssignedForMe/ITRequestsAssignedForMe';
 export { default as PreviewITServiceRequest } from '../App/9Boxs/ITServices/IT/PreviewRequest/PreviewITServiceRequest';

@@ -35,7 +35,7 @@ function ServicesRequests(props) {
       render: (val, record) => (
         <Space direction='horizontal'>
           <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
-          <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
+          <Typography.Link onClick={() => navigate(defualt_route + `/services-requests/${record.Id}`)}>{val}</Typography.Link>
         </Space>
       )
     },{

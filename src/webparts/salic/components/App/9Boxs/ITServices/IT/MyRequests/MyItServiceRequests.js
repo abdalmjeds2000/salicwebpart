@@ -49,7 +49,7 @@ function MyItServiceRequests() {
       render: (val, record) => (
         <Space direction='horizontal'>
           <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
-          <Typography.Link onClick={() => navigate(defualt_route + `/it-services/${record.Id}`)}>{val}</Typography.Link>
+          <Typography.Link onClick={() => navigate(defualt_route + `/services-requests/${record.Id}`)}>{val}</Typography.Link>
         </Space>
       )
     },{
@@ -94,14 +94,14 @@ function MyItServiceRequests() {
     <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
-      <Button size='small' onClick={() => navigate(defualt_route+'/it-services/services-request')}><PlusOutlined /> New Request</Button>
+      <Button size='small' onClick={() => navigate(defualt_route+'/services-requests/services-request')}><PlusOutlined /> New Request</Button>
     </Space>
   )
   
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Services Center</a>
+        <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Services Center</a>
         <p>My IT Sevices Requests</p>
       </HistoryNavigation>
 

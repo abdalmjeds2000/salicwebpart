@@ -160,7 +160,7 @@ function Visitor() {
               {...layout} 
               colon={false}
               labelWrap 
-              name="Service Request" 
+              name="visitor-request" 
               layout="horizontal"
               form={form} 
               onFinish={CreateVisitorRequest}

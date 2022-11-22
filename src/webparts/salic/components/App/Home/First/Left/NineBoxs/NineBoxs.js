@@ -80,7 +80,7 @@ const icons = {
 }
 const services = [
   {header: 'Admin Services', link: false, to: '/admin-services', icon: icons.AdminServices},
-  {header: 'IT Services', link: false, to: '/it-services', /* to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ITServices.aspx', */ icon: icons.ITServices},
+  {header: 'IT Services', link: false, to: '/services-requests', /* to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ITServices.aspx', */ icon: icons.ITServices},
   {header: 'e-Invoicing', link: false, to: '/e-invoicing', icon: icons.EInvoicing},
   {header: 'HR Self Services', link: false, to: '/hr-self-services', icon: icons.HRSelfServices},
   {header: 'Incidents Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Risk/Center.aspx', icon: icons.IncidentsCenter},

@@ -9,6 +9,7 @@ import {
   ITServices,
   NewITRequest,
   RegisterNewAssets,
+  AllAssets,
   MyItServiceRequests,
   ITRequestsAssignedForMe,
   PreviewITServiceRequest,
@@ -140,17 +141,20 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/admin-services/my-requests`} element={<MyRequests />} />
       </Route>
       
-      <Route path={`${defualtRoute}/it-services`}>
+      <Route path={`${defualtRoute}/services-requests`}>
         <Route index element={<ITServices />} />
-        <Route path={`${defualtRoute}/it-services/services-request`} element={<NewITRequest />} />
-        <Route path={`${defualtRoute}/it-services/new-asset`} element={<RegisterNewAssets />} />
-        <Route path={`${defualtRoute}/it-services/my-requests`} element={<MyItServiceRequests />} />
-        <Route path={`${defualtRoute}/it-services/requests-assigned-for-me`}>
+        <Route path={`${defualtRoute}/services-requests/services-request`} element={<NewITRequest />} />
+        <Route path={`${defualtRoute}/services-requests/my-requests`} element={<MyItServiceRequests />} />
+        <Route path={`${defualtRoute}/services-requests/requests-assigned-for-me`}>
           <Route index element={<ITRequestsAssignedForMe />} />
-          <Route path={`${defualtRoute}/it-services/requests-assigned-for-me/:query`} element={<ITRequestsAssignedForMe />} />
+          <Route path={`${defualtRoute}/services-requests/requests-assigned-for-me/:query`} element={<ITRequestsAssignedForMe />} />
         </Route>
-        <Route path={`${defualtRoute}/it-services/service-requests-dashboard`} element={<ServiceRequestsDashboard />} />
-        <Route path={`${defualtRoute}/it-services/:id`} element={<PreviewITServiceRequest />} />
+        <Route path={`${defualtRoute}/services-requests/service-requests-dashboard`} element={<ServiceRequestsDashboard />} />
+        <Route path={`${defualtRoute}/services-requests/:id`} element={<PreviewITServiceRequest />} />
+      </Route>
+      <Route path={`${defualtRoute}/asset`}>
+        <Route path={`${defualtRoute}/asset/new-asset`} element={<RegisterNewAssets />} />
+        <Route path={`${defualtRoute}/asset/all`} element={<AllAssets />} />
       </Route>
       <Route path={`${defualtRoute}/e-invoicing`}>
         <Route index element={<EInvoicing />} />

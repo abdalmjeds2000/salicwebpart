@@ -13,7 +13,7 @@ import GetSummaryByDepartment from '../../API/GetSummaryByDepartment';
 import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
 import GetITRequests from '../../API/GetITRequests';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
-
+import Tabs from '../../../../Global/CustomTabs/Tabs';
 
 
 function ServiceRequestsDashboard() {
@@ -86,65 +86,33 @@ function ServiceRequestsDashboard() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(`${defualt_route}/it-services`)}>IT Service Center</a>
+        <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>Service Requests Dashboard</p>
       </HistoryNavigation>
 
 
-      <div className='service-requests-dashboard-container'>
-        {
-          user_data.Data?.DirectUsers?.length > 0
-          ? (
-            <div className='employees-tree'>
-              <Typography.Text strong style={{display: 'block', fontSize: '1rem', marginBottom: '10px'}}>
-                <UserSwitchOutlined /> Select Employee
-              </Typography.Text>
-              <Tree
-                showLine
-                showIcon
-                defaultExpandedKeys={[user_data?.Data?.DirectUsers[0]?.Mail]}
-                switcherIcon={<DownOutlined />}
-                onSelect={onSelect}
-                treeData={[user_data.Data]}
-                fieldNames={{ title: "DisplayName", key: "Mail", children: "DirectUsers"  }}
-              />
-            </div>
-            )
-          : null
-        }
-
-        <div className='tabbable-panel'>
-          <ul className="tab-container">
-            <li onClick={() => setActiveTab(1)} className={activeTab==1 ? 'active' : ''}>
-              <HomeOutlined /> Dashboard
-            </li>
-            <li onClick={() => setActiveTab(2)} className={activeTab==2 ? 'active' : ''}>
-              <TableOutlined /> Service Requests
-            </li>
-          </ul>
-          <div className='tab-content'>
-            {
-              !pageLoading
-              ? (
-                  <>
-                    <div style={{display: activeTab !== 1 ? 'none' : ''}}>
-                      <Dashboard
-                        DataForUser={dataForUser}
-                        summaryByStatus={summaryByStatus}
-                        summaryByPriority={summaryByPriority}
-                        summaryByDepartment={summaryByDepartment}
-                        summaryByRequestType={summaryByRequestType}
-                      />
-                    </div>
-                    <div style={{display: activeTab !== 2 ? 'none' : ''}}>
-                      <ServicesRequests DataTable={ITRequests} setITRequestsNoFilter={data => setITRequests(data)} />
-                    </div>
-                  </>
-                )
-              : <AntdLoader />
-            }
-          </div>
-        </div>
+      <div className='standard-page service-requests-dashboard-container'>
+        {user_data.Data?.DirectUsers?.length > 0 && <div className='employees-tree'>
+          <Typography.Text strong style={{display: 'block', fontSize: '1rem', marginBottom: '10px'}}>
+            <UserSwitchOutlined /> Select Employee
+          </Typography.Text>
+          <Tree
+            showLine
+            showIcon
+            defaultExpandedKeys={[user_data?.Data?.DirectUsers[0]?.Mail]}
+            switcherIcon={<DownOutlined />}
+            onSelect={onSelect}
+            treeData={[user_data.Data]}
+            fieldNames={{ title: "DisplayName", key: "Mail", children: "DirectUsers"  }}
+          />
+        </div>}
+        <Tabs 
+          loading={pageLoading}
+          items={[
+            {key: 1, icon: <HomeOutlined />, title: 'Dashboard', content: <Dashboard DataForUser={dataForUser} summaryByStatus={summaryByStatus} summaryByPriority={summaryByPriority} summaryByDepartment={summaryByDepartment} summaryByRequestType={summaryByRequestType} />},
+            {key: 2, icon: <TableOutlined />, title: 'Service Requests', content: <ServicesRequests DataTable={ITRequests} setITRequestsNoFilter={data => setITRequests(data)} />},
+          ]}
+        />
       </div>
     </>
   )

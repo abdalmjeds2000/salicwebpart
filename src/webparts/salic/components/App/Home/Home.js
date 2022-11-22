@@ -63,7 +63,7 @@ function Home() {
           </HistoryNavigation>
         </div>
 
-        <div className="container">
+        <div className="container" style={{margin: '50px auto' /* THIS IS FOR HEADER IN TOP */}}>
           <PersonInfo />
           <PersonInfoMobile />
           <div className="home-division">

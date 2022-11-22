@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../../../../../../App';
+import { AppCtx } from '../../App';
 
 const ProgressRowItem = ({type, title, desc, count}) => {
   const { defualt_route } = useContext(AppCtx);
