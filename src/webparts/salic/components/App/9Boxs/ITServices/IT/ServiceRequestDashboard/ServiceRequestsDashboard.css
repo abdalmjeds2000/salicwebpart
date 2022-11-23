@@ -1,7 +1,6 @@
 .service-requests-dashboard-container {
   display: flex;
   gap: 15px;
-  padding: 25px;
   position: relative;
 }
 
@@ -21,11 +20,11 @@
 
 
 /* Components Custom Style*/
-.service-requests-dashboard-container .ant-card-head {
+.ant-card-head {
   background-color: #f5f5f5!important;
   padding: 0 12px !important;
 }
-.service-requests-dashboard-container .table-page-container {
+.table-page-container {
   padding: 0;
   top: 0;
 }
@@ -55,21 +54,16 @@
 /* Increase Border Radius to antd Card */
 .ant-card {
   border-radius: 15px !important;
+  overflow: hidden;
 }
 .service-requests-dashboard-container .ant-card-head {
   border-radius: 15px 15px 0 0 !important;
 }
 
-@media screen and (min-width: 800px) and (max-width: 1200px) {
-  .service-requests-dashboard-container {
-    padding: 15px;
-  }
-}
 
 
 @media screen and (min-width: 0px) and (max-width: 799px) {
   .service-requests-dashboard-container {
-    padding: 10px;
     flex-direction: column;
   }
   .service-requests-dashboard-container .employees-tree {

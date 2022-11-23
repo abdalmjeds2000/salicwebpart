@@ -6,6 +6,7 @@ import ImgsViewer from "react-images-viewer";
 import { AppCtx } from '../../App';
 
 import VideoPoster from '../../../../assets/images/media_center/gallery1.png'
+import { DownOutlined } from '@ant-design/icons';
 
 const boxsIcons = {
   Policies: <svg xmlns="http://www.w3.org/2000/svg" width="18.165" height="19.91" viewBox="0 0 18.165 19.91">
@@ -71,10 +72,6 @@ const communityNewsBoxs = [
   // {id: 5, name: 'SALIC Templates', icon: boxsIcons.SALICTemplates},
 
 ];
-function getWindowSize() {
-  const {innerWidth, innerHeight} = typeof window !== "undefined" ? window : null;
-  return {innerWidth, innerHeight};
-}
 
 
 
@@ -98,13 +95,10 @@ const ThreeDivisions = () => {
     setIsViewerOpen(false);
   };
 
-   // Get Window Size
-  const [windowSize, setWindowSize] = useState(getWindowSize());
-  useEffect(() => {
-    function handleWindowResize() {setWindowSize(getWindowSize());}
-    window.addEventListener('resize', handleWindowResize);
-  }, []);
-
+  const slideBottom = () => {
+    var newsSlider = document.getElementById("home-news-list");
+    newsSlider.scrollTop = newsSlider.scrollTop + 200
+  }
 
 
   return (
@@ -163,9 +157,9 @@ const ThreeDivisions = () => {
                   <h3>Community News</h3>
                   <a onClick={_ => navigate(`${defualt_route}/community-news`)}>See All</a>
                 </div>
-                <div className='news-list'>
+                <div className='news-list' id='home-news-list'>
                   {
-                    news_list?.slice(0, windowSize.innerWidth > 1750 ? 4 : 3).map((row, i) => {
+                    news_list?.slice(0, 10).map((row, i) => {
                       const description = row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "");
                       return (
                         <div className="box" key={i}>
@@ -180,7 +174,9 @@ const ThreeDivisions = () => {
                       )
                     })
                   }
+
                 </div>
+                <DownOutlined onClick={slideBottom} className="bottom-scroll-icon arrow arrow-btm" style={{top: '50%'}} />
               </div>
               <div className="organization-documents-container">
                 <div className="header">

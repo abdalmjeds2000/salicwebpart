@@ -9,6 +9,9 @@ import pptIcon from '../../../../assets/icons/FilesIcons/ppt.png'
 import csvIcon from '../../../../assets/icons/FilesIcons/csv.png'
 import folderIcon from '../../../../assets/icons/FilesIcons/folder.png'
 import fileIcon from '../../../../assets/icons/FilesIcons/file.png'
+import phpIcon from '../../../../assets/icons/FilesIcons/php.png'
+import jsIcon from '../../../../assets/icons/FilesIcons/js.png'
+import cssIcon from '../../../../assets/icons/FilesIcons/css.png'
 
 import { Tooltip } from "antd";
 
@@ -30,6 +33,12 @@ const FileIcon = (props) => {
             return pptIcon
         } else if(['xlsx', 'xls'].includes(fileType?.toLowerCase())) {
             return csvIcon
+        } else if(['php'].includes(fileType?.toLowerCase())) {
+            return phpIcon
+        } else if(['js'].includes(fileType?.toLowerCase())) {
+            return jsIcon
+        } else if(['css'].includes(fileType?.toLowerCase())) {
+            return cssIcon
         } else if(['folder'].includes(fileType?.toLowerCase())) {
             return folderIcon
         } else {
@@ -41,7 +50,7 @@ const FileIcon = (props) => {
             <img 
                 src={checkFileType(props.FileType)}
                 data-guid={props.FilePath} 
-                onClick={() => window.open(props.FilePath, "_blank")} 
+                onClick={() => props.FilePath ? window.open(props.FilePath, "_blank") : null} 
                 width={props.IconWidth}
                 className='attachment-file-icon'
             />

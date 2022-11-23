@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Select, Typography } from 'antd';
-import ProgressRowItem from '../CustomProgressChart/ProgressRowItem';
-import '../CustomProgressChart/CustomChart.css';
+import LineChart from '../../../../../../../Global/CustomLineChart/LineChart';
 
 
 function DepartmentSRSummary(props) {
@@ -37,38 +36,29 @@ function DepartmentSRSummary(props) {
     <div className='card-container'>
       <Card title={CardTitle}>
         <div className='tab-pane'>
-          <Typography.Text style={{fontSize: '4em', display: 'inline-block', margin: '0 10px 10px 0', fontWeight: 700}}>
-            {TotalCount}
-          </Typography.Text>
-          <Typography.Text>Total SR.</Typography.Text>
-
           {
             dataBy == "Status"
             ? (
-              <div className='custom-progress'>
-                <div className='progress'>
-                  <div style={{width: `${(ProcessingCount/TotalCount)*100}%`}} className='progress-bar bg-warning' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(SubmittedCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(ClosedCount/TotalCount)*100}%`}} className='progress-bar bg-success' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(ApprovalCount/TotalCount)*100}%`}} className='progress-bar bg-wait' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-
-                <ProgressRowItem type="info" title="Submitted" desc="Submitted and No Action" count={`${SubmittedCount} SR.`} />
-                <ProgressRowItem type="warning" title="Processing" desc="SR. currently you are working on" count={`${ProcessingCount} SR.`} />
-                <ProgressRowItem type="success" title="Closed" desc="SR. you Handled" count={`${ClosedCount} SR.`} />
-                <ProgressRowItem type="wait" title="Waiting For Approval" desc="Approval SR." count={`${ApprovalCount} SR.`} />
-              </div>
+                <LineChart
+                  totalCount={TotalCount}
+                  totalSpan="Total SR."
+                  items={[
+                    {title: "Submitted", count: SubmittedCount, type: "info", description: "Submitted and No Action", countLabel: `${SubmittedCount} SR.`},
+                    {title: "Processing", count: ProcessingCount, type: "warning", description: "SR. currently you are working on", countLabel: `${ProcessingCount} SR.`},
+                    {title: "Closed", count: ClosedCount, type: "success", description: "SR. you Handled", countLabel: `${ClosedCount} SR.`},
+                    {title: "Waiting For Approval", count: ApprovalCount, type: "wait", description: "Approval SR.", countLabel: `${ApprovalCount} SR.`},
+                  ]}
+                /> 
               )
             : (
-              <div className='custom-progress'>
-                <div className='progress'>
-                  <div style={{width: `${(NormalCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(CriticalCount/TotalCount)*100}%`}} className='progress-bar bg-danger' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-
-                <ProgressRowItem type="info" title="Normal" desc="Normal SR. - Default" count={`${NormalCount} SR.`} />
-                <ProgressRowItem type="danger" title="Critical" desc="Urgent and Important SR." count={`${CriticalCount} SR.`} />
-              </div>
+                <LineChart
+                  totalCount={TotalCount}
+                  totalSpan="Total SR."
+                  items={[
+                    {title: "Normal", count: NormalCount, type: "info", description: "Normal SR. - Default", countLabel: `${NormalCount} SR.`},
+                    {title: "Critical", count: CriticalCount, type: "danger", description: "Urgent and Important SR.", countLabel: `${CriticalCount} SR.`},
+                  ]}
+                /> 
               )
           }
         </div>

@@ -1,4 +1,5 @@
 .custom-progress .progress {
+	display: flex;
   height: 20px;
   margin-bottom: 20px;
   overflow: hidden;
@@ -17,6 +18,10 @@
 	background-color: #dcdcdc;
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+	transition: .3s;
+}
+.custom-progress .progress .progress-bar:hover {
+	opacity: .7;
 }
 .custom-progress .bg-success {
 	background-color: #0abb87 !important;
@@ -39,6 +44,7 @@
 
 .custom-progress .row-item {
 	display: flex;
+	align-items: center;
 	margin-bottom: 1.5rem;
 }
 .custom-progress .row-item:last-child {
@@ -46,10 +52,9 @@
 }
 .custom-progress .row-item .row-item-legend {
 	min-width: 1.3rem;
-	margin-top: 0.8rem;
 	height: 1.3rem;
 	border-radius: 3px;
-	margin-left: .8rem;
+	margin-left: 1.25rem;
 }
 
 .custom-progress .row-item > .row-item-desc {

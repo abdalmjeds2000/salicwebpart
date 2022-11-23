@@ -192,7 +192,7 @@ function CategoryPage() {
               <Row justify="space-between" align="middle" wrap={true}>
                 <Col span={24} style={{maxWidth: '80%', margin: '0 auto'}}>
                   <Form.Item name="Title" style={{margin: '0'}}>
-                    <Input.Search placeholder="Search by Title" size='large' style={{padding: '7px 10px'}} loading={loading} onSearch={value => value?.length >= 3 ? ApplyFilter({Title: value}) : message.info("Enter 3 charachter or more!")} enterButton  />
+                    <Input.Search placeholder="Search by Title" size='large' style={{padding: '7px 10px'}} loading={loading} onPressEnter={e => e.preventDefault} onSearch={value => value?.length >= 3 ? ApplyFilter({Title: value}) : message.info("Enter 3 charachter or more!")} enterButton  />
                   </Form.Item>
                 </Col>
                 <Col span={24}>

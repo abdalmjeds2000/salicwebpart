@@ -4,10 +4,10 @@
   gap: 10px;
   border-radius: 10px;
 }
-.research-center_dashboard-container .arrow.arrow-btm {
+.arrow.arrow-btm {
   top: calc(100% - 50px);
 }
-.research-center_dashboard-container .bottom-scroll-icon {
+.bottom-scroll-icon {
   left: 50%;
   transform: translateX(-50%);
 }

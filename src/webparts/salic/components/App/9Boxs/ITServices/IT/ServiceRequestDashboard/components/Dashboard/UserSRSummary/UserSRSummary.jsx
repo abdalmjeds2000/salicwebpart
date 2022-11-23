@@ -1,13 +1,17 @@
-import React from 'react';
-import '../CustomProgressChart/CustomChart.css';
+import React, { useContext } from 'react';
 import { Card, Select, Typography } from 'antd';
 import { useState } from 'react';
-import ProgressRowItem from '../CustomProgressChart/ProgressRowItem';
 import LineChart from '../../../../../../../Global/CustomLineChart/LineChart';
+import { AppCtx } from '../../../../../../../App';
+import { useNavigate } from 'react-router-dom';
 
 
 function UserSRSummary(props) {
   const [dataBy, setDataBy] = useState("Status");
+  const navigate = useNavigate();
+  const { defualt_route } = useContext(AppCtx);
+
+
   const summaryByStatus = props.summaryByStatus;
   const summaryByPriority = props.summaryByPriority;
 
@@ -35,53 +39,40 @@ function UserSRSummary(props) {
       />
     </div>
   )
+
+
+
+
+
+
   return (
     <div className='sr-user-summary card-container'>
       <Card title={CardTitle}>
         <div className='tab-pane'>
-          <Typography.Text style={{fontSize: '4em', display: 'inline-block', margin: '0 10px 10px 0', fontWeight: 700}}>
-            {TotalCount}
-          </Typography.Text>
-          <Typography.Text>Total SR.</Typography.Text>
-
           {
             dataBy == "Status"
             ? (
-                <div className='custom-progress'>
-                  <div className='progress'>
-                    <div style={{width: `${(ProcessingCount/TotalCount)*100}%`}} className='progress-bar bg-warning' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                    <div style={{width: `${(SubmittedCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                    <div style={{width: `${(ClosedCount/TotalCount)*100}%`}} className='progress-bar bg-success' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-
-                  <ProgressRowItem type="info" title="Submitted" desc="Submitted and No Action" count={`${SubmittedCount} SR.`} />
-                  <ProgressRowItem type="warning" title="Processing" desc="SR. currently you are working on" count={`${ProcessingCount} SR.`} />
-                  <ProgressRowItem type="success" title="Closed" desc="SR. you Handled" count={`${ClosedCount} SR.`} />
-                </div>
+                <LineChart
+                  totalCount={TotalCount}
+                  totalSpan="Total SR."
+                  items={[
+                    {title: "Submitted", count: SubmittedCount, type: "info", description: "Submitted and No Action", countLabel: `${SubmittedCount} SR.`, onClickLabel: () => navigate(defualt_route+`/services-requests/requests-assigned-for-me/Submitted`)},
+                    {title: "Processing", count: ProcessingCount, type: "warning", description: "SR. currently you are working on", countLabel: `${ProcessingCount} SR.`, onClickLabel: () => navigate(defualt_route+`/services-requests/requests-assigned-for-me/Processing`)},
+                    {title: "Closed", count: ClosedCount, type: "success", description: "SR. you Handled", countLabel: `${ClosedCount} SR.`, onClickLabel: () => navigate(defualt_route+`/services-requests/requests-assigned-for-me/Closed`)},
+                  ]}
+                /> 
               )
             : (
-              <div className='custom-progress'>
-                <div className='progress'>
-                  <div style={{width: `${(NormalCount/TotalCount)*100}%`}} className='progress-bar bg-info' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  <div style={{width: `${(CriticalCount/TotalCount)*100}%`}} className='progress-bar bg-danger' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-
-                <ProgressRowItem type="info" title="Normal" desc="Normal SR. - Default" count={`${NormalCount} SR.`} />
-                <ProgressRowItem type="danger" title="Critical" desc="Urgent and Important SR." count={`${CriticalCount} SR.`} />
-              </div>
+                <LineChart
+                  totalCount={TotalCount}
+                  totalSpan="Total SR."
+                  items={[
+                    {title: "Normal", count: NormalCount, type: "info", description: "Normal SR. - Default", countLabel: `${NormalCount} SR.`, onClickLabel: () => navigate(defualt_route+`/services-requests/requests-assigned-for-me/Normal`)},
+                    {title: "Critical", count: CriticalCount, type: "danger", description: "Urgent and Important SR.", countLabel: `${CriticalCount} SR.`, onClickLabel: () => navigate(defualt_route+`/services-requests/requests-assigned-for-me/Critical`)},
+                  ]}
+                /> 
               )
           }
-
-
-
-          {/* <LineChart 
-                  totalCount={TotalCount}
-                  items={[
-                    {title: "Processing from component", count: ProcessingCount, type: "warning", description: "SR. currently you are working on", countLabel: `${ProcessingCount} SR.`},
-                    {title: "Submitted from component", count: SubmittedCount, type: "info", description: "Submitted and No Action", countLabel: `${SubmittedCount} SR.`},
-                    {title: "Closed from component", count: ClosedCount, type: "success", description: "SR. you Handled", countLabel: `${ClosedCount} SR.`},
-                  ]}
-                /> */}
         </div>
       </Card>
     </div>

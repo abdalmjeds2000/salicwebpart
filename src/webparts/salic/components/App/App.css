@@ -141,17 +141,17 @@ img.img-bg {
 
 /* standard app page */
 .standard-page {
-  margin: 110px 25px 25px 25px;
+  padding: 110px 25px 25px 25px;
   position: relative;
 }
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .standard-page {
-    margin: 100px 15px 15px 15px;
+    padding: 100px 15px 15px 15px;
   }
 }
 @media screen and (min-width: 0px) and (max-width: 799px) {
   .standard-page {
-    margin: 95px 10px 10px 10px;
+    padding: 95px 10px 10px 10px;
   }
 }
 
@@ -204,6 +204,7 @@ img.img-bg {
 .ant-input {
   padding: 4px 11px !important;
   border: 1px solid #d9d9d9 !important;
+  background-color: #fff !important;
 }
 .ant-input-lg {
   padding: 6.5px 11px !important;
@@ -214,6 +215,23 @@ img.img-bg {
 
 
 
+
+.ant-table-cell {
+  line-height: 1.2 !important;
+}
+.content-services-request div.form .ant-table-thead .ant-table-cell {
+  text-align: center !important;
+}
+.content-services-request div.form .editable-cell-value-wrap {
+  width: 100% !important;
+  min-height: 25px !important;
+}
+
+.content-services-request .ant-input[disabled],
+.content-services-request .ant-input-number-disabled,
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: rgba(0,0,0,.75) !important;
+}
 
 
 

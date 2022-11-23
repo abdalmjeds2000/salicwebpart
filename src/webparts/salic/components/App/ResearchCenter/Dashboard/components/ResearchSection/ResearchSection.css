@@ -105,7 +105,7 @@
 .research-section-container .secondary-articles-container .slider::-webkit-scrollbar {
   display: none;
 }
-.research-center_dashboard-container .arrow {
+.arrow {
   padding: 7px;
   position: absolute;
   width: 30px;
@@ -120,12 +120,12 @@
   top: 50%;
   transform: translateY(-50%);
 }
-.research-center_dashboard-container .arrow:hover {
+.arrow:hover {
   opacity: .8;
 }
-.research-center_dashboard-container .arrow.prev-icon {
+.arrow.prev-icon {
   left: 20px;
 }
-.research-center_dashboard-container .arrow.next-icon {
+.arrow.next-icon {
   right: 20px;
 }

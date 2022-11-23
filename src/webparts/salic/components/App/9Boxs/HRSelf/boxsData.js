@@ -249,23 +249,3 @@ export const icons = {
                             </g>
                           </svg>
 }
-export const services = [
-  {icon: icons.BusinessTrip, bgColor: '#43A2CC', dataApplicationName: 'BUSINESS_TRIP', text: 'Business Trip', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720725439'},
-  {icon: icons.BusinessTripCompletion, bgColor: '#EBD944', dataApplicationName: 'BUSINESS_TRIP_COMPLETION', text: 'Business Trip Completion', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720887453'},
-  {icon: icons.TrainingRequest, bgColor: '#9BC9ED', dataApplicationName: 'TRAINING', text: 'Training Request', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1580212664537'},
-  {icon: icons.LeaveRequest, bgColor: '#FBBE82', text: 'Leave Request', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ADD_ABSENCE&action=NONE'},
-  {icon: icons.OverTimeRequest, bgColor: '#70CFAF', dataApplicationName: 'OVERTIME', text: 'OverTime Request', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521037486455'},
-  {icon: icons.SalaryInAdvance, bgColor: '#F7937B', dataApplicationName: 'SALARY', text: 'Salary In Advance', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747065911'},
-  {icon: icons.HousingAdvance, bgColor: '#FD96A6', dataApplicationName: 'HOUSING_ADVANCE', text: 'Housing Advance', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521721611230'},
-  {icon: icons.VacationAllowance, bgColor: '#9BC9ED', dataApplicationName: 'VACATION_ALLOWANCE', text: 'Vacation Allowance', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747358525'},
-  {icon: icons.HRLetter, bgColor: '#9BC9ED', dataApplicationName: 'HR_LETTER', text: 'HR Letter', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521721761601'},
-  {icon: icons.ViewPayslip, bgColor: '#70CFAF', text: 'View Payslip', href: 'https://hen.fa.em2.oraclecloud.com/analytics/saw.dll?bipublisherEntry&Action=open&itemType=.xdo&bipPath=%2FCustom%2FHuman%20Capital%20Management%2FPayroll%2FPayment%20Distribution%2FSALIC%20Payslip%20SP.xdo'},
-  {icon: icons.GymReimbursement, bgColor: '#FBBE82', dataApplicationName: 'GYM', text: 'Gym Reimbursement', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1585574179603'},
-  {icon: icons.RecruitmentRequst, bgColor: '#43A2CC', text: 'Recruitment Requst', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
-  {icon: icons.DaycareAllowance, bgColor: '#F7937B', dataApplicationName: 'CHILDCARE', text: 'Daycare Allowance', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1599107940767'},
-  {icon: icons.ResignationRequest, bgColor: '#EBD944', dataApplicationName: 'RESIG', text: 'Resignation Request', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1603363085618'},
-  {icon: icons.ProbationPeriodEvaluation, bgColor: '#70CFAF', dataApplicationName: 'PROPERIOD', text: 'Probation Period Evaluation', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010071862'},
-  {icon: icons.RelocationAllowance, bgColor: '#EBD944', dataApplicationName: 'RELOCATION_ALLOW', text: 'Relocation Allowance', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010121236'},
-  {icon: icons.ProfessionalCertificate, bgColor: '#FBBE82', dataApplicationName: 'BUSINESSCARD', text: 'Business Card', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010010069'},
-  {icon: icons.BusinessCard, bgColor: '#43A2CC', dataApplicationName: 'PRC_URL', text: 'Professional Certificate Reimbursement', href: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1653797991863'},
-];

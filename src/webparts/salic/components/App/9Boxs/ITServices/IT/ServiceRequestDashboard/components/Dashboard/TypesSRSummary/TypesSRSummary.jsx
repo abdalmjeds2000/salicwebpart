@@ -3,8 +3,6 @@ import { Card, Typography } from 'antd';
 import { Pie } from '@ant-design/plots';
 
 function TypesSRSummary(props) {
-  const DataForUser = props.DataForUser;
-  
   let RequestsCount = 0;
   const summaryByRequestType = props.summaryByRequestType.map(num => {
     RequestsCount += num.Count;

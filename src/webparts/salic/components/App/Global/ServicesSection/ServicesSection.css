@@ -1,8 +1,6 @@
 .services-page-container {
   width: 100%;
   position: relative;
-}
-.services-body-container .services-boxs-container:last-child {
   margin-bottom: 75px;
 }
 
@@ -98,6 +96,9 @@
   }
 }
 @media screen and (max-width: 890px) {
+  .services-page-container {
+    padding: 25px 10px;
+  }
   .services-body-container .services-boxs-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
@@ -114,20 +115,3 @@
 }
 
 
-
-.ant-table-cell {
-  line-height: 1.2 !important;
-}
-.content-services-request div.form .ant-table-thead .ant-table-cell {
-  text-align: center !important;
-}
-.content-services-request div.form .editable-cell-value-wrap {
-  width: 100% !important;
-  min-height: 25px !important;
-}
-
-.content-services-request .ant-input[disabled],
-.content-services-request .ant-input-number-disabled,
-.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  color: rgba(0,0,0,.75) !important;
-}

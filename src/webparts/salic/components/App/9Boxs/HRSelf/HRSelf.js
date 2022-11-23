@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../../App';
-import { icons, services } from './boxsData';
+import { icons } from './boxsData';
+import ServicesSection from '../../Global/ServicesSection/ServicesSection';
 
 
 function HRSelf() {
@@ -17,59 +18,45 @@ function HRSelf() {
       return desktopLink
     }
   }
-
+  const services = [
+    {icon: icons.BusinessTrip, bgColor: '#43A2CC', isLink: true, text: 'Business Trip', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720725439', 'BUSINESS_TRIP')},
+    {icon: icons.BusinessTripCompletion, bgColor: '#EBD944', isLink: true, text: 'Business Trip Completion', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720887453', 'BUSINESS_TRIP_COMPLETION')},
+    {icon: icons.TrainingRequest, bgColor: '#9BC9ED', isLink: true, text: 'Training Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1580212664537', 'TRAINING')},
+    {icon: icons.LeaveRequest, bgColor: '#FBBE82', isLink: true, text: 'Leave Request', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ADD_ABSENCE&action=NONE'},
+    {icon: icons.OverTimeRequest, bgColor: '#70CFAF', isLink: true, text: 'OverTime Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521037486455', 'OVERTIME')},
+    {icon: icons.SalaryInAdvance, bgColor: '#F7937B', isLink: true, text: 'Salary In Advance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747065911', 'SALARY')},
+    {icon: icons.HousingAdvance, bgColor: '#FD96A6', isLink: true, text: 'Housing Advance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521721611230', 'HOUSING_ADVANCE')},
+    {icon: icons.VacationAllowance, bgColor: '#9BC9ED', isLink: true, text: 'Vacation Allowance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747358525', 'VACATION_ALLOWANCE')},
+    {icon: icons.HRLetter, bgColor: '#9BC9ED', isLink: true, text: 'HR Letter', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521721761601', 'HR_LETTER')},
+    {icon: icons.ViewPayslip, bgColor: '#70CFAF', isLink: true, text: 'View Payslip', to: 'https://hen.fa.em2.oraclecloud.com/analytics/saw.dll?bipublisherEntry&Action=open&itemType=.xdo&bipPath=%2FCustom%2FHuman%20Capital%20Management%2FPayroll%2FPayment%20Distribution%2FSALIC%20Payslip%20SP.xdo'},
+    {icon: icons.GymReimbursement, bgColor: '#FBBE82', isLink: true, text: 'Gym Reimbursement', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1585574179603', 'GYM')},
+    {icon: icons.RecruitmentRequst, bgColor: '#43A2CC', isLink: true, text: 'Recruitment Requst', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
+    {icon: icons.DaycareAllowance, bgColor: '#F7937B', isLink: true, text: 'Daycare Allowance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1599107940767', 'CHILDCARE')},
+    {icon: icons.ResignationRequest, bgColor: '#EBD944', isLink: true, text: 'Resignation Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1603363085618', 'RESIG')},
+    {icon: icons.ProbationPeriodEvaluation, bgColor: '#70CFAF', isLink: true, text: 'Probation Period Evaluation', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010071862', 'PROPERIOD')},
+    {icon: icons.RelocationAllowance, bgColor: '#EBD944', isLink: true, text: 'Relocation Allowance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010121236', 'RELOCATION_ALLOW')},
+    {icon: icons.ProfessionalCertificate, bgColor: '#FBBE82', isLink: true, text: 'Business Card', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010010069', 'BUSINESSCARD')},
+    {icon: icons.BusinessCard, bgColor: '#43A2CC', isLink: true, text: 'Professional Certificate Reimbursement', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1653797991863', 'PRC_URL')},
+  ];
 
   return (
     <>
       <HistoryNavigation>
         <p>HR Self Services</p>
       </HistoryNavigation>
-      <div className='services-page-container'>
-
-        <div className="header">
-          <div style={{backgroundColor: '#0A89C1'}}>
-            {icons.HRSelfServices}
-          </div>
-          <h2>HR Self Services</h2>
-        </div>
-
-        <div className='services-body-container'>
-          <div className="services-boxs-container">
-            {services.map((service, i) => {
-              return ( 
-                <a 
-                  data-application-name={service.dataApplicationName}
-                  target='_blank' 
-                  className='box' 
-                  key={i}
-                  href={checkMobile(service.href, service.dataApplicationName)} 
-                >
-                  <div style={{backgroundColor: service.bgColor}}>
-                    {service.icon}
-                  </div>
-                  <h3>{service.text}</h3>
-                </a>
-              )
-            })}
-          </div>
-
-
-          <h4 className='services-second-header'>Notifications Center</h4>
-          <div className="services-boxs-container">
-            <a className='box' target='_blank' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747517899'>
-              <div style={{backgroundColor: '#FBBE82'}}>
-                {icons.HRNotificationsCenter}
-              </div>
-              <h3>HR Notifications Center</h3>
-            </a>
-            <a className='box' target='_blank' href='https://hen.fa.em2.oraclecloud.com/'>
-              <div style={{backgroundColor: '#FD96A6'}}>
-                {icons.ERPNotificationsCenter}
-              </div>
-              <h3>ERP Notifications Center</h3>
-            </a>
-          </div>
-        </div>
+      <div className='standard-page'>
+        <ServicesSection
+          title="HR Self Services"
+          headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.HRSelfServices}</div>}
+          items={services}
+        />
+        <ServicesSection
+          title="Notifications Center"
+          items={[
+            {icon: icons.HRNotificationsCenter, bgColor: '#FBBE82', text: 'HR Notifications Center', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747517899'},
+            {icon: icons.ERPNotificationsCenter, bgColor: '#FD96A6', text: 'ERP Notifications Center', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/'},
+          ]}
+        />
       </div>
     </>
   )

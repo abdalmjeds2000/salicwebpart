@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ServiceRequestsDashboard.css';
-import { DownOutlined, HomeOutlined, LoadingOutlined, TableOutlined, UserSwitchOutlined } from '@ant-design/icons';
+import { DownOutlined, HomeOutlined, TableOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../../../../App';
-import { Image, Spin, Tree, Typography } from 'antd';
+import { Tree, Typography } from 'antd';
 import Dashboard from './components/Dashboard/Dashboard';
 import ServicesRequests from './components/ServicesRequests/ServicesRequests';
 import GetSummaryByStatus from '../../API/GetSummaryByStatus';
@@ -12,7 +12,6 @@ import GetSummaryByPriority from '../../API/GetSummaryByPriority';
 import GetSummaryByDepartment from '../../API/GetSummaryByDepartment';
 import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
 import GetITRequests from '../../API/GetITRequests';
-import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 import Tabs from '../../../../Global/CustomTabs/Tabs';
 
 
@@ -28,7 +27,6 @@ function ServiceRequestsDashboard() {
   } = useContext(AppCtx);
   
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(1);
   const [pageLoading, setPageLoading] = useState(true);
   const [dataForUser, setDataForUser] = useState(null);
 

@@ -600,19 +600,18 @@ const SidebarNav = ({spWebUrl}) => {
       text: "Sharepoint Search",
       link: false,
     },
-    {
-      to: "https://salic.sharepoint.com/sites/MDM/SitePages/Home.aspx/corporate-objective",
-      icon: svgIcons.Content,
-      text: "Corporate Objective KPIs 2022",
-      link: true,
-    },
-
-    {
-      to: "/communication",
-      icon: svgIcons.communication,
-      text: "Communication",
-      link: false,
-    },
+    // {
+    //   to: "https://salic.sharepoint.com/sites/MDM/SitePages/Home.aspx/corporate-objective",
+    //   icon: svgIcons.Content,
+    //   text: "Corporate Objective KPIs 2022",
+    //   link: true,
+    // },
+    // {
+    //   to: "/communication",
+    //   icon: svgIcons.communication,
+    //   text: "Communication",
+    //   link: false,
+    // },
     {
       icon: svgIcons.SignOut,
       text: "Sign Out",

@@ -1,5 +1,6 @@
 .navbar {
   min-height: 50px;
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -34,13 +35,32 @@
 }
 .navbar img.logo_2030 {
   position: absolute;
-  left: 230px;
+  left: 220px;
   top: 50%;
-  max-width: 45px;
+  max-width: 35px;
   transform: translateY(-50%);
-  opacity: 0.2;
+  opacity: .2;
 }
 
+
+.navbar .sp-search-input {
+  width: 200px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(-50% - 25px),-50%);
+  box-shadow: 0 2px 8px #00000010;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.navbar .sp-search-input .ant-input-group-addon {
+  display: none !important;
+}
+.navbar .sp-search-input .ant-input {
+  border: none !important;
+}
 
 @media screen and (max-width: 320px){
   .navbar img.logoSALIC {
@@ -78,3 +98,5 @@
     display: none;
   }
 }
+
+

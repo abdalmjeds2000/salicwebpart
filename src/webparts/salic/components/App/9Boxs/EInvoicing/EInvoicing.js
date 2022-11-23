@@ -1,5 +1,6 @@
 import React from 'react'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import ServicesSection from '../../Global/ServicesSection/ServicesSection';
 
 const icons = {
   CreateInvoiceRequest: <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" fill="#fff"><g>
@@ -98,8 +99,8 @@ const icons = {
                       </svg>,
 }
 const services = [
-  {icon: icons.CreateInvoiceRequest, bgColor: '#6edb72', text: 'Create Invoice Request', href: 'https://supplierp.salic.com/default/create/ap'},
-  {icon: icons.ReceiveOrderItems, bgColor: '#eb673d', text: 'Recieve Order Item', href: 'https://supplierp.salic.com/default/createReceipt/ap'},
+  {icon: icons.CreateInvoiceRequest, bgColor: '#6edb72', text: 'Create Invoice Request', isLink: true, to: 'https://supplierp.salic.com/default/create/ap'},
+  {icon: icons.ReceiveOrderItems, bgColor: '#eb673d', text: 'Recieve Order Item', isLink: true, to: 'https://supplierp.salic.com/default/createReceipt/ap'},
 ];
 
 
@@ -110,32 +111,11 @@ function EInvoicing() {
       <HistoryNavigation>
         <p>Financial Services Center</p>
       </HistoryNavigation>
-      <div className='services-page-container'>
-
-        <div className="header">
-          <h2>Financial Service Request</h2>
-        </div>
-        <div className='services-body-container'>
-          <div className="services-boxs-container">
-            {services.map((service, i) => {
-              return ( 
-                <a 
-                  data-application-name={service.dataApplicationName}
-                  target='_blank' 
-                  className='box' 
-                  key={i}
-                  href={service.href} 
-                >
-                  <div style={{backgroundColor: service.bgColor}}>
-                    {service.icon}
-                  </div>
-                  <h3>{service.text}</h3>
-                </a>
-              )
-            })}
-          </div>
-
-        </div>
+      <div className="standard-page">
+        <ServicesSection
+          title="Financial Service Request"
+          items={services}
+        />
       </div>
     </>
   )
