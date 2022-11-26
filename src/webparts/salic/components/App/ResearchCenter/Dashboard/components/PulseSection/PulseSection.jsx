@@ -51,6 +51,7 @@ function PulseSection({ sectionTitle, data }) {
                         title={pulse.Title} 
                         imgCustomStyle={{height: '10.5rem'}}
                         openFile={() => _CardDocument.length > 0 ? window.open(_CardDocument) : null} 
+                        contentStyle={{background: 'linear-gradient(0deg,rgba(0,0,0,.80),transparent 80%)'}}
                       />
                     </Col>
                   )

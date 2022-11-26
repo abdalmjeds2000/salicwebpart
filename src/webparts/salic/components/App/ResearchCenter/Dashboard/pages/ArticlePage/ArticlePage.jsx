@@ -80,7 +80,7 @@ function ArticlePage() {
               <div style={{marginTop: 25}}>
               {
                 article.Tags
-                ? article.Tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
+                ? article.Tags.map((tag, i) => <Tag key={i} color="#108ee9">{tag}</Tag>)
                 : null
               }
               </div>

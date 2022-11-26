@@ -76,6 +76,7 @@ const Dashboard = () => {
               title="Assets"
               value={data?.AssetsCount}
               prefix={<ApiOutlined />}
+              valueStyle={{ fontWeight: 700, fontSize: '2rem' }}
             />
           </Card>
         </Col>
@@ -85,6 +86,7 @@ const Dashboard = () => {
               title="Delivery Letters"
               value={data?.DeliveryNoteCount}
               prefix={<MailOutlined />}
+              valueStyle={{ fontWeight: 700, fontSize: '2rem' }}
             />
           </Card>
         </Col>

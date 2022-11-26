@@ -5,14 +5,14 @@ import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavig
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../App';
 import Dashboard from './components/Dashboard';
-
-
+import SalicAssets from './components/SalicAssets';
+import DeliveryLetters from './components/DeliveryLetters/DeliveryLetters';
 
 
 const AllAssets = () => {
-  const [loading, setLoading] = useState(true);
-  const { user_data, defualt_route, } = useContext(AppCtx);
+  const { defualt_route, } = useContext(AppCtx);
   
+  document.title = '.:: SALIC Gate | SALIC\'s Assets ::.';
   
   const navigate = useNavigate();
   return (
@@ -23,11 +23,11 @@ const AllAssets = () => {
       </HistoryNavigation>
       <div className='standard-page asset-managment-center-container'>
         <Tabs 
-          loading={!loading}
+          loading={false}
           items={[
             {key: 1, icon: <HomeOutlined />, title: 'Dashboard', content: <Dashboard />},
-            {key: 2, icon: <TableOutlined />, title: 'SALIC Assets', content: 'SALIC Assets'},
-            {key: 3, icon: <DatabaseOutlined />, title: 'Delivery Letters', content: "Delivery Letters"},
+            {key: 2, icon: <TableOutlined />, title: 'SALIC Assets', content: <SalicAssets />},
+            {key: 3, icon: <DatabaseOutlined />, title: 'Delivery Letters', content: <DeliveryLetters />},
           ]}
         />
       </div>

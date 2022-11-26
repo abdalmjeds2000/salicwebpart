@@ -105,7 +105,12 @@ function ServicesRequests(props) {
       Title="Services Requests"
       HeaderControlPanel={ControlPanel}
       Columns={columns}
-      DataTable={filtered_it_requests_data}
+      DataTable={
+        filtered_it_requests_data.map(row => {
+          row.key = row.Status;
+          return {...row}
+        })
+      }
     />
   )
 }

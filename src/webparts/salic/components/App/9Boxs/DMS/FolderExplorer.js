@@ -4,6 +4,8 @@ import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
 import Organization from './components/Organization'
 import PrivateFolder from './components/PrivateFolder'
 import ESignFolder from './components/ESignFolder'
+import SharedByYou from './components/SharedByYou'
+
 
 import { FolderOpenFilled, FolderOpenOutlined } from '@ant-design/icons';
 
@@ -31,8 +33,11 @@ const FolderExplorerPage = (props) => {
               <li onClick={_ => setCurrentItem(3)} className={currentItem === 3 ? 'active' : ''}>
                 {currentItem === 3 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Private Folder
               </li>
-              <li onClick={_ => setCurrentItem(4)} className={currentItem === 4 ? 'active' : ''}>
+              {/* <li onClick={_ => setCurrentItem(4)} className={currentItem === 4 ? 'active' : ''}>
                 {currentItem === 4 ? <FolderOpenFilled /> : <FolderOpenOutlined />} eSign Folder
+              </li> */}
+              <li onClick={_ => setCurrentItem(5)} className={currentItem === 5 ? 'active' : ''}>
+                {currentItem === 5 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Shared By You
               </li>
             </ul>
           </div>
@@ -49,6 +54,9 @@ const FolderExplorerPage = (props) => {
             </div>
             <div style={{display: currentItem === 4 ? "block" : 'none'}}>
               <ESignFolder />
+            </div>
+            <div style={{display: currentItem === 5 ? "block" : 'none'}}>
+              <SharedByYou />
             </div>
           </div>
         </div>

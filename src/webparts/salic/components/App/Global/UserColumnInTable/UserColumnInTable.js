@@ -8,7 +8,8 @@ const UserColumnInTable = (props) => {
             {props.Mail && props.Mail.length > 0 && <Avatar
                 src={
                 <Image
-                    src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=l&username=${props.Mail}`}
+                    src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=s&username=${props.Mail}`}
+                    preview={{src: `https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=L&username=${props.Mail}`,}}
                     style={{minWidth: 32}}
                 />
                 }

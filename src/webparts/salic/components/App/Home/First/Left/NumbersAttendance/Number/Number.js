@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Number.css';
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { Modal, Table } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../../../../../App';
 
 
 function Number(props) {
+  const navigate = useNavigate();
+  const { defualt_route } = useContext(AppCtx);
   const [openPerformanceModal, setOpenPerformanceModal] = useState(false)
   const [openEventsModal, setOpenEventsModal] = useState(false)
   
@@ -29,8 +33,8 @@ function Number(props) {
       </div>
       <div className="number-box-info">
         <h3 onClick={() => {
-          props.numberType === 'performance' && props.PerformanceDataTable.length > 0 
-          ? setOpenPerformanceModal(true)
+          props.numberType === 'performance'/*  && props.PerformanceDataTable.length > 0  */
+          ? navigate(defualt_route + '/performance-managment') /* setOpenPerformanceModal(true) */
           : props.numberType === 'events' && props.EventsDataTable.length > 0
           ? setOpenEventsModal(true)
           : null

@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import AntdLoader from '../AntdLoader/AntdLoader';
 
 function RequestsTable(props) {
-
+console.log('props.DataTable', props.DataTable)
   return (
       <div className='table-page-container'>
         <div className='content'>

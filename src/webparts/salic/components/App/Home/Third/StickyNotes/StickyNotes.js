@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './StickyNotes.css';
 import pnp from 'sp-pnp-js';
-import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AppCtx } from '../../../App';
-import { Button, message, Popconfirm } from 'antd';
+import { message, Popconfirm } from 'antd';
 import AddNote from './API/AddNote';
 import UpdateNote from './API/UpdateNote';
 

@@ -14,7 +14,12 @@ const Navbar = (props) => {
   return ( 
     <div className="navbar" style={props.style}>
       <div className="sp-search-input">
-        <Input.Search enterButton={false} placeholder="Search" style={{borderRadius: '7px', overflow: 'hidden', width: '100%'}} />
+        <Input.Search
+          prefix={<SearchOutlined />} 
+          enterButton={false}
+          placeholder="Search" 
+          style={{borderRadius: '7px', overflow: 'hidden', width: '100%'}} 
+        />
       </div>
       
       <img src={logo} alt="logo" className="logoSALIC" onClick={() => navigate(defualt_route+'/home')} />

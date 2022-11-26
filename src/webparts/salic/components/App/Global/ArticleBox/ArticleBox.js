@@ -22,7 +22,7 @@ function ArticleBox(props) {
       <div>
         {
           props.Tags !== undefined && props.Tags.length > 0
-          ? props.Tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
+          ? props.Tags.map((tag, i) => <Tag key={i} color="#108ee9">{tag}</Tag>)
           : null
         }
       </div>

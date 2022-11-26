@@ -11,14 +11,14 @@ function SubmitCancel(props) {
       {
         !props.isUpdate
         ? <Col>
-            <Button type="primary" htmlType='submit' disabled={props.loaderState ? true : false} onClick={props.formSubmitHandler}>
+            <Button type="primary" htmlType='submit' loading={props.loaderState ? true : false} onClick={props.formSubmitHandler}>
               {props.isUpdate ? "Update" : "Submit"}
             </Button>
           </Col>
         : null
       }
       <Col>
-        <Button danger type="ghost" onClick={() => navigate(`${defualt_route}${props.backTo || '/admin-services'}`)}>
+        <Button danger type="primary" onClick={() => navigate(`${defualt_route}${props.backTo || '/admin-services'}`)}>
           Cancel
         </Button>
       </Col>

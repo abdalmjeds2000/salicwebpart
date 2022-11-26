@@ -24,7 +24,7 @@ axios.interceptors.response.use(undefined, function (error) {
 
 const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [userData, setUserData] = React.useState({Data: {Mail: null}});
+  const [userData, setUserData]: any = React.useState({});
   const [notificationsCount, setNotificationsCount] = React.useState('');
   const [mailCount, setMailCount] = React.useState('');
   const [latestAttendance, setLatestAttendance] = React.useState([]);
@@ -60,8 +60,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
 
 
   React.useEffect(() => {
-    if(userData.Data.Mail !== null) {
-      if(userData.Data.Mail !== "stsadmin@salic.onmicrosoft.com") {
+    if(userData.Data?.Mail !== null) {
+      if(userData.Data?.Mail !== "stsadmin@salic.onmicrosoft.com") {
         let element = document.getElementById("spCommandBar");
         if(element) {
           element.style.display = "none";
@@ -264,6 +264,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     latest_attendance: latestAttendance,
     communicationList: communicationList,
     news_list: newsList,
+    setNewsList,
     globe_data: globeData,
     isGlobeReady,
     setIsGlobeReady,

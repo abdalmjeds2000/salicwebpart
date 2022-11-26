@@ -44,15 +44,40 @@
 
 
 .navbar .sp-search-input {
-  width: 200px;
+  width: 450px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(calc(-50% - 25px),-50%);
-  box-shadow: 0 2px 8px #00000010;
-  border: 1px solid #eee;
-  border-radius: 4px;
+  background-color: #ffffff;
+  border-radius: 28px;
+  opacity: .8 !important;
+  transition: .3s;
   overflow: hidden;
+  box-shadow: 0 2px 7px #00000030;
+}
+@media screen and (max-width: 1000px) {
+  .navbar .sp-search-input {
+    width: 320px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .navbar .sp-search-input {
+    width: 240px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .navbar .sp-search-input {
+    display: none;
+  }
+}
+.navbar .sp-search-input .ant-input-affix-wrapper {
+  padding: 0 10px !important;
+  border-radius: 28px !important;
+}
+.navbar .sp-search-input:hover,
+  .navbar .sp-search-input:focus {
+  opacity: 1 !important;
 }
 
 .navbar .sp-search-input .ant-input-group-addon {
@@ -60,6 +85,11 @@
 }
 .navbar .sp-search-input .ant-input {
   border: none !important;
+  background-color: transparent !important;
+  padding: 6px 12px !important;
+}
+.navbar .sp-search-input .ant-input::placeholder {
+  color: var(--text-color) !important;
 }
 
 @media screen and (max-width: 320px){

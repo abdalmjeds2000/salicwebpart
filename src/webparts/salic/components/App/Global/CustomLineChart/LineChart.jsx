@@ -14,7 +14,7 @@ const LineChart = ({items, totalCount, totalSpan}) => {
       <div className='progress'>
         {
           items?.map((item, i) => (
-            <Tooltip title={`${item.title}: ${item.count}`}>
+            <Tooltip title={`${item.title}: ${item.count}`} color={item.color || '#000000'}>
               <div key={i} style={{width: `${(item.count/totalCount)*100}%`, backgroundColor: item.color}} className={`progress-bar bg-${item.type}`} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </Tooltip>
           ))

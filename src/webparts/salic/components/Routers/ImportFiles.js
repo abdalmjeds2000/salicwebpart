@@ -70,7 +70,7 @@ export { default as ResearchPulse } from '../App/ResearchCenter/Dashboard/pages/
 export { default as CommodityPrices } from '../App/ResearchCenter/Dashboard/pages/ManageDashboardData/Iframes/CommodityPrices';
 export { default as KnowledgeCenter } from '../App/ResearchCenter/Dashboard/pages/ManageDashboardData/Iframes/KnowledgeCenter';
 export { default as ManageNewsContent } from '../App/ManageNewsContent/ManageNewsContent';
-export { default as MediaCenter } from '../App/MediaCenter/MediaCenter';
+export { default as ManageMediaCenter } from '../App/ManageMediaCenter/ManageMediaCenter';
 export { default as ManageEvents } from '../App/ManageEvents/ManageEvents';
 export { default as SPSearch } from '../App/SearchPage/SPSearch';
 export { default as CorporateObjectiveKPIs } from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
@@ -79,3 +79,8 @@ export { default as CategoryPage } from '../App/ResearchCenter/Dashboard/pages/C
 export { default as PulseSection } from '../App/ResearchCenter/Dashboard/pages/PulseCardsPage';
 export { default as CountryCardsPage } from '../App/ResearchCenter/Dashboard/pages/CountryCardsPage';
 export { default as KnowledgeCardsPage } from '../App/ResearchCenter/Dashboard/pages/KnowledgeCardsPage';
+export { default as IncidentsCenter } from '../App/IncidentsCenter/IncidentsCenter';
+export { default as NewIncidentReport } from '../App/IncidentsCenter/components/NewIncidentReport';
+export { default as MyReports } from '../App/IncidentsCenter/components/MyReports';
+export { default as AssignedReports } from '../App/IncidentsCenter/components/AssignedReports';
+export { default as RequestsForReview } from '../App/IncidentsCenter/components/RequestsForReview';

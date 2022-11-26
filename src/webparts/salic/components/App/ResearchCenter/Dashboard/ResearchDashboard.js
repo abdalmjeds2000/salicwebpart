@@ -40,6 +40,7 @@ function ResearchDashboard() {
     setLoading(false);
   }
   useEffect(() => {
+    document.title = ".:: SALIC Gate | Research Library ::."; 
     if(Object.keys(user_data).length > 0 && researchArticlesData.length === 0) {
       FetchData();
     }
@@ -62,7 +63,7 @@ function ResearchDashboard() {
                   <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                     <ResearchSection 
                       data={researchArticlesData} 
-                      sectionTitle="Latest Research" 
+                      sectionTitle="Latest Publication" 
                       id="2" 
                       IsFeature={false}
                     />
@@ -86,10 +87,10 @@ function ResearchDashboard() {
                   <Col xs={24} sm={24} md={12} lg={12} xl={14}>
                     <NewsSection data={researchNewsData} sectionTitle="Weekly News" />
                   </Col>
-                  <Col xs={24} sm={12} md={12} lg={6} xl={5}>
+                  <Col xs={24} sm={12} md={12} lg={12} xl={5}>
                     <PulseSection data={researchPulseData} sectionTitle="Pulse" />
                   </Col>
-                  <Col xs={24} sm={12} md={12} lg={6} xl={5}>
+                  <Col xs={24} sm={12} md={12} lg={12} xl={5}>
                     <CountrySection data={researchCountriesData} sectionTitle="Country Outlook" />
                   </Col>
                   <Col xs={24} sm={24} md={24} lg={24}>

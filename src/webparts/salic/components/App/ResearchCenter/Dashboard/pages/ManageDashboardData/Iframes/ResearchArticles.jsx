@@ -13,11 +13,11 @@ function ResearchArticles() {
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
         <a onClick={() => navigate(defualt_route + '/manage-research-library')}>Manage Research Library Content</a>
-        <p>Research Articles</p>
+        <p>Research Reports</p>
       </HistoryNavigation>
       <div className='folder-explorer-container'>  
         <iframe
-          name='Research Articles'
+          name='research-library'
           src='https://salic.sharepoint.com/sites/dev/Lists/Research%20Articles/AllItems.aspx'
           width='100%'
           height='100%'

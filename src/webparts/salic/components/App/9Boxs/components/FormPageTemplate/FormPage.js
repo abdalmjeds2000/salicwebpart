@@ -36,7 +36,7 @@ function FormPageTemplate(props) {
               </div>
               <div className="tips_user-info_img">
                 <img 
-                  src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${props.Email || user_data.Data.Mail}`} 
+                  src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${props.Email || user_data.Data?.Mail}`} 
                   alt="" 
                 />
               </div>

@@ -7,7 +7,7 @@ import CustomSelect from '../components/CustomSelect';
 
 
 function removeDuplicates(arr) {
-  return arr.filter((item,
+  return arr?.filter((item,
       index) => arr.indexOf(item) === index);
 }
 
@@ -181,7 +181,7 @@ function Statistics() {
     // update departments options
   const [departments, setDepartments] = useState([]);
   useEffect(() => {
-    const filterDep = removeDuplicates(departments_info?.map(u => u.Department).filter(d => d.length > 0));
+    const filterDep = removeDuplicates(departments_info?.map(u => u.Department)?.filter(d => d.length > 0));
     setDepartments(filterDep)
   }, [user_data, departments_info])
 

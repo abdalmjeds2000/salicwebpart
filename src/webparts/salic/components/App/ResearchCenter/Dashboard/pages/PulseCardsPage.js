@@ -8,6 +8,7 @@ import { SPHttpClient } from '@microsoft/sp-http'
 import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+import { SearchOutlined } from '@ant-design/icons';
 
 
 function PulseCardsPage() {
@@ -100,7 +101,16 @@ function PulseCardsPage() {
           <div style={{width: '100%'}}>
             <Row justify="space-between" align="middle" wrap={true}>
               <Col span={24} style={{maxWidth: '65%', margin: '0 auto', display: 'flex', alignItems: 'center'}}>
-                <Input.Search placeholder="Search by Title" size='large' loading={loading} onSearch={value => value?.length >= 3 ? ApplyFilter({Title: value}) : message.info("Enter 3 charachter or more!")} enterButton  />
+                <Input 
+                  placeholder="Search by Title ( Min 3 Character)" 
+                  size='large' 
+                  addonBefore={<SearchOutlined />} 
+                  onChange={e => {
+                    e.target.value?.length >= 3 
+                    ? (async () => {await ApplyFilter({Title: e.target.value})})() 
+                    : null
+                  }}
+                />
                 {isFilterData && <Button type="primary" size='large' danger onClick={() => {setIsFilterData(false); FetchData(1, _pageSize);} }>Remove Filter</Button>}
               </Col>
               <Col span={24}>
@@ -130,6 +140,7 @@ function PulseCardsPage() {
                             imgSrc={_CardImg} 
                             title={pulse.Title} 
                             openFile={() => _CardImg.length > 0 ? window.open(_CardDocument) : null} 
+                            contentStyle={{background: 'linear-gradient(0deg,rgba(0,0,0,.80),transparent 80%)'}}
                           />
                         </Col>
                       )

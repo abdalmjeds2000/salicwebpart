@@ -2,7 +2,7 @@ import React from 'react';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 
 
-function MediaCenter() {
+function ManageMediaCenter() {
   const editStyle = () => {
     var iframe = document.getElementById("spIframe");
     var elmnt = iframe.contentWindow.document.getElementsByClassName("od-ItemsScopeList-content")[0];
@@ -12,7 +12,7 @@ function MediaCenter() {
   return (
     <>
       <HistoryNavigation>
-        <p>Media Center</p>
+        <p>Manage Media Center</p>
       </HistoryNavigation>
       <div className='folder-explorer-container'>  
         <iframe
@@ -29,4 +29,4 @@ function MediaCenter() {
   )
 }
 
-export default MediaCenter
+export default ManageMediaCenter

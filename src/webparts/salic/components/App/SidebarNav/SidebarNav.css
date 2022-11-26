@@ -16,8 +16,8 @@
   max-width: 50px;
 }
 .nav-container-large {
-  width: 220px;
-  max-width: 220px;
+  width: 250px;
+  max-width: 250px;
 }
 @media screen and (max-width: 800px) {
   .nav-container {
@@ -76,9 +76,13 @@
 .nav-container ul li {
   width: 100%;
   color: #fff;
+  transition: .3s;
 }
 .nav-container ul li:hover {
   background-color: #00000010;
+}
+.nav-container ul li:hover a {
+  opacity: 1 !important;
 }
 .nav-container ul li:last-child {
   position: absolute;

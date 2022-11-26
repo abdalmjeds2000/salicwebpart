@@ -54,6 +54,7 @@ function DropdownSelectUser(props) {
         onSearch={handleSearch}
         placeholder={props.placeholder}
         options={options}
+        onChange={props.onChange}
       />
     </Form.Item>
   )

@@ -2,7 +2,6 @@
 	display: flex;
   height: 20px;
   margin-bottom: 20px;
-  overflow: hidden;
   background-color: #f5f5f5;
   border-radius: 4px;
 }
@@ -22,6 +21,8 @@
 }
 .custom-progress .progress .progress-bar:hover {
 	opacity: .7;
+	margin: 0 3px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
 }
 .custom-progress .bg-success {
 	background-color: #0abb87 !important;

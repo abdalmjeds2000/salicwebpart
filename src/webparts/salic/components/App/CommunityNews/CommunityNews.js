@@ -19,7 +19,7 @@ function CommunityNews() {
   const [filteredNewslist, setFilteredNewslist] = useState([]);
   const [newsList, setNewsList] = useState([]);
   useEffect(() => {
-    const FilterNewsDraft = news_list?.filter(news => news.IsDraft === false).slice(0, 100);
+    const FilterNewsDraft = news_list?.filter(news => news.IsDraft === false)?.slice(0, 100);
     setNewsList(FilterNewsDraft);
     setFilteredNewslist(getDataByPageNo(FilterNewsDraft, currentPage));
   }, [news_list])
@@ -38,7 +38,7 @@ function CommunityNews() {
               key={i}
               Title={box.Subject}
               Description ={box.Description?.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "")}
-              Poster={box.AttachmentFiles[0]?.ServerRelativeUrl}
+              Poster={box.AttachmentFiles.length > 0 ? box.AttachmentFiles[0]?.ServerRelativeUrl : box.Photos}
               To={`/community-news/${box.Id}`}
             />
           )

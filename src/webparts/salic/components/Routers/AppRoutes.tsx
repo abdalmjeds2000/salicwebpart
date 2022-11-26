@@ -74,7 +74,7 @@ import {
   CommodityPrices,
   KnowledgeCenter,
   ManageNewsContent,
-  MediaCenter,
+  ManageMediaCenter,
   ManageEvents,
   SPSearch,
   CorporateObjectiveKPIs,
@@ -83,6 +83,11 @@ import {
   PulseSection,
   CountryCardsPage,
   KnowledgeCardsPage,
+  IncidentsCenter,
+  NewIncidentReport,
+  MyReports,
+  AssignedReports,
+  RequestsForReview,
 } from './ImportFiles';
 
 
@@ -238,12 +243,22 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
 
-      <Route path={`${defualtRoute}/media-center`} element={<MediaCenter />} />
+      <Route path={`${defualtRoute}/manage-media-center`} element={<ManageMediaCenter />} />
       <Route path={`${defualtRoute}/manage-events`} element={<ManageEvents />} />
       <Route path={`${defualtRoute}/sp-search`} element={<SPSearch />} />
       <Route path={`${defualtRoute}/corporate-objective`} element={<CorporateObjectiveKPIs />} />
-
       
+      <Route path={`${defualtRoute}/incidents-center`}>
+        <Route index element={<IncidentsCenter />} />
+        <Route path={`${defualtRoute}/incidents-center/new-report`} element={<NewIncidentReport />} />
+        <Route path={`${defualtRoute}/incidents-center/my-reports`} element={<MyReports />} />
+        <Route path={`${defualtRoute}/incidents-center/assigned-reports`} element={<AssignedReports />} />
+        <Route path={`${defualtRoute}/incidents-center/request-for-review`} element={<RequestsForReview />} />
+        
+        
+        
+        
+      </Route>
     </Routes>
   );
 }

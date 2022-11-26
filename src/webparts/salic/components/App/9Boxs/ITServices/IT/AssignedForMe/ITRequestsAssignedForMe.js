@@ -117,7 +117,12 @@ function ITRequestsAssignedForMe() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={filtered_it_requests_data}
+        DataTable={
+          filtered_it_requests_data.map(row => {
+            row.key = row.Status;
+            return {...row}
+          })
+        }
       />
     </>
   )

@@ -13,7 +13,7 @@ import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import CheckableTag from 'antd/lib/tag/CheckableTag';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
-import { CloseOutlined, FilterOutlined } from '@ant-design/icons';
+import { CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 
 function CategoryPage() {
   const { defualt_route, sp_context } = useContext(AppCtx);
@@ -87,7 +87,7 @@ function CategoryPage() {
   useEffect(() => {
     FetchData(1, _pageSize);
     FetchChoices();
-    document.title = ".:: SALIC Gate | Research Articles ::."; 
+    document.title = ".:: SALIC Gate | Research Reports ::."; 
   }, []);
   const pageCount = Math.ceil(itemsCount / _pageSize);
 
@@ -130,7 +130,7 @@ function CategoryPage() {
       .then(responseData => {
         if(responseData.length > 0) {
           setData(responseData);
-          message.success(`Found: ${responseData.length} item`)
+          // message.success(`Found: ${responseData.length} item`)
           setIsFilterData(true);
         } else {
           message.info("No Data Match!");
@@ -145,7 +145,7 @@ function CategoryPage() {
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
-        <p>Research Articles</p>
+        <p>Research Reports</p>
       </HistoryNavigation>
       
       <Form form={form} onFinish={ApplyFilter}>
@@ -192,12 +192,21 @@ function CategoryPage() {
               <Row justify="space-between" align="middle" wrap={true}>
                 <Col span={24} style={{maxWidth: '80%', margin: '0 auto'}}>
                   <Form.Item name="Title" style={{margin: '0'}}>
-                    <Input.Search placeholder="Search by Title" size='large' style={{padding: '7px 10px'}} loading={loading} onPressEnter={e => e.preventDefault} onSearch={value => value?.length >= 3 ? ApplyFilter({Title: value}) : message.info("Enter 3 charachter or more!")} enterButton  />
+                    <Input 
+                      placeholder="Search by Title ( Min 3 Character)" 
+                      size='large' 
+                      addonBefore={<SearchOutlined />} 
+                      onChange={e => {
+                        e.target.value?.length >= 3 
+                        ? (async () => {await ApplyFilter({Title: e.target.value})})() 
+                        : null
+                      }}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={24}>
                   <Row justify="space-between" align="middle">
-                    <Typography.Title level={2} style={{lineHeight: 2.5}}>Research Articles</Typography.Title>
+                    <Typography.Title level={2} style={{lineHeight: 2.5}}>Research Reports</Typography.Title>
                     <Tooltip title={!openFilterPanel ? "Open Filter Panel" : "Close Filter Panel"}>
                       <Button 
                         type="primary" 

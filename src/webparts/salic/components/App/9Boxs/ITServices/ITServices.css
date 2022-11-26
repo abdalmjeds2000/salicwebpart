@@ -6,3 +6,14 @@
 .new-account-fields-container .ant-form-item {
   margin-bottom: 5px !important;
 }
+
+
+
+.table-page-container .ant-table-tbody tr[data-row-key="PROCESSING"] { 
+  background: rgb(255,245,229) !important;
+  background: linear-gradient(90deg, rgba(255,245,229,1) 0%, rgba(255,255,255,1) 100%) !important;
+}
+.table-page-container .ant-table-tbody tr[data-row-key="SUBMITTED"] { 
+  background: rgb(255,229,229)!important;
+  background: linear-gradient(90deg, rgba(255,229,229,1) 0%, rgba(255,255,255,1) 100%) !important;
+}

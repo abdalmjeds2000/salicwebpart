@@ -35,8 +35,7 @@
   margin-bottom: 20px;
   background-color: var(--main-color);
   border-radius: 5px;
-  position: relative;
-  z-index: 1;
+  max-height: 40px;
 }
 .three-divisions .media-center .header h3,
 .three-divisions .community-news .header h3,
@@ -46,14 +45,12 @@
   color: #fff !important;
   line-height: 1;
 }
-.three-divisions .media-center .header a,
-.three-divisions .community-news .header a {
+.three-divisions .header a {
   color: #fff;
   font-size: 1.1em;
   line-height: 1 !important;
 }
-.three-divisions .media-center .header a:hover,
-.three-divisions .community-news .header a:hover {
+.three-divisions .header a:hover {
   color: #fff !important;
   text-decoration: underline;
 }
@@ -301,6 +298,7 @@
   border-radius: 10px;
   box-shadow: 0 5px 12px #00000010;
   cursor: pointer;
+  overflow: hidden;
   transition: .3s;
 }
 .three-divisions .community-news .organization-documents-container .oranization-documents:hover {
@@ -506,8 +504,12 @@
 @media screen and (max-width: 800px) {
   
   .three-divisions {
+    height: auto;
     flex-wrap: wrap;
     margin: 10px;
+  }
+  .three-divisions .community-news .news-list {
+    height: 300px;
   }
   .three-divisions .media-center {
     width: 100vw;

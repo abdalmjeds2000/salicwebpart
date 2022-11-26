@@ -115,8 +115,8 @@ function NumbersAttendance() {
         <Number
           pathColor={performaceGrade(performance.performace?.count.replace('%', '')).Color} 
           textColor={performaceGrade(performance.performace?.count.replace('%', '')).Color}
-          header="KPI Progress" 
-          description={'%' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
+          header="% KPI Progress" 
+          description={'Performance Management' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
           value={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '0'}
           text={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '?'}
           minValue='0'

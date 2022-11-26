@@ -1,5 +1,4 @@
 import React from "react";
-import "./AdminServices.css";
 import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
 import { services, srvsIcons } from './boxsData';
 import ServicesSection from "../../Global/ServicesSection/ServicesSection";

@@ -38,7 +38,7 @@ function NewsDetails() {
 
             <div className='news-details'>
               <div className='image'>
-                <img className='news-img' src={newsData[0]?.AttachmentFiles[0]?.ServerRelativeUrl} alt='' />
+                <img className='news-img' src={newsData[0]?.AttachmentFiles.length > 0 ? newsData[0]?.AttachmentFiles[0]?.ServerRelativeUrl : newsData[0]?.Photos} alt='' />
               </div>
               <div className='content'>
                 <h1 className='news-title'>{newsData[0]?.Subject}</h1>
