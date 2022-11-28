@@ -108,10 +108,16 @@ function NumbersAttendance() {
     { title: 'Remaining', dataIndex: '', width: '20%', render: (_, record) => `${Math.floor((new Date(record.Date).getTime() - new Date().getTime())  / (1000 * 3600 * 24))} Days Left` },
   ];
 
+  useEffect(() => {
+    const el = document.getElementById('home-chart');
+    setTimeout(() => {
+      el?.style?.opacity = 1;
+    }, 2000);
+  }, []);
 
   return (
     <div className="numbers-attendance-container">
-      <div className="div1">
+      <div className="div1" style={{cursor: 'pointer'}}>
         <Number
           pathColor={performaceGrade(performance.performace?.count.replace('%', '')).Color} 
           textColor={performaceGrade(performance.performace?.count.replace('%', '')).Color}
@@ -165,22 +171,20 @@ function NumbersAttendance() {
           textColor='#ff272b'
         /> */}
         {
-          (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
-          ? <>
-              {/* <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total}</a> */}
-              <Tooltip placement="top" title="Current Balance">
-                <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
-              </Tooltip>
-              <RadialBar 
-                {...configRadialBar}
-                style={{
-                  width: '100%',
-                  margin: '20px 0 40px 0',
-                }} 
-                
-              />
-            </>
-          : null
+          // (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
+          <div id='home-chart' style={{opacity: 0, transition: '0.5s'}}>
+            <Tooltip placement="top" title="Current Balance">
+              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
+            </Tooltip>
+            <RadialBar 
+              {...configRadialBar}
+              style={{
+                width: '100%',
+                margin: '20px 0 40px 0',
+              }} 
+              
+            />
+          </div>
         }
       </div>
       <div className="div5">

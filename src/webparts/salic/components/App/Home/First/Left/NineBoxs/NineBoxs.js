@@ -75,7 +75,7 @@ const services = [
   // {header: 'Incidents Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Risk/Center.aspx', icon: icons.IncidentsCenter},
   {header: 'Majles Tech', link: true, to: 'https://boardroom.salic.com/', icon: icons.Majles},
   {header: 'Corresponding System', link: true, to: 'https://masar.salic.com',  icon: icons.CorrespondingSystem},
-  {header: 'Research Library', link: false, to: '/research-center', icon: icons.ResearchCenter},
+  {header: 'Research Library', link: false, to: '/research-library', icon: icons.ResearchCenter},
   // {header: 'Performance Managment', link: false, to: '/performance-managment', icon: icons.Performance},
   {header: 'e-Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
   {header: 'eDocument System', link: false, to: '/dms', icon: icons.DMS},

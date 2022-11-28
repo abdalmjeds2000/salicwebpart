@@ -49,7 +49,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [salicDepartments, setSalicDepartments] = React.useState([]);
   const [myItRequestsData, setMyItRequestsData] = React.useState([]);
   const [itRequestsAssignedForMeData, setItRequestsAssignedForMeData] = React.useState([]);
-  
+  const [itCancelledRequests, setitCancelledRequests] = React.useState([]);
+
   // IT SERVICE REQUEST PAGE DATA
   const [summaryByStatus, setSummaryByStatus] = React.useState([]);
   const [summaryByPriority, setSummaryByPriority] = React.useState([]);
@@ -308,6 +309,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     ITRequests: ITRequests, 
     setITRequests,
     sp_context: props.context,
+    it_cancelled_requests: itCancelledRequests, 
+    setitCancelledRequests
   };
 
   let link: any = document.querySelector("link[rel~='icon']");

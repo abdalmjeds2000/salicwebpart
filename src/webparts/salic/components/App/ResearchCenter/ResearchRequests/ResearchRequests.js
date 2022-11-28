@@ -20,7 +20,7 @@ function ResearchRequests() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Center</a>
+        <a onClick={() => navigate(defualt_route + '/research-library')}>Research Center</a>
         <p>Research Requests</p>
       </HistoryNavigation>
       

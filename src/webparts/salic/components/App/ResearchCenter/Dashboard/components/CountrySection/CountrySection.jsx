@@ -22,7 +22,7 @@ function CountrySection({ sectionTitle, data }) {
     <>
       <Row justify="space-between" align="middle">
         <Typography.Title level={3} style={{lineHeight: 2.5, whiteSpace: 'nowrap'}}>{sectionTitle}</Typography.Title>
-        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/country`)}>
+        <Typography.Link onClick={() => navigate(defualt_route + `/research-library/country`)}>
           See All
         </Typography.Link>
       </Row>

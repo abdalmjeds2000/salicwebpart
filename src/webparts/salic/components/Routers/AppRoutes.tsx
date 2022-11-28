@@ -13,6 +13,7 @@ import {
   MyItServiceRequests,
   ITRequestsAssignedForMe,
   PreviewITServiceRequest,
+  CancelledRequests,
   ServiceRequestsDashboard,
   NotificationCenter,
   IssuingVISA,
@@ -102,7 +103,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={"/sites/dev"} element={<Navigate replace to={`${defualtRoute}/home`}/>} />
       <Route path={"/sites/dev/_layouts/15/workbench.aspx"} element={<Navigate to={`${defualtRoute}/home`}/>} />
       <Route path={`${defualtRoute}/communication`} element={<Communication />} />
-      <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage {...props}/>} />
+      <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage /* {...props} *//>} />
       <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />
       <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
       <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
@@ -154,7 +155,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
           <Route index element={<ITRequestsAssignedForMe />} />
           <Route path={`${defualtRoute}/services-requests/requests-assigned-for-me/:query`} element={<ITRequestsAssignedForMe />} />
         </Route>
+        
         <Route path={`${defualtRoute}/services-requests/service-requests-dashboard`} element={<ServiceRequestsDashboard />} />
+        <Route path={`${defualtRoute}/services-requests/cancelled`} element={<CancelledRequests />} />
         <Route path={`${defualtRoute}/services-requests/:id`} element={<PreviewITServiceRequest />} />
       </Route>
       <Route path={`${defualtRoute}/asset`}>
@@ -177,13 +180,14 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       </Route>
       <Route path={`${defualtRoute}/eSignature-document`} element={<ESignatureTool />} />
       
-      <Route path={`${defualtRoute}/research-center`}>
+      <Route path={`${defualtRoute}/research-library`}>
         <Route index element={<ResearchDashboard />} />
-        <Route path={`${defualtRoute}/research-center/country`} element={<CountryCardsPage />} />
-        <Route path={`${defualtRoute}/research-center/pulse`} element={<PulseSection />} />
-        <Route path={`${defualtRoute}/research-center/knowledge`} element={<KnowledgeCardsPage />} />
-        <Route path={`${defualtRoute}/research-center/categories/all`} element={<CategoryPage />} />
-        <Route path={`${defualtRoute}/research-center/:id`} element={<ArticlePage />} />
+        <Route path={`${defualtRoute}/research-library/country`} element={<CountryCardsPage />} />
+        <Route path={`${defualtRoute}/research-library/pulse`} element={<PulseSection />} />
+        <Route path={`${defualtRoute}/research-library/knowledge`} element={<KnowledgeCardsPage />} />
+        <Route path={`${defualtRoute}/research-library/categories/all`} element={<CategoryPage />} />
+        <Route path={`${defualtRoute}/research-library/categories/:byType`} element={<CategoryPage />} />
+        <Route path={`${defualtRoute}/research-library/:id`} element={<ArticlePage />} />
       </Route>
 
       <Route path={`${defualtRoute}/org-doc-investment`} element={<Investment />} />

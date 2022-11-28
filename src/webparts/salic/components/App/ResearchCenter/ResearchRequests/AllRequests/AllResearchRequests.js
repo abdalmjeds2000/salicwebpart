@@ -27,7 +27,7 @@ function AllResearchRequests() {
     setLoading(false);
   } 
   useEffect(() => {
-    if(Object.keys(user_data).length > 0 && research_requests_data.length === 0) {
+    if(Object.keys(user_data).length > 0 && research_requests_data?.length === 0) {
       GetRequests();
     }
   }, [user_data]);
@@ -52,7 +52,7 @@ function AllResearchRequests() {
       title: 'Timeline',
       dataIndex: 'Timeline',
       width: '15%',
-      render: (val) => <Tag icon={<ClockCircleOutlined />} color="default">{new Date(val).toLocaleString()}</Tag>
+      render: (val) => <Tag icon={<ClockCircleOutlined />} color="default">{new Date(val).toLocaleDateString()}</Tag>
     },{
       title: 'Requester',
       dataIndex: 'Author',
@@ -80,7 +80,7 @@ function AllResearchRequests() {
     </Space>
   )
 
-  const filtered_research_requests_data = research_requests_data?.filter(row => {
+  const filtered_research_requests_data = Array.isArray(research_requests_data) ? research_requests_data?.filter(row => {
     const searchWord = searchText?.toLowerCase();
     if(
         row.Title?.toLowerCase().includes(searchWord) || 
@@ -90,7 +90,7 @@ function AllResearchRequests() {
           return true
         }
         return false
-  });
+  }) : [];
   return (
     <>
       <HistoryNavigation>

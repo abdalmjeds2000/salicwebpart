@@ -94,7 +94,7 @@ function CountryCardsPage() {
   return (  
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
+        <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <p>Country Outlook</p>
       </HistoryNavigation>
 
@@ -126,7 +126,7 @@ function CountryCardsPage() {
                         return (
                           <>
                             <Col span={24}>
-                              <Divider orientation="left">{group.alphabet}</Divider>
+                              <Divider orientation="left" orientationMargin="0" style={{margin: 0, fontSize: '2.5rem'}}>{group.alphabet}</Divider>
                             </Col>
                             {
                               group.record?.map((country, i) => {

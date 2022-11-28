@@ -22,6 +22,8 @@
     "@microsoft/sp-office-ui-fabric-core": "1.15.2",
     "@microsoft/sp-property-pane": "1.15.2",
     "@microsoft/sp-webpart-base": "1.15.2",
+    "@opuscapita/react-filemanager": "^1.1.12",
+    "@opuscapita/react-filemanager-connector-node-v1": "^1.1.12",
     "@pnp/common": "^2.14.0",
     "@pnp/core": "^3.6.0",
     "@pnp/graph": "^3.6.0",

@@ -15,7 +15,7 @@ const Navbar = (props) => {
     <div className="navbar" style={props.style}>
       <div className="sp-search-input">
         <Input.Search
-          prefix={<SearchOutlined />} 
+          suffix={<SearchOutlined />} 
           enterButton={false}
           placeholder="Search" 
           style={{borderRadius: '7px', overflow: 'hidden', width: '100%'}} 

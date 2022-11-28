@@ -3,9 +3,8 @@ import { Table } from 'antd';
 import AntdLoader from '../AntdLoader/AntdLoader';
 
 function RequestsTable(props) {
-console.log('props.DataTable', props.DataTable)
   return (
-      <div className='table-page-container'>
+      <div className='table-page-container' style={props.containerStyle}>
         <div className='content'>
           <div className="header">
             <h1>{props.Title}</h1>
@@ -21,7 +20,7 @@ console.log('props.DataTable', props.DataTable)
                     columns={props.Columns} 
                     dataSource={props.DataTable} 
                     pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
-                    size="small"
+                    size="middle"
                   />
                 : <AntdLoader />
               }

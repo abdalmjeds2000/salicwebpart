@@ -1,10 +1,14 @@
 import React from 'react'
 const editStyle = () => {
-  var iframe = document.getElementById("spIframe");
-  var elmnt = iframe.contentWindow.document.getElementsByClassName("od-ItemsScopeList-content")[0];
-  elmnt.style.backgroundColor = "#fff";
-  var btn = iframe.contentWindow.document.getElementsByClassName("librariesDropdown_c258b0e8");
-  btn[0].style.display = "none";
+  try {
+    var iframe = document.getElementById("spIframe");
+    var elmnt = iframe.contentWindow.document.getElementsByClassName("od-ItemsScopeList-content")[0];
+    elmnt.style.backgroundColor = "#fff";
+    var btn = iframe.contentWindow.document.getElementsByClassName("od-ItemContent-header")[0].children[1];
+    btn.style.visibility = "hidden";
+  } catch {
+    console.log('failed hide some elements in Organization iframe');
+  }
 }
 
 

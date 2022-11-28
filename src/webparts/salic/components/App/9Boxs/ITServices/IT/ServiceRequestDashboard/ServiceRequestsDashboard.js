@@ -11,7 +11,6 @@ import GetSummaryByStatus from '../../API/GetSummaryByStatus';
 import GetSummaryByPriority from '../../API/GetSummaryByPriority';
 import GetSummaryByDepartment from '../../API/GetSummaryByDepartment';
 import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
-import GetITRequests from '../../API/GetITRequests';
 import Tabs from '../../../../Global/CustomTabs/Tabs';
 
 
@@ -23,7 +22,6 @@ function ServiceRequestsDashboard() {
     summaryByPriority, setSummaryByPriority, 
     summaryByDepartment, setSummaryByDepartment,
     summaryByRequestType, setSummaryByRequestType,
-    ITRequests, setITRequests
   } = useContext(AppCtx);
   
   const navigate = useNavigate();
@@ -42,15 +40,13 @@ function ServiceRequestsDashboard() {
     const _byPriority = await GetSummaryByPriority(_email);
     const _byDepartment = await GetSummaryByDepartment(_email);
     const _byRequestType = await GetSummaryByRequestType(_email);
-    const _itRequests = await GetITRequests(_email);
     setSummaryByStatus(_byStatus.data.Data);
     setSummaryByPriority(_byPriority.data.Data);
     setSummaryByDepartment(_byDepartment.data.Data);
     setSummaryByRequestType(_byRequestType.data.Data);
-    setITRequests(_itRequests.data.data);
     setPageLoading(false);
   }
-
+  
   useEffect(() => {
     if( 
       Object.keys(user_data).length > 0 && 
@@ -58,17 +54,17 @@ function ServiceRequestsDashboard() {
       Object.keys(summaryByPriority).length === 0 && 
       Object.keys(summaryByDepartment).length === 0 && 
       Object.keys(summaryByRequestType).length === 0 && 
-      Object.keys(ITRequests).length === 0 && 
       dataForUser 
     ) {
       FetchData()
     }
-  }, [user_data])
+  }, [user_data]);
+  
   useEffect(() => {
-    if( Object.keys(user_data).length > 0 && dataForUser ) {
+    if(Object.keys(user_data).length > 0 && dataForUser ) {
       FetchData()
     }
-  }, [user_data, dataForUser])
+  }, [dataForUser]);
 
   const onSelect = (selectedKeys, info) => {
     setDataForUser(_ => {
@@ -107,8 +103,18 @@ function ServiceRequestsDashboard() {
         <Tabs 
           loading={pageLoading}
           items={[
-            {key: 1, icon: <HomeOutlined />, title: 'Dashboard', content: <Dashboard DataForUser={dataForUser} summaryByStatus={summaryByStatus} summaryByPriority={summaryByPriority} summaryByDepartment={summaryByDepartment} summaryByRequestType={summaryByRequestType} />},
-            {key: 2, icon: <TableOutlined />, title: 'Service Requests', content: <ServicesRequests DataTable={ITRequests} setITRequestsNoFilter={data => setITRequests(data)} />},
+            {
+              key: 1, 
+              icon: <HomeOutlined />, 
+              title: 'Dashboard', 
+              content: <Dashboard DataForUser={dataForUser} summaryByStatus={summaryByStatus} summaryByPriority={summaryByPriority} summaryByDepartment={summaryByDepartment} summaryByRequestType={summaryByRequestType} />
+            },
+            {
+              key: 2, 
+              icon: <TableOutlined />, 
+              title: 'Service Requests', 
+              content: <ServicesRequests dataForUser={dataForUser} />
+            },
           ]}
         />
       </div>

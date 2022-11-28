@@ -10,7 +10,7 @@ import { AppCtx } from '../../../../App';
 
 
 
-function ResearchSection({sectionTitle, id, data, IsFeature}) {
+function ResearchSection({sectionTitle, id, data, IsFeature, type}) {
   const { defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function ResearchSection({sectionTitle, id, data, IsFeature}) {
   let _secondaryCards = [];
 
   if(data.length > 0 && IsFeature) {
-    _mainCard = data?.filter(row => row.IsFeature)[0];
+    _mainCard = data?.filter(row => row.IsFeature != null)[0];
     _secondaryCards = data?.filter(row => row?.Id != _mainCard?.Id);
   } else if(data.length > 0 && !IsFeature) {
     _mainCard = data[0];
@@ -37,7 +37,14 @@ function ResearchSection({sectionTitle, id, data, IsFeature}) {
     <>
       <Row justify="space-between" align="middle">
         <Typography.Title level={3} style={{lineHeight: 2.5}}>{sectionTitle}</Typography.Title>
-        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/categories/all`)}>
+        <Typography.Link onClick={() => {
+            if(type) {
+              navigate(defualt_route + `/research-library/categories/${type}`);
+            } else {
+              navigate(defualt_route + `/research-library/categories/all`);
+            }
+          }
+        }>
           See All
         </Typography.Link>
       </Row>

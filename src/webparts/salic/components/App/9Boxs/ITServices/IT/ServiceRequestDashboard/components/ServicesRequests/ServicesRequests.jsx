@@ -1,21 +1,50 @@
-import React, { useContext, useState } from 'react';
-import { Button, Input, Space, Tag, Typography } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Input, Pagination, Row, Space, Tag, Typography } from 'antd';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../../../App';
 import UserColumnInTable from '../../../../../../Global/UserColumnInTable/UserColumnInTable';
 import RequestsTable from '../../../../../../Global/RequestsComponents/RequestsTable';
-import { CloseCircleOutlined, FileExcelOutlined, InfoCircleFilled, InfoCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
-import GetITRequests from '../../../../API/GetITRequests';
+import { CloseCircleOutlined, FileExcelOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 
 
 function ServicesRequests(props) {
-  const { user_data, defualt_route } = useContext(AppCtx);
-
+  const { ITRequests, setITRequests, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
-  const [searchText, setSearchText] = useState('');
   const [isShowRemoveFilterBtn, setIsShowRemoveFilterBtn] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchText, setSearchText] = useState('');
+  let _pageSize = 24;
+  
+  const FetchData = async (page, pageSize) => {
+    const skipItems = pageSize * (page - 1);
+    const takeItems = pageSize;
+
+    const _email = props.dataForUser.Mail || user_data.Data?.Mail;
+    const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${_email}&query=&_=1668265007659`);
+    setITRequests(response.data);
+    setCurrentPage(page);
+  }
+
+  useEffect(() => {
+    if( 
+      Object.keys(user_data).length > 0 && 
+      Object.keys(ITRequests).length === 0 && 
+      props.dataForUser 
+    ) {
+      FetchData(1, _pageSize);
+    }
+  }, [user_data]);
+
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0 && props.dataForUser ) {
+      FetchData(1, _pageSize);
+    }
+  }, [props.dataForUser]);
+
+
 
   const columns = [
     {
@@ -65,25 +94,27 @@ function ServicesRequests(props) {
     }
   ];
 
-  const filtered_it_requests_data = props.DataTable?.filter(row => {
+
+
+  const RemoveFilter = async () => {
+    const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=0&length=24&search[value]=&search[regex]=false&email=&query=&_=1668265007659`);
+    setITRequests(response.data);
+    setIsShowRemoveFilterBtn(false);
+    setCurrentPage(1);
+  }
+
+
+  const filtered_it_requests_data = ITRequests?.data?.filter(row => {
     const searchWord = searchText?.toLowerCase();
     if(
-        row.Subject?.toLowerCase().includes(searchWord?.toLowerCase()) || 
-        row.Id?.toString().includes(searchWord?.toLowerCase()) || 
-        row.Priority?.toLowerCase().includes(searchWord?.toLowerCase()) ||
-        row.Status?.toLowerCase().includes(searchWord?.toLowerCase()) ||
-        row.RequestType?.toLowerCase().includes(searchWord?.toLowerCase())
+        row.Subject?.toLowerCase().includes(searchWord) || 
+        row.Id?.toString().includes(searchWord) || 
+        row.Priority?.toLowerCase().includes(searchWord) ||
+        row.Status?.toLowerCase().includes(searchWord) ||
+        row.RequestType?.toLowerCase().includes(searchWord)
       ) return true
         return false
   });
-
-  const RemoveFilter = async () => {
-    let _email = '';
-    const _itRequests = await GetITRequests(_email).then((response) => {
-      props.setITRequestsNoFilter(response.data.data);
-      setIsShowRemoveFilterBtn(false);
-    })
-  }
   const ControlPanel = (
     <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
@@ -101,17 +132,25 @@ function ServicesRequests(props) {
 
 
   return (
-    <RequestsTable
-      Title="Services Requests"
-      HeaderControlPanel={ControlPanel}
-      Columns={columns}
-      DataTable={
-        filtered_it_requests_data.map(row => {
-          row.key = row.Status;
-          return {...row}
-        })
-      }
-    />
+    <>
+      <RequestsTable
+        Title="Services Requests"
+        HeaderControlPanel={ControlPanel}
+        Columns={columns}
+        containerStyle={{top: 0, marginBottom: 25}}
+        DataTable={filtered_it_requests_data}
+      />
+
+      <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
+        <Pagination
+          size="small" 
+          current={currentPage}
+          total={ITRequests.recordsTotal / 2} 
+          onChange={(page) => FetchData(page, _pageSize)}
+          hideOnSinglePage
+        />
+      </Row>
+    </>
   )
 }
 

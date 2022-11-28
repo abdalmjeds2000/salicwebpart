@@ -9,7 +9,7 @@ function MainArticle({ imgSrc, title, body, articleId }) {
   const navigate = useNavigate();
 
   return (
-    <div className='main-article' onClick={() => articleId ? navigate(defualt_route+'/research-center/'+articleId) : null}>
+    <div className='main-article' onClick={() => articleId ? navigate(defualt_route+'/research-library/'+articleId) : null}>
       <div className="article-img" style={{backgroundImage: `url("${imgSrc}")`}}>
         <div className='label'>{title}</div>
         <div className='content'>

@@ -38,7 +38,7 @@ const CommunityNews = () => {
                 </div>
                 <div className='news-list' id='home-news-list'>
                   {
-                    news_list?.filter(news => !news.IsDraft)?.slice(0, 10).map((row, i) => {
+                    news_list?.filter(news => !news.IsDraft)?.slice(0, 4).map((row, i) => {
                       const description = row.Description.replace(/<[^>]*>?/gm, '').replace(/&(nbsp|amp|quot|lt|gt);/g, "");
                       return (
                         <div className="box" key={i}>

@@ -52,7 +52,7 @@ function MyResearchRequests() {
       title: 'Timeline',
       dataIndex: 'Timeline',
       width: '15%',
-      render: (val) => <Tag icon={<ClockCircleOutlined />} color="default">{new Date(val).toLocaleString()}</Tag>
+      render: (val) => <Tag icon={<ClockCircleOutlined />} color="default">{new Date(val).toLocaleDateString()}</Tag>
     },{
       title: 'Requester',
       dataIndex: 'Author',

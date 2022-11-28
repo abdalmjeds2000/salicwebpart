@@ -117,6 +117,7 @@ function NewITRequest() {
       console.log(_response);
 
       message.success("The request has been sent successfully.");
+      navigate(defualt_route + '/services-requests/my-requests');
       // Reset form & attachments list
       form.resetFields();
       setFileList([]);

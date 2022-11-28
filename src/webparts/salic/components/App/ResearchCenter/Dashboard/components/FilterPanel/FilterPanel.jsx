@@ -15,7 +15,7 @@ function FilterPanel(props) {
           Apply Filter
         </Button>
 
-        {props.IsShowRemoveFilter && <Button type="primary" disabled={props.isLoading} style={{marginTop: 10}} danger onClick={props.onResetFilter} icon={<CloseOutlined />} style={{width: '100%'}}>
+        {props.IsShowRemoveFilter && <Button type="primary" htmlType='reset' disabled={props.isLoading} style={{marginTop: 10, width: '100%'}} danger onClick={props.onResetFilter} icon={<CloseOutlined />}>
           Remove Filter
         </Button>}
         </div>

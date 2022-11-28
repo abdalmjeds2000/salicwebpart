@@ -2,28 +2,29 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../../ContentRequests/PreviewRequest/PreviewRequest.css';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppCtx } from '../../../App'
-import { Button, Col, message, Row, Timeline, Upload, Steps, Spin, Modal, Alert, Checkbox, Typography } from 'antd';
+import { AppCtx } from '../../../App';
+import { Button, Col, message, Row, Timeline, Upload, Steps, Modal, Alert, Typography, Checkbox } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { CaretRightOutlined, CheckOutlined, CloseOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import Reply from '../../../Global/RequestsComponents/Reply';
 import Section from '../../../Global/RequestsComponents/Section';
 import SenderImg from '../../../Global/RequestsComponents/SenderImg';
-import GetResearchRequest from '../API/GetReserchRequest';
+import GetReserchRequest from '../API/GetReserchRequest';
+import UpdateResearchRequest from '../API/UpdateResearchRequest';
+import GetResearchRequestAssignee from '../API/GetResearchRequestAssignee';
 import AddNewReply from '../API/AddNewReply';
 import GetResearchReplys from '../API/GetResearchReplys';
 import FileIcon from '../../../Global/RequestsComponents/FileIcon';
-import GetResearchRequestAssignee from '../API/GetResearchRequestAssignee';
 import UpdateAssignee from '../API/UpdateAssignee';
-import UpdateResearchRequest from '../API/UpdateResearchRequest';
+import moment from 'moment';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 function PreviewResearchRequest() {
     let { id } = useParams();
-
     const { user_data, defualt_route } = useContext(AppCtx);
     const navigate = useNavigate();
     const [fileList, setFileList] = useState([]);
+    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
     const [newReplyText, setNewReplyText] = useState("");
     const [loading, setLoading] = useState(true);
     const [btnLoader, setBtnLoader] = useState(false);
@@ -34,8 +35,9 @@ function PreviewResearchRequest() {
     const [openRejectModal, setOpenRejectModal] = useState(false);
     const [openCancelModal, setOpenCancelModal] = useState(false);
     const [openSubmitModal, setOpenSubmitModal] = useState(false);
-    const [actionNote, setActionNote] = useState('')
-    const [checkboxReply, setCheckboxReply] = useState(false)
+    const [actionNote, setActionNote] = useState('');
+    const [checkboxReply, setCheckboxReply] = useState(false);
+    const [previousAttachment, setPreviousAttachment] = useState([]);
 
     // check if there files is uploading...
     let isFilesFinishUpload = true;
@@ -49,14 +51,15 @@ function PreviewResearchRequest() {
     });
 
 
+
     // Get Research Request by {id} and display it on preview
     async function GetRequest(id) {
         setBtnLoader(true);
-        const response = await GetResearchRequest(id);        
+        const response = await GetReserchRequest(id);        
         if(response) {
             document.title = `.:: SALIC Gate | ${response.Title} ::.`;
             response.AttachmentsRows = JSON.parse(response.AttachmentsRows);
-            setRequestData(prev => {return {...response}});
+            setRequestData(_ => {return {...response}});
         } else {
             console.log("ERROR :: Get Research Request");
         }
@@ -82,17 +85,17 @@ function PreviewResearchRequest() {
         }
     }
     // Add New Reply
-    async function AddReply(ReplyText, IsResult, ResultStatus) {
+    async function AddReply(ReplyText, IsResult, ResultStatus, IsShowToRequester) {
         setBtnLoader(true);
         if(ReplyText && isFilesFinishUpload) {
             const replyJSON = {
                 Title: requestData.Title,
                 RequestIDId: id,
                 Descriptions: ReplyText,
-                AttachmentsRows: JSON.stringify(attachmentsList),
+                AttachmentsRows: JSON.stringify([...attachmentsList, ...previousAttachment]),
                 IsResult: IsResult,
                 ResultStatus: ResultStatus,
-                ShowToRequester: IfRequester ? true : checkboxReply
+                ShowToRequester: IfRequester ? true : IsShowToRequester
             }
             const response = await AddNewReply(replyJSON)
             if(response.data) {
@@ -107,12 +110,10 @@ function PreviewResearchRequest() {
             } else {
                 message.error("Failed Add Reply!")
             }
-        } else {
-            message.error(!newReplyText ? "Write Something and try again." : "Wait for Uploading ...")
         }
         setBtnLoader(false);
     }
-    // Add New Action (Approved or Rejected or Submit) -> from approvals
+    // Add New Action (Approved or Rejected or Submit)
     async function AddAction(status) {
         setBtnLoader(true);
         if(isFilesFinishUpload) {
@@ -122,25 +123,25 @@ function PreviewResearchRequest() {
             if(response) {
                 GetRequestAssigneeHistory(id);
                 if(status === "Submit") {
-                    AddReply(actionNote, false);
-                    message.success(`Your Content has been Submit Seccessfully.`, 3);
+                    AddReply(actionNote, false, null, true);
                     setOpenSubmitModal(false);
-                } else {
-                    AddReply(actionNote, true, status);
-                    message.success(`The request has been ${status}.`, 3)
+                    message.success(`Your Research has been ${status} Seccessfully.`, 1.5);
+                } else if(status === "Approved" || status === "Rejected") {
+                    AddReply(actionNote, true, status, true);
                     setOpenApproveModal(false);
                     setOpenRejectModal(false);
+                    message.success(`Your Request has been ${status} Seccessfully.`, 1.5);
                 }
-                
             } else {
                 message.error("Failed Add Action!")
             }
         } else {
             message.error("Wait for Uploading...")
         }
+        setFileList([]);
         setBtnLoader(false);
     }
-    // Update Request (Acknowledge or Cancel) -> from requester
+    // Update Request (Acknowledge or Cancel)
     async function UpdateRequest(newData, id, withReply) {
         setBtnLoader(true);
         const data = newData;
@@ -148,7 +149,7 @@ function PreviewResearchRequest() {
         if(response && withReply) {
             if(isFilesFinishUpload) {
                 message.success(`Done!`);
-                AddReply(actionNote, false);
+                AddReply(actionNote, false, null, true);
                 setRequestData(prev => {prev.Status = newData.Status; return prev});
             } else {
                 message.error("Wait for Uploading ...");
@@ -167,7 +168,7 @@ function PreviewResearchRequest() {
                 GetRequestAssigneeHistory(id);
                 GetAllReplys(id);
             })
-            setLoading(false);
+            .then(() => setLoading(false));
         } else {
             navigate(defualt_route + '/research-requests/new-request');
             message.info("Not Found Item")
@@ -175,40 +176,74 @@ function PreviewResearchRequest() {
     }, []);
 
 
+
     // Replys Uploader Component
     const ReplyUploader = (
         <Upload 
             action="https://salicapi.com/api/uploader/up"
             fileList={fileList}
-            onChange={({ fileList: newFileList }) => setFileList(newFileList)}
+            onChange={handleChange}
         >
             <Button type='ghost' size='middle' icon={<UploadOutlined />}>Attach Files</Button>
         </Upload>
     )
-    // Checkbox If Show Reply To Requester Component
+    // Checkbox If Show Reply To Requester  Component
     const CheckboxReply = () => <Checkbox onClick={() => setCheckboxReply(!checkboxReply)} value={checkboxReply}>Do you want the Requester to see this reply?</Checkbox>
+
     // Approve Modal Component
-    const ApproveModal = () => (
-        <Modal
-            title='Write a note before Approve'
-            open={openApproveModal}
-            onCancel={() => setOpenApproveModal(false)}
-            okButtonProps={{ style: {display: 'none'}}}
-        >
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
-                {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
-                <Button 
-                    type="primary" 
-                    onClick={() => AddAction("Approved")} 
-                    disabled={actionNote.length === 0 || btnLoader}
-                >
-                    Approve Request
-                </Button>
-            </div>
-        </Modal>
-    )
+    const ApproveModal = () => {
+        const ParseReplysAttachments = replys.map(reply => JSON.parse(reply.AttachmentsRows).map(row => {row.Author = reply.Author; row.Created = reply.Created; return {...row}}));
+        const ReplysAttachments = [].concat.apply([], ParseReplysAttachments);
+        return (
+            <Modal
+                title='Write a note before Approve'
+                open={openApproveModal}
+                onCancel={() => setOpenApproveModal(false)}
+                okButtonProps={{ style: {display: 'none'}}}
+            >
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
+                    <Typography.Text disabled>* You can choose one or more documents already attached to this request, or you can upload new one.</Typography.Text>
+                    <div className='attachments-container'>
+                        {
+                            ReplysAttachments.map((file, i) => (
+                                <Checkbox key={i} onChange={e => {
+                                    if(e.target.checked) {
+                                        setPreviousAttachment(prev => [...prev, file])
+                                    } else {
+                                        const updateSelectedFiles = previousAttachment.filter(f => f.path !== file.path);
+                                        setPreviousAttachment(updateSelectedFiles);
+                                    }
+                                }}>
+                                    <div style={{display: 'flex', gap: '5px', backgroundColor: '#f5f5f5', padding: '4px', borderRadius: '5px', alignItems: 'center'}}>
+                                        <FileIcon
+                                            FileType={file.fileType}
+                                            FileName={file.fileName}
+                                            FilePath={file.path}
+                                            IconWidth='25px'
+                                        />
+                                        <div style={{fontSize: '0.8rem', lineHeight: 1.2}}>
+                                            <Typography.Text strong>{file.fileName}</Typography.Text><br />
+                                            <Typography.Text type="secondary">by {file.Author.Title}, at {moment(file.Created).format('MM/DD/YYYY hh:mm')}</Typography.Text>
+                                        </div>
+                                    </div>
+                                </Checkbox>
+                        
+                            ))
+                        }
+                    </div>
+                    {ReplyUploader}
+                    <Button 
+                        type="primary" 
+                        onClick={() => AddAction("Approved")} 
+                        disabled={actionNote.length === 0 || btnLoader}
+                    >
+                        Approve Request
+                    </Button>
+                </div>
+            </Modal>
+        )
+    }
     // Reject Modal Component
     const RejectModal = () => (
         <Modal
@@ -220,7 +255,6 @@ function PreviewResearchRequest() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                 <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
                 {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
                 <Button 
                     type="primary" 
                     onClick={() => AddAction("Rejected")} 
@@ -243,7 +277,6 @@ function PreviewResearchRequest() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                 <TextArea value={actionNote} onChange={e => setActionNote(e.target.value)} placeholder='write something' />
                 {ReplyUploader}
-                {!IfRequester && CheckboxReply()}
                 <Button 
                     type="primary" 
                     onClick={() => AddAction("Submit")} 
@@ -278,18 +311,33 @@ function PreviewResearchRequest() {
         </Modal>
     )
 
-    // Get Current Assignee for current user
-    const PendingAssignee = assigneeHistoryData?.filter(a => a.Status === "Pending" && a.ToUser.EMail === user_data.Data?.Mail)[0];
-    // check if current user is requester or not
-    const IfRequester = requestData?.Author?.EMail === user_data?.Data?.Mail;
-    // filter replys by current user (if approval (return *) if requester (return replys by proparaty 'ShowToRequester'))
-    const FilteredReplys = IfRequester ? replys.filter(r => r.ShowToRequester) : replys;
 
+
+    // Get Current Assignee for current user
+    let PendingAssignee = assigneeHistoryData?.filter(a => a.Status === "Pending" && a.ToUser.EMail === user_data.Data?.Mail)[0];
+    // check if current user is requester or not
+    let IfRequester = requestData?.Author?.EMail === user_data?.Data?.Mail;
+    // filter replys by current user (if approval (return *) if requester (return replys by proparaty 'ShowToRequester'))
+    let FilteredReplys = IfRequester ? replys.filter(r => r.ShowToRequester) : replys;
+    
     // remove value from textbox when any modal open or close
     useEffect(() => {
         setActionNote("");
     }, [openCancelModal, openApproveModal, openRejectModal, openSubmitModal])
 
+
+    // Get Unique Assignee History for steps and dont show "acknowledge assignee" (because it for requester)
+    const AssigneeOrders = [];
+    const UniqueAssigneeSteps = assigneeHistoryData.filter(a => {
+        if(a.Action !== "Acknowledge") {
+            const isDuplicate = AssigneeOrders.includes(a.ApprovalOrder);
+            if (!isDuplicate) {
+                AssigneeOrders.push(a.ApprovalOrder);
+                return true
+            }
+            return false;
+        }
+    });
 
 
     return (
@@ -299,37 +347,40 @@ function PreviewResearchRequest() {
             <p>Preview Request</p>
         </HistoryNavigation>
         
-
-
         <div className='preview-request-container'>
             <div className="header">
                 <h1>Research Request: [#{requestData?.Id || '###'}]</h1>
-                {
-                    !IfRequester && requestData.Status === 'Submitted' && PendingAssignee?.Status === "Pending"
-                    ?   (
-                            PendingAssignee?.Action === "Approve"
-                            ?   <div>
-                                    <Button onClick={() => {setOpenApproveModal(true)}} type="primary" disabled={btnLoader}>Approve</Button>
-                                    <Button onClick={() => {setOpenRejectModal(true)}} type="primary" disabled={btnLoader} danger>Reject</Button>
-                                    {ApproveModal()}
-                                    {RejectModal()}
-                                </div>
-                            : PendingAssignee?.Action === "Submit"
-                            ?   <div>
-                                    <Button onClick={() => setOpenSubmitModal(true)} type="primary" disabled={btnLoader}>Submit</Button>
-                                    {SubmitModal()}
-                                </div>
-                            :   null
-                        )
-                    :   IfRequester && requestData.Status === 'Approved'
-                    ?   <Button onClick={() => {UpdateRequest({Status: "Acknowledge"}, id, false); setRequestData(prev => {prev.Status="Acknowledge"; return prev})}} type="primary" disabled={btnLoader}>Acknowledge</Button>
-                    :   IfRequester && requestData.Status === 'Submitted'
-                    ?   <>
-                            <Button onClick={() => setOpenCancelModal(true)} type="primary" disabled={btnLoader} danger>Cancel Request</Button>
-                            {CancelModal()}
-                        </>
-                    :   null
-                }
+                <div>
+                    {
+                        requestData.Status === 'Submitted' && PendingAssignee?.Status === "Pending"
+                        ?   (
+                                PendingAssignee?.Action === "Approve"
+                                ?   <div>
+                                        <Button onClick={() => {setOpenApproveModal(true)}} type="primary" disabled={btnLoader}>Approve</Button>
+                                        <Button onClick={() => {setOpenRejectModal(true)}} type="primary" disabled={btnLoader} danger>Reject</Button>
+                                        {ApproveModal()}
+                                        {RejectModal()}
+                                    </div>
+                                : PendingAssignee?.Action === "Submit"
+                                ?   <div>
+                                        <Button onClick={() => setOpenSubmitModal(true)} type="primary" disabled={btnLoader}>Submit</Button>
+                                        {SubmitModal()}
+                                    </div>
+                                :   null
+                            )
+                        :   null
+                    }
+                    {
+                        IfRequester && requestData.Status === 'Approved' && PendingAssignee?.Status === "Pending"
+                        ?   <Button onClick={() => {AddAction("Approved"); setRequestData(prev => {prev.Status="Acknowledge"; return prev})}} type="primary" disabled={btnLoader}>Acknowledge</Button>
+                        :   IfRequester && requestData.Status === 'Submitted'
+                        ?   <>
+                                <Button onClick={() => setOpenCancelModal(true)} type="primary" disabled={btnLoader} danger>Cancel Request</Button>
+                                {CancelModal()}
+                            </>
+                        :   null
+                    }
+                </div>
             </div>
         {
             !loading
@@ -379,14 +430,14 @@ function PreviewResearchRequest() {
                                                         <TextArea rows={4} placeholder="Add Reply" maxLength={500} value={newReplyText} onChange={e => setNewReplyText(e.target.value)} />
                                                     </Col>
                                                     <Col span={24}>
-                                                    {!(openApproveModal||openCancelModal||openRejectModal||openSubmitModal) && ReplyUploader}
+                                                        {!(openApproveModal||openCancelModal||openRejectModal||openSubmitModal) && ReplyUploader}
                                                     </Col>
                                                     {!IfRequester && 
                                                     <Col span={24}>
-                                                        {CheckboxReply()}
+                                                        {!IfRequester && CheckboxReply()}
                                                     </Col>}
                                                     <Col span={24}>
-                                                        <Button type='primary' onClick={() => AddReply(newReplyText, false)} disabled={btnLoader}>Add Feedback</Button>
+                                                        <Button type='primary' onClick={() => AddReply(newReplyText, false, null, checkboxReply)} disabled={btnLoader}>Add Feedback</Button>
                                                     </Col>
                                                 </Row>
                                             </Timeline.Item>
@@ -396,9 +447,9 @@ function PreviewResearchRequest() {
                             </div>
 
                             <div className='properties'>
-                                <Section SectionTitle="Expected Response Date">
+                                <Section SectionTitle="Timeline">
                                     <div>
-                                        {new Date(requestData.Timeline).toLocaleDateString()}
+                                        {moment(requestData.Timeline).format('MM/DD/YYYY')}
                                     </div>
                                 </Section>
                                 <Section SectionTitle="Attached Files">
@@ -418,7 +469,7 @@ function PreviewResearchRequest() {
                                         }
                                         {
                                             requestData.AttachmentsRows.length === 0
-                                            ? <span style={{fontStyle: 'italic', color: '#aaa', fontSize: '1rem', lineHeight: 1}}>No Attachments</span>
+                                            ? <Typography.Text disabled>No Attachments</Typography.Text>
                                             : null
                                         }
 
@@ -436,14 +487,24 @@ function PreviewResearchRequest() {
                                             title="Submitted"
                                             subTitle={`at ${new Date(requestData.Created).toLocaleString()}`}
                                         />
-                                        {
-                                            assigneeHistoryData.map((row, i) => {
-                                                return  <Steps.Step 
-                                                            key={i}
-                                                            title={<b><CaretRightOutlined />{row.ToUser?.Title}</b>} 
-                                                            subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
-                                                            description={row.Action !== "Submit" ? (row.ActionDate ? <>{row.ToUser?.Title} <b>{row.Status}</b> this Request at {new Date(row.ActionDate).toLocaleString()}</> : "Request is now being Reviewed.") : null}
-                                                        />
+                                        {   
+                                            UniqueAssigneeSteps?.map((row, i) => {
+                                                if(row.Action == "Approve") {
+                                                    return  <Steps.Step 
+                                                                key={i}
+                                                                title={<b><CaretRightOutlined />{row.ToUser?.Title}</b>} 
+                                                                subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
+                                                                description={row.ActionDate ? <>{row.ToUser?.Title} <b>{row.Status}</b> this Request at {new Date(row.ActionDate).toLocaleString()}</> : "Request is now being Reviewed."}
+                                                            />
+                                                } else if(row.Action == "Submit") {
+                                                    return  <Steps.Step 
+                                                                key={i}
+                                                                title={<b><CaretRightOutlined />Media Team</b>} 
+                                                                subTitle={<>at {new Date(row.Created).toLocaleString()}</>}
+                                                                description={null}
+                                                            />
+                                                }
+                                                
                                             })
                                         }
                                         {

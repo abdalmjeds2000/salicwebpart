@@ -33,7 +33,7 @@ function ArticlePage() {
     if(id) {
       FetchData();
     } else {
-      navigate(defualt_route+'/research-center');
+      navigate(defualt_route+'/research-library');
       message.error("Error | Research Article Not Found");
     }
   }, [user_data]);
@@ -43,7 +43,7 @@ function ArticlePage() {
   return (
     <>
     <HistoryNavigation>
-      <a onClick={() => navigate(defualt_route+'/research-center')}>Research Center</a>
+      <a onClick={() => navigate(defualt_route+'/research-library')}>Research Center</a>
       <p>Preview Research</p>
     </HistoryNavigation>
 

@@ -66,6 +66,7 @@ function ResearchDashboard() {
                       sectionTitle="Latest Publication" 
                       id="2" 
                       IsFeature={false}
+                      type={false} // all (adhoc and commodity)
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={12} xl={8}>
@@ -74,6 +75,7 @@ function ResearchDashboard() {
                       sectionTitle="Commodity Research" 
                       id="3" 
                       IsFeature={true}
+                      type="Commodity"
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={12} xl={8}>
@@ -82,6 +84,7 @@ function ResearchDashboard() {
                       sectionTitle="Ad Hoc Research" 
                       id="1"
                       IsFeature={true}
+                      type="AdHoc"
                     />
                   </Col>
                   <Col xs={24} sm={24} md={12} lg={12} xl={14}>

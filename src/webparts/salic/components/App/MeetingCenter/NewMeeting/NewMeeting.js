@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import './NewMeeting.css'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation'
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import { Editor } from "react-draft-wysiwyg";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Timeline from 'react-calendar-timeline'
 import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
@@ -190,13 +190,13 @@ function NewMeeting() {
 
 
               <Form.Item name="Agenda" label="Agenda">
-                <Editor
+                {/* <Editor
                   editorState={editorState}
                   onEditorStateChange={setEditorState}
                   toolbar={{
                     options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'link', 'history']
                   }}
-                />
+                /> */}
               </Form.Item>
 
               <Form.Item name="Attendees" label="Attendees">

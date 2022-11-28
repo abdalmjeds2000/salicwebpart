@@ -125,14 +125,12 @@ function PreviewContentRequest() {
                 if(status === "Submit") {
                     AddReply(actionNote, false, null, true);
                     setOpenSubmitModal(false);
-                    message.success(`Your Content has been ${status} Seccessfully.`, 1.5);
-                } else if(status === "Acknowledge") {
-                    message.success(`Your Request has been Acknowledge Seccessfully.`, 1.5);
+                    message.success(`Your Content has been Submitted Seccessfully.`, 1.5);
                 } else if(status === "Approved" || status === "Rejected") {
                     AddReply(actionNote, true, status, true);
                     setOpenApproveModal(false);
                     setOpenRejectModal(false);
-                    message.success(`Your Request has been ${status} Seccessfully.`, 1.5);
+                    message.success(`Action completed successfully.`, 1.5);
                 }
             } else {
                 message.error("Failed Add Action!")
@@ -140,6 +138,7 @@ function PreviewContentRequest() {
         } else {
             message.error("Wait for Uploading...")
         }
+        setFileList([]);
         setBtnLoader(false);
     }
     // Update Request (Acknowledge or Cancel)
@@ -216,7 +215,7 @@ function PreviewContentRequest() {
                                         setPreviousAttachment(updateSelectedFiles);
                                     }
                                 }}>
-                                    <div style={{display: 'flex', gap: '5px', backgroundColor: '#f5f5f5', padding: '4px', borderRadius: '5px'}}>
+                                    <div style={{display: 'flex', gap: '5px', backgroundColor: '#f5f5f5', padding: '4px', borderRadius: '5px', alignItems: 'center'}}>
                                         <FileIcon
                                             FileType={file.fileType}
                                             FileName={file.fileName}

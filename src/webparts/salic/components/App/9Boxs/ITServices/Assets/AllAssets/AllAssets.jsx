@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DatabaseOutlined, HomeOutlined, TableOutlined } from '@ant-design/icons';
 import Tabs from '../../../../Global/CustomTabs/Tabs';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -11,10 +11,12 @@ import DeliveryLetters from './components/DeliveryLetters/DeliveryLetters';
 
 const AllAssets = () => {
   const { defualt_route, } = useContext(AppCtx);
-  
-  document.title = '.:: SALIC Gate | SALIC\'s Assets ::.';
-  
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    document.title = '.:: SALIC Gate | SALIC\'s Assets ::.';
+  }, []);
+  
   return (
     <>
       <HistoryNavigation>
@@ -35,4 +37,4 @@ const AllAssets = () => {
   )
 }
 
-export default AllAssets
+export default AllAssets;

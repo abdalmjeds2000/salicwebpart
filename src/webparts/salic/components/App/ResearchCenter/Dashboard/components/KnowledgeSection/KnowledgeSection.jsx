@@ -22,24 +22,24 @@ function KnowledgeSection({sectionTitle, data}) {
     slider.scrollLeft = slider.scrollLeft + 175
   }
 
-  let _mainCard = data?.filter(row => row.IsFeature)[0];
-  let _secondaryCards = data?.filter(row => row.Id != _mainCard.Id);
+  let _mainCard = data?.filter(row => row.IsFeature !== null)[0];
+  let _secondaryCards = data?.filter(row => row?.Id != _mainCard?.Id);
 
   let _MainCardImg = '';
   let __MainCardDocument = '';
-  _mainCard.AttachmentFiles?.forEach(file => {
+  Array.isArray(_mainCard?.AttachmentFiles) ? _mainCard.AttachmentFiles?.forEach(file => {
     if(["jpeg", "jpg", "png", "gif", "tiff", "raw", "webp", "avif", "bpg", "flif"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
       _MainCardImg = file?.ServerRelativePath?.DecodedUrl;
     } else if(["pdf", "doc", "docx", "html", "htm","xls", "xlsx", "txt", "ppt", "pptx", "ods"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
       __MainCardDocument = "https://salic.sharepoint.com" + file?.ServerRelativePath?.DecodedUrl;
     }
     if(__MainCardDocument === '' && _mainCard.AttachmentLink != null) __MainCardDocument = _mainCard.AttachmentLink
-  })
+  }) : [];
   return (
     <>
       <Row justify="space-between" align="middle">
         <Typography.Title level={3} style={{lineHeight: 2.5}}>{sectionTitle}</Typography.Title>
-        <Typography.Link onClick={() => navigate(defualt_route + `/research-center/knowledge`)}>
+        <Typography.Link onClick={() => navigate(defualt_route + `/research-library/knowledge`)}>
           See All
         </Typography.Link>
       </Row>
@@ -54,7 +54,7 @@ function KnowledgeSection({sectionTitle, data}) {
                 <Col xs={24} sm={24} md={24} lg={8}>
                   <Card 
                     imgSrc={_MainCardImg} 
-                    title={_mainCard.Title} 
+                    title={_mainCard?.Title} 
                     imgCustomStyle={{height: '20rem'}}
                     openFile={() => __MainCardDocument.length > 0 ? window.open(__MainCardDocument) : null} 
                   />

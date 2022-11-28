@@ -12,6 +12,7 @@ import * as strings from 'SalicWebPartStrings';
 import Salic from './components/Salic';
 import { ISalicProps } from './components/ISalicProps';
 import pnp, { graph } from "sp-pnp-js";
+import { MSGraphClientV3 } from '@microsoft/sp-http';
 
 
 export interface ISalicWebPartProps {

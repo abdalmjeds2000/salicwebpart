@@ -36,6 +36,7 @@ function ITServices() {
             {icon: srvsIcons.assignedForMe, isLink: false, to: '/services-requests/requests-assigned-for-me', bgColor: '#FBBE82', text: 'Requests Assigned'},
             {icon: srvsIcons.dashboard, isLink: false, to: '/services-requests/service-requests-dashboard', bgColor: '#FD96A6', text: 'IT Service Requests'},
             {icon: srvsIcons.assets, isLink: false, to: '/asset/all', bgColor: '#56ddaa', text: 'SALIC\'s Assets'},
+            {icon: srvsIcons.assets, isLink: false, to: '/services-requests/cancelled', bgColor: '#FF5566', text: 'Cancelled Tickets'},
           ]}
         />
       </div>

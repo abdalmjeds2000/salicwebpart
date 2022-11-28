@@ -16,8 +16,8 @@ const SalicAssets = () => {
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
-  const _pageSize = 20;
   const [defualtFilterData, setDefualtFilterData] = useState(initialFilter);
+  const _pageSize = 20;
 
 
   const FetchData = async (filterData, page, pageSize) => {

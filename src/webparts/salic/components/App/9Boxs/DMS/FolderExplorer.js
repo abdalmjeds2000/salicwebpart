@@ -5,12 +5,13 @@ import Organization from './components/Organization'
 import PrivateFolder from './components/PrivateFolder'
 import ESignFolder from './components/ESignFolder'
 import SharedByYou from './components/SharedByYou'
+import SharedWithMe from './components/SharedWithMe'
 
 
 import { FolderOpenFilled, FolderOpenOutlined } from '@ant-design/icons';
 
 
-const FolderExplorerPage = (props) => {
+const FolderExplorerPage = () => {
   const [currentItem, setCurrentItem] = useState(1);
 
   return (
@@ -19,7 +20,7 @@ const FolderExplorerPage = (props) => {
         <p>eDocument System</p>
       </HistoryNavigation>
 
-      <div className='folder-explorer-container'>  
+      <div className='folder-explorer-container' style={{marginBottom: '85px'}}>  
 
         <div className='folders'>
           <div className='tabs'>
@@ -36,9 +37,9 @@ const FolderExplorerPage = (props) => {
               {/* <li onClick={_ => setCurrentItem(4)} className={currentItem === 4 ? 'active' : ''}>
                 {currentItem === 4 ? <FolderOpenFilled /> : <FolderOpenOutlined />} eSign Folder
               </li> */}
-              <li onClick={_ => setCurrentItem(5)} className={currentItem === 5 ? 'active' : ''}>
+              {/* <li onClick={_ => setCurrentItem(5)} className={currentItem === 5 ? 'active' : ''}>
                 {currentItem === 5 ? <FolderOpenFilled /> : <FolderOpenOutlined />} Shared By You
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className='content'>
@@ -47,17 +48,17 @@ const FolderExplorerPage = (props) => {
               <Organization />
             </div>
             <div style={{display: currentItem === 2 ? "block" : 'none'}}>
-              Shared With Me
+              <SharedWithMe />
             </div>
             <div style={{display: currentItem === 3 ? "block" : 'none'}}>
               <PrivateFolder />
             </div>
-            <div style={{display: currentItem === 4 ? "block" : 'none'}}>
+            {/* <div style={{display: currentItem === 4 ? "block" : 'none'}}>
               <ESignFolder />
-            </div>
-            <div style={{display: currentItem === 5 ? "block" : 'none'}}>
+            </div> */}
+            {/* <div style={{display: currentItem === 5 ? "block" : 'none'}}>
               <SharedByYou />
-            </div>
+            </div> */}
           </div>
         </div>
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './CategoryPage.css';
 import { Button, Col, DatePicker, Divider, Form, Input, message, Row, Select, Tooltip, Typography } from 'antd';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../../../App';
 import ArticleBox from '../../../../Global/ArticleBox/ArticleBox';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -16,6 +16,7 @@ import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 import { CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 
 function CategoryPage() {
+  const { byType } = useParams();
   const { defualt_route, sp_context } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -85,7 +86,11 @@ function CategoryPage() {
   }
   
   useEffect(() => {
-    FetchData(1, _pageSize);
+    if(byType) {
+      ApplyFilter({Type: byType})
+    } else {
+      FetchData(1, _pageSize);
+    }
     FetchChoices();
     document.title = ".:: SALIC Gate | Research Reports ::."; 
   }, []);
@@ -144,8 +149,14 @@ function CategoryPage() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
-        <p>Research Reports</p>
+        <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
+        <p>
+          {
+            byType
+            ? `${byType} Research`
+            : "Latest Publication"
+          }
+        </p>
       </HistoryNavigation>
       
       <Form form={form} onFinish={ApplyFilter}>
@@ -159,10 +170,11 @@ function CategoryPage() {
             >
               <Col span={24}>
                 <Divider orientation="left" orientationMargin="0">By Type</Divider>
-                <Form.Item name="Type">
+                <Form.Item name="Type" initialValue={byType ? byType : ''}>
                   <Select
                     size="middle"
                     allowClear
+                    disabled={byType}
                     placeholder="Search by Type"
                     style={{width: '100%'}}
                     options={[{value: 'Commodity', label: 'Commodity Research'},{value: 'AdHoc', label: 'Ad Hoc Research'}]}
@@ -197,8 +209,10 @@ function CategoryPage() {
                       size='large' 
                       addonBefore={<SearchOutlined />} 
                       onChange={e => {
-                        e.target.value?.length >= 3 
+                        e.target.value?.length >= 3
                         ? (async () => {await ApplyFilter({Title: e.target.value})})() 
+                        : e.target.value?.length === 0
+                        ? FetchData(1, _pageSize)
                         : null
                       }}
                     />
@@ -206,7 +220,7 @@ function CategoryPage() {
                 </Col>
                 <Col span={24}>
                   <Row justify="space-between" align="middle">
-                    <Typography.Title level={2} style={{lineHeight: 2.5}}>Research Reports</Typography.Title>
+                    <Typography.Title level={2} style={{lineHeight: 2.5}}>{ byType ? `${byType} Research` : "Latest Publication"}</Typography.Title>
                     <Tooltip title={!openFilterPanel ? "Open Filter Panel" : "Close Filter Panel"}>
                       <Button 
                         type="primary" 
@@ -237,7 +251,7 @@ function CategoryPage() {
                                 Title={article.Title}
                                 Description ={article.Body}
                                 Poster={_CardImg}
-                                To={`/research-center/${article.Id}`}
+                                To={`/research-library/${article.Id}`}
                                 date={article.PublishedDate ? moment(article.PublishedDate).format('MM/DD/YYYY') : null}
                                 customImgStyle={{backgroundSize: 'cover'}}
                                 Tags={article.Tags ? article.Tags : []}

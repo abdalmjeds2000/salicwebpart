@@ -11,7 +11,7 @@ function KnowledgeCenter() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
+        <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <a onClick={() => navigate(defualt_route + '/manage-research-library')}>Manage Research Library Content</a>
         <p>Knowledge Center</p>
       </HistoryNavigation>

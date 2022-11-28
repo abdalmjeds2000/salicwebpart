@@ -91,7 +91,7 @@ function PulseCardsPage() {
   return (
     <>
       <HistoryNavigation>
-        <a onClick={() => navigate(defualt_route + '/research-center')}>Research Library</a>
+        <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <p>Pulse</p>
       </HistoryNavigation>
 

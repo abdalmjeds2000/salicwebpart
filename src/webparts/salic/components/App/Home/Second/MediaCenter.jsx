@@ -30,7 +30,7 @@ const MediaCenter = () => {
     <div className="media-center">
       <div className="header">
         <h3>Media Center</h3>
-        <a onClick={_ => navigate(`${defualt_route}/media-center`)}>See All</a>
+        <a onClick={_ => navigate(`${defualt_route}/manage-news-content`)}>See All</a>
       </div>
       <div className="gallerys">
         <div className="gallery gallery1">

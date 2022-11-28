@@ -9,6 +9,7 @@ export { default as AllAssets } from '../App/9Boxs/ITServices/Assets/AllAssets/A
 export { default as MyItServiceRequests } from '../App/9Boxs/ITServices/IT/MyRequests/MyItServiceRequests';
 export { default as ITRequestsAssignedForMe } from '../App/9Boxs/ITServices/IT/AssignedForMe/ITRequestsAssignedForMe';
 export { default as PreviewITServiceRequest } from '../App/9Boxs/ITServices/IT/PreviewRequest/PreviewITServiceRequest';
+export { default as CancelledRequests } from '../App/9Boxs/ITServices/IT/CancelledRequests/CancelledRequests';
 export { default as ServiceRequestsDashboard } from '../App/9Boxs/ITServices/IT/ServiceRequestDashboard/ServiceRequestsDashboard';
 export { default as NotificationCenter } from '../App/NotificationCenter/NotificationCenter';
 export { default as IssuingVISA } from '../App/9Boxs/AdminServices/IssuingVISA/IssuingVISA';

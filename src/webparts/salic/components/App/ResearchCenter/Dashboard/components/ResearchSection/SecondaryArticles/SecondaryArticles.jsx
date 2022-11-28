@@ -8,7 +8,7 @@ function SecondaryArticles({ imgSrc, title, articleId }) {
   const navigate = useNavigate();
 
   return (
-    <div className='secondary-article' onClick={() => articleId ? navigate(defualt_route+'/research-center/'+articleId) : null}>
+    <div className='secondary-article' onClick={() => articleId ? navigate(defualt_route+'/research-library/'+articleId) : null}>
       <div className="article-img small" style={{backgroundImage: `url("${imgSrc}")`}}>
         <div className='label'>{title}</div>
         {/* <div className='content'>

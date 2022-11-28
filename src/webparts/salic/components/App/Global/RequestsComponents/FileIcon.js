@@ -31,7 +31,7 @@ const FileIcon = (props) => {
             return wordIcon
         } else if(['pptx', 'ppt'].includes(fileType?.toLowerCase())) {
             return pptIcon
-        } else if(['xlsx', 'xls'].includes(fileType?.toLowerCase())) {
+        } else if(['xlsx', 'xls', 'sheet'].includes(fileType?.toLowerCase())) {
             return csvIcon
         } else if(['php'].includes(fileType?.toLowerCase())) {
             return phpIcon
