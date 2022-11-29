@@ -132,7 +132,7 @@ const SidebarNav = ({spWebUrl}) => {
       ),
       text: "Manage Events",
       link: false,
-    },{
+    },/* {
       to: "/sp-search",
       icon: (
         <SearchOutlined
@@ -140,7 +140,7 @@ const SidebarNav = ({spWebUrl}) => {
       ),
       text: "Sharepoint Search",
       link: false,
-    },{
+    }, */{
       icon: svgIcons.SignOut,
       text: "Sign Out",
       link: true,

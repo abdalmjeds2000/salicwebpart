@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Col, Divider, Form, Input, message, notification, Radio, Row, Upload } from 'antd';
+import { Button, Col, DatePicker, Divider, Form, Input, message, notification, Radio, Row, Upload } from 'antd';
 import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
@@ -27,6 +27,7 @@ const NewsForm = ({ openModal, isEditMode, item }) => {
     if(description?.length === 0 || filesList[0]?.status === "uploading") validation = false;
     if(validation) {
       formData.Photos = filesList[0]?.response?.uploadedFiles[0]?.Path;
+      formData.CreatedOn = moment(formData.CreatedOn).format('MM/DD/YYYY hh:mm:ss');
       if(!isEditMode) {
         if(filesList.length !== 0) {
           const responseAdd = await pnp.sp.web.lists.getByTitle('News').items.add(formData);
@@ -67,8 +68,8 @@ const NewsForm = ({ openModal, isEditMode, item }) => {
       <Form form={form} layout='vertical' onFinish={SubmitForm} onFinishFailed={() => message.error("Please, fill out the form correctly")}>
         <Row gutter={[20, 20]}>
           <Col md={24} lg={12}>
-            <Form.Item name="CreatedOn" label="Date & Time" initialValue={isEditMode ? moment(item.CreatedOn).format('MM/DD/YYYY hh:mm') : moment().format('MM/DD/YYYY hh:mm')} rules={[{required: true, message: false}]}>
-              <Input disabled size='large' />
+            <Form.Item name="CreatedOn" label="Date & Time" initialValue={isEditMode ? moment(item.CreatedOn) : moment(new Date())} rules={[{required: true, message: false}]}>
+              <DatePicker showTime format="MM/DD/YYYY HH:mm" />
             </Form.Item>
             <Form.Item name="Subject" label="Subject" initialValue={isEditMode ? item.Subject : ''} rules={[{required: true, message: false}]}>
               <Input maxLength={100} showCount placeholder='enter news title' />
@@ -76,9 +77,10 @@ const NewsForm = ({ openModal, isEditMode, item }) => {
             <Form.Item label="Description">
               <ReactQuill
                 id='editor'
-                style={{ background: "rgb(243 243 243)", color: "black" }}
-                theme="snow"
+                style={{ background: "#fff", color: "black" }}
+                // theme="snow"
                 value={description}
+                placeholder={"Write something ..."}
                 onChange={() => {
                   const content = document.getElementsByClassName("ql-editor")[0].innerHTML;
                   setDescription(content);

@@ -71,7 +71,7 @@ const services = [
   {header: 'Admin Services', link: false, to: '/admin-services', icon: icons.AdminServices},
   {header: 'IT Services', link: false, to: '/services-requests', /* to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/ITServices.aspx', */ icon: icons.ITServices},
   {header: 'e-Invoicing', link: false, to: '/e-invoicing', icon: icons.EInvoicing},
-  {header: 'HR Self Services', link: false, to: '/hr-self-services', icon: icons.HRSelfServices},
+  {header: 'HC Services', link: false, to: '/hc-services', icon: icons.HRSelfServices},
   // {header: 'Incidents Center', link: true, to: 'https://salic.sharepoint.com/sites/newsalic/SitePages/Risk/Center.aspx', icon: icons.IncidentsCenter},
   {header: 'Majles Tech', link: true, to: 'https://boardroom.salic.com/', icon: icons.Majles},
   {header: 'Corresponding System', link: true, to: 'https://masar.salic.com',  icon: icons.CorrespondingSystem},

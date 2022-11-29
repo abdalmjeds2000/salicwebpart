@@ -24,7 +24,7 @@ const FileCardRow = ({ icon, name, creatorName, creatorEmail, createdDate, fileP
         <div style={{width: '25%'}}>
           <UserColumnInTable Mail={creatorEmail} DisplayName={creatorName} />
         </div>
-        <Typography.Text type='secondary' style={{width: '12%'}}>{sizeType === "size" ? (sizeType != 0 ? formatSizeUnits(fileSize) : '') : sizeType === "items" ? (sizeType != 0 ? `${fileSize} Item` : 'No Items') : '-'}</Typography.Text>
+        <Typography.Text type='secondary' style={{width: '12%'}}>{sizeType === "size" ? (fileSize != 0 ? formatSizeUnits(fileSize) : '') : sizeType === "items" ? (sizeType != 0 ? `${fileSize} Item` : 'No Items') : ''}</Typography.Text>
       </div>
   )
 }

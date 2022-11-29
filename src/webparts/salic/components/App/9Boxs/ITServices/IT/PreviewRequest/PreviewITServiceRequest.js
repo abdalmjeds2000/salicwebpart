@@ -98,7 +98,10 @@ function PreviewITServiceRequest() {
 
 
   // Get Current Assignee for current user
-  let PendingAssignee = requestData?.referingHistory?.filter(a => a.Response == null && a.Action !== null && a.ToUser.Mail === user_data.Data?.Mail)[0];
+  let PendingAssignee = false;
+  if(Object.keys(requestData).length > 0) {
+    PendingAssignee = requestData?.referingHistory[requestData?.referingHistory?.length-1]?.ToUser?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()
+  }
   // check if current user is requester or not
   let IfRequester = requester?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase();
   // check if request pending with current loggin user or not
@@ -110,11 +113,11 @@ function PreviewITServiceRequest() {
     let imgs = document.getElementsByTagName("img");
     for (const element of imgs) {
       if(element.src.startsWith("cid")) {
-          let name = element.src.split('@')[0].replace('cid:','');
-          var deleteImg = document.querySelector('[title="'+name+'"]');
-          let src = deleteImg.getAttribute("data-guid");
-          deleteImg.style.display = "none";
-          element.setAttribute('src', src)
+        let name = element.src.split('@')[0].replace('cid:','');
+        var deleteImg = document.querySelector('[title="'+name+'"]');
+        let src = deleteImg.getAttribute("data-guid");
+        deleteImg.style.display = "none";
+        element.setAttribute('src', src)
       }
     }
   }
@@ -132,7 +135,7 @@ function PreviewITServiceRequest() {
           <div>
             {requestData?.Status === "Waiting For Approval" && IsPendingWith &&
             <ApproveAction RequestId={requestData.Id} />}
-            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith &&
+            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && PendingAssignee &&
             <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith &&
             <CloseAction RequestId={requestData.Id} />}

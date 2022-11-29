@@ -11,7 +11,6 @@ import NineBoxs from './First/Left/NineBoxs/NineBoxs';
 import SalicGlobe from "../Home/First/Right/Globe/Globe";
 import ThreeDivisions from './Second/ThreeDivisions';
 import TranslateConverterNotes from './Third/TranslateConverterNotes';
-import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 import { AppCtx } from '../App';
 import ClockComponent from "../Global/HistoryNavigation/ClockComponent";
@@ -24,7 +23,7 @@ function getScrollY() {
 
 function Home() {
 
-  const { user_data, notifications_count, mail_count, isGlobeReady, setIsGlobeReady } = useContext(AppCtx);
+  const { user_data, notifications_count, mail_count } = useContext(AppCtx);
   const [scrollSize, setScrollSize] = useState(getScrollY());
   useEffect(() => {
     window.scrollTo({top: 0, left: 0});
@@ -32,13 +31,9 @@ function Home() {
     window.addEventListener('scroll', handleScrollY);    
   }, []);
 
-  // useEffect(() => {
-  //   setIsGlobeReady(false)
-  // }, [])
 
   return (
     <>
-      {/* { !isGlobeReady && <AntdLoader /> } */}
       <div className="home-container">
         <Header style={{width: '100%', position: 'fixed', zIndex: '4'}}>
           {
@@ -68,7 +63,7 @@ function Home() {
           <PersonInfoMobile />
           <div className="home-division">
             <div className="home-info">
-              <NumbersAttendance />
+              {user_data.Data?.PIN != "999999999" ? <NumbersAttendance /> : <div style={{height: 50}}></div>}
               <NineBoxs />
             </div>
             <div className="home-world-graph">
@@ -84,3 +79,5 @@ function Home() {
 }
 
 export default Home
+
+// "office-ui-fabric-react": "7.185.7", 39

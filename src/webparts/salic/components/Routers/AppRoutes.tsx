@@ -170,7 +170,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/performance-managment`}>
         <Route index element={<Performance />} />
       </Route>
-      <Route path={`${defualtRoute}/hr-self-services`} element={<HRSelf />} />
+      <Route path={`${defualtRoute}/hc-services`} element={<HRSelf />} />
       <Route path={`${defualtRoute}/notification-center`} element={<NotificationCenter />} />
       <Route path={`${defualtRoute}/book-meeting-room`}>
         <Route index element={<MeetingCenter />} />

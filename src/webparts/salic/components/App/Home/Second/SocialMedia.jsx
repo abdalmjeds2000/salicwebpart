@@ -19,7 +19,7 @@ const SocialMedia = () => {
             <div>
               <PictureOutlined style={{fontSize: '1.5rem'}} />
             </div>
-            <p>New Content</p>
+            <p>New Content Request</p>
           </a>
           <a onClick={_ => navigate(defualt_route + '/almira-magazine')} className="oranization-documents">
             <div>

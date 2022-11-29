@@ -2,16 +2,16 @@
   margin: 85px 0;
 }
 .search-page .result-container {
-  margin: 25px 100px;
+  padding: 25px 100px;
 }
 @media screen and (min-width: 800px) and (max-width: 1200px) {
   .search-page .result-container {
-    margin: 25px 50px;
+    padding: 25px 50px;
   }
 }
 @media screen and (max-width: 800px) {
   .search-page .result-container {
-    margin: 25px 15px;
+    padding: 25px 15px;
   }
 }
 

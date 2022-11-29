@@ -58,6 +58,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [summaryByRequestType, setSummaryByRequestType] = React.useState([]);
   const [ITRequests, setITRequests] = React.useState([]);
 
+  const [showSearchResult, setShowSearchResult] = React.useState(false);
+
 
 
   React.useEffect(() => {
@@ -310,7 +312,9 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     setITRequests,
     sp_context: props.context,
     it_cancelled_requests: itCancelledRequests, 
-    setitCancelledRequests
+    setitCancelledRequests,
+    showSearchResult, 
+    setShowSearchResult
   };
 
   let link: any = document.querySelector("link[rel~='icon']");

@@ -44,7 +44,7 @@ function NewsDetails() {
                 <h1 className='news-title'>{newsData[0]?.Subject}</h1>
                 <time>
                   <FontAwesomeIcon icon={faCalendarDays} /> &nbsp;
-                  {newsData[0]?.CreatedOn.replace('T', ' ').slice(0, -1)}
+                  {new Date(newsData[0]?.CreatedOn).toLocaleString()}
                 </time>
                 <div className='news-description' dangerouslySetInnerHTML={{__html: newsData[0]?.Description}}></div>
               </div>

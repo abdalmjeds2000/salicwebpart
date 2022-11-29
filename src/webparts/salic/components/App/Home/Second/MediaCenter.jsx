@@ -65,7 +65,6 @@ const MediaCenter = () => {
               showThumbnails
               onClickThumbnail={(i) => setCurrentImage(i)}
               backdropCloseable
-              ima
             />
           : ''
         }

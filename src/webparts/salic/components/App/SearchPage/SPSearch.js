@@ -58,6 +58,8 @@ function SPSearch() {
 
   const pageCount = Math.ceil(data.TotalRowsIncludingDuplicates / _pageSize);
   let prevSearchQuery = '';
+
+  
   return (
     <>
       <HistoryNavigation>
@@ -72,20 +74,19 @@ function SPSearch() {
           }} />
         <div className='result-container'>
           {
-            !loading && data.Table?.Rows?.length > 0 
-              ? <>
-                  <Result data={data.Table.Rows} totalItems={data.TotalRowsIncludingDuplicates} query={textQuery} />
-                  {pageCount > 1 && <Pagination
-                    currentPage={currentPage}
-                    totalPages={pageCount}
-                    onChange={(page) => submitQuery(textQuery, page, _pageSize)}
-                    limiter={5}
-                    hideFirstPageJump
-                    hideLastPageJump
-                  />}
-                </>
-              : loading ? <AntdLoader /> 
-              : null
+            data.Table?.Rows?.length > 0 
+            ? <>
+                <Result data={data.Table.Rows} totalItems={data.TotalRowsIncludingDuplicates} query={textQuery} />
+                {pageCount > 1 && <Pagination
+                  currentPage={currentPage}
+                  totalPages={pageCount}
+                  onChange={(page) => submitQuery(textQuery, page, _pageSize)}
+                  limiter={5}
+                  hideFirstPageJump
+                  hideLastPageJump
+                />}
+              </>
+            : null
           }
         </div>
       </div>

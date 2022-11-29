@@ -39,7 +39,7 @@
   display: flex;
   gap: 30px;
 }
-.home-container .person .person-info .person-txt > div div {
+.home-container .person .person-info .person-txt > div div span { /* span: items inside tooltip */
   display: flex;
   gap: 8px;
   align-items: center;

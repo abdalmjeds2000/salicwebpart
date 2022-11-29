@@ -119,12 +119,12 @@ function NumbersAttendance() {
     <div className="numbers-attendance-container">
       <div className="div1" style={{cursor: 'pointer'}}>
         <Number
-          pathColor={performaceGrade(performance.performace?.count.replace('%', '')).Color} 
-          textColor={performaceGrade(performance.performace?.count.replace('%', '')).Color}
+          pathColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color} 
+          textColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color}
           header="% KPI Progress" 
           description={'Performance Management' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
-          value={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '0'}
-          text={Object.keys(performance).length !== 0 ? performance.performace?.count.replace('%', '') : '?'}
+          value={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '0'}
+          text={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '?'}
           minValue='0'
           maxValue='100'
           numberType="performance"

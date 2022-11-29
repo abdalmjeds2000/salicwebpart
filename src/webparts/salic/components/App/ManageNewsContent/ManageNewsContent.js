@@ -3,7 +3,7 @@ import './manageNews.css';
 import { DeleteOutlined, DownOutlined, EditOutlined, FileTextOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
-import { Dropdown, Menu, Modal, Popconfirm, Switch } from 'antd';
+import { Dropdown, Menu, Modal, notification, Popconfirm, Switch } from 'antd';
 import UserColumnInTable from '../Global/UserColumnInTable/UserColumnInTable';
 import { useNavigate } from 'react-router-dom';
 import RequestsTable from '../Global/RequestsComponents/RequestsTable';
@@ -34,10 +34,31 @@ function ManageNewsContent() {
       <a>Delete</a>
     </Popconfirm>
   )
+  const HandleUpdateStatus = async (id, value) => (
+    await pnp.sp.web.lists.getByTitle('News').items.getById(id).update({IsDraft: value})
+    .then(() => {
+      setNewsList(prev => {
+        const newData = prev.map(row => {
+          if(row.Id === id) {
+            row.IsDraft = value;
+          }
+          return row
+        });
+        return [...newData]
+      });
+      notification.destroy();
+      notification.success({message: 'Status Changed Successfully'});
+    })
+    .catch(_ => {
+      notification.destroy();
+      notification.error({message: "Failed"});
+    })
+  )
 
   const menu = (id) => (
     <Menu items={[
-        { key: '1', label: ( <a onClick={async  () => {
+        { key: '1', label: <a onClick={() => navigate(defualt_route + `/community-news/${id}`)}>Open</a>  , icon: <FileTextOutlined /> },
+        { key: '2', label: ( <a onClick={async  () => {
             await pnp.sp.web.lists.getByTitle('News').items.select('AttachmentFiles,Author,*').expand('AttachmentFiles,Author').getById(id).get()
             .then((response) => {
               console.log(response);
@@ -46,7 +67,7 @@ function ManageNewsContent() {
               setOpenModal(true);
             })
           }}>Edit</a> ), icon: <EditOutlined /> },
-        { key: '2', label: ( <HandleDelete id={id} /> )  , icon: <DeleteOutlined />, danger: true },
+        { key: '3', label: ( <HandleDelete id={id} /> )  , icon: <DeleteOutlined />, danger: true },
       ]}
     />
   );
@@ -77,7 +98,7 @@ function ManageNewsContent() {
       title: 'Published',
       dataIndex: 'IsDraft',
       width: '12%',
-      render: (val) => <Switch checked={!val} /> 
+      render: (val, record) => <Switch defaultChecked={!val} onChange={value => HandleUpdateStatus(record.Id, !value)} /> 
       // <Checkbox style={{display: 'flex', justifyContent: 'center'}} defaultChecked={true} ></Checkbox>
     },{
       title: 'Author',
