@@ -49,18 +49,18 @@ const SidebarNav = ({spWebUrl}) => {
 
 
     // remove side bar and change links to old website 
-    if(location.pathname.includes("/content-requests")) {
-      let sidebar_nav = document.getElementsByClassName("nav-container");
-      let salic_logo = document.getElementsByClassName("logoSALIC");
-      let notifications_icon = document.getElementById("Iconly_Light_Notification");
-      let history_navigation = document.getElementsByClassName("history-navigation");
-      let history_home_btn = document.getElementsByClassName("links");
-      sidebar_nav[0]?.style.display = "none";
-      salic_logo[0]?.addEventListener("click", () => window.location.href = "https://salic.sharepoint.com");
-      notifications_icon?.addEventListener("click", () => window.location.href = "https://salic.sharepoint.com/sites/newsalic/SitePages/notifications.aspx");
-      history_navigation[0]?.style.width = "100vw";
-      history_home_btn[0]?.childNodes[0].style.display = "none";
-    }
+    // if(location.pathname.includes("/content-requests")) {
+    //   let sidebar_nav = document.getElementsByClassName("nav-container");
+    //   let salic_logo = document.getElementsByClassName("logoSALIC");
+    //   let notifications_icon = document.getElementById("Iconly_Light_Notification");
+    //   let history_navigation = document.getElementsByClassName("history-navigation");
+    //   let history_home_btn = document.getElementsByClassName("links");
+    //   sidebar_nav[0]?.style.display = "none";
+    //   salic_logo[0]?.addEventListener("click", () => window.location.href = "https://salic.sharepoint.com");
+    //   notifications_icon?.addEventListener("click", () => window.location.href = "https://salic.sharepoint.com/sites/newsalic/SitePages/notifications.aspx");
+    //   history_navigation[0]?.style.width = "100vw";
+    //   history_home_btn[0]?.childNodes[0].style.display = "none";
+    // }
 
     // // when page not home setIsGlobeReady true
     // if(location.pathname !== defualt_route+'/home') setIsGlobeReady(true)

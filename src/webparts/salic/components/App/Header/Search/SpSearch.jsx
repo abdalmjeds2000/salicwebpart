@@ -49,7 +49,7 @@ const SpSearch = ({ query }) => {
           'Querytext': SearhcTerm + queryPath,
           RowLimit: takeItems, 
           StartRow: skipItems, 
-          SelectProperties: { results: ["Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] }
+          SelectProperties: { results: ["Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] }
         } 
       }),
     });

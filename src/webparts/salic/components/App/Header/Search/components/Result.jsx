@@ -65,7 +65,7 @@ const Result = ({ data, query, totalItems }) => {
       
       {viewMode === "List" && <Row gutter={[0, 8]} justify="center" style={cardsContainerStyles}>
         <Col span={24} style={{padding: '5px 10px 5px 62px', minWidth: '650px', display: 'flex', alignItems: 'center'}}>
-          <Typography.Text type='secondary' style={{width: '43.3%'}}>File</Typography.Text>
+          <Typography.Text type='secondary' style={{width: '43.3%'}}>Name</Typography.Text>
           <Typography.Text type='secondary' style={{width: '18.4%'}}>Created At</Typography.Text>
           <Typography.Text type='secondary' style={{width: '26%'}}>Creator</Typography.Text>
           <Typography.Text type='secondary' style={{width: '12%'}}>Size</Typography.Text>

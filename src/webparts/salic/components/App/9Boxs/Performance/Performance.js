@@ -21,14 +21,10 @@ function Performance() {
           items={[
             {icon: icons.PMSEmployee, bgColor: '#e91e63', text: 'Performance Management System (PMS)- Employee', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fndSetup/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1558973037870'},
             {icon: icons.PMSManagers, bgColor: '#227799', text: 'Performance Management System (PMS)- Managers', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fndSetup/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1558972767621'},
-          ]}
-        />
-        <ServicesSection
-          title="Corporate Objective"
-          items={[
             {icon: icons.PMSManagers, bgColor: '#2f33ff', isLink: true, text: 'Corporate Objective KPIs', to: "https://salic.sharepoint.com/sites/MDM/SitePages/Home.aspx/corporate-objective"  /* '/corporate-objective' */},
           ]}
         />
+
       </div>
 
       

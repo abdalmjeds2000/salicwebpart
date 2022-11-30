@@ -75,9 +75,9 @@ function PrivateFolder() {
           ) : (
             <Row gutter={[0, 8]} justify="center" style={{overflow: 'auto'}}>
               <Col span={24} style={{padding: '5px 10px 5px 62px', minWidth: '650px', display: 'flex', alignItems: 'center'}}>
-                <Typography.Text type='secondary' style={{width: '43.3%'}}>File</Typography.Text>
-                <Typography.Text type='secondary' style={{width: '18.4%'}}>Created At</Typography.Text>
-                <Typography.Text type='secondary' style={{width: '26%'}}>Creator</Typography.Text>
+                <Typography.Text type='secondary' style={{width: '45%'}}>Name</Typography.Text>
+                <Typography.Text type='secondary' style={{width: '19.5%'}}>Created At</Typography.Text>
+                <Typography.Text type='secondary' style={{width: '19.5%'}}>Last Modified</Typography.Text>
                 <Typography.Text type='secondary' style={{width: '12%'}}>Size</Typography.Text>
               </Col>
               {
@@ -88,11 +88,12 @@ function PrivateFolder() {
                         icon={<FileIcon FileType={row.folder ? 'folder' : row.name?.split('.')[row.name?.split('.')?.length-1]} FileName={row.name} IconWidth={40} />}
                         name={row.name}
                         creatorName={row.createdBy?.user?.displayName}
-                        creatorEmail={null}
                         createdDate={row.createdDateTime}
+                        modifiedDate={row.lastModifiedDateTime}
                         filePath={row.webUrl}
                         sizeType={row.folder ? "items" : "size"}
                         fileSize={row.folder ? row.folder.childCount : row.size}
+                        customColumns={{ icon: true, name: true, createdDate: true, modifiedDate: true, creator: false, size: true,}}
                       />
                     </Col>
                   )

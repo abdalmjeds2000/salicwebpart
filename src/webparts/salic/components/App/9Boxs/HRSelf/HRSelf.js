@@ -30,7 +30,6 @@ function HRSelf() {
     {icon: icons.HRLetter, bgColor: '#9BC9ED', isLink: true, text: 'HR Letter', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521721761601', 'HR_LETTER')},
     {icon: icons.ViewPayslip, bgColor: '#70CFAF', isLink: true, text: 'View Payslip', to: 'https://hen.fa.em2.oraclecloud.com/analytics/saw.dll?bipublisherEntry&Action=open&itemType=.xdo&bipPath=%2FCustom%2FHuman%20Capital%20Management%2FPayroll%2FPayment%20Distribution%2FSALIC%20Payslip%20SP.xdo'},
     {icon: icons.GymReimbursement, bgColor: '#FBBE82', isLink: true, text: 'Gym Reimbursement', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1585574179603', 'GYM')},
-    {icon: icons.RecruitmentRequst, bgColor: '#43A2CC', isLink: true, text: 'Recruitment Requst', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
     {icon: icons.DaycareAllowance, bgColor: '#F7937B', isLink: true, text: 'Daycare Allowance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1599107940767', 'CHILDCARE')},
     {icon: icons.ResignationRequest, bgColor: '#EBD944', isLink: true, text: 'Resignation Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1603363085618', 'RESIG')},
     {icon: icons.ProbationPeriodEvaluation, bgColor: '#70CFAF', isLink: true, text: 'Probation Period Evaluation', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1632010071862', 'PROPERIOD')},
@@ -42,21 +41,34 @@ function HRSelf() {
   return (
     <>
       <HistoryNavigation>
-        <p>HC Services</p>
+        <p>Human Self Services</p>
       </HistoryNavigation>
       <div className='standard-page'>
         <ServicesSection
-          title="HC Services"
+          title="Human Self Services"
           headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.HRSelfServices}</div>}
           items={services}
         />
+
         <ServicesSection
-          title="Notifications Center"
+          title="Performance Management"
+          headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.Performance}</div>}
           items={[
-            {icon: icons.HRNotificationsCenter, bgColor: '#FBBE82', text: 'HR Notifications Center', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747517899'},
-            {icon: icons.ERPNotificationsCenter, bgColor: '#FD96A6', text: 'ERP Notifications Center', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/'},
+            {icon: icons.PMSEmployee, bgColor: '#FD96A6', text: 'Performance Management System (PMS)- Employee', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fndSetup/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1558973037870'},
+            {icon: icons.PMSEmployee, bgColor: '#70CFAF', text: 'Performance Management System (PMS)- Managers', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fndSetup/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1558972767621'},
+            {icon: icons.PMSManagers, bgColor: '#9BC9ED', isLink: true, text: 'Corporate Objective KPIs', to: "https://salic.sharepoint.com/sites/MDM/SitePages/Home.aspx/corporate-objective"  /* '/corporate-objective' */},
           ]}
         />
+
+        <ServicesSection
+          title="Recruitment System"
+          headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.Recruitment}</div>}
+          items={[
+            {icon: icons.RecruitmentRequst, bgColor: '#F7937B', text: 'Recruitment', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1650137021932'},
+            {icon: icons.RecruitmentRequst, bgColor: '#EBD944', isLink: true, text: 'Recruitment Requst', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
+          ]}
+        />
+
       </div>
     </>
   )

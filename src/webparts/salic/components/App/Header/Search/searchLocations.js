@@ -92,4 +92,6 @@ export var searchLocations = [
       'path:"https://salic.sharepoint.com/sites/newsalic/KSA"',
     ]
   },
+  /* END DMS Routes */
+  
 ];

@@ -472,7 +472,7 @@
   height: 100%;
 }
 .three-divisions .twitter-wid iframe {
-  height: calc(100vh - 285px) !important;
+  height: calc(100vh - 295px) !important;
   position: relative !important;
   /* top: -10px !important; */
 }

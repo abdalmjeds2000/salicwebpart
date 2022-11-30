@@ -7,15 +7,6 @@ import Slider from 'infinite-react-carousel';
 
 import GetSubsidiary from './GetSubsidiary'
 
-import MerredinLogo from '../../../../../../assets/icons/globe/Companys/merredinLogo.png'
-import DawatLogo from '../../../../../../assets/icons/globe/Companys/dawatLogo.png'
-import UnitedFarmers from '../../../../../../assets/icons/globe/Companys/unitedFarmers.png'
-import SalicHQ from '../../../../../../assets/icons/globe/Companys/salicHQ.png'
-import SALICUK from '../../../../../../assets/icons/globe/Companys/SALICUK.png'
-import MinervaFoods from '../../../../../../assets/icons/globe/Companys/minervaFoods.png'
-import G3 from '../../../../../../assets/icons/globe/Companys/G3.png'
-import Hummingbird from '../../../../../../assets/icons/globe/Companys/hummingBird.jpg'
-
 import productWheat from '../../../../../../assets/icons/globe/Products/Wheat.png'
 import productBarley from '../../../../../../assets/icons/globe/Products/Barley.png'
 import productCorn from '../../../../../../assets/icons/globe/Products/Corn.png'
@@ -25,10 +16,6 @@ import productSugar from '../../../../../../assets/icons/globe/Products/Sugar.pn
 import productOil from '../../../../../../assets/icons/globe/Products/EdibleOil.png'
 import productFodder from '../../../../../../assets/icons/globe/Products/Fodder.png'
 import productRedMeat from '../../../../../../assets/icons/globe/Products/RedMeat.png'
-import productAquaculture from '../../../../../../assets/icons/globe/Products/Aquaculture.png'
-import productMilk from '../../../../../../assets/icons/globe/Products/MilkProducts.png'
-import productPoultry from '../../../../../../assets/icons/globe/Products/Poultry.png'
-import { Row } from 'antd';
 
 
 
@@ -36,6 +23,8 @@ function getWindowSize() {
   const {innerWidth, innerHeight} = typeof window !== "undefined" ? window : null;
   return {innerWidth, innerHeight};
 }
+
+
 
 function SalicGlobe() {
   const globeEl = useRef();
@@ -50,6 +39,8 @@ function SalicGlobe() {
   // Get Subsidiary
   useEffect(() => {
     GetSubsidiary().then(res => setSubsidiary(res))
+    const x = <script src="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/pages/communication/orgchart.js"></script>;
+    document.getElementsByTagName('head')[0].innerHTML += x;
   }, [])
 
 
@@ -74,7 +65,7 @@ function SalicGlobe() {
     if(windowSize.innerWidth > 990) {
       globeEl.current.controls().autoRotate = true;
       globeEl.current.controls().enableZoom = false;
-      globeEl.current.controls().autoRotateSpeed = 1.5;
+      globeEl.current.controls().autoRotateSpeed = 1;
       globeEl.current.pointOfView({ lat: 30, lng: 45, altitude: 1.7 }, 5000);
     }
   }, [rotation]);
