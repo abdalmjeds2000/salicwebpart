@@ -14,7 +14,18 @@ import { searchLocations } from './searchLocations'
 const SpSearch = ({ query }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
-  const { sp_context, showSearchResult, setShowSearchResult } = useContext(AppCtx);
+  const {  } = useContext(AppCtx);
+  const { 
+    sp_context, 
+    showSearchResult, setShowSearchResult,
+    researchArticlesData, setResearchArticlesData, 
+    researchNewsData, setResearchNewsData,
+    researchPulseData, setResearchPulseData,
+    researchCountriesData, setResearchCountriesData,
+    knowledgeData, setKnowledgeData,
+    setGateNewsData,
+    setITRequests
+  } = useContext(AppCtx)
   const [currentPage, setCurrentPage] = useState(1);
   const [textQuery, setTextQuery] = useState('');
   const _pageSize = 24;
@@ -24,48 +35,82 @@ const SpSearch = ({ query }) => {
     return path[path.length-1]
   }
 
+
+
+
   const submitQuery = async (SearhcTerm, page, pageSize) => {
-    const skipItems = pageSize * (page - 1);
-    const takeItems = pageSize;
-    setLoading(true);
     const currentRoute = getRoute();
     const matchRoute = searchLocations.filter(route => currentRoute === route.route)[0];
-    const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
+    // console.log(matchRoute?.path);
+    if(matchRoute && matchRoute.path?.length === 0) {
+      matchRoute?.fetchData(SearhcTerm)
+      .then((response) => {
+        console.log('newww seaech response =====> ', response);
+        /* if(matchRoute.route == "/research-library") {
+          setResearchArticlesData(response.articles.length > 0 ? response.articles : []);
+        } else */ if(matchRoute.route == "/community-news") {
+          setGateNewsData(response);
+        } else if(matchRoute.route == "/services-requests/service-requests-dashboard") {
+          const withkeys = response.data?.data?.map(row => {
+            row.key = row.Status.replace(/[ ]/g, '_');
+            return row;
+          });
+          setITRequests({data: withkeys, recordsTotal: response.data.recordsTotal});
+        }
+      })
 
-    const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
-    const response = await axios({
-      method: 'POST',
-      url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json;odata=verbose",
-        "X-RequestDigest": cntxtX.data.FormDigestValue,
-      },
-      data: JSON.stringify({ 
-        'request': { 
-          '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
-          //your query text, change values here
-          // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
-          'Querytext': SearhcTerm + queryPath,
-          RowLimit: takeItems, 
-          StartRow: skipItems, 
-          SelectProperties: { results: ["Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] }
-        } 
-      }),
-    });
-
-    const resposeData = response.data.PrimaryQueryResult.RelevantResults;
-    notification.destroy();
-    if(resposeData.Table.Rows.length > 0) {
-      console.log(resposeData);
-      setData(resposeData);
-      setCurrentPage(page);
-      setShowSearchResult(true);
+      
     } else {
-      notification.error({message: 'No Data Match!', placement: 'topRight'});
+      const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
+      const skipItems = pageSize * (page - 1);
+      const takeItems = pageSize;
+      setLoading(true);
+
+      const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
+      const response = await axios({
+        method: 'POST',
+        url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json;odata=verbose",
+          "X-RequestDigest": cntxtX.data.FormDigestValue,
+        },
+        data: JSON.stringify({ 
+          'request': { 
+            '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
+            //your query text, change values here
+            // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
+            'Querytext': SearhcTerm + queryPath,
+            RowLimit: takeItems, 
+            StartRow: skipItems, 
+            SelectProperties: { results: ["Tags", "Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] },          
+            HitHighlightedProperties:  {
+              results: ['Title']
+            }
+          } 
+        }),
+      });
+
+      const resposeData = response.data.PrimaryQueryResult.RelevantResults;
+      notification.destroy();
+      if(resposeData.Table.Rows.length > 0) {
+        console.log(resposeData);
+        setData(resposeData);
+        setCurrentPage(page);
+        setShowSearchResult(true);
+      } else {
+        notification.destroy();
+        notification.error({message: 'No Data Match!', placement: 'topRight'});
+      }
     }
+    
     setLoading(false);
   }
+
+
+
+
+
   const pageCount = Math.ceil(data.TotalRows / _pageSize);
 
 
@@ -107,7 +152,7 @@ const SpSearch = ({ query }) => {
                         currentPage={currentPage}
                         totalPages={pageCount}
                         onChange={(page) => submitQuery(textQuery, page, _pageSize)}
-                        limiter={5}
+                        limiter={3}
                         hideFirstPageJump
                         hideLastPageJump
                       />}

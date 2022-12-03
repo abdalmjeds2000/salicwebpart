@@ -18,15 +18,22 @@ const NewDeliveryLetter = () => {
   const [filterOptions, setFilterOptions] = useState({Category: 'All', Type: 'All', Brand: 'All', Tag: ''});
   const [filteredAssets, setFilteredAssets] = useState([]);
   
-  const fetchAssets = async () => {
-    const res = await axios.get('https://salicapi.com/api/Asset/GetAssets');
-    setAssets(res.data.Data);
-    setLoading(false);
+  const fetchAssets = () => {
+    axios({
+      method: 'GET',
+      url: 'https://salicapi.com/api/Asset/GetAssets'
+    }).then((response) => {
+      setAssets(response.data.Data);
+    }).then(() => {
+      setLoading(false);
+    }).catch((err) => console.log(err))
   }
-  useEffect(() => fetchAssets(), []);
+  useEffect(() => {
+    fetchAssets();
+  }, []);
 
   useEffect(() => {
-    const data = assets.filter(row => {
+    const data = assets?.filter(row => {
       if(
           (filterOptions.Category == row.CategoryType || filterOptions.Category === "All") && 
           (filterOptions.Type == row.Type || filterOptions.Type === "All") && 
@@ -46,7 +53,7 @@ const NewDeliveryLetter = () => {
 
 
   var types = new Set();
-  var uniqueTypes = assets.filter((m) => {
+  var uniqueTypes = assets?.filter((m) => {
     if (types.has(m.Type)) {
       return false;
     }
@@ -54,7 +61,7 @@ const NewDeliveryLetter = () => {
     return true;
   });
   var brands = new Set();
-  var uniqueBrands = assets.filter((m) => {
+  var uniqueBrands = assets?.filter((m) => {
     if (brands.has(m.Brand)) {
       return false;
     }
@@ -62,7 +69,7 @@ const NewDeliveryLetter = () => {
     return true;
   });
   var categories = new Set();
-  var uniqueCategories = assets.filter((m) => {
+  var uniqueCategories = assets?.filter((m) => {
     if (categories.has(m.CategoryType)) {
       return false;
     }
@@ -74,7 +81,7 @@ const NewDeliveryLetter = () => {
 
   
   const submitForm = async () => {
-    const Assets = selectedAssets.map(row => {
+    const Assets = selectedAssets?.map(row => {
       var isNew = false;
       return {
         IsNew: isNew,
@@ -88,8 +95,11 @@ const NewDeliveryLetter = () => {
         ToUser: assetsTo,
         Assets: JSON.stringify(Assets)
       }
-      await axios.post('https://salicapi.com/api/Asset/NewDeliveryNote', data)
-      .then((response) => {
+      axios({
+        method: 'POST',
+        url: 'https://salicapi.com/api/Asset/NewDeliveryNote',
+        data: data
+      }).then((response) => {
         console.log(response);
         setFilterOptions({Category: 'All', Type: 'All', Brand: 'All', Tag: ''});
         setSelectedAssets([]);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Input, Space, Tag, Typography } from 'antd';
+import { Button, Input, Space, Table, Tag, Typography } from 'antd';
 import { InfoCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -21,7 +21,12 @@ function ITRequestsAssignedForMe() {
     setLoading(true);
     const response = await GetITRequestsAssignedForMe(user_data.Data?.Mail);
     if(response) {
+      // const withkey = response.data.Data.map(row => {
+      //   row.key = row.Status;
+      //   return {...row}
+      // });
       setItRequestsAssignedForMeData(response.data.Data);
+      console.log(response.data.Data);
     } else {
       console.log("ERROR :: Get It Requests Assigned For Me");
     }
@@ -117,12 +122,7 @@ function ITRequestsAssignedForMe() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={
-          filtered_it_requests_data.map(row => {
-            row.key = row.Status;
-            return {...row}
-          })
-        }
+        DataTable={filtered_it_requests_data}
       />
     </>
   )

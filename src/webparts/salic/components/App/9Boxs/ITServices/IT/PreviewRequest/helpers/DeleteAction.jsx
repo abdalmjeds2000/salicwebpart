@@ -15,7 +15,7 @@ function DeleteAction({ RequestId }) {
   const deleteAction = async () => {
     if(reasonValue.length > 0) {
       setBtnLoading(true);
-      const DeleteRequest = await DeleteSeriveRequest(RequestId);
+      const DeleteRequest = await DeleteSeriveRequest(RequestId, reasonValue);
       message.success("Service request has been deleted");
       console.log('request has been cancelled ===>', `#${RequestId}`, DeleteRequest)
       setIsShowing(false);

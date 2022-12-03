@@ -3,9 +3,9 @@ import React from 'react';
 function HeaderButton({ title, icon, onClick }) {
 
   return (
-    <div className='header-item'>
+    <div className='header-item' onClick={onClick}>
       {icon}
-      <span onClick={onClick}>{title}</span>
+      <span>{title}</span>
     </div>
   )
 }

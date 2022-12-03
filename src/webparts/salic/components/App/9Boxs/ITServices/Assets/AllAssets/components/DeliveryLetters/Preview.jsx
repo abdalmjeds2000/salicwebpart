@@ -11,10 +11,14 @@ const Preview = ({ id }) => {
   const [data, setData] = useState({});
 
   const FetchData = async (id) => {
-    const response = await axios.get(`https://salicapi.com/api/Asset/GetDeliveryNoteById/${id}`)
-    if(response.data.Message == "success" || response.data.Status == 200) {
-      setData(response.data.Data)
-    }
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/Asset/GetDeliveryNoteById/${id}`
+    }).then((response) => {
+      if(response.data.Message == "success" || response.data.Status == 200) {
+        setData(response.data.Data)
+      }
+    })
   }
 
   useEffect(() => {

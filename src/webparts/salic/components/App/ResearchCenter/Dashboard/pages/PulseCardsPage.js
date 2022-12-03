@@ -26,28 +26,31 @@ function PulseCardsPage() {
     const skipItems = pageSize * (page - 1);
     const takeItems = pageSize;
     const items = await pnp.sp.web.lists.getByTitle('Research Pulse')
-      .items.orderBy("ID", true).orderBy("Created", false)
+      .items/* .orderBy("ID", true).orderBy("Created", false) */
       .select('AttachmentFiles,*')
       .expand('AttachmentFiles')
-      .skip(skipItems).top(takeItems).getPaged();
+      .skip(skipItems)
+      .top(takeItems)
+      .get().then(res => {
+        console.log(res);
+        if(res?.length > 0) {
+          setData(res);
+          setCurrentPage(page);
+        }
+      })
     // Get Count of List Items
     const itemsCountResponse = await sp_context.spHttpClient.get(
       `${sp_context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Research Pulse')/ItemCount`,
       SPHttpClient.configurations.v1 
     );
     const itemsCountValue = (await itemsCountResponse.json()).value;
+    setItemsCount(itemsCountValue);
 
-    if(items.results?.length > 0) {
-      setData(items.results);
-      setCurrentPage(page);
-      setItemsCount(itemsCountValue);
-    }
     setLoading(false);
   }
+  useEffect(() => { FetchData(1, _pageSize); }, []);
 
-  useEffect(() => {
-      FetchData(1, _pageSize);
-  }, []);
+
 
 
   const ApplyFilter = async (values) => {
@@ -71,23 +74,24 @@ function PulseCardsPage() {
         </View>`
       }
       const items = await pnp.sp.web.lists.getByTitle("Research Pulse")
-      .getItemsByCAMLQuery(q, 'AttachmentFiles')
-      .then(responseData => {
-        if(responseData.length > 0) {
-          setData(responseData);
-          setIsFilterData(true);
-        } else {
-          message.info("No Data Match!");
-        }
-      })
+        .getItemsByCAMLQuery(q, 'AttachmentFiles')
+        .then(responseData => {
+          if(responseData.length > 0) {
+            setData(responseData);
+            setIsFilterData(true);
+          } else {
+            message.destroy();
+            message.info("No Data Match!");
+          }
+        })
     }
     setLoading(false);
   }
 
 
+
   const pageCount = Math.ceil(itemsCount / _pageSize);
 
-  
   return (
     <>
       <HistoryNavigation>
@@ -155,7 +159,7 @@ function PulseCardsPage() {
                 currentPage={currentPage}
                 totalPages={pageCount}
                 onChange={(page) => FetchData(page, _pageSize)}
-                limiter={24}
+                limiter={3}
               />
             </Row>}
           </div>

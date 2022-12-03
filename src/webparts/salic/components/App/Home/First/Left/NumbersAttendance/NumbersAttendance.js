@@ -118,21 +118,19 @@ function NumbersAttendance() {
   return (
     <div className="numbers-attendance-container">
       <div className="div1" style={{cursor: 'pointer'}}>
-        <Tooltip title="See KPI's Progress">
-          <Number
-            pathColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color} 
-            textColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color}
-            header="% KPI Progress" 
-            description={'Performance Management' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
-            value={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '0'}
-            text={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '?'}
-            minValue='0'
-            maxValue='100'
-            numberType="performance"
-            PerformanceDataTable={performance?.performace?.data}
-            PerformanceColumns={PerformanceColumns}
-          />
-        </Tooltip>
+        <Number
+          pathColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color} 
+          textColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color}
+          header={<Tooltip title="Click here to view your performance">% KPI Progress</Tooltip>}
+          description={'Performance Management' /* performaceGrade(performance.performace?.count.replace('%', '')).Grade */}
+          value={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '0'}
+          text={Object.keys(performance).length !== 0 ? performance.performace?.count?.replace('%', '') : '?'}
+          minValue='0'
+          maxValue='100'
+          numberType="performance"
+          PerformanceDataTable={performance?.performace?.data}
+          PerformanceColumns={PerformanceColumns}
+        />
       </div>
       <div className="div2">
         {/* <Number 
@@ -150,7 +148,7 @@ function NumbersAttendance() {
         <Tooltip title="See Future Events">
           <Number
             pathColor='var(--main-color)' 
-            header="Next Event" 
+            header={<Tooltip title="Click here to see upcoming events">Next Event</Tooltip>} 
             description={nextEvents.length > 0 ? nextEvents[0]?.Subject : 'None'} 
             value={`${Math.floor((new Date(nextEvents[0]?.Date).getTime() - new Date().getTime())  / (1000 * 3600 * 24))}`}
             minValue='0'

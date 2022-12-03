@@ -111,10 +111,10 @@ function MyItServiceRequests() {
         IsLoading={loading}
         Columns={columns}
         DataTable={
-          filtered_it_requests_data.map(row => {
+          filtered_it_requests_data/* .map(row => {
             row.key = row.Status;
             return {...row}
-          })
+          }) */
         }
       />
     </>

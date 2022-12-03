@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Col, Row, Segmented, Typography } from 'antd';
+import { Breadcrumb, Col, Row, Segmented, Typography } from 'antd';
 import { AppCtx } from '../../../App';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 import FileCard from '../../../Global/FileCard/FileCard';
@@ -14,8 +14,8 @@ function SharedWithMe() {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('Cards');
 
-
-  const fetchData = async () => {
+  const fetchRoot = async () => {
+    setLoading(true);
     let items = await sp_context.msGraphClientFactory
       .getClient('3')
       .then((client) => {
@@ -25,21 +25,40 @@ function SharedWithMe() {
           .then((response) => setData(response.value))
           .then(() => setLoading(false))
           .catch(err => console.log(err))
-      }).catch(err => console.log(err))
+      }).catch(err => console.log(err));
   }
+
+
+  const fetchChildren = async (driveId, itemId) => {
+    setLoading(true);
+    let items = await sp_context.msGraphClientFactory
+      .getClient('3')
+      .then((client) => {
+        client
+          .api(`/drives/${driveId}/items/${itemId}/children`)
+          .get()
+          .then((response) => setData(response.value))
+          .then(() => setLoading(false))
+          .catch(err => console.log(err))
+      }).catch(err => console.log(err));
+  }
+
+
 
   useEffect(() => {
-    fetchData();
+    document.title = '.:: SALIC Gate | Shared With Me ::.';
+    fetchRoot();
   }, []);
 
-  if(loading) {
-    return <AntdLoader />
-  }
+
+  // if(loading) {
+  //   return <AntdLoader />
+  // }
 
   return (
     <div style={{padding: '20px'}}>
-      <Row align="middle" justify="space-between" style={{marginBottom: 20}}>
-        <Typography.Title level={3}>Shared With Me</Typography.Title>
+      <Row align="middle" justify="end" style={{marginBottom: 20}}>
+        {/* <Typography.Title level={3}>Shared With Me</Typography.Title> */}
         <Segmented
           onChange={value => setViewMode(value)}
           defaultValue="Cards"
@@ -49,7 +68,13 @@ function SharedWithMe() {
           ]} 
         />
       </Row>
-
+      <Row style={{marginBottom: 10}}>
+        <Breadcrumb style={{fontSize: '1.2rem'}}>
+          <Breadcrumb.Item onClick={fetchRoot}><a>Shared With Me</a></Breadcrumb.Item>
+        </Breadcrumb>
+      </Row>
+      
+      {loading ? <AntdLoader customStyle={{margin: '25px'}} /> : null}
 
       <div>
         {
@@ -66,6 +91,9 @@ function SharedWithMe() {
                       creatorName={row.createdBy?.user?.displayName}
                       createdDate={row.createdDateTime}
                       FilePath={row.webUrl}
+                      isFolder={row.folder}
+                      canOpen={row.folder ? true : false}
+                      onClick={e => fetchChildren(row.remoteItem?.parentReference?.driveId || row.parentReference?.driveId, row.id)}
                     />
                     </Col>
                   )
@@ -93,6 +121,9 @@ function SharedWithMe() {
                         filePath={row.webUrl}
                         sizeType={row.folder ? "items" : "size"}
                         fileSize={row.folder ? row.folder.childCount : row.size}
+                        isFolder={row.folder}
+                        canOpen={row.folder ? true : false}
+                        onClick={e => fetchChildren(row.remoteItem?.parentReference?.driveId || row.parentReference?.driveId, row.id)}
                       />
                     </Col>
                   )

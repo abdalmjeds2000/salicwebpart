@@ -16,16 +16,21 @@ import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
 
 function ResearchDashboard() {
-  const { user_data } = useContext(AppCtx)
-  const [loading, setLoading] = React.useState(true);
-  const [researchArticlesData, setResearchArticlesData] = React.useState([]);
-  const [researchNewsData, setResearchNewsData] = React.useState([]);
-  const [researchPulseData, setResearchPulseData] = React.useState([]);
-  const [researchCountriesData, setResearchCountriesData] = React.useState([]);
-  const [knowledgeData, setKnowledgeData] = React.useState([]);
+  const { 
+    user_data, 
+    researchArticlesData, setResearchArticlesData, 
+    researchNewsData, setResearchNewsData,
+    researchPulseData, setResearchPulseData,
+    researchCountriesData, setResearchCountriesData,
+    knowledgeData, setKnowledgeData
+  } = useContext(AppCtx);
+  const [loading, setLoading] = React.useState(false);
+
   
 
   const FetchData = async () => {
+    setLoading(true);
+
     const responseArticles = await pnp.sp.web.lists.getByTitle('Research Articles').items.orderBy("Created_x0020_Date", false).select('AttachmentFiles,*').top(50).expand('AttachmentFiles').get();
     setResearchArticlesData(responseArticles);
     const responseNews = await pnp.sp.web.lists.getByTitle('Research News').items.orderBy("Created_x0020_Date", false).top(25).get();
@@ -41,8 +46,23 @@ function ResearchDashboard() {
   }
   useEffect(() => {
     document.title = ".:: SALIC Gate | Research Library ::."; 
-    if(Object.keys(user_data).length > 0 && researchArticlesData.length === 0) {
-      FetchData();
+    if(
+      Object.keys(user_data).length > 0 && 
+      researchArticlesData.length === 0 &&
+      researchNewsData.length === 0 &&
+      researchPulseData.length === 0 &&
+      researchCountriesData.length === 0 &&
+      knowledgeData.length === 0
+    ) {
+      FetchData(
+        researchArticlesData,
+        researchNewsData,
+        researchPulseData,
+        researchCountriesData,
+        knowledgeData
+      );
+    } else {
+      console.log();
     }
   }, [user_data]);
 
@@ -52,7 +72,8 @@ function ResearchDashboard() {
       <HistoryNavigation>
         <p>Research Library</p>
       </HistoryNavigation>
-      <DashboardHeader />
+      
+      <DashboardHeader onRefresh={FetchData} />
 
       <div className='research-center_dashboard-container'>
         {
@@ -63,7 +84,7 @@ function ResearchDashboard() {
                   <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                     <ResearchSection 
                       data={researchArticlesData} 
-                      sectionTitle="Latest Publication" 
+                      sectionTitle="Latest Publications" 
                       id="2" 
                       IsFeature={false}
                       type={false} // all (adhoc and commodity)

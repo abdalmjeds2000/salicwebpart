@@ -1,4 +1,4 @@
-import React, { useState } from 'react';  
+import React, { useEffect, useState } from 'react';  
 import './FolderExplorer.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import Organization from './components/Organization'
@@ -14,6 +14,9 @@ import { FolderOpenFilled, FolderOpenOutlined } from '@ant-design/icons';
 const FolderExplorerPage = () => {
   const [currentItem, setCurrentItem] = useState(1);
 
+  useEffect(() => {
+    document.title = '.:: SALIC Gate | eDocument System ::.';
+  }, []);
   return (
     <>
       <HistoryNavigation>

@@ -89,6 +89,7 @@ import {
   MyReports,
   AssignedReports,
   RequestsForReview,
+  ManageNews
 } from './ImportFiles';
 
 
@@ -245,6 +246,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         
       </Route>
       
+      <Route path={`${defualtRoute}/manage-news`} element={<ManageNews />} />
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
 
       <Route path={`${defualtRoute}/manage-media-center`} element={<ManageMediaCenter />} />

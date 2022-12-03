@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Input, Pagination, Row, Space, Tag, Typography } from 'antd';
+import { Button, Input, message, Row, Space, Typography } from 'antd';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../../../App';
@@ -7,6 +7,8 @@ import UserColumnInTable from '../../../../../../Global/UserColumnInTable/UserCo
 import RequestsTable from '../../../../../../Global/RequestsComponents/RequestsTable';
 import { CloseCircleOutlined, FileExcelOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
+import AntdLoader from '../../../../../../Global/AntdLoader/AntdLoader';
 
 
 
@@ -15,17 +17,29 @@ function ServicesRequests(props) {
   const navigate = useNavigate();
   const [isShowRemoveFilterBtn, setIsShowRemoveFilterBtn] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchText, setSearchText] = useState('');
+  const [loading, setLoading] = useState(true);
   let _pageSize = 24;
   
   const FetchData = async (page, pageSize) => {
+    setLoading(true);
     const skipItems = pageSize * (page - 1);
     const takeItems = pageSize;
 
     const _email = props.dataForUser.Mail || user_data.Data?.Mail;
-    const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${_email}&query=&_=1668265007659`);
-    setITRequests(response.data);
-    setCurrentPage(page);
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${_email}&query=&_=1668265007659`
+    }).then((response) => {
+      const withkeys = response.data?.data?.map(row => {
+        row.key = row.Status.replace(/[ ]/g, '_');
+        return row;
+      });
+      setITRequests({data: withkeys, recordsTotal: response.data.recordsTotal});
+      setCurrentPage(page);
+      setLoading(false);
+    }).catch(() => {
+      message.error("Failed Fetch Services Requests")
+    })
   }
 
   useEffect(() => {
@@ -43,6 +57,26 @@ function ServicesRequests(props) {
       FetchData(1, _pageSize);
     }
   }, [props.dataForUser]);
+
+
+  const RemoveFilter = async () => {
+    setLoading(true);
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=0&length=24&search[value]=&search[regex]=false&email=&query=&_=1668265007659`
+    }).then((response) => {
+      const withkeys = response.data?.data?.map(row => {
+        row.key = row.Status.replace(/[ ]/g, '_');
+        return row;
+      });
+      setITRequests({data: withkeys, recordsTotal: response.data.recordsTotal});
+      setCurrentPage(1);
+      setIsShowRemoveFilterBtn(false);
+      setLoading(false);
+    }).catch(() => {
+      message.error("Failed Fetch Services Requests")
+    })
+  }
 
 
 
@@ -96,28 +130,11 @@ function ServicesRequests(props) {
 
 
 
-  const RemoveFilter = async () => {
-    const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id desc&start=0&length=24&search[value]=&search[regex]=false&email=&query=&_=1668265007659`);
-    setITRequests(response.data);
-    setIsShowRemoveFilterBtn(false);
-    setCurrentPage(1);
-  }
 
 
-  const filtered_it_requests_data = ITRequests?.data?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(
-        row.Subject?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Priority?.toLowerCase().includes(searchWord) ||
-        row.Status?.toLowerCase().includes(searchWord) ||
-        row.RequestType?.toLowerCase().includes(searchWord)
-      ) return true
-        return false
-  });
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
+      {/* <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} /> */}
       {isShowRemoveFilterBtn && <Button size='small' onClick={RemoveFilter}><CloseCircleOutlined /> Remove Filter</Button>}
       <Button 
         size='small' 
@@ -133,21 +150,28 @@ function ServicesRequests(props) {
 
   return (
     <>
-      <RequestsTable
-        Title="Services Requests"
-        HeaderControlPanel={ControlPanel}
-        Columns={columns}
-        containerStyle={{top: 0, marginBottom: 25}}
-        DataTable={filtered_it_requests_data}
-      />
-
+      {
+        !loading 
+        ? (
+          <>
+            <RequestsTable
+              Title="Services Requests"
+              HeaderControlPanel={ControlPanel}
+              Columns={columns}
+              containerStyle={{top: 0, marginBottom: 25}}
+              DataTable={ITRequests?.data}
+            />
+          </>
+        ) : (
+          <AntdLoader customStyle={{margin: '10px'}} />
+        )
+      }
       <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
         <Pagination
-          size="small" 
-          current={currentPage}
-          total={ITRequests.recordsTotal / 2} 
+          currentPage={currentPage}
+          totalPages={Math.ceil(ITRequests?.recordsTotal / _pageSize)}
           onChange={(page) => FetchData(page, _pageSize)}
-          hideOnSinglePage
+          limiter={3}
         />
       </Row>
     </>

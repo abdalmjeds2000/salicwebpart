@@ -50,7 +50,10 @@ function SPSearch() {
       console.log(resposeData);
       setData(resposeData);
       setCurrentPage(page);
-    } else message.warning("No Data Match!")
+    } else {
+      message.destroy();
+      message.info("No Data Match!")
+    }
 
     setLoading(false);
   }
@@ -81,7 +84,7 @@ function SPSearch() {
                   currentPage={currentPage}
                   totalPages={pageCount}
                   onChange={(page) => submitQuery(textQuery, page, _pageSize)}
-                  limiter={5}
+                  limiter={3}
                   hideFirstPageJump
                   hideLastPageJump
                 />}

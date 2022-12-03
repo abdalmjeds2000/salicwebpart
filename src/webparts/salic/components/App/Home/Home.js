@@ -63,7 +63,7 @@ function Home() {
           <PersonInfoMobile />
           <div className="home-division">
             <div className="home-info">
-              {user_data.Data?.PIN != "999999999" ? <NumbersAttendance /> : <div style={{height: 50}}></div>}
+              {!["999999999", "000000000"].includes(user_data.Data?.PIN) ? <NumbersAttendance /> : <div style={{height: 50}}></div>}
               <NineBoxs />
             </div>
             <div className="home-world-graph">

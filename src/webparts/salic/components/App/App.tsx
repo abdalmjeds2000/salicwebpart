@@ -32,8 +32,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [newsList, setNewsList] = React.useState([]);
   const [globeData, setGlobeData] = React.useState([]);
   const [isGlobeReady, setIsGlobeReady] = React.useState(false);
-  const [oracleReports, setOracleReports] = React.useState({})
   const [mediaCenter, setMediaCenter] = React.useState({})
+  const [oracleReports, setOracleReports] = React.useState({})
   const [notesList, setNotesList] = React.useState([])
   const [eSignRequests, setESignRequests] = React.useState([])
   const [eSignRequestsYouSignedIt, setESignRequestsYouSignedIt] = React.useState([])
@@ -59,8 +59,13 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [ITRequests, setITRequests] = React.useState([]);
 
   const [showSearchResult, setShowSearchResult] = React.useState(false);
-
-
+  const [researchArticlesData, setResearchArticlesData] = React.useState([]);
+  const [researchNewsData, setResearchNewsData] = React.useState([]);
+  const [researchPulseData, setResearchPulseData] = React.useState([]);
+  const [researchCountriesData, setResearchCountriesData] = React.useState([]);
+  const [knowledgeData, setKnowledgeData] = React.useState([]);
+  const [gateNewsData, setGateNewsData] = React.useState([]);
+  
 
   React.useEffect(() => {
     if(userData.Data?.Mail !== null) {
@@ -238,15 +243,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     // Get All Events
     pnp.sp.web.lists.getByTitle('Saudi Arabia Events').items.orderBy("Date", false).get()
     .then((res: any) => setAllEvents(res)).catch((err: any) => { console.log(err) })
-    // Get Oracle Reports Data
-      axios({
-        method: 'GET',
-        url: 'https://salicapi.com/api/reports/get?Email=stsadmin@salic.onmicrosoft.com',
-      }).then(res => {
-        setOracleReports(JSON.parse(res.data.Data))
-      })
-      .catch(err => console.log(err))
-
     // Get Oracle Form Data
     axios({method: "GET", url: "https://salicapi.com/api/Tracking/GetOracleFormData"})
     .then(response => setOracleFormData(response.data.Data))
@@ -271,7 +267,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     globe_data: globeData,
     isGlobeReady,
     setIsGlobeReady,
-    oracle_reports: oracleReports,
     media_center: mediaCenter,
     notes_list: notesList,
     // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
@@ -314,7 +309,14 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     it_cancelled_requests: itCancelledRequests, 
     setitCancelledRequests,
     showSearchResult, 
-    setShowSearchResult
+    setShowSearchResult,
+    oracleReports, setOracleReports,
+    researchArticlesData, setResearchArticlesData,
+    researchNewsData, setResearchNewsData,
+    researchPulseData, setResearchPulseData,
+    researchCountriesData, setResearchCountriesData,
+    knowledgeData, setKnowledgeData,
+    gateNewsData, setGateNewsData
   };
 
   let link: any = document.querySelector("link[rel~='icon']");
@@ -325,6 +327,10 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   }
   link.href = 'https://salicapi.com/File/9244ecd5-d273-4ee9-bffe-2a8fcb140860.png';
 
+  // let spControlePanel: any = document.getElementById('s4-ribbonrow');
+  // if(!["stsadmin@salic.onmicrosoft.com", "Akmal.Eldahdouh@salic.com"].includes(userData?.Data?.Mail)) {
+  //   spControlePanel.style.display = "none";
+  // }
   
   return (
     <React.StrictMode>

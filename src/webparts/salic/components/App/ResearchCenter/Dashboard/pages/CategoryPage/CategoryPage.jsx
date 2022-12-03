@@ -14,6 +14,7 @@ import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import CheckableTag from 'antd/lib/tag/CheckableTag';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 import { CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 function CategoryPage() {
   const { byType } = useParams();
@@ -38,7 +39,6 @@ function CategoryPage() {
       .select('Choices')
       .get()
       .then((data) => {
-        console.log('data', data)
         setTags(data.Choices?.length > 0 ? data.Choices : [])
       })
   }
@@ -47,13 +47,24 @@ function CategoryPage() {
     const skipItems = pageSize * (page - 1);
     const takeItems = pageSize;
     // Get Items
-    const items = await pnp.sp.web.lists.getByTitle('Research Articles')
+    let items = await pnp.sp.web.lists.getByTitle('Research Articles')
       .items.orderBy("Created", false)
       .select('Author/Title,AttachmentFiles,*')
       .expand('Author,AttachmentFiles')
       .skip(skipItems).top(takeItems).getPaged();
 
-    // const testdata = await pnp.sp.web.lists.getByTitle('Test Research Articles').getItemsByCAMLQuery({
+    // let testItems = await axios.get(`https://salic.sharepoint.com/sites/dev/_api/web/lists/getByTitle(%27News%27)/items?%24skiptoken=Paged%3dTRUE%26p_ID%3d${skipItems}&%24top=${takeItems}`)
+    let testItems = await pnp.sp.web.lists.getByTitle('News')
+    .items/* .orderBy("Created", false) */
+    .select('Author/Title,AttachmentFiles,*')
+    .expand('Author,AttachmentFiles')
+    .skip(skipItems).top(takeItems).getPaged();
+
+    // let testItems = await pnp.sp.web.lists.getByTitle('Research Articles')
+    //   .items
+    //   .skip(skipItems).top(takeItems).getPaged();
+    console.log('FINALYYYYYY --==--==--==>', testItems);
+    // const testdata = await pnp.sp.web.lists.getByTitle('Research Articles').getItemsByCAMLQuery({
     //   ListItemCollectionPosition: { PagingInfo: `Paged=TRUE&p_ID=${skipItems}` },
     //   ViewXml: 
     //     `<View Scope='RecursiveAll'>
@@ -138,6 +149,7 @@ function CategoryPage() {
           // message.success(`Found: ${responseData.length} item`)
           setIsFilterData(true);
         } else {
+          message.destroy();
           message.info("No Data Match!");
         }
       })
@@ -220,7 +232,7 @@ function CategoryPage() {
                 </Col>
                 <Col span={24}>
                   <Row justify="space-between" align="middle">
-                    <Typography.Title level={2} style={{lineHeight: 2.5}}>{ byType ? `${byType} Research` : "Latest Publication"}</Typography.Title>
+                    <Typography.Title level={2} style={{lineHeight: 2.5}}>{ byType ? `${byType} Research` : "Latest Publications"}</Typography.Title>
                     <Tooltip title={!openFilterPanel ? "Open Filter Panel" : "Close Filter Panel"}>
                       <Button 
                         type="primary" 
@@ -269,7 +281,7 @@ function CategoryPage() {
                   currentPage={currentPage}
                   totalPages={pageCount}
                   onChange={(page) => FetchData(page, _pageSize)}
-                  limiter={24}
+                  limiter={3}
                   hideFirstPageJump
                   hideLastPageJump
                 />

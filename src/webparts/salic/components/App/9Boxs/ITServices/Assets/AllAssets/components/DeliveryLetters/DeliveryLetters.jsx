@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Row, Col, Pagination, Typography, Form, Input, Select, Button } from 'antd';
+import { Table, Row, Col, Typography, Form, Input, Select, Button, message } from 'antd';
 import axios from 'axios';
 import { AppCtx } from '../../../../../../App';
 import moment from 'moment';
@@ -8,14 +8,16 @@ import DropdownSelectUser from '../../../../../../Global/DropdownSelectUser/Drop
 import { FilterOutlined } from '@ant-design/icons';
 import Preview from './Preview';
 import NewDeliveryLetter from './NewDeliveryLetter';
+import AntdLoader from '../../../../../../Global/AntdLoader/AntdLoader';
+import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 
 
 const initialFilter = { email: '', Number: '', Department: 'All', Status: 'All', AssetName: '' };
 
 const DeliveryLetters = () => {
   const { user_data, salic_departments } = useContext(AppCtx);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({});
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const _pageSize = 20;
@@ -23,25 +25,30 @@ const DeliveryLetters = () => {
   const [showFilterPanel, setShowFilterPanel] = useState(false);
 
 
-  const FetchData = async (filterData, page, pageSize) => {
-    setLoading(true);
+  const FetchData = (filterData, page, pageSize) => {
     const skipItems = pageSize * (page - 1);
     const takeItems = pageSize;
-    const response = await axios.get(`https://salicapi.com/api/Asset/GetDeliveryNotes?draw=8&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${filterData.email}&Number=${filterData.Number}&Department=${filterData.Department}&Status=${filterData.Status}&AssetName=${filterData.AssetName}&_=1669282863275`)
-    setData(response.data);
-    setCurrentPage(page)
+    setLoading(true);
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/Asset/GetDeliveryNotes?draw=8&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${filterData.email}&Number=${filterData.Number}&Department=${filterData.Department}&Status=${filterData.Status}&AssetName=${filterData.AssetName}&_=1669282863275`,
+    }).then((response) => {
+      setData(response.data);
+    }).catch((err) => {
+      message.error('Failed, check your network and try again.', 3)
+    })
+    setCurrentPage(page);
     setLoading(false);
   }
 
   useEffect(() => {
     if(Object.keys(user_data).length > 0 && salic_departments.length > 0) {
-      FetchData(defualtFilterData, 1, _pageSize)
-      console.log('salic_departments', salic_departments);
+      FetchData(defualtFilterData, 1, _pageSize);
     }
   }, [user_data, salic_departments]);
 
-  const ApplyFilter = async (formData, page, pageSize) => {
-    Object.keys(formData).forEach(key => {if(formData[key] === undefined || formData[key] === null) formData[key] = ''})
+  const ApplyFilter = (formData, page, pageSize) => {
+    Object.keys(formData).forEach(key => {if(formData[key] === undefined || formData[key] === null) formData[key] = ''});
     FetchData(formData, page, pageSize);
   }
 
@@ -90,7 +97,7 @@ const DeliveryLetters = () => {
   let departments = [];
   if(salic_departments.length > 0) {
     departments = salic_departments?.map(row => {
-        return { value: row, label: row }
+      return { value: row, label: row }
     })
   }
   
@@ -168,19 +175,27 @@ const DeliveryLetters = () => {
         </Form>
       </Col>
 
-      <Col span={24} style={{overflow: 'auto'}}>
-        <Table columns={columns} size="large" dataSource={data.data} pagination={false} />
-      </Col>
+      {
+        !loading
+        ? (
+          <>
+            <Col span={24} style={{overflow: 'auto'}}>
+              <Table columns={columns} size="large" dataSource={data?.data} pagination={false} />
+            </Col>
 
-      <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
-        <Pagination 
-          size="small" 
-          current={currentPage}
-          total={data.recordsTotal / 2} 
-          onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
-          hideOnSinglePage
-        />
-      </Row>
+            <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(data.recordsTotal / _pageSize)}
+                onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
+                limiter={3}
+              />
+            </Row>
+          </>
+        ) : (
+          <AntdLoader />
+        )
+      }
     </Row>
   )
 }

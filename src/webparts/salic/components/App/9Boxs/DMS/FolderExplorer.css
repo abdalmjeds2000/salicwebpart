@@ -91,3 +91,6 @@
   }
 }
 
+.ant-breadcrumb li:last-child {
+  font-weight: 500 !important;
+}

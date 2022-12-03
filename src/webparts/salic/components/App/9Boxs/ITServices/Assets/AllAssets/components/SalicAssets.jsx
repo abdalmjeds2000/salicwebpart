@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Row, Col, Pagination, Typography, Form, Input, Select, Button } from 'antd';
+import { Table, Row, Col, Typography, Form, Input, Select, Button, message } from 'antd';
 import axios from 'axios';
 import { AppCtx } from '../../../../../App';
 import moment from 'moment';
 import UserColumnInTable from '../../../../../Global/UserColumnInTable/UserColumnInTable';
 import DropdownSelectUser from '../../../../../Global/DropdownSelectUser/DropdownSelectUser';
 import { FilterOutlined } from '@ant-design/icons';
+import AntdLoader from '../../../../../Global/AntdLoader/AntdLoader';
+import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 
 const initialFilter = { Name: '', CategoryType: '', Brand: '', Model: '', DeliveredTo: '', Available: 'All', Type: '', Tag: '', SN: '' };
 
 const SalicAssets = () => {
   const { user_data } = useContext(AppCtx);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({});
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -20,18 +22,24 @@ const SalicAssets = () => {
   const _pageSize = 20;
 
 
-  const FetchData = async (filterData, page, pageSize) => {
+  const FetchData = (filterData, page, pageSize) => {
     const skipItems = pageSize * (page - 1);
     const takeItems = pageSize;
     setLoading(true);
-    const response = await axios.get(`https://salicapi.com/api/Asset/Get?draw=13&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${user_data.Data?.Mail}&Name=${filterData.Name}&CategoryType=${filterData.CategoryType}&Brand=${filterData.Brand}&Model=${filterData.Model}&DeliveredTo=${filterData.DeliveredTo}&Available=${filterData.Available}&Type=${filterData.Type}&Tag=${filterData.Tag}&SN=${filterData.SN}&_=1669266638774`)
-    setData(response.data);
-    setCurrentPage(page)
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/Asset/Get?draw=13&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${user_data.Data?.Mail}&Name=${filterData.Name}&CategoryType=${filterData.CategoryType}&Brand=${filterData.Brand}&Model=${filterData.Model}&DeliveredTo=${filterData.DeliveredTo}&Available=${filterData.Available}&Type=${filterData.Type}&Tag=${filterData.Tag}&SN=${filterData.SN}&_=1669266638774`,
+    }).then((response) => {
+      setData(response.data);
+    }).catch(() => {
+      message.error('Failed, check your network and try again.', 3)
+    })
+    setCurrentPage(page);
     setLoading(false);
   }
 
   useEffect(() => {
-    if(Object.keys(user_data).length > 0) {
+    if(Object.keys(user_data).length > 0 && Object.keys(setData).length === 0) {
       FetchData(defualtFilterData, 1, _pageSize)
     }
   }, [user_data]);
@@ -174,20 +182,33 @@ const SalicAssets = () => {
 
 
 
+      {
+        !loading
+        ? (
+          <>
+            <Col span={24} style={{overflow: 'auto'}}>
+              <Table columns={columns} size="large" dataSource={data?.data} pagination={false} />
+            </Col>
 
-      <Col span={24} style={{overflow: 'auto'}}>
-        <Table columns={columns} size="large" dataSource={data.data} pagination={false} />
-      </Col>
-
-      <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
-        <Pagination 
-          size="small" 
-          current={currentPage}
-          total={data.recordsTotal / 2} 
-          onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
-          hideOnSinglePage
-        />
-      </Row>
+            <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
+              {/* <Pagination 
+                size="small" 
+                current={currentPage}
+                total={data.recordsTotal / 2} 
+                onChange={(page) => {setCurrentPage(page); console.log(defualtFilterData, page, _pageSize);}}
+              /> */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(data.recordsTotal / _pageSize)}
+                onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
+                limiter={3}
+              />
+            </Row>
+          </>
+        ) : (
+          <AntdLoader />  
+        )
+      }
     </Row>
   )
 }

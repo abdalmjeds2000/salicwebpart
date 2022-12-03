@@ -48,6 +48,9 @@
   top: 0;
   cursor: pointer;
 }
+.file-row:active {
+  transform: scale(0.99);
+}
 .file-row > h5 {
   -webkit-line-clamp: 1; /* number of lines to show */
           line-clamp: 1; 

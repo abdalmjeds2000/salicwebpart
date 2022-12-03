@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Col, Row, Select, Statistic, Typography } from 'antd';
+import { Card, Col, message, Row, Select, Statistic, Typography } from 'antd';
 import LineChart from '../../../../../Global/CustomLineChart/LineChart';
 import axios from 'axios';
 import { AppCtx } from '../../../../../App';
@@ -13,16 +13,21 @@ const Dashboard = () => {
   const [dataBy, setDataBy] = useState("Type");
 
   const FetchData = async (mail) => {
-    const response = await axios.get(`https://salicapi.com/api/Asset/Dashboard?Email=${mail}`)
-    if(response.data.Status == 200) {
+    setLoading(true);
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/Asset/Dashboard?Email=${mail}`,
+    }).then((response) => {
       setData(response.data.Data);
-      setLoading(false);
-    }
+    }).catch(() => {
+      message.error('Failed, check your network and try again.', 3)
+    })
+    setLoading(false);
   }
 
 
   useEffect(() => {
-    if(Object.keys(user_data).length > 0) {
+    if(Object.keys(user_data).length > 0 && data.length === 0) {
       FetchData(user_data.Data?.Mail);
     }
   }, [user_data])
@@ -49,7 +54,7 @@ const Dashboard = () => {
     return <AntdLoader />
   }
 
-  const getDataForChart = (array, colors) => array.map((row, i) => {
+  const getDataForChart = (array, colors) => array?.map((row, i) => {
     return {
       title: row.Title,
       count: row.Count,

@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Col, Row, Segmented, Typography } from 'antd';
 import { AppCtx } from '../../../App';
-import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
-import FileCard from '../../../Global/FileCard/FileCard';
-import FileIcon from '../../../Global/RequestsComponents/FileIcon';
-import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
-import FileCardRow from '../../../Global/FileCard/FileCardRow';
 
 import { FileManager, FileNavigator } from '@opuscapita/react-filemanager';
 import connectorNodeV1 from '@opuscapita/react-filemanager-connector-node-v1';
@@ -17,7 +11,6 @@ function SharedByYou() {
   const { sp_context } = useContext(AppCtx);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState('Cards');
 
 
   const fetchData = async () => {

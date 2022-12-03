@@ -8,6 +8,8 @@ import { SPHttpClient } from '@microsoft/sp-http'
 import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { SearchOutlined } from '@ant-design/icons';
 
 
@@ -44,6 +46,8 @@ function KnowledgeCardsPage() {
     }
     setLoading(false);
   }
+  useEffect(() => { FetchData(1, _pageSize); }, []);
+
 
   const ApplyFilter = async (values) => {
     setLoading(true);
@@ -72,6 +76,7 @@ function KnowledgeCardsPage() {
           setData(responseData);
           setIsFilterData(true);
         } else {
+          message.destroy();
           message.info("No Data Match!");
         }
       })
@@ -80,12 +85,9 @@ function KnowledgeCardsPage() {
   }
 
 
-  useEffect(() => {
-    FetchData(1, _pageSize);
-  }, []);
+
 
   const pageCount = Math.ceil(itemsCount / _pageSize);
-
 
   return (
     <>
@@ -119,6 +121,7 @@ function KnowledgeCardsPage() {
             {
               !loading
               ? (
+                <>
                   <Row gutter={[20, 20]}>
                     {
                       data.map((acknowledge, i) => {
@@ -145,6 +148,34 @@ function KnowledgeCardsPage() {
                       })
                     }
                   </Row>
+
+
+                  {/* <Row gutter={[20, 20]}>
+                    {
+                      data.map((acknowledge, i) => {
+                        let _CardImg = '';
+                        let _CardDocument = '';
+                        acknowledge.AttachmentFiles?.forEach(file => {
+                          if(["jpeg", "jpg", "png", "gif", "tiff", "raw", "webp", "avif", "bpg", "flif"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
+                            _CardImg = file?.ServerRelativePath?.DecodedUrl;
+                          } else if(["pdf", "doc", "docx", "html", "htm","xls", "xlsx", "txt", "ppt", "pptx", "ods"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
+                            _CardDocument = "https://salic.sharepoint.com" + file?.ServerRelativePath?.DecodedUrl;
+                          }
+                          if(_CardDocument === '' && acknowledge.AttachmentLink != null) _CardDocument = acknowledge.AttachmentLink
+                          });
+                        return (
+                          <Col xs={24} sm={12} md={8} lg={6}>
+                            <LazyLoadImage
+                              alt=''
+                              effect="blur"
+                              width={200}
+                              src={_CardImg} />
+                          </Col>
+                        )
+                      })
+                    }
+                  </Row> */}
+                </>
                 )
                 : <AntdLoader />
               }
@@ -153,7 +184,7 @@ function KnowledgeCardsPage() {
                 currentPage={currentPage}
                 totalPages={pageCount}
                 onChange={(page) => FetchData(page, _pageSize)}
-                limiter={24}
+                limiter={3}
               />
             </Row>}
           </div>

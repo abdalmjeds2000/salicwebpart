@@ -24,6 +24,7 @@ export { default as Visitor } from '../App/9Boxs/AdminServices/Visitor/Visitor';
 export { default as Attendance } from '../App/Attendance/Attendance';
 export { default as CommunityNews } from '../App/CommunityNews/CommunityNews';
 export { default as NewsDetails } from '../App/CommunityNews/NewsDetails/NewsDetails';
+export { default as ManageNews } from '../App/CommunityNews/ManageNews/ManageNews';
 export { default as FolderExplorerPage } from '../App/9Boxs/DMS/FolderExplorer';
 export { default as EInvoicing } from '../App/9Boxs/EInvoicing/EInvoicing';
 export { default as Performance } from '../App/9Boxs/Performance/Performance';

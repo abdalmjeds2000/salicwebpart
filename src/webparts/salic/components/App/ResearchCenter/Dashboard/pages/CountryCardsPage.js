@@ -58,6 +58,7 @@ function CountryCardsPage() {
           setData(responseData);
           setIsFilterData(true);
         } else {
+          message.destroy();
           message.info("No Data Match!");
         }
       })

@@ -20,7 +20,8 @@ function Investment() {
 
       <div className='folder-explorer-container'>  
         <iframe 
-          src='https://salic.sharepoint.com/sites/newsalic/KnowledgeBase/Forms/AllItems.aspx?id=%2Fsites%2Fnewsalic%2FKnowledgeBase%2FInvestment&viewid=b86e96b1%2D5611%2D4e10%2Da7ba%2D42e63e17ddb5' 
+          // src='https://salic.sharepoint.com/sites/newsalic/KnowledgeBase/Forms/AllItems.aspx?id=%2Fsites%2Fnewsalic%2FKnowledgeBase%2FInvestment&viewid=b86e96b1%2D5611%2D4e10%2Da7ba%2D42e63e17ddb5' 
+          src='https://salic.sharepoint.com/sites/newsalic/KnowledgeBase/Forms/SALIC%20Document.aspx' 
           width='100%' 
           id='spIframe'
           onLoad={editStyle}

@@ -3,8 +3,10 @@ import './CommunityNews.css';
 import ArticleBox from '../Global/ArticleBox/ArticleBox';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
-import { Pagination } from 'antd';
-
+import { Row } from 'antd';
+import pnp from 'sp-pnp-js';
+import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
+import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 const getDataByPageNo = (list, pno) => {
   if(list.length >= 19 && pno === 1) return list.slice(0, 20)
@@ -14,16 +16,33 @@ const getDataByPageNo = (list, pno) => {
   else if(list.length >= 99 && pno === 5) return list.slice(80, 100)
 }
 function CommunityNews() {
-  const { news_list } = useContext(AppCtx);
+  const { gateNewsData, setGateNewsData } = useContext(AppCtx);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNewslist, setFilteredNewslist] = useState([]);
-  const [newsList, setNewsList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const _pageSize = 24;
+
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await pnp.sp.web.lists.getByTitle('News').items
+      .select('Author/Title,Author/EMail,Author/JobTitle,AttachmentFiles,*').expand('Author,AttachmentFiles').top(500)
+      .orderBy("CreatedOn", false).filter("IsDraft eq '0'").get()
+    setGateNewsData(response);
+    setLoading(false);
+  }
+
+
+
   useEffect(() => {
-    const FilterNewsDraft = news_list?.filter(news => news.IsDraft === false)?.slice(0, 100);
-    setNewsList(FilterNewsDraft);
-    setFilteredNewslist(getDataByPageNo(FilterNewsDraft, currentPage));
-  }, [news_list])
+    fetchData();
+  }, []);
+  useEffect(() => {
+    setFilteredNewslist(gateNewsData.slice(0, _pageSize))
+  }, [gateNewsData]);
   
+  if(loading) {
+    return <AntdLoader />
+  }
   return (
     <div className='community-news-page-container'>
       <HistoryNavigation>
@@ -46,16 +65,18 @@ function CommunityNews() {
       </div>
 
 
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: '0'}}>
-        <Pagination 
-          current={currentPage} 
-          onChange={p => {
-            setCurrentPage(p)
-            setFilteredNewslist(getDataByPageNo(newsList, p))
+      <Row justify="center" style={{margin: 25}}>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(gateNewsData.length / _pageSize)}
+          onChange={(page) => {
+            const skipItems = _pageSize * (page - 1);
+            setCurrentPage(page);
+            setFilteredNewslist(gateNewsData.slice(skipItems, skipItems+_pageSize));
           }}
-          total={newsList.length / 2}
+          limiter={3}
         />
-      </div>
+      </Row>
     </div>
   )
 }

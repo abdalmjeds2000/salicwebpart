@@ -19,7 +19,7 @@ function RequestsTable(props) {
                 ? <Table
                     columns={props.Columns} 
                     dataSource={props.DataTable} 
-                    pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+                    pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true, style: {marginTop: 25} }} 
                     size="middle"
                   />
                 : <AntdLoader />

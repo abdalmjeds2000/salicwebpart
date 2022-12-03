@@ -15,8 +15,24 @@ function formatSizeUnits(bytes){
   return bytes;
 }
 
-const FileCardRow = ({ icon, name, creatorName, creatorEmail, createdDate, modifiedDate, filePath, fileSize, sizeType, customColumns }) => {
-  const columns = customColumns || {
+const FileCardRow = ({ 
+  icon, 
+  name, 
+  creatorName, 
+  creatorEmail, 
+  createdDate, 
+  modifiedDate, 
+  filePath, 
+  fileSize,
+  sizeType, 
+  customColumns, 
+  isFolder, 
+  onClick,
+  canOpen
+}) => {
+
+
+    const columns = customColumns || {
     icon: true,
     name: true,
     createdDate: true,
@@ -25,9 +41,9 @@ const FileCardRow = ({ icon, name, creatorName, creatorEmail, createdDate, modif
     size: true,
   };
   return (
-      <div className='file-card file-row'>
+      <div className='file-card file-row' onClick={isFolder && canOpen ? (e) => onClick(e) : null}>
         {columns.icon && <div style={{fontSize: '1.2rem', marginRight: '12px'}}>{icon}</div>}
-        {columns.name && <Typography.Title level={5} style={{width: '42%'}} onClick={() => filePath ? window.open(filePath): null}>{name}</Typography.Title>}
+        {columns.name && <Typography.Title level={5} style={{width: '42%'}} onClick={() => filePath && !canOpen ? window.open(filePath): null}>{name}</Typography.Title>}
         {columns.createdDate && <Typography.Text type='secondary' style={{width: '18%'}}>{createdDate ? moment(createdDate).format('MM/DD/YYYY hh:mm') : ''}</Typography.Text>}
         {columns.modifiedDate && <Typography.Text type='secondary' style={{width: '18%'}}>{modifiedDate ? moment(modifiedDate).format('MM/DD/YYYY hh:mm') : ''}</Typography.Text>}
         {columns.creator && <div style={{width: '25%'}}>
