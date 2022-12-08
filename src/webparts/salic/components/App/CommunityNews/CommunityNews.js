@@ -20,7 +20,7 @@ function CommunityNews() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNewslist, setFilteredNewslist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const _pageSize = 24;
+  const _pageSize = 25;
 
   const fetchData = async () => {
     setLoading(true);

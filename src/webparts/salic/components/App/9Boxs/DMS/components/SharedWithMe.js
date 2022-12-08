@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Breadcrumb, Col, Row, Segmented, Typography } from 'antd';
+import { Breadcrumb, Button, Col, Row, Segmented, Typography } from 'antd';
 import { AppCtx } from '../../../App';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 import FileCard from '../../../Global/FileCard/FileCard';
 import FileIcon from '../../../Global/RequestsComponents/FileIcon';
-import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, ArrowLeftOutlined, BarsOutlined } from '@ant-design/icons';
 import FileCardRow from '../../../Global/FileCard/FileCardRow';
 
 
@@ -12,6 +12,7 @@ function SharedWithMe() {
   const { sp_context } = useContext(AppCtx);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [history, setHistory] = useState([]);
   const [viewMode, setViewMode] = useState('Cards');
 
   const fetchRoot = async () => {
@@ -29,9 +30,10 @@ function SharedWithMe() {
   }
 
 
-  const fetchChildren = async (driveId, itemId) => {
+  const fetchChildren = async (driveId, itemId, isback) => {
     setLoading(true);
-    let items = await sp_context.msGraphClientFactory
+    if(driveId && itemId){
+      let items = await sp_context.msGraphClientFactory
       .getClient('3')
       .then((client) => {
         client
@@ -41,9 +43,23 @@ function SharedWithMe() {
           .then(() => setLoading(false))
           .catch(err => console.log(err))
       }).catch(err => console.log(err));
+    }
+    if(!isback) {
+      setHistory(prev => {
+        return [...prev, {
+          driveId: driveId, 
+          itemId: itemId
+        }]
+      })
+    }
   }
 
-
+  const handleBack = () => {
+    console.log('historywithoutcurrent', historywithoutcurrent);
+    const last = historywithoutcurrent[historywithoutcurrent.length-1];
+    setHistory(prev => prev.filter(row => row.itemId != last.itemId));
+    fetchChildren(last.driveId, last.itemId, true)
+  }
 
   useEffect(() => {
     document.title = '.:: SALIC Gate | Shared With Me ::.';
@@ -51,14 +67,14 @@ function SharedWithMe() {
   }, []);
 
 
-  // if(loading) {
-  //   return <AntdLoader />
-  // }
+  let historywithoutcurrent = history?.slice(0, -1);
 
   return (
     <div style={{padding: '20px'}}>
-      <Row align="middle" justify="end" style={{marginBottom: 20}}>
-        {/* <Typography.Title level={3}>Shared With Me</Typography.Title> */}
+      <Row align="middle" justify="space-between" style={{marginBottom: 15}}>
+        <Breadcrumb style={{fontSize: '1.2rem'}}>
+          <Breadcrumb.Item onClick={fetchRoot}><a>Shared With Me</a></Breadcrumb.Item>
+        </Breadcrumb>
         <Segmented
           onChange={value => setViewMode(value)}
           defaultValue="Cards"
@@ -69,9 +85,7 @@ function SharedWithMe() {
         />
       </Row>
       <Row style={{marginBottom: 10}}>
-        <Breadcrumb style={{fontSize: '1.2rem'}}>
-          <Breadcrumb.Item onClick={fetchRoot}><a>Shared With Me</a></Breadcrumb.Item>
-        </Breadcrumb>
+        {historywithoutcurrent.length != 0 && <Button size='small' type='link' onClick={handleBack}><ArrowLeftOutlined /> Back</Button>}
       </Row>
       
       {loading ? <AntdLoader customStyle={{margin: '25px'}} /> : null}
@@ -80,11 +94,11 @@ function SharedWithMe() {
         {
           viewMode === "Cards"
           ? (
-            <Row gutter={[20, 20]} justify="center">
+            <Row gutter={[20, 20]} justify="start">
               {
                 data.map((row, i) => {
                   return (
-                    <Col key={i} xs={24} sm={12} md={12} lg={6} xl={6} xxl={4}>
+                    <Col key={i} xs={24} sm={12} md={12} lg={6} xl={4} xxl={4}>
                     <FileCard
                       icon={<FileIcon FileType={row.folder ? 'folder' : row.name?.split('.')[row.name?.split('.')?.length-1]} FileName={row.name} IconWidth={40} />}
                       name={row.name}

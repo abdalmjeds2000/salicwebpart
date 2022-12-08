@@ -12,9 +12,8 @@ import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 const initialFilter = { Name: '', CategoryType: '', Brand: '', Model: '', DeliveredTo: '', Available: 'All', Type: '', Tag: '', SN: '' };
 
 const SalicAssets = () => {
-  const { user_data } = useContext(AppCtx);
+  const { user_data, salicAssetsData, setSalicAssetsData } = useContext(AppCtx);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({});
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -30,7 +29,7 @@ const SalicAssets = () => {
       method: 'GET',
       url: `https://salicapi.com/api/Asset/Get?draw=13&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${user_data.Data?.Mail}&Name=${filterData.Name}&CategoryType=${filterData.CategoryType}&Brand=${filterData.Brand}&Model=${filterData.Model}&DeliveredTo=${filterData.DeliveredTo}&Available=${filterData.Available}&Type=${filterData.Type}&Tag=${filterData.Tag}&SN=${filterData.SN}&_=1669266638774`,
     }).then((response) => {
-      setData(response.data);
+      setSalicAssetsData(response.data);
     }).catch(() => {
       message.error('Failed, check your network and try again.', 3)
     })
@@ -39,7 +38,7 @@ const SalicAssets = () => {
   }
 
   useEffect(() => {
-    if(Object.keys(user_data).length > 0 && Object.keys(setData).length === 0) {
+    if(Object.keys(user_data).length > 0 && Object.keys(salicAssetsData).length === 0) {
       FetchData(defualtFilterData, 1, _pageSize)
     }
   }, [user_data]);
@@ -187,7 +186,7 @@ const SalicAssets = () => {
         ? (
           <>
             <Col span={24} style={{overflow: 'auto'}}>
-              <Table columns={columns} size="large" dataSource={data?.data} pagination={false} />
+              <Table columns={columns} size="large" dataSource={salicAssetsData?.data} pagination={false} />
             </Col>
 
             <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
@@ -199,7 +198,7 @@ const SalicAssets = () => {
               /> */}
               <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(data.recordsTotal / _pageSize)}
+                totalPages={Math.ceil(salicAssetsData.recordsTotal / _pageSize)}
                 onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
                 limiter={3}
               />

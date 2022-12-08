@@ -95,8 +95,8 @@ function MyResearchRequests() {
   return (
     <>
       <HistoryNavigation>
-          <a onClick={() => navigate(`${defualt_route}/research-requests`)}>Research Requests</a>
-          <p>Research Request</p>
+        <a onClick={() => navigate(`${defualt_route}/research-requests`)}>Research Requests</a>
+        <p>My Research Request</p>
       </HistoryNavigation>
 
       <RequestsTable

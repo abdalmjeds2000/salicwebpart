@@ -11,7 +11,7 @@
 
 .ant-table-tbody tr[data-row-key="PROCESSING"] { 
   background: rgb(255,245,229) !important;
-  background: linear-gradient(90deg, #e9f3ff 0%, rgba(255,255,255,1) 100%) !important;
+  background: linear-gradient(90deg, #cfffe3 0%, rgba(255,255,255,1) 100%) !important;
 }
 .ant-table-tbody tr[data-row-key="SUBMITTED"] { 
   background: rgb(255,229,229)!important;

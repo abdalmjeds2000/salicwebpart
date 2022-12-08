@@ -1,5 +1,6 @@
 .research_header-container {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   top: 85px;
   gap: 5px;

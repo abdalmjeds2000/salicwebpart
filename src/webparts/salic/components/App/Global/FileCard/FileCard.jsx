@@ -9,10 +9,7 @@ import moment from 'moment';
 const FileCard = ({ icon, name, creatorName, createdDate, FilePath, IframLink, isFolder, canOpen, onClick }) => {
   return (
     <div className='file-card' onClick={isFolder && canOpen ? (e) => onClick(e) : () => window.open(FilePath)}>
-      {IframLink && <div style={{position: 'absolute', width: '100%', height: '50%', top: 0, left: 0}}>
-        <iframe src={IframLink} width='100%' height='100%'></iframe>
-      </div>}
-      <div style={{marginBottom: '12px', fontSize: '2.5rem'}}>{icon}</div>
+      <div className='img-container'>{icon}</div>
       {
         createdDate 
         ? <Tooltip title={moment(createdDate).format('MM/DD/YYYY hh:mm')}>

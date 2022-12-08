@@ -1,6 +1,28 @@
 import researchCenterSearch from './searchQueries/researchCenterSearch';
 import newsSearch from './searchQueries/newsSearch';
+import news from './searchQueries/news';
 import itRequestsSearch from './searchQueries/itRequestsSearch';
+import itRequests from './searchQueries/itRequests';
+import researchArticlesSearch from './searchQueries/researchArticlesSearch';
+import researchArticles from './searchQueries/researchArticles';
+import researchCommoditySearch from './searchQueries/researchCommoditySearch';
+import researchCommodity from './searchQueries/researchCommodity';
+import researchAdHocSearch from './searchQueries/researchAdHocSearch';
+import researchAdHoc from './searchQueries/researchAdHoc';
+import researchPulseSearch from './searchQueries/researchPulseSearch';
+import researchPulse from './searchQueries/researchPulse';
+import researchCountrySearch from './searchQueries/researchCountrySearch';
+import researchCountry from './searchQueries/researchCountry';
+import researchKnowledgeSearch from './searchQueries/researchKnowledgeSearch';
+import researchKnowledge from './searchQueries/researchKnowledge';
+import researchRequestsSearch from './searchQueries/researchRequestsSearch';
+import researchRequests from './searchQueries/researchRequests';
+import salicAsstesSearch from './searchQueries/salicAsstesSearch';
+import salicAsstes from './searchQueries/salicAsstes';
+import deliveryLettersSearch from './searchQueries/deliveryLettersSearch';
+import deliveryLetters from './searchQueries/deliveryLetters';
+
+
 
 export var searchLocations = [
   /* START Research Routes */
@@ -8,42 +30,37 @@ export var searchLocations = [
     route: "/research-library",
     path: [],
     fetchData: (query) => researchCenterSearch(query),
+    fetchOriginalData: null
   },{
     route: "/research-library/categories/all",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Articles"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchArticlesSearch(query),
+    fetchOriginalData: () => researchArticles()
   },{
     route: "/research-library/categories/Commodity",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Articles"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchCommoditySearch(query),
+    fetchOriginalData: () =>  researchCommodity()
   },{
     route: "/research-library/categories/AdHoc",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Articles"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchAdHocSearch(query),
+    fetchOriginalData: () => researchAdHoc()
   },{
     route: "/research-library/pulse",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Pulse"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchPulseSearch(query),
+    fetchOriginalData: () => researchPulse()
   },{
     route: "/research-library/country",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Country Outlook"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchCountrySearch(query),
+    fetchOriginalData: () => researchCountry()
   },{
     route: "/research-library/knowledge",
-    path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Knowledge"',
-    ],
-    fetchData: null,
+    path: [],
+    fetchData: (query) => researchKnowledgeSearch(query),
+    fetchOriginalData: () => researchKnowledge()
   },{
     route: "/manage-research-library",
     path: [
@@ -110,9 +127,30 @@ export var searchLocations = [
     route: "/community-news",
     path: [],
     fetchData: (query) => newsSearch(query),
+    fetchOriginalData: () => news()
   },{
-    route: "/services-requests/service-requests-dashboard",
+    route: "/services-requests/service-requests-dashboard#2",
     path: [],
     fetchData: (query) => itRequestsSearch(query),
+    fetchOriginalData: () => itRequests()
+  },
+
+  {
+    route: "/research-requests/all-research-requests",
+    path: [],
+    fetchData: (query) => researchRequestsSearch(query),
+    fetchOriginalData: () => researchRequests()
+  },
+
+  {
+    route: "/asset/all#2",
+    path: [],
+    fetchData: (query) => salicAsstesSearch(query),
+    fetchOriginalData: () => salicAsstes()
+  },{
+    route: "/asset/all#3",
+    path: [],
+    fetchData: (query) => deliveryLettersSearch(query),
+    fetchOriginalData: () => deliveryLetters()
   },
 ];

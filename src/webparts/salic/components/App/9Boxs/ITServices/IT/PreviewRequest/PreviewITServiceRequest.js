@@ -135,7 +135,7 @@ function PreviewITServiceRequest() {
           <div>
             {requestData?.Status === "Waiting For Approval" && IsPendingWith &&
             <ApproveAction RequestId={requestData.Id} />}
-            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && PendingAssignee &&
+            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
             <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith &&
             <CloseAction RequestId={requestData.Id} />}

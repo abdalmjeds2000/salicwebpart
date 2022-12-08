@@ -25,6 +25,21 @@
   cursor: pointer;
   transition: .3s;
 }
+.custom-img-card .card-container span.lazy-load-image-background {
+  position: absolute !important;
+  width: inherit !important;
+  height: inherit !important;
+}
+.custom-img-card .card-container span.lazy-load-image-background img {
+  position: absolute!important;
+  left: 50%!important;
+  min-width: 100%;
+  min-height: 100%;
+  top: 50%!important;
+  transform: translate(-50%, -50%)!important;
+}
+
+
 
 #country-section .custom-img-card .card-container.full-w-h {
   background-position: initial;
@@ -41,6 +56,7 @@
   gap: 10px;
   justify-content: flex-end;
   font-size: 1.1rem;
+  position: relative;
   transition: .3s;
 }
 .custom-img-card:hover .card-container {

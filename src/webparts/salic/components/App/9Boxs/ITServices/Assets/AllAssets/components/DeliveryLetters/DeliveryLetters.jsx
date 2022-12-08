@@ -15,9 +15,8 @@ import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 const initialFilter = { email: '', Number: '', Department: 'All', Status: 'All', AssetName: '' };
 
 const DeliveryLetters = () => {
-  const { user_data, salic_departments } = useContext(AppCtx);
+  const { user_data, salic_departments, deliveryLettersData, setDeliveryLettersData } = useContext(AppCtx);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({});
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const _pageSize = 20;
@@ -33,7 +32,7 @@ const DeliveryLetters = () => {
       method: 'GET',
       url: `https://salicapi.com/api/Asset/GetDeliveryNotes?draw=8&order=CreatedAt+desc&start=${skipItems}&length=${takeItems}&search[value]=&search[regex]=false&email=${filterData.email}&Number=${filterData.Number}&Department=${filterData.Department}&Status=${filterData.Status}&AssetName=${filterData.AssetName}&_=1669282863275`,
     }).then((response) => {
-      setData(response.data);
+      setDeliveryLettersData(response.data);
     }).catch((err) => {
       message.error('Failed, check your network and try again.', 3)
     })
@@ -180,13 +179,13 @@ const DeliveryLetters = () => {
         ? (
           <>
             <Col span={24} style={{overflow: 'auto'}}>
-              <Table columns={columns} size="large" dataSource={data?.data} pagination={false} />
+              <Table columns={columns} size="large" dataSource={deliveryLettersData?.data} pagination={false} />
             </Col>
 
             <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(data.recordsTotal / _pageSize)}
+                totalPages={Math.ceil(deliveryLettersData.recordsTotal / _pageSize)}
                 onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
                 limiter={3}
               />

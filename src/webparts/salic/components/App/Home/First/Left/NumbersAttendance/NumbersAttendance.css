@@ -93,6 +93,14 @@
 
 /* for desktop */
 @media screen and (min-width: 800px) {
-  .home-info .numbers-attendance-container .div1 { margin-left: 25px; }
-  .home-info .numbers-attendance-container .div3 { margin-right: 25px; }
+  .home-info .numbers-attendance-container .div1 { 
+    margin-left: 25px; 
+    position: relative;
+    left: 80px;
+  }
+  .home-info .numbers-attendance-container .div3 { 
+    margin-right: 25px; 
+    position: relative;
+    right: 80px;
+  }
 }

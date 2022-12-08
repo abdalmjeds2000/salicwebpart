@@ -11,9 +11,9 @@ const Tabs = ({items, loading}) => {
         <ul className="tab-container">
           {
             items.map((item, i) => (
-              <li key={i} onClick={() => setActiveTab(item.key)} className={activeTab == item.key ? 'active' : ''}>
+              <a href={`#${item.key}`}><li key={i} onClick={() => setActiveTab(item.key)} className={activeTab == item.key ? 'active' : ''}>
                 {item.icon} {item.title}
-              </li>
+              </li></a>
             ))
           }
         </ul>

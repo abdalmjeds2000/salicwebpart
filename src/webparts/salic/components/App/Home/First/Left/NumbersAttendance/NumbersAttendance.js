@@ -117,7 +117,7 @@ function NumbersAttendance() {
 
   return (
     <div className="numbers-attendance-container">
-      <div className="div1" style={{cursor: 'pointer'}}>
+      <div className="div1">
         <Number
           pathColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color} 
           textColor={performaceGrade(performance.performace?.count?.replace('%', '')).Color}

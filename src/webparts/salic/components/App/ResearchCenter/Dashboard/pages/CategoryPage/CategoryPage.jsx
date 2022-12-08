@@ -13,18 +13,15 @@ import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import CheckableTag from 'antd/lib/tag/CheckableTag';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
-import { CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import { CaretDownOutlined, CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 function CategoryPage() {
   const { byType } = useParams();
-  const { defualt_route, sp_context } = useContext(AppCtx);
+  const { defualt_route, sp_context, allResearchArticlesData, setAllResearchArticlesData } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const _pageSize = 24;
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsCount, setItemsCount] = useState(0);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [isFilterData, setIsFilterData] = useState(false);
@@ -43,56 +40,26 @@ function CategoryPage() {
       })
   }
 
-  const FetchData = async (page, pageSize) => {
-    const skipItems = pageSize * (page - 1);
-    const takeItems = pageSize;
-    // Get Items
-    let items = await pnp.sp.web.lists.getByTitle('Research Articles')
-      .items.orderBy("Created", false)
-      .select('Author/Title,AttachmentFiles,*')
-      .expand('Author,AttachmentFiles')
-      .skip(skipItems).top(takeItems).getPaged();
+  const FetchData = async () => {
+    await pnp.sp.web.lists.getByTitle('Research Articles')
+      .items.orderBy('Created', false)
+      .select('AttachmentFiles,*').expand('AttachmentFiles')
+      .top(_pageSize).getPaged()
+      .then(response => {
+        setAllResearchArticlesData(response);
+        console.log(response);
+      })
 
-    // let testItems = await axios.get(`https://salic.sharepoint.com/sites/dev/_api/web/lists/getByTitle(%27News%27)/items?%24skiptoken=Paged%3dTRUE%26p_ID%3d${skipItems}&%24top=${takeItems}`)
-    let testItems = await pnp.sp.web.lists.getByTitle('News')
-    .items/* .orderBy("Created", false) */
-    .select('Author/Title,AttachmentFiles,*')
-    .expand('Author,AttachmentFiles')
-    .skip(skipItems).top(takeItems).getPaged();
-
-    // let testItems = await pnp.sp.web.lists.getByTitle('Research Articles')
-    //   .items
-    //   .skip(skipItems).top(takeItems).getPaged();
-    console.log('FINALYYYYYY --==--==--==>', testItems);
-    // const testdata = await pnp.sp.web.lists.getByTitle('Research Articles').getItemsByCAMLQuery({
-    //   ListItemCollectionPosition: { PagingInfo: `Paged=TRUE&p_ID=${skipItems}` },
-    //   ViewXml: 
-    //     `<View Scope='RecursiveAll'>
-    //       <Query>
-    //         <OrderBy>
-    //           <FieldRef Name='Created' Ascending='True' />
-    //         </OrderBy>
-    //       </Query>
-    //       <RowLimit>${takeItems}</RowLimit>
-    //     </View>`
-    // }, 'AttachmentFiles');
-    // console.log('test get items pagination ===>>', testdata);
-    // console.log('page, pageSize', page, pageSize);
-
-
-    
-
-    // Get Count of List Items
-    const itemsCountResponse = await sp_context.spHttpClient.get(
-      `${sp_context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Research Articles')/ItemCount`,
-      SPHttpClient.configurations.v1 
-    );
-    const itemsCountValue = (await itemsCountResponse.json()).value;
-    if(items.results?.length > 0) {
-      setData(items.results);
-      setCurrentPage(page);
-      setItemsCount(itemsCountValue);
-    }
+    setLoading(false);
+  }
+  const FetchNextData = async () => {
+    setLoading(true);
+    allResearchArticlesData.getNext().then(response => {
+      setAllResearchArticlesData(prev => {
+        response.results = [...prev.results, ...response.results]
+        return response
+      });
+    });
     setLoading(false);
   }
   
@@ -100,12 +67,11 @@ function CategoryPage() {
     if(byType) {
       ApplyFilter({Type: byType})
     } else {
-      FetchData(1, _pageSize);
+      FetchData();
     }
     FetchChoices();
     document.title = ".:: SALIC Gate | Research Reports ::."; 
   }, []);
-  const pageCount = Math.ceil(itemsCount / _pageSize);
 
   const handleChange = (tag, checked) => {
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter((t) => t !== tag);
@@ -127,7 +93,7 @@ function CategoryPage() {
       if(values.PublishYear) filterList.push(`<Lt><FieldRef Name='PublishedDate' /><Value IncludeTimeValue='TRUE' Type='DateTime'>${endDate.toISOString()}</Value></Lt>`);
       if(values.Tags.length > 0) values.Tags.map(tag => filterList.push(`<Contains><FieldRef Name='Tags' /><Value Type='MultiChoice'>${tag}</Value></Contains>`))
       Object.keys(values).forEach(key => (values[key] === undefined || values[key] === null || values[key] === '') && delete values[key])
-        const q = {
+      const q = {
           ViewXml: `<View Scope='RecursiveAll'>
           <Query>
             <Where>
@@ -145,7 +111,7 @@ function CategoryPage() {
       .getItemsByCAMLQuery(q, 'AttachmentFiles')
       .then(responseData => {
         if(responseData.length > 0) {
-          setData(responseData);
+          setAllResearchArticlesData({results: responseData});
           // message.success(`Found: ${responseData.length} item`)
           setIsFilterData(true);
         } else {
@@ -163,11 +129,7 @@ function CategoryPage() {
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <p>
-          {
-            byType
-            ? `${byType} Research`
-            : "Latest Publication"
-          }
+          {byType ? `${byType} Research` : "Latest Publication" }
         </p>
       </HistoryNavigation>
       
@@ -214,7 +176,7 @@ function CategoryPage() {
             </FilterPanel>
             <div style={{width: '100%'}}>
               <Row justify="space-between" align="middle" wrap={true}>
-                <Col span={24} style={{maxWidth: '80%', margin: '0 auto'}}>
+                {/* <Col span={24} style={{maxWidth: '80%', margin: '0 auto'}}>
                   <Form.Item name="Title" style={{margin: '0'}}>
                     <Input 
                       placeholder="Search by Title ( Min 3 Character)" 
@@ -229,7 +191,7 @@ function CategoryPage() {
                       }}
                     />
                   </Form.Item>
-                </Col>
+                </Col> */}
                 <Col span={24}>
                   <Row justify="space-between" align="middle">
                     <Typography.Title level={2} style={{lineHeight: 2.5}}>{ byType ? `${byType} Research` : "Latest Publications"}</Typography.Title>
@@ -249,7 +211,7 @@ function CategoryPage() {
                 ? (
                     <Row gutter={[20, 20]}>
                       {
-                        data?.map((article, i) => {
+                        allResearchArticlesData.results?.map((article, i) => {
                           let _CardImg = '';
                           article.AttachmentFiles?.forEach(file => {
                             if(["jpeg", "jpg", "png", "gif", "tiff", "raw", "webp", "avif", "bpg", "flif"].includes(file.FileName?.split('.')[file.FileName?.split('.').length-1]?.toLowerCase())) {
@@ -276,16 +238,9 @@ function CategoryPage() {
                   )
                 : <AntdLoader />
               }
-              {!isFilterData && !loading && <Row justify="center" style={{marginTop: 35}}>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={pageCount}
-                  onChange={(page) => FetchData(page, _pageSize)}
-                  limiter={3}
-                  hideFirstPageJump
-                  hideLastPageJump
-                />
-              </Row>}
+              <Row justify="center" style={{margin: '25px 0'}}>
+                {allResearchArticlesData.hasNext ? <Button onClick={FetchNextData}><CaretDownOutlined /> Next</Button> : null}
+              </Row>
             </div>
           </div>
         </div>

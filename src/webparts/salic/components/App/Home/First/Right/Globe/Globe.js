@@ -89,7 +89,7 @@ function SalicGlobe() {
   let cardDataByCountry = (country) => {
     const currentCountryData = subsidiary?.filter(c => c.Country === country)
 
-    if(currentCountryData.length > 1) {
+    if(currentCountryData?.length > 1) {
       return <Slider autoplay={true}>
         {
           currentCountryData.map(card => {

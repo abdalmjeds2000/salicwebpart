@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import Card from '../components/Card/Card';
-import { SPHttpClient } from '@microsoft/sp-http'
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 import { SearchOutlined } from '@ant-design/icons';
@@ -13,11 +11,9 @@ import { SearchOutlined } from '@ant-design/icons';
 
 
 function CountryCardsPage() {
-  const { defualt_route, sp_context } = useContext(AppCtx);
+  const { defualt_route, allCountryData, setAllCountryData } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [isFilterData, setIsFilterData] = useState(false);
 
   const FetchData = async () => {
     const items = await pnp.sp.web.lists.getByTitle('Research Country Outlook')
@@ -26,42 +22,7 @@ function CountryCardsPage() {
       .expand('AttachmentFiles')
       .get();
     if(items?.length > 0) {
-      setData(items);
-    }
-    setLoading(false);
-  }
-
-  const ApplyFilter = async (values) => {
-    setLoading(true);
-    if(values.Title || values.Type || values.PublishYear || values.Tags.length > 0) {
-      let filterList = [];
-      if(values.Title.length > 0) filterList.push(`<Contains><FieldRef Name='Title' /><Value Type='Text'>${values.Title}</Value></Contains>`);
-      Object.keys(values).forEach(key => (values[key] === undefined || values[key] === null || values[key] === '') && delete values[key])
-      const q = {
-        ViewXml: `<View Scope='RecursiveAll'>
-          <Query>
-            <Where>
-              ${filterList.map((_, i) => i != 0 ? '<And>' : '')}
-              ${filterList.map((filter, i) => i != 0 ? filter+'</And>' : filter)}
-            </Where>
-            <OrderBy>
-              <FieldRef Name='Created' Ascending='False' />
-            </OrderBy>
-          </Query>
-          <RowLimit>50</RowLimit>
-        </View>`
-      }
-      const items = await pnp.sp.web.lists.getByTitle("Research Country Outlook")
-      .getItemsByCAMLQuery(q, 'AttachmentFiles')
-      .then(responseData => {
-        if(responseData.length > 0) {
-          setData(responseData);
-          setIsFilterData(true);
-        } else {
-          message.destroy();
-          message.info("No Data Match!");
-        }
-      })
+      setAllCountryData(items);
     }
     setLoading(false);
   }
@@ -72,7 +33,7 @@ function CountryCardsPage() {
 
 
 
-  let alphabetData = data?.reduce((r, e) => {
+  let alphabetData = allCountryData?.reduce((r, e) => {
     // get first letter of name of current element
     let alphabet = e.Title?.trim()[0];
     // if there is no property in accumulator with this letter create it
@@ -103,7 +64,7 @@ function CountryCardsPage() {
         <div style={{display: 'flex'}}>
           <div style={{width: '100%'}}>
             <Row justify="space-between" align="middle" wrap={true}>
-              <Col span={24} style={{maxWidth: '80%', margin: '0 auto', display: 'flex', alignItems: 'center'}}>
+              {/* <Col span={24} style={{maxWidth: '80%', margin: '0 auto', display: 'flex', alignItems: 'center'}}>
                 <Input 
                   placeholder="Search by Title ( Min 3 Character)" 
                   size='large' 
@@ -115,7 +76,7 @@ function CountryCardsPage() {
                   }}
                 />
                 {isFilterData && <Button type="primary" size='large' danger onClick={() => {setIsFilterData(false); FetchData();} }>Remove Filter</Button>}
-              </Col>
+              </Col> */}
               <Col span={24}><Typography.Title level={2} style={{lineHeight: 2.5}}>Country Outlook</Typography.Title></Col>
             </Row>
             {

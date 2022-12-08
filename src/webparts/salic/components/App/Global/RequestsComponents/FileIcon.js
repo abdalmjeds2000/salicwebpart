@@ -49,6 +49,7 @@ const FileIcon = (props) => {
         <Tooltip title={props.FileName}>
             <img 
                 src={checkFileType(props.FileType)}
+                title={props.FileName}
                 data-guid={props.FilePath} 
                 onClick={() => props.FilePath ? window.open(props.FilePath, "_blank") : null} 
                 width={props.IconWidth}

@@ -15,7 +15,7 @@ function Number(props) {
   
   return (
     <div className="number-box-container">
-      <div className="circular-progress-bar" onClick={() => (props.numberType === 'performance' && props.PerformanceDataTable.length > 0) ? setOpenPerformanceModal(true) : null}>
+      <div className="circular-progress-bar" /* onClick={() => (props.numberType === 'performance' && props.PerformanceDataTable.length > 0) ? setOpenPerformanceModal(true) : null} */>
         <CircularProgressbar
           value={props.value}
           text={props.text}
@@ -33,15 +33,15 @@ function Number(props) {
       </div>
       <div className="number-box-info">
         <h3 onClick={() => {
-          props.numberType === 'performance'/*  && props.PerformanceDataTable.length > 0  */
-          ? navigate(defualt_route + '/performance-managment') /* setOpenPerformanceModal(true) */
+          props.numberType === 'performance' && props.PerformanceDataTable.length > 0 
+          ? setOpenPerformanceModal(true)
           : props.numberType === 'events' && props.EventsDataTable.length > 0
           ? setOpenEventsModal(true)
           : null
         }}>
           {props.header}
         </h3>
-        <p onClick={() => navigate(defualt_route + '/performance-managment')}>{props.description}</p>
+        <p>{props.description}</p>
       </div>
 
 

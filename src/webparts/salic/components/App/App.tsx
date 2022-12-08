@@ -65,7 +65,14 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [researchCountriesData, setResearchCountriesData] = React.useState([]);
   const [knowledgeData, setKnowledgeData] = React.useState([]);
   const [gateNewsData, setGateNewsData] = React.useState([]);
+  const [allResearchArticlesData, setAllResearchArticlesData] = React.useState([]);
+  const [allPulseData, setAllPulseData] = React.useState({});
+  const [allKnowledgeData, setAllKnowledgeData] = React.useState([]);
+  const [allCountryData, setAllCountryData] = React.useState([]);
+  const [salicAssetsData, setSalicAssetsData] = React.useState({});
+  const [deliveryLettersData, setDeliveryLettersData] = React.useState({});
   
+
 
   React.useEffect(() => {
     if(userData.Data?.Mail !== null) {
@@ -316,7 +323,13 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     researchPulseData, setResearchPulseData,
     researchCountriesData, setResearchCountriesData,
     knowledgeData, setKnowledgeData,
-    gateNewsData, setGateNewsData
+    gateNewsData, setGateNewsData,
+    allResearchArticlesData, setAllResearchArticlesData,
+    allPulseData, setAllPulseData,
+    allKnowledgeData, setAllKnowledgeData,
+    allCountryData, setAllCountryData,
+    salicAssetsData, setSalicAssetsData,
+    deliveryLettersData, setDeliveryLettersData
   };
 
   let link: any = document.querySelector("link[rel~='icon']");

@@ -59,8 +59,11 @@ function PrivateFolder() {
 
   return (
     <div style={{padding: '20px'}}>
-      <Row align="middle" justify="end" style={{marginBottom: 20}}>
-        {/* <Typography.Title level={3}>My Files</Typography.Title> */}
+      <Row align="middle" justify="space-between" style={{marginBottom: 10}}>
+        <Breadcrumb style={{fontSize: '1.2rem'}}>
+          <Breadcrumb.Item onClick={fetchRoot}><a>My Files</a></Breadcrumb.Item>
+          {breadcrumb?.map(({title, path}) => <Breadcrumb.Item onClick={() => fetchChildren(path)}><a>{title}</a></Breadcrumb.Item>)}
+        </Breadcrumb>
         <Segmented
           onChange={value => setViewMode(value)}
           defaultValue="Cards"
@@ -69,12 +72,6 @@ function PrivateFolder() {
             {label: 'Cards', value: 'Cards', icon: <AppstoreOutlined />}
           ]} 
         />
-      </Row>
-      <Row style={{marginBottom: 10}}>
-        <Breadcrumb style={{fontSize: '1.2rem'}}>
-          <Breadcrumb.Item onClick={fetchRoot}><a>My Files</a></Breadcrumb.Item>
-          {breadcrumb?.map(({title, path}) => <Breadcrumb.Item onClick={() => fetchChildren(path)}><a>{title}</a></Breadcrumb.Item>)}
-        </Breadcrumb>
       </Row>
       {loading ? <AntdLoader customStyle={{margin: '25px'}} /> : null}
       <div>
@@ -85,7 +82,7 @@ function PrivateFolder() {
               {
                 data?.map((row, i) => {
                   return (
-                    <Col key={i} xs={24} sm={12} md={12} lg={6} xl={6} xxl={4}>
+                    <Col key={i} xs={24} sm={12} md={12} lg={6} xl={4} xxl={4}>
                     <FileCard
                       icon={<FileIcon FileType={row.folder ? 'folder' : row.name?.split('.')[row.name?.split('.')?.length-1]} FileName={row.name} IconWidth={40} />}
                       name={row.name}

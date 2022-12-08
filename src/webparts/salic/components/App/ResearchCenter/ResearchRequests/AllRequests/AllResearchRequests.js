@@ -12,7 +12,6 @@ import StatusTag from '../../../Global/RequestsComponents/StatusTag';
 function AllResearchRequests() {
   const { defualt_route, user_data, research_requests_data, setResearchRequestsData } = useContext(AppCtx);
   const navigate = useNavigate();
-  const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(false);
 
 
@@ -74,28 +73,17 @@ function AllResearchRequests() {
 
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
+      {/* <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} /> */}
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/research-requests/new-request')}><PlusOutlined /> New Request</Button>
     </Space>
   )
 
-  const filtered_research_requests_data = Array.isArray(research_requests_data) ? research_requests_data?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(
-        row.Title?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Status?.toLowerCase().includes(searchWord)
-      ) {
-          return true
-        }
-        return false
-  }) : [];
   return (
     <>
       <HistoryNavigation>
-          <a onClick={() => navigate(`${defualt_route}/research-requests`)}>Research Requests</a>
-          <p>My Research Request</p>
+        <a onClick={() => navigate(`${defualt_route}/research-requests`)}>Research Requests</a>
+        <p>Research Request</p>
       </HistoryNavigation>
 
       <RequestsTable
@@ -104,7 +92,7 @@ function AllResearchRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={filtered_research_requests_data}
+        DataTable={research_requests_data}
       />
     </>
     
