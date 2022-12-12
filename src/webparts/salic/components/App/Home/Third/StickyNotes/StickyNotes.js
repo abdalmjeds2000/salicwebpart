@@ -19,13 +19,11 @@ import UpdateNote from './API/UpdateNote';
 
 
 const StickyNotes = () => {
-  const { notes_list } = useContext(AppCtx);
-
-  const [notes, setNotes] = useState(notes_list)
-  const [currentNote, setCurrentNote] = useState(notes[0]?.Id);
+  const { notes_list, setNotesList } = useContext(AppCtx);
+  const [currentNote, setCurrentNote] = useState(notes_list[0]?.Id);
   const [isActiveEditMode, setIsActiveEditMode] = useState(false);
-  const [newNoteTitle, setNewNoteTitle] = useState(notes.filter(n => n.id === currentNote)[0]?.title);
-  const [newNoteDescription, setNewNoteDescription] = useState(notes.filter(n => n.id === currentNote)[0]?.description);
+  const [newNoteTitle, setNewNoteTitle] = useState(notes_list.filter(n => n.id === currentNote)[0]?.title);
+  const [newNoteDescription, setNewNoteDescription] = useState(notes_list.filter(n => n.id === currentNote)[0]?.description);
 
 
   async function saveEdits() {
@@ -35,7 +33,7 @@ const StickyNotes = () => {
       if(currentNote === -1) {
         const response = await AddNote(newNoteTitle, newNoteDescription);
         if(response.data) {
-          setNotes(prev => [response.data, ...prev]);
+          setNotesList(prev => [response.data, ...prev]);
           message.success("Done!")
           setCurrentNote(response.data?.Id)
         } else {
@@ -44,7 +42,7 @@ const StickyNotes = () => {
       } else {
         const response = await UpdateNote(currentNote, newNoteTitle, newNoteDescription);
         if(response.data) {
-          const updatedNotes = notes.map(obj => {
+          const updatedNotes = notes_list.map(obj => {
             if (obj.Id === currentNote) {
               obj.Title = newNoteTitle;
               obj.NoteDescription = newNoteDescription;
@@ -52,7 +50,7 @@ const StickyNotes = () => {
             }
             return obj;
           });
-          setNotes(updatedNotes);
+          setNotesList(updatedNotes);
           message.success("Done!")
         } else {
           message.error("Failed, Please try again.")
@@ -65,14 +63,14 @@ const StickyNotes = () => {
   const cancelEdits = () => {
     setIsActiveEditMode(false)
     if(currentNote === -1) {
-      setCurrentNote(notes[0]?.Id)
+      setCurrentNote(notes_list[0]?.Id)
     }
   }
 
   const onDeleteHandler = (Id) => {
-    const newArray = notes.filter(r => r.Id !== Id);
+    const newArray = notes_list.filter(r => r.Id !== Id);
     pnp.sp.web.lists.getByTitle("Sticky Notes").items.getById(Id).delete()
-        .then(() => setNotes(newArray))
+        .then(() => setNotesList(newArray))
         .then(() => setCurrentNote(newArray[0]?.Id))
         .then(() => message.success("Your Note has been deleted."))
         .catch((err) => console.log(err))
@@ -89,7 +87,9 @@ const StickyNotes = () => {
       setIsActiveEditMode(false)
     }
   }, [currentNote])
-
+  useEffect(() => {
+    setCurrentNote(notes_list[0]?.Id);
+  }, [notes_list]);
 
   return (
     <div className='sticky-notes-container'>
@@ -123,7 +123,7 @@ const StickyNotes = () => {
 
 
         {
-          notes?.map((n) => {
+          notes_list?.map((n) => {
             return (
               n?.Id === currentNote && <>
                 {
@@ -149,7 +149,7 @@ const StickyNotes = () => {
       <div className='dots'>
         
         {
-          notes.map((n) => {
+          notes_list.map((n) => {
             return (
               <span 
                 className={`note3 ${currentNote === n?.Id ? 'active' : ''}`}

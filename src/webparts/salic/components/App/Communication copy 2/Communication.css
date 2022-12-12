@@ -59,6 +59,9 @@
 }
 div[id="1"] > .org-node-container {
   background-color: var(--main-color) !important;
+  transform: scale(1.5);
+  position: absolute;
+  bottom: 40px;
 }
 .org-node-container:hover {
   cursor: pointer;

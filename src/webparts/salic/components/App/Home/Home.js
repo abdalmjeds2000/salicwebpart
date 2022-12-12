@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import * as ReactDom from 'react-dom';
 import './Home.css';
 import Header from "../Header/Header";
 import UserPanel from '../Global/UserPanel/UserPanel.js';

@@ -75,7 +75,6 @@ import {
   CommodityPrices,
   KnowledgeCenter,
   ManageNewsContent,
-  ManageMediaCenter,
   ManageEvents,
   SPSearch,
   CorporateObjectiveKPIs,
@@ -89,7 +88,9 @@ import {
   MyReports,
   AssignedReports,
   RequestsForReview,
-  ManageNews
+  ManageNews,
+  MyTeam,
+  SalicProfile
 } from './ImportFiles';
 
 
@@ -105,7 +106,14 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={"/sites/dev/_layouts/15/workbench.aspx"} element={<Navigate to={`${defualtRoute}/home`}/>} />
       <Route path={`${defualtRoute}/communication`} element={<Communication />} />
       <Route path={`${defualtRoute}/dms`} element={<FolderExplorerPage /* {...props} *//>} />
-      <Route path={`${defualtRoute}/almira-magazine`} element={<AlMiraMagazine />} />
+      
+
+      <Route path={`${defualtRoute}/salic-profile`}>
+        <Route index element={<SalicProfile />} />
+        <Route path={`${defualtRoute}/salic-profile/almira-magazine`} element={<AlMiraMagazine />} />
+      </Route>
+
+      SalicProfile
       <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
       <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
 
@@ -246,10 +254,9 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         
       </Route>
       
-      <Route path={`${defualtRoute}/manage-news`} element={<ManageNews />} />
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />
 
-      <Route path={`${defualtRoute}/manage-media-center`} element={<ManageMediaCenter />} />
+      <Route path={`${defualtRoute}/manage-media-center`} element={<ManageNews />} />
       <Route path={`${defualtRoute}/manage-events`} element={<ManageEvents />} />
       <Route path={`${defualtRoute}/sp-search`} element={<SPSearch />} />
       <Route path={`${defualtRoute}/corporate-objective`} element={<CorporateObjectiveKPIs />} />
@@ -260,11 +267,11 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/incidents-center/my-reports`} element={<MyReports />} />
         <Route path={`${defualtRoute}/incidents-center/assigned-reports`} element={<AssignedReports />} />
         <Route path={`${defualtRoute}/incidents-center/request-for-review`} element={<RequestsForReview />} />
-        
-        
-        
-        
       </Route>
+
+
+      <Route path={`${defualtRoute}/my-team`} element={<MyTeam />} />
+
     </Routes>
   );
 }

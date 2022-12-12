@@ -18,7 +18,7 @@ function CommodityPrices() {
       <div className='folder-explorer-container'>  
         <iframe
           name='Commodity Prices'
-          src='https://salic.sharepoint.com/sites/dev/Lists/Commodity%20Prices/AllItems.aspx'
+          src='https://salic.sharepoint.com/sites/Portal/Lists/Commodity%20Prices/AllItems.aspx'
           width='100%'
           height='100%'
         >

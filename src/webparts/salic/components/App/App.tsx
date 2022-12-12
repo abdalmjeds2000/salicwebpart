@@ -276,6 +276,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     setIsGlobeReady,
     media_center: mediaCenter,
     notes_list: notesList,
+    setNotesList,
     // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
     // defualt_route: '/sites/dev/SitePages/Home.aspx',
     defualt_route: props.spWebUrl,

@@ -329,19 +329,20 @@ function NotificationCenter() {
             </div>
           </div>
           
-          <div className='status-bar'>
-            {windowSize.innerWidth > 600 ? <b>Status:</b> : ''}
-            <Checkbox.Group 
-              options={['Pending', 'Approved', 'Rejected']} 
-              defaultValue={['Pending']} 
-              onChange={checkedValues => filterByStatus(checkedValues)} 
-            />
-          </div>
+
 
           <div className="table">
             <div className="table-header">
               <h1>All Requests</h1>
-              <Input placeholder="type to search" value={typeToSearchText} onChange={e => typeToSearch(e.target.value)} prefix={<SearchOutlined />} style={{width: '100%', maxWidth: '400px'}} />
+              {/* <Input placeholder="type to search" value={typeToSearchText} onChange={e => typeToSearch(e.target.value)} prefix={<SearchOutlined />} style={{width: '100%', maxWidth: '400px'}} /> */}
+              <div className='status-bar'>
+                {windowSize.innerWidth > 600 ? <b>Status:</b> : ''}
+                <Checkbox.Group 
+                  options={['Pending', 'Approved', 'Rejected']} 
+                  defaultValue={['Pending']} 
+                  onChange={checkedValues => filterByStatus(checkedValues)} 
+                />
+              </div>
             </div>
             <div style={{overflowX: 'auto'}}>
               {

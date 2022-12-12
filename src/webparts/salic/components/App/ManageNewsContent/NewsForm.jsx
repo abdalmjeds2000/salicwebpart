@@ -9,7 +9,7 @@ import { AppCtx } from '../App';
 
 
 
-const NewsForm = ({ openModal, isEditMode, item }) => {
+const NewsForm = ({ openModal, isEditMode, item, setOpenModal }) => {
   const { user_data, setNewsList } = useContext(AppCtx);
   const [filesList, setFilesList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -136,9 +136,18 @@ const NewsForm = ({ openModal, isEditMode, item }) => {
           </Col>
 
           <Col span={24}>
-            <Button type='primary' loading={loading} size='large' htmlType='submit' style={{width: '100%'}}>
-              {isEditMode ? 'Update News' : 'Add News'}
-            </Button>
+            <Row align="middle" justify="end" gutter={15}>
+              <Col>
+                <Button type='default'size='large' onClick={() => setOpenModal(false)}>
+                  Cancel
+                </Button>
+              </Col>
+              <Col>
+                <Button type='primary' loading={loading} size='large' htmlType='submit'>
+                  {isEditMode ? 'Update News' : 'Add News'}
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Form>

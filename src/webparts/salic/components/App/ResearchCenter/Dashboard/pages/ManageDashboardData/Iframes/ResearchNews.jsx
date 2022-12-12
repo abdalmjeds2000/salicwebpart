@@ -18,7 +18,7 @@ function ResearchNews() {
       <div className='folder-explorer-container'>  
         <iframe
           name='Research News'
-          src='https://salic.sharepoint.com/sites/dev/Lists/Research%20News/AllItems.aspx'
+          src='https://salic.sharepoint.com/sites/Portal/Lists/Research%20News/AllItems.aspx'
           width='100%'
           height='100%'
         >

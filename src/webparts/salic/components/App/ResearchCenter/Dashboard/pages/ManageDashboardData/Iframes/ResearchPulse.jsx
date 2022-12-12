@@ -18,7 +18,7 @@ function ResearchPulse() {
       <div className='folder-explorer-container'>  
         <iframe
           name='Research Pulse'
-          src='https://salic.sharepoint.com/sites/dev/Lists/Research%20Pulse/AllItems.aspx'
+          src='https://salic.sharepoint.com/sites/Portal/Lists/Research%20Pulse/AllItems.aspx'
           width='100%'
           height='100%'
         >

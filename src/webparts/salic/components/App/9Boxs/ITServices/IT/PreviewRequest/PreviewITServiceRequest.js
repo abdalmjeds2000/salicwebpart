@@ -35,7 +35,7 @@ function PreviewITServiceRequest() {
   // Get Content Request by {id} and display it on preview
   async function GetRequest() {
     setBtnLoader(true);
-    const response = await GetITRequest(user_data.Data?.Mail, id);        
+    const response = await GetITRequest(user_data.Data?.Mail, id);
     if(response.data.Status === 200) {
       const resData = response.data.Data;
       document.title = `.:: SALIC Gate | ${resData.Subject} ::.`;
@@ -50,18 +50,19 @@ function PreviewITServiceRequest() {
   } 
   
   React.useEffect(() => {
-    if(id) {
-      setLoading(true);
-      GetRequest()
-      .then(() => setLoading(false))
-      .then(() => console.log("NNNNOOOOOWWWWW"))
-      .then(() => correctImgs())
-  
-    } else {
-      navigate(defualt_route + '/services-requests/services-request');
-      message.info("Error ::: Not Found Request")
+    if(Object.keys(user_data).length > 0) {
+      if(id) {
+        setLoading(true);
+        GetRequest()
+        .then(() => setLoading(false))
+        .then(() => console.log("NNNNOOOOOWWWWW"))
+        .then(() => correctImgs())
+      } else {
+        navigate(defualt_route + '/services-requests/services-request');
+        message.info("Error ::: Not Found Request")
+      }
     }
-  }, []);
+  }, [user_data]);
 
   // Add New Reply
   async function AddReply() {

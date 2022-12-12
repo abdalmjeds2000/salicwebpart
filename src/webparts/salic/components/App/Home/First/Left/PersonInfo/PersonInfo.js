@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './PersonInfo.css'
 import { AppCtx } from '../../../../App';
 import { useNavigate } from 'react-router-dom';
-import { Tooltip } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 
 function PersonInfo() {
   const { user_data, notifications_count, mail_count, defualt_route } = useContext(AppCtx);
@@ -15,19 +15,20 @@ function PersonInfo() {
           <img 
             src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} 
             alt="" 
+            onClick={() => navigate(defualt_route + '/my-team')}
           />
         </div>
         <div className="person-txt">
           <h1>{user_data.Data?.DisplayName}</h1>
           <p>{user_data.Data?.Title}</p>
-          <div>
-            <div>
+          <div className='detailes'>
+            <div className='item'>
               <Tooltip title="PIN" placement='bottom'>
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 24 24"><g><path d="m21.25 3h-18.5c-1.517 0-2.75 1.233-2.75 2.75v12.5c0 1.517 1.233 2.75 2.75 2.75h18.5c1.517 0 2.75-1.233 2.75-2.75v-12.5c0-1.517-1.233-2.75-2.75-2.75zm-13.75 4c1.378 0 2.5 1.122 2.5 2.5s-1.122 2.5-2.5 2.5-2.5-1.122-2.5-2.5 1.122-2.5 2.5-2.5zm4.5 9.25c0 .414-.336.75-.75.75h-7.5c-.414 0-.75-.336-.75-.75v-.5c0-1.517 1.233-2.75 2.75-2.75h3.5c1.517 0 2.75 1.233 2.75 2.75zm8.25.75h-5.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h5.5c.414 0 .75.336.75.75s-.336.75-.75.75zm0-4h-5.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h5.5c.414 0 .75.336.75.75s-.336.75-.75.75zm0-4h-5.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h5.5c.414 0 .75.336.75.75s-.336.75-.75.75z" fill="#6477AA" ></path></g></svg>
                 <p>{parseInt(user_data.Data?.PIN, 10) || '-'}</p>
-              </Tooltip>
+              </Tooltip>  
             </div>
-            <div>
+            <div className='item'>
               <Tooltip title="Ext" placement='bottom'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="19.142" height="19.17" viewBox="0 0 19.142 19.17">
                   <g id="Group_724" data-name="Group 724" transform="translate(-422.475 -266.416)">
@@ -41,7 +42,7 @@ function PersonInfo() {
                 <p>{user_data.Data?.Ext || '-'}</p>
               </Tooltip>
             </div>
-            <div>
+            <div className='item'>
               <Tooltip title="Grade" placement='bottom'>
                 <svg id="Iconly_Bold_Star" data-name="Iconly/Bold/Star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <g id="Star" transform="translate(2 2.5)">
@@ -50,8 +51,36 @@ function PersonInfo() {
                 </svg>
                 <p>{user_data.Data?.OfficeLocation || '-'}</p>
               </Tooltip>
+            </div>
+
+            <div className='co-workers'>
+              <div>
+                <Avatar.Group
+                  maxCount={3}
+                  maxPopoverTrigger="click"
+                  size="3"
+                  maxStyle={{
+                    color: '#e7f0fe',
+                    backgroundColor: '#3a9bcc',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {
+                    user_data.Data?.DirectUsers?.map(user => (
+                      <Avatar 
+                        key={user.Id}
+                        src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=l&username=${user.Mail}`} 
+                        onClick={() => navigate(defualt_route + '/my-team')} 
+                        style={{cursor: 'pointer'}}
+                      />
+                    ))
+                  }
+                </Avatar.Group>
               </div>
+            </div>
           </div>
+
+          
         </div>
       </div>
 

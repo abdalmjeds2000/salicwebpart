@@ -118,7 +118,7 @@ function SalicGlobe() {
                 <div className='header'>
                   {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
                   <div className='title'>
-                    <h3>{card.Title}</h3>
+                    <a><h3>{card.Title}</h3></a>
                     <p>{`${card.Country}, ${card.City ? card.City : '-'}`}</p>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ function SalicGlobe() {
             <div className='header'>
               {companyLogo ? <img className='logo' src={companyLogo} alt="Company Logo" /> : null}
               <div className='title'>
-                <h3>{card.Title}</h3>
+                <a><h3>{card.Title}</h3></a>
                 <p>{`${card.Country}, ${card.City}`}</p>
               </div>
             </div>

@@ -18,7 +18,7 @@ function KnowledgeCenter() {
       <div className='folder-explorer-container'>  
         <iframe
           name='Knowledge Center'
-          src='https://salic.sharepoint.com/sites/dev/Lists/Knowledge/AllItems.aspx'
+          src='https://salic.sharepoint.com/sites/Portal/Lists/Knowledge Center/AllItems.aspx'
           width='100%'
           height='100%'
         >

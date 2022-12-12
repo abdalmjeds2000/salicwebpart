@@ -6,13 +6,14 @@ export default async function RejectSeriveRequest(data) {
       {
         method: 'POST',
         url: "https://salicapi.com/api/tracking/Assign",
-        data: JSON.stringify(data)
+        data: data
       }
     )
     let response = request;
     return response
 
   } catch(err) {
-    return(err.response)
+    console.log(err.response)
+    return null
   }
 }

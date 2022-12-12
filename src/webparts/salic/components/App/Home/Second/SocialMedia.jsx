@@ -21,11 +21,17 @@ const SocialMedia = () => {
             </div>
             <p>New Content Request</p>
           </a>
-          <a onClick={_ => navigate(defualt_route + '/almira-magazine')} className="oranization-documents">
+          {/* <a onClick={_ => navigate(defualt_route + '/almira-magazine')} className="oranization-documents">
             <div>
               <ReadOutlined style={{fontSize: '1.5rem'}} />
             </div>
             <p>Al Mira Magazine</p>
+          </a> */}
+          <a onClick={_ => navigate(defualt_route + '/salic-profile')} className="oranization-documents">
+            <div>
+              <ReadOutlined style={{fontSize: '1.5rem'}} />
+            </div>
+            <p>SALIC Profile</p>
           </a>
         </div>
       </div>

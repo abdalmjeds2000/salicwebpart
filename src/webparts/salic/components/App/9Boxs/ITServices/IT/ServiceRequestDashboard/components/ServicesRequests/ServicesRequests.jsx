@@ -98,7 +98,7 @@ function ServicesRequests(props) {
       render: (val, record) => (
         <Space direction='horizontal'>
           <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
-          <Typography.Link onClick={() => navigate(defualt_route + `/services-requests/${record.Id}`)}>{val}</Typography.Link>
+          <Typography.Link onClick={() => window.open(defualt_route + `/services-requests/${record.Id}`, '_blank')}>{val}</Typography.Link>
         </Space>
       )
     },{
@@ -158,7 +158,8 @@ function ServicesRequests(props) {
               Title="Services Requests"
               HeaderControlPanel={ControlPanel}
               Columns={columns}
-              containerStyle={{top: 0, marginBottom: 25}}
+              containerStyle={{top: 0, marginBottom: 25, padding: 0}}
+              headerStyle={{borderRadius: 0}}
               DataTable={ITRequests?.data}
             />
           </>

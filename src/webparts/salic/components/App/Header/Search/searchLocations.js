@@ -64,48 +64,48 @@ export var searchLocations = [
   },{
     route: "/manage-research-library",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Articles"',
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research News"',
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Pulse"',
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Country Outlook"',
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Commodity Prices"',
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Knowledge"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Articles"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research News"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Pulse"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Country Outlook"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Commodity Prices"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Knowledge"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/research-articles",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Articles"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Articles"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/research-news",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research News"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research News"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/research-pulse",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Pulse"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Pulse"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/research-country",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Research Country Outlook"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Research Country Outlook"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/commodity-prices",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Commodity Prices"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Commodity Prices"',
     ],
     fetchData: null,
   },{
     route: "/manage-research-library/knowledge-center",
     path: [
-      'path:"https://salic.sharepoint.com/sites/dev/Lists/Knowledge"',
+      'path:"https://salic.sharepoint.com/sites/Portal/Lists/Knowledge"',
     ],
     fetchData: null,
   },

@@ -3,7 +3,7 @@ import "./SidebarNav.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "antd";
 import SimpleUserPanel from "../Global/SimpleUserPanel/SimpleUserPanel";
-import { CalendarOutlined, CloseOutlined, MenuOutlined, SearchOutlined, WarningOutlined } from "@ant-design/icons";
+import { CalendarOutlined, CloseOutlined, MenuOutlined, SearchOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
 import { svgIcons } from './icons';
 const activeStyle = {
   borderLeft: "4px solid var(--second-color)",
@@ -105,42 +105,22 @@ const SidebarNav = ({spWebUrl}) => {
       icon: svgIcons.ManageNewsContent,
       text: "Manage News Content",
       link: false,
-    }, /* {
-      to: "/performance-managment",
-      icon: svgIcons.performance,
-      text: "Performance Managment",
-      link: false,
-    }, */ /* {
-      to: "/almira-magazine",
-      icon: svgIcons.almira,
-      text: "Almira Magazine",
-      link: false,
-    }, */{
+    },{
       to: "/incidents-center",
       icon: <WarningOutlined style={{ ...antdIconStyle }} />,
       text: "Incidents Center",
       link: false,
-    },/* {
-      to: "/content-requests",
-      icon: svgIcons.Content,
-      text: "New Content",
-      link: false,
-    }, */{
+    },{
       to: "/manage-events",
-      icon: (
-        <CalendarOutlined style={{ ...antdIconStyle }} />
-      ),
+      icon: (<CalendarOutlined style={{ ...antdIconStyle }} />),
       text: "Manage Events",
       link: false,
-    },/* {
-      to: "/sp-search",
-      icon: (
-        <SearchOutlined
-          style={{ ...antdIconStyle }} />
-      ),
-      text: "Sharepoint Search",
+    }/* ,{
+      to: "/my-team",
+      icon: (<TeamOutlined style={{ ...antdIconStyle }} />),
+      text: "My Team",
       link: false,
-    }, */{
+    } */,{
       icon: svgIcons.SignOut,
       text: "Sign Out",
       link: true,

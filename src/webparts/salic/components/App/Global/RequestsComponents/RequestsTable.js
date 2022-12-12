@@ -6,7 +6,7 @@ function RequestsTable(props) {
   return (
       <div className='table-page-container' style={props.containerStyle}>
         <div className='content'>
-          <div className="header">
+          <div className="header" style={props.headerStyle}>
             <h1>{props.Title}</h1>
             <div>
               {props.HeaderControlPanel}

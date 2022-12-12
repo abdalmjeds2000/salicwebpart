@@ -21,7 +21,6 @@
   line-height: 1.4!important;
   background: transparent!important;
   font-family: unset!important;
-  display: inline-block;
 }
 
 @media screen and (max-width: 800px) {

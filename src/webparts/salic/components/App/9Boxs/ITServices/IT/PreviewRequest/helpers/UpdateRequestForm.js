@@ -31,6 +31,7 @@ function UpdateRequestForm(props) {
     ) {
       console.log("NO CHANGE ON UPDATE FORM");
     } else {
+      values.Id = props.RequestData?.Id;
       const updateRequest = await UpdateITRequest(values);
       message.success("IT Request has been Updated Successfully!");
 

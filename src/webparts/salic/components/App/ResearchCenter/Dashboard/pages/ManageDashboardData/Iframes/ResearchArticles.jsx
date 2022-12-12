@@ -18,7 +18,7 @@ function ResearchArticles() {
       <div className='folder-explorer-container'>  
         <iframe
           name='research-library'
-          src='https://salic.sharepoint.com/sites/dev/Lists/Research%20Articles/AllItems.aspx'
+          src='https://salic.sharepoint.com/sites/Portal/Lists/Research%20Articles/AllItems.aspx'
           width='100%'
           height='100%'
         >

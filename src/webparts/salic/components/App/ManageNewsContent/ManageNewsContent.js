@@ -127,13 +127,14 @@ function ManageNewsContent() {
           open={openModal}
           onCancel={() => setOpenModal(false)}
           className='more-width-antd-modal'
-          okButtonProps={{style: {display: 'none'}}} 
           destroyOnClose
+          footer={false}
         >
           <NewsForm 
             openModal={v => setOpenModal(v)} 
             isEditMode={isEditMode}
             item={item}
+            setOpenModal={setOpenModal}
           />
         </Modal>
       </div>

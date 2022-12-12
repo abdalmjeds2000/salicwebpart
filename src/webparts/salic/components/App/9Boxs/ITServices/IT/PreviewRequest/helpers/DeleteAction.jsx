@@ -35,6 +35,7 @@ function DeleteAction({ RequestId }) {
           open={openModal} 
           onOk={deleteAction} 
           cancelButtonProps={{style: {display: 'none'}}}
+          onCancel={() => setOpenModal(false)}
           okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
           okText="Cancel Request"
           destroyOnClose

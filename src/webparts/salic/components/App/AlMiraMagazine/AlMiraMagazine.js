@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './AlMiraMagazine.css';
 import AlMiraMagazinePoster from '../../../assets/images/almira/almira-poster.jpg';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
+import { useNavigate } from 'react-router-dom';
+import { AppCtx } from '../App';
 
 
 
 const AlMiraMagazine = () => {
+  const { defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
 
   return (
     <>
       <HistoryNavigation>
+        <a onClick={() => navigate(`${defualt_route}/salic-profile`)}>SALIC Profile</a>
         <p>Al Mira Magazine</p>
       </HistoryNavigation>
       <div className='almira-magazine-container'>

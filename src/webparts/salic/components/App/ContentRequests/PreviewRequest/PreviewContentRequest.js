@@ -101,8 +101,8 @@ function PreviewContentRequest() {
             if(response.data) {
                 let res = response.data;
                 res.Author = {
-                    EMail: user_data.Data.Mail,
-                    Title: user_data.Data.DisplayName
+                    EMail: user_data.Data?.Mail,
+                    Title: user_data.Data?.DisplayName
                 }
                 setReplys(prev => [...prev, res]);
                 setNewReplyText('');
@@ -314,7 +314,7 @@ function PreviewContentRequest() {
 
 
     // Get Current Assignee for current user
-    let PendingAssignee = assigneeHistoryData?.filter(a => a.Status === "Pending" && a.ToUser.EMail === user_data.Data?.Mail)[0];
+    let PendingAssignee = assigneeHistoryData?.filter(a => a.Status === "Pending" && a.ToUser?.EMail === user_data.Data?.Mail)[0];
     // check if current user is requester or not
     let IfRequester = requestData?.Author?.EMail === user_data?.Data?.Mail;
     // filter replys by current user (if approval (return *) if requester (return replys by proparaty 'ShowToRequester'))
@@ -388,7 +388,7 @@ function PreviewContentRequest() {
                             <div className='timeline'>
                                 <Timeline>
                                     <div className="request-reply">
-                                        <Timeline.Item dot={<SenderImg Email={requestData.Author.EMail} Name={requestData.Author.Title} />}>
+                                        <Timeline.Item dot={<SenderImg Email={requestData.Author?.EMail} Name={requestData.Author?.Title} />}>
                                             <Reply 
                                                 Title={<>RE: {requestData?.Title}, <Typography.Text type="secondary" style={{fontSize: '0.8rem'}}>by {requestData.Author?.Title}</Typography.Text></>}
                                                 Description={`${requestData?.RequestType}, ${new Date(requestData?.Created).toLocaleString()}`} 
@@ -422,7 +422,7 @@ function PreviewContentRequest() {
                                     {
                                         ["Submitted", "Approved"].includes(requestData?.Status) &&
                                         <div className="add-reply">
-                                            <Timeline.Item dot={<SenderImg Email={user_data.Data.Mail} Name={user_data.Data.DisplayName} />}>
+                                            <Timeline.Item dot={<SenderImg Email={user_data.Data?.Mail} Name={user_data.Data?.DisplayName} />}>
                                                 <Row gutter={[10, 10]}>
                                                     <Col span={24}>                            
                                                         <TextArea rows={4} placeholder="Add Reply" maxLength={500} value={newReplyText} onChange={e => setNewReplyText(e.target.value)} />

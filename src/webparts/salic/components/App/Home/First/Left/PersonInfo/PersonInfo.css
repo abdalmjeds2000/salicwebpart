@@ -1,6 +1,5 @@
 .home-container .person {
   display: none;
-  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   padding: 5px 25px;
@@ -10,17 +9,31 @@
 }
 .home-container .person .person-info {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+}
+.home-container .person .person-info .person-img {
+  position: relative;
 }
 .home-container .person .person-info .person-img img {
   width: 65px;
   height: 65px;
   border: 5px solid #fff;
   border-radius: 50%;
+  cursor: pointer;
 }
+/* .home-container .person .person-info .person-img::before {
+  content: "";
+  position: absolute;
+  background-color: white;
+  width: 2px;
+  height: 15px;
+  left: 50%;
+  top: 65px;
+} */
 .home-container .person .person-info .person-txt {
   display: flex;
   flex-direction: column;
@@ -35,19 +48,31 @@
   font-size: 1.0rem;
   line-height: 1.2;
 }
-.home-container .person .person-info .person-txt > div {
+.home-container .person .person-info .person-txt .detailes {
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
-.home-container .person .person-info .person-txt > div div span { /* span: items inside tooltip */
+.home-container .person .person-info .person-txt .detailes .item > span { /* span: items inside tooltip */
   display: flex;
+  height: 100%;
+  width: 100%;
   gap: 8px;
   align-items: center;
   font-size: 0.7rem;
 }
-.home-container .person .person-info .person-txt > div div svg {
+.home-container .person .person-info .person-txt .detailes .item svg {
   width: 0.7rem;
 }
+
+/* .home-container .person .person-info .person-txt .detailes .co-workers::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 2px;
+  width: calc(100% - 33px);
+  background-color: white;
+} */
 .home-container .person .person-control-buttons {
   display: flex;
   align-items: center;
@@ -82,10 +107,10 @@
   .home-container .person .person-info .person-txt > p {
     font-size: 1.4rem;
   }
-  .home-container .person .person-info .person-txt > div div {
+  .home-container .person .person-info .person-txt .detailes div {
     font-size: 0.9rem;
   }
-  .home-container .person .person-info .person-txt > div div svg {
+  .home-container .person .person-info .person-txt .detailes div svg {
     width: 0.9rem;
   }
   .home-container .person {

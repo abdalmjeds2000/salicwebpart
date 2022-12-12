@@ -22,11 +22,15 @@ function AssignAction(props) {
         ServiceRequestId: props.RequestId
       }
       const AssignRequest = await AssignSeriveRequest(payload);
-      message.success("Service request has assigned")
-      console.log('Assign Request', AssignRequest)
-      setIsShowing(false);
-      setSelectedEmp(null);
-      setOpenModal(false);  
+      if(AssignRequest) {
+        message.success("Service request has assigned")
+        console.log('Assign Request', AssignRequest)
+        setIsShowing(false);
+        setSelectedEmp(null);
+        setOpenModal(false);
+      } else {
+        message.success("Failed Assign")
+      }
     } else {
       message.error("Select Employee First!")
     }

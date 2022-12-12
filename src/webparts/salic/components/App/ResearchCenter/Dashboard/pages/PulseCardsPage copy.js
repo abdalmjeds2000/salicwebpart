@@ -29,7 +29,7 @@ function PulseCardsPage() {
     
     axios({
       method: 'GET',
-      url: `https://salic.sharepoint.com/sites/dev/_api/web/lists/GetByTitle('Research Pulse')/items?$top=${_pageSize}`,
+      url: `https://salic.sharepoint.com/sites/Portal/_api/web/lists/GetByTitle('Research Pulse')/items?$top=${_pageSize}`,
       headers: {"Accept": "application/json; odata=verbose"}
     }).then((response) => {
       console.log(response);

@@ -72,7 +72,6 @@ export { default as ResearchPulse } from '../App/ResearchCenter/Dashboard/pages/
 export { default as CommodityPrices } from '../App/ResearchCenter/Dashboard/pages/ManageDashboardData/Iframes/CommodityPrices';
 export { default as KnowledgeCenter } from '../App/ResearchCenter/Dashboard/pages/ManageDashboardData/Iframes/KnowledgeCenter';
 export { default as ManageNewsContent } from '../App/ManageNewsContent/ManageNewsContent';
-export { default as ManageMediaCenter } from '../App/ManageMediaCenter/ManageMediaCenter';
 export { default as ManageEvents } from '../App/ManageEvents/ManageEvents';
 export { default as SPSearch } from '../App/SearchPage/SPSearch';
 export { default as CorporateObjectiveKPIs } from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
@@ -86,3 +85,5 @@ export { default as NewIncidentReport } from '../App/IncidentsCenter/components/
 export { default as MyReports } from '../App/IncidentsCenter/components/MyReports';
 export { default as AssignedReports } from '../App/IncidentsCenter/components/AssignedReports';
 export { default as RequestsForReview } from '../App/IncidentsCenter/components/RequestsForReview';
+export { default as MyTeam } from '../App/MyTeam/MyTeam';
+export { default as SalicProfile } from '../App/SalicProfile/SalicProfile';

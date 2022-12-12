@@ -18,7 +18,7 @@ function UserSettingsPanel(props) {
           <div>
             <h2>{props.userName}</h2>
             <a target='_blank' href="https://myaccount.microsoft.com/">Microsoft Account</a>
-            <a target='_blank' href="https://salic.sharepoint.com/sites/dev/_layouts/15/settings.aspx">Site Setting</a>
+            <a target='_blank' href="https://salic.sharepoint.com/sites/Portal/_layouts/15/settings.aspx">Site Setting</a>
             <a target='_blank' href="https://account.activedirectory.windowsazure.com/ChangePassword.aspx">Change Password</a>
           </div>
         </div>

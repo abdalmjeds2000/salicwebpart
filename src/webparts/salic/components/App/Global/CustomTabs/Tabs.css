@@ -19,7 +19,6 @@
   font-weight: 400;
   border-radius: 10px 10px 0 0;
   color: #000;
-  transition: .3s;
 }
 .custom-tabs-container .tab-container li:hover {
   cursor: pointer;
@@ -49,4 +48,5 @@
   background-color: #fff;
   border-radius: 0 25px 25px 25px;
   box-shadow: 0 5px 10px var(--third-color);
+  min-height: calc(100vh - 220px);
 }

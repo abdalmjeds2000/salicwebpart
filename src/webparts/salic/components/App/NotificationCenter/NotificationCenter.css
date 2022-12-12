@@ -21,7 +21,7 @@
   justify-content: center;
   gap: 50px;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 0 auto 25px auto;
 }
 .notification_type-container .notification_type {
   flex: 1;
@@ -70,10 +70,14 @@
 
 .notification-center_content .status-bar {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   align-items: center;
-  justify-content: end;
-  margin: 25px 0 10px 0;
+  background-color: #fff;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+.notification-center_content .status-bar * {
+  color: #fff !important;
 }
 .notification-center_content .status-bar b,
   .notification-center_content .status-bar span {
@@ -86,7 +90,7 @@
 }
 .table .table-header {
   background-color: var(--main-color);
-  padding: 10px 25px;
+  padding: 10px 18px;
   border-radius: 10px;
   margin-bottom: 20px;
   display: flex;

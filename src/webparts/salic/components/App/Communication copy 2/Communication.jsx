@@ -6,11 +6,15 @@ import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { AppCtx } from '../App';
 
 
-function appendChild (n, all){
+function appendChild (n, all, index){
   var xx = all.filter(x=>x.pid === n.id);
   n.children = xx;
   for (var s of xx){
-    appendChild(s, all);
+    index++;
+    if(index > 5) {
+      index = 5
+    }
+    appendChild(s, all, index);
   }
 }
 
