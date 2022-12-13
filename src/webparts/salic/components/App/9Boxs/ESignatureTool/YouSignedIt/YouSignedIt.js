@@ -1,6 +1,7 @@
 import { Button, Modal, Table } from 'antd'
 import React, { useContext, useState } from 'react'
 import { AppCtx } from '../../../App'
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 function YouSignedIt() {
   const { eSign_requests_you_signed_it } = useContext(AppCtx)
@@ -50,7 +51,7 @@ function YouSignedIt() {
               dataSource={eSign_requests_you_signed_it} 
               pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
             />
-          : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>
+          : <AntdLoader />
         }
       </div>
     </div>

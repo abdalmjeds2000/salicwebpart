@@ -1,9 +1,6 @@
 .team-tree-container {
-  background-color: #fff;
   padding: 15px;
   border-radius: 25px;
-  box-shadow: 0 5px 10px var(--third-color);
-  margin-bottom: 25px;
   display: flex;
   align-items: center;
   gap: 30px;
@@ -24,11 +21,11 @@
 }
 
 .team-tree-container .parent img:hover {
-  transform: scale(1.01);
+  transform: scale(1.06);
 }
 
 .team-tree-container .parent.active img {
-  border: 6px solid var(--link-text-color);
+  border: 6px solid var(--main-color);
 }
 
 
@@ -55,9 +52,9 @@
 }
 
 .team-tree-container .childrens .child-item:hover img {
-  border-color: var(--link-text-color);
-  transform: scale(1.01);
+  border-color: var(--main-color);
+  transform: scale(1.06);
 }
 .team-tree-container .childrens .child-item.active img {
-  border-color: var(--link-text-color);
+  border-color: var(--main-color);
 }

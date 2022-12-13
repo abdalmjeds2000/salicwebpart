@@ -15,28 +15,31 @@ import axios from 'axios';
 const MyTeam = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [performanceData, setPerformanceData] = useState([]);
-
+  const [dataFor, setDataFor] = useState({});
+  
   const onChangeUser = (user) => {
-    axios({
-      method: 'GET',
-      url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${user?.Mail}&startDate=&EndDate=&month=${new Date().getMonth() + 1}&year=${new Date().getYear() + 1900}`
-    }).then((res) => {
-      setAttendanceData(res.data.Data);
-    }).catch((err) => {
-      console.log(err); 
-    });
-    
-
-    axios({
-      method: 'GET',
-      url: `https://salicapi.com/api/Integration/gate_statisiics?PIN=${user?.PIN}`
-    }).then((res) => {
-      setPerformanceData(res.data?.performace?.data);
-    }).catch((err) => {
-      console.log(err); 
-    })
-
-    console.log('user', user);
+    if(user) {
+      axios({
+        method: 'GET',
+        url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${user?.Mail}&startDate=&EndDate=&month=${new Date().getMonth() + 1}&year=${new Date().getYear() + 1900}`
+      }).then((res) => {
+        setAttendanceData(res.data.Data);
+      }).catch((err) => {
+        console.log(err); 
+      });
+      
+  
+      axios({
+        method: 'GET',
+        url: `https://salicapi.com/api/Integration/gate_statisiics?PIN=${user?.PIN}`
+      }).then((res) => {
+        setPerformanceData(res.data?.performace?.data);
+      }).catch((err) => {
+        console.log(err); 
+      })
+  
+      console.log('user', user);
+    }
   }
 
   const tabsItems = [
@@ -44,7 +47,7 @@ const MyTeam = () => {
       key: 1, 
       icon: <UserOutlined />, 
       title: 'Information', 
-      content: <Information />
+      content: <Information data={dataFor} />
     },{
       key: 2, 
       icon: <CheckSquareOutlined />, 
@@ -77,7 +80,10 @@ const MyTeam = () => {
       <div className='standard-page my-team-page'>
         <Row gutter={[12, 12]}>
           <Col span={24}>
-            <TeamTree onChangeUser={onChangeUser} />
+            <TeamTree onChangeUser={(user) => {
+              onChangeUser(user); 
+              setDataFor(user);
+            }} />
           </Col>
 
           <Col span={24}>

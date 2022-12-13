@@ -152,5 +152,75 @@ export var searchLocations = [
     path: [],
     fetchData: (query) => deliveryLettersSearch(query),
     fetchOriginalData: () => deliveryLetters()
+  },{
+    route: "/services-requests/my-requests",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/services-requests/requests-assigned-for-me",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/hc-services",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/admin-services",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/services-requests",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/e-invoicing",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/content-requests",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/research-requests",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/book-meeting-room",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/oracle-reports",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/power-bi-dashboards",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/power-bi-dashboards/human-capital",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/power-bi-dashboards/research",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+  },{
+    route: "/incidents-center",
+    path: [],
+    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
+    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
   },
 ];

@@ -39,6 +39,9 @@
 }
 
 
+.node-button-g:first-child {
+  display: none !important;
+}
 /* .node-container[id='1'] {
   background-color: var(--main-color);
   transform: scale(1.5);

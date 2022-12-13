@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { faCalendarDays } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment-hijri';
-import { Modal, Table, Tooltip } from 'antd';
+import { Button, Modal, Table, Tooltip } from 'antd';
 moment.locale('ar')
 
 
@@ -77,11 +77,15 @@ const ClockComponent = (props) => {
       <Tooltip title="Date & Time" placement='bottom'>
         <div className='app-clock' onClick={() => setOpenModal(true)} style={{display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--main-color)', opacity: '0.6', cursor: 'pointer'}}>
 
-          <FontAwesomeIcon 
+          {/* <FontAwesomeIcon 
             icon={faCalendarDays} 
             style={{fontSize: props.EnableHijri ? '1.2rem' : '1rem'}} 
-          />
+          /> */}
+          {/* <span className='timezone-icon-span'>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width={`${props.EnableHijri ? '25' : '20'}`} height={`${props.EnableHijri ? '25' : '20'}`} x="0" y="0" viewBox="0 0 64 64"><g><path d="m32 62a30 30 0 1 1 30-30 2 2 0 0 1 -4 0 26 26 0 1 0 -26 26 2 2 0 0 1 0 4z" fill="#FFFFFF"  ></path><path d="m55 20h-46a2 2 0 0 1 0-4h46a2 2 0 0 1 0 4z" fill="#FFFFFF"  ></path><path d="m32 34h-28a2 2 0 0 1 0-4h28a2 2 0 0 1 0 4z" fill="#FFFFFF"  ></path><path d="m26 48h-17a2 2 0 0 1 0-4h17a2 2 0 0 1 0 4z" fill="#FFFFFF"  ></path><path d="m32 62c-8.411 0-15-13.178-15-30s6.589-30 15-30c7.229 0 13.271 9.786 14.691 23.8a2 2 0 0 1 -3.98.4c-1.167-11.515-5.773-20.2-10.711-20.2-5.2 0-11 10.678-11 26s5.8 26 11 26a2 2 0 0 1 0 4z" fill="#FFFFFF"  ></path><path d="m46 62a16 16 0 1 1 16-16 16.019 16.019 0 0 1 -16 16zm0-28a12 12 0 1 0 12 12 12.013 12.013 0 0 0 -12-12z" fill="#FFFFFF"  ></path><path d="m43 51a2 2 0 0 1 -1.414-3.414l2.414-2.414v-7.172a2 2 0 0 1 4 0v8a2 2 0 0 1 -.586 1.414l-3 3a1.992 1.992 0 0 1 -1.414.586z" fill="#FFFFFF"  ></path></g></svg>
+          </span> */}
 
+          <Button size='small' shape='round'>{/* Subsidiaries  */}Timezone</Button>
           <div style={{fontWeight: '500', fontSize: '0.8rem'}}>
             <span style={{display: 'block', lineHeight: '1.1'}}>{cTime}</span>
             {props.EnableHijri ? <span style={{display: 'block', lineHeight: '1.1'}}>{arMoment}</span> : null}
@@ -90,7 +94,7 @@ const ClockComponent = (props) => {
       </Tooltip>
 
       <Modal
-        title="Time & Date"
+        title="Date & Time"
         open={openModal}
         onCancel={() => setOpenModal(false)}
         okButtonProps={{ style: {display: 'none'}}}

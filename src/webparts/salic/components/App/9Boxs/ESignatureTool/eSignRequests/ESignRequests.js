@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './ESignRequests.css';
-import { CheckOutlined, DeleteOutlined, DownOutlined, FileOutlined, SearchOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Input, Menu, message, Popconfirm, Space, Table } from 'antd'
+import { CheckOutlined, DeleteOutlined, DownOutlined, FileOutlined, FileTextOutlined, MoreOutlined, PlusOutlined, SearchOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
+import { Button, Dropdown, Input, Menu, message, Popconfirm, Space, Table, Typography } from 'antd'
 import { AppCtx } from '../../../App';
 import axios from 'axios';
 import VerifySignatureModal from './Actions/VerifySignatureModal';
 import ResendInvitation from './Actions/ResendInvitation';
 import ShareWith from './Actions/ShareWith';
+import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
 
 
 function getWindowSize() {
@@ -17,8 +18,8 @@ function getWindowSize() {
 
 function ESignRequests() {
   const { eSign_requests, setESignRequests } = useContext(AppCtx)
-  const [typeToSearch, setTypeToSearch] = useState('');
-  const filterESign_requests = eSign_requests.filter(e => e.Subject.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.RequestDate.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.PendingWith.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.Status.toLowerCase().includes(typeToSearch.toLowerCase().trim()) )
+  // const [typeToSearch, setTypeToSearch] = useState('');
+  // const filterESign_requests = eSign_requests.filter(e => e.Subject.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.RequestDate.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.PendingWith.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.Status.toLowerCase().includes(typeToSearch.toLowerCase().trim()) )
 
 
   // Get Window Size
@@ -70,6 +71,10 @@ function ESignRequests() {
   const menu = (Id, IsActive, Status, Key) => {
     const Items = [
       {
+        key: '4',
+        label: (<a href={`https://salicapi.com/eSign/Sign.html?key=${Key}`} target="_blank"><FileTextOutlined /> Show Document</a>),
+      },
+      {
         key: '1',
         label: (
           <Popconfirm
@@ -96,10 +101,6 @@ function ESignRequests() {
         ),
       } : null,
       {
-        key: '4',
-        label: (<a href={`https://salicapi.com/eSign/Sign.html?key=${Key}`} target="_blank"><FileOutlined /> Show Document</a>),
-      },
-      {
         key: '5',
         label: (
           <Popconfirm
@@ -113,6 +114,7 @@ function ESignRequests() {
             </a>
           </Popconfirm>
         ),
+        danger: true
       }
     ]
     return <Menu items={Items} />
@@ -133,14 +135,14 @@ function ESignRequests() {
       render: (text) => {
         const currentRow = eSign_requests.filter(r => r.Subject === text)[0];
         return (
-          <Dropdown overlay={menu(currentRow.Id, currentRow.IsActive, currentRow.Status, currentRow.Key)} trigger={['click']}>
-            <a href={`https://salicapi.com/eSign/Sign.html?key=${text.split('__KEY__')[1]}`} target='blank' onClick={(e) => e.preventDefault()}>
-              <Space>
-                {currentRow.IsActive ? text.split('__KEY__')[0] : <> <StopOutlined color='rgb(255, 39, 43)' /> {text.split('__KEY__')[0]}</> }
-                <DownOutlined />
-              </Space>
-            </a>
-          </Dropdown>
+          <>
+            <Typography.Link href={`https://salicapi.com/eSign/Sign.html?key=${text.split('__KEY__')[1]}`} target='_blank'>
+              {currentRow.IsActive ? text.split('__KEY__')[0] : <> <StopOutlined style={{color: 'var(--brand-red-color)'}} /> {text.split('__KEY__')[0]}</> }
+            </Typography.Link>
+            <Dropdown overlay={menu(currentRow.Id, currentRow.IsActive, currentRow.Status, currentRow.Key)} trigger={['click']}>
+              <Typography.Link strong style={{marginLeft: '15px'}}><MoreOutlined /></Typography.Link>
+            </Dropdown>
+          </>
         )
       },
     },{
@@ -199,9 +201,9 @@ function ESignRequests() {
       <div className='header'>
         <h1>eSign Requests</h1>
         <div className='controls'>
-          <Input placeholder="type to search" prefix={<SearchOutlined />} onChange={(e) => setTypeToSearch(e.target.value)} />
+          {/* <Input placeholder="type to search" prefix={<SearchOutlined />} onChange={(e) => setTypeToSearch(e.target.value)} /> */}
           <VerifySignatureModal />
-          <Button href='https://salic.sharepoint.com/sites/newsalic/SitePages/eSign/NewRequest.aspx' target='blank'>New Request</Button>
+          <Button size='small' href='https://salic.sharepoint.com/sites/newsalic/SitePages/eSign/NewRequest.aspx' target='blank'><PlusOutlined /> New Request</Button>
         </div>
       </div>
 
@@ -211,12 +213,12 @@ function ESignRequests() {
             windowSize.innerWidth > 768 
             ? <Table 
                 columns={columns} 
-                dataSource={filterESign_requests} 
+                dataSource={eSign_requests} 
                 pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
               />
             : <Table 
                 columns={columns?.filter(r => r.dataIndex === 'Number' || r.dataIndex === 'Subject')} 
-                dataSource={filterESign_requests} 
+                dataSource={eSign_requests} 
                 pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
                 expandable={{
                   expandedRowRender: (record) => (
@@ -234,7 +236,7 @@ function ESignRequests() {
                 }}
               />
             )
-          : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>
+          : <AntdLoader />
         }
       </div>
 

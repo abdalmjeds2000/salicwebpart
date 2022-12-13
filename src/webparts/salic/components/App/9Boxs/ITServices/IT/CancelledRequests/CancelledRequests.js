@@ -13,7 +13,6 @@ function CancelledRequests() {
   const { it_cancelled_requests, setitCancelledRequests, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
 
   async function GetRequests() {
     setLoading(true);
@@ -79,18 +78,6 @@ function CancelledRequests() {
     }
   ];
 
-  const filtered_it_requests_data = it_cancelled_requests?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(
-        row.Subject?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Priority?.toLowerCase().includes(searchWord) ||
-        row.Status?.toLowerCase().includes(searchWord) ||
-        row.RequestType?.toLowerCase().includes(searchWord)
-      ) return true
-        return false
-  });
-
   const ControlPanel = (
     <Space direction='horizontal'>
       <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
@@ -111,12 +98,7 @@ function CancelledRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={
-          filtered_it_requests_data.map(row => {
-            row.key = row.Status;
-            return {...row}
-          })
-        }
+        DataTable={it_cancelled_requests}
       />
     </>
   )

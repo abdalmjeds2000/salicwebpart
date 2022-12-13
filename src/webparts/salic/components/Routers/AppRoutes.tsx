@@ -90,7 +90,8 @@ import {
   RequestsForReview,
   ManageNews,
   MyTeam,
-  SalicProfile
+  SalicProfile,
+  AlmiraVersions
 } from './ImportFiles';
 
 
@@ -110,7 +111,11 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/salic-profile`}>
         <Route index element={<SalicProfile />} />
-        <Route path={`${defualtRoute}/salic-profile/almira-magazine`} element={<AlMiraMagazine />} />
+      
+        <Route path={`${defualtRoute}/salic-profile/almira-versions`}>
+          <Route index element={<AlmiraVersions />} />
+          <Route path={`${defualtRoute}/salic-profile/almira-versions/almira-magazine`} element={<AlMiraMagazine />} />
+        </Route>
       </Route>
 
       SalicProfile

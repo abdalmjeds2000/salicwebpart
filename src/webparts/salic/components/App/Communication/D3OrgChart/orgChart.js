@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useMemo, useContext } from "react";
+import React, { useState, useRef, useLayoutEffect, useMemo, useContext, useEffect } from "react";
 import { OrgChart } from "d3-org-chart";
 // import CustomNodeContent from "./customNodeContent";
 // import CustomExpandButton from "./customExpandButton";
@@ -76,7 +76,7 @@ const OrganizationalChart = (props) => {
             toggleDetailsCard(d);
           }
         })
-        .initialZoom(0.4)
+        .initialZoom(0.25)
         .nodeContent((d) => {
           const dd = d.data;
           dd.depth = d.depth;
@@ -122,6 +122,12 @@ const OrganizationalChart = (props) => {
   }, [chart, props, props.data, layout]);
 
 
+
+  useEffect(() => {
+    if(props.data.length > 0) {
+      chart.expandAll();
+    }
+  }, [props.data])
 
 
 

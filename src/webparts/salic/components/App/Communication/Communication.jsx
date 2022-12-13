@@ -3,6 +3,7 @@ import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
 import OrganizationalChart from "./D3OrgChart/orgChart";
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -23,7 +24,8 @@ function appendChild (n, all, index){
 
 
 function Communication() {
-  const { communicationList } = useContext(AppCtx);
+  const { user_data, communicationList, defualt_route } = useContext(AppCtx);
+  let navigate = useNavigate();
   
 
   const gate = {
@@ -43,11 +45,28 @@ function Communication() {
     if(r.id == "1") {
       r.pid = "0";
     }
-
     return r;
   });
 
 
+
+
+
+
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0 && Object.keys(communicationList).length > 0) {
+      let root = communicationList.filter(emp => emp.id == "1")[0];
+      if(root?.email?.toLowerCase() !== user_data?.data?.Mail?.toLowerCase()) {
+        navigate(defualt_route);
+      }
+    }
+  }, [user_data, communicationList])
+
+
+
+  if(Object.keys(user_data).length === 0 && Object.keys(communicationList).length === 0) {
+    return <AntdLoader />
+  }
   return (
     <>
       <HistoryNavigation>
@@ -56,14 +75,7 @@ function Communication() {
 
 
       <div style={{position: 'relative', top: '85px', minHeight: 'calc(100vh - 85px)'}}>
-        {
-          communicationList.length > 0
-          ? (
-            <OrganizationalChart data={data} />
-          ) : (
-            <AntdLoader />
-          )
-        }
+        <OrganizationalChart data={data} />
       </div>
     </>
   );

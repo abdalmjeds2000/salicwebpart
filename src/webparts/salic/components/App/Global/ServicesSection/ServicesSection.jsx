@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ServicesSection.css';
 import { AppCtx } from "../../App";
+import { Typography } from 'antd';
 
 const ServicesSection = ({ title, items, headerIcon }) => {
   const { defualt_route } = useContext(AppCtx)

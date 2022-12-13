@@ -13,7 +13,6 @@ function MyItServiceRequests() {
   const { my_it_requests_data, setMyItRequestsData, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
 
   async function GetRequests() {
     setLoading(true);
@@ -26,7 +25,7 @@ function MyItServiceRequests() {
     setLoading(false);
   } 
   useEffect(() => {
-    if(Object.keys(user_data).length > 0 && my_it_requests_data.length === 0) {
+    if(Object.keys(user_data).length > 0 && my_it_requests_data?.length === 0) {
       GetRequests();
     }
   }, [user_data]);
@@ -79,20 +78,9 @@ function MyItServiceRequests() {
     }
   ];
 
-  const filtered_it_requests_data = my_it_requests_data?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(
-        row.Subject?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Priority?.toLowerCase().includes(searchWord) ||
-        row.Status?.toLowerCase().includes(searchWord)
-      ) return true
-        return false
-  });
 
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/services-requests/services-request')}><PlusOutlined /> New Request</Button>
     </Space>
@@ -110,12 +98,7 @@ function MyItServiceRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={
-          filtered_it_requests_data/* .map(row => {
-            row.key = row.Status;
-            return {...row}
-          }) */
-        }
+        DataTable={my_it_requests_data}
       />
     </>
   )

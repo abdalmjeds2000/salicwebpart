@@ -4,6 +4,7 @@ import Statistics from './Statistics/Statistics'
 import DailyAttendance from './DailyAttendance/DailyAttendance'
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App'
+import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 
 function Attendance() {
@@ -64,9 +65,7 @@ function Attendance() {
               {
                 departments_info?.length > 0
                 ? <DailyAttendance />
-                : <div className='daily-attendance-container' style={{height: '200px'}}>
-                    <div className='loader' style={{position: 'relative'}}><div></div></div>
-                  </div>
+                : <AntdLoader />
               }
             </div>
           </div>

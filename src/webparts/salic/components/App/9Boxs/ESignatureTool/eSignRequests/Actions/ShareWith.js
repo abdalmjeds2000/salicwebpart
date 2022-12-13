@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, message, Modal, Select, Table } from 'antd';
 import { useState } from 'react';
-import { SyncOutlined, UserAddOutlined } from '@ant-design/icons';
+import { ShareAltOutlined, SyncOutlined, UserAddOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { AppCtx } from '../../../../App';
+import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 
 function removeDuplicates(arr) {
   return arr.filter((item,
@@ -109,7 +110,7 @@ const ShareWith = (props) => {
 
   return (
     <>
-      <a onClick={getShareWith}><SyncOutlined /> Share With</a>
+      <a onClick={getShareWith}><ShareAltOutlined /> Share With</a>
       <Modal
         title="Share With"
         open={openModal}
@@ -149,7 +150,7 @@ const ShareWith = (props) => {
                 pagination={{position: ['none', 'bottomCenter'], pageSize: 10, hideOnSinglePage: true }} 
               />
             </div>
-          : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>
+          : <AntdLoader />
         }
       </Modal>
     </>

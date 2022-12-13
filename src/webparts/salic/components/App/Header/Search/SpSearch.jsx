@@ -10,7 +10,11 @@ import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 import { searchLocations } from './searchLocations'
 import FileCardRow from '../../Global/FileCard/FileCardRow';
 import FileIcon from '../../Global/RequestsComponents/FileIcon';
+import GetMyItServiceRequests from '../../9Boxs/ITServices/API/GetMyItServiceRequests';
+import GetITRequestsAssignedForMe from '../../9Boxs/ITServices/API/GetITRequestsAssignedForMe';
 
+
+  const boxsPagesRoutes = ['/hc-services', '/admin-services', '/services-requests', '/e-invoicing', '/content-requests', '/research-requests', '/book-meeting-room', '/oracle-reports', '/power-bi-dashboards', '/power-bi-dashboards/human-capital', '/power-bi-dashboards/research', '/incidents-center'];
 
 
 const SpSearch = ({ query }) => {
@@ -19,6 +23,7 @@ const SpSearch = ({ query }) => {
   const [researchResultData, setResearchResultData] = useState([]);
   const [inAllSp, setInAllSp] = useState(false);
   const { 
+    user_data,
     sp_context, 
     showSearchResult, setShowSearchResult,
     setGateNewsData,
@@ -29,7 +34,11 @@ const SpSearch = ({ query }) => {
     setAllKnowledgeData,
     setResearchRequestsData,
     setSalicAssetsData,
-    setDeliveryLettersData
+    setDeliveryLettersData,
+    my_it_requests_data, 
+    setMyItRequestsData,
+    it_requests_assigned_for_me_data, 
+    setItRequestsAssignedForMeData
   } = useContext(AppCtx)
   const [currentPage, setCurrentPage] = useState(1);
   const [textQuery, setTextQuery] = useState('');
@@ -82,56 +91,99 @@ const SpSearch = ({ query }) => {
           setSalicAssetsData(response);
         } else if(matchRoute.route == "/asset/all#3") {
           setDeliveryLettersData(response);
+        } else if(matchRoute.route == "/services-requests/my-requests") {
+          const filtered_it_requests_data = my_it_requests_data?.filter(row => {
+            const searchWord = SearhcTerm?.toLowerCase();
+            if(
+                row.Subject?.toLowerCase().includes(searchWord) || 
+                row.Id?.toString().includes(searchWord) || 
+                row.Priority?.toLowerCase().includes(searchWord) ||
+                row.Status?.toLowerCase().includes(searchWord)
+              ) return true
+                return false
+          });
+          setMyItRequestsData(filtered_it_requests_data);
+        } else if(matchRoute.route == "/services-requests/requests-assigned-for-me") {
+            const filtered_it_requests_data = it_requests_assigned_for_me_data?.filter(row => {
+              const searchWord = SearhcTerm?.toLowerCase();
+              if(query) {
+                if(row.Priority == "1" && searchWord=="1") { row.Priority = "Normal" }
+                else if(row.Priority == "2" && searchWord=="2") { row.Priority = "Critical" }
+              }
+              if(
+                  row.Subject?.toLowerCase().includes(searchWord) || 
+                  row.Id?.toString().includes(searchWord) || 
+                  row.Priority?.toLowerCase().includes(searchWord) ||
+                  row.Status?.toLowerCase().includes(searchWord) ||
+                  row.RequestType?.toLowerCase().includes(searchWord)
+                ) return true
+                  return false
+            });
+          setItRequestsAssignedForMeData(filtered_it_requests_data);
+        } else if(boxsPagesRoutes.includes(matchRoute.route)) {
+          let titlesElements = document.getElementsByTagName("h3");
+          var divsList = Array.prototype.slice.call(titlesElements);
+          divsList.map(el => {
+            if(el.innerHTML?.toLowerCase()?.includes(SearhcTerm.toLowerCase())) {
+              el.style.backgroundColor = '#ffed00';
+            } else {
+              el.style.backgroundColor = 'transparent';
+            }
+          });
         }
       })
 
       
     } else {
-      const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
-      const skipItems = pageSize * (page - 1);
-      const takeItems = pageSize;
-      setLoading(true);
+      const cRoute = getRoute();
+      console.log(cRoute);
+      if((matchRoute && matchRoute?.path?.length > 0) || cRoute == "/home") {
+        const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
+        const skipItems = pageSize * (page - 1);
+        const takeItems = pageSize;
+        setLoading(true);
 
-      const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
-      const response = await axios({
-        method: 'POST',
-        url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json;odata=verbose",
-          "X-RequestDigest": cntxtX.data.FormDigestValue,
-        },
-        data: JSON.stringify({ 
-          'request': { 
-            '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
-            //your query text, change values here
-            // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
-            'Querytext': SearhcTerm + queryPath,
-            RowLimit: takeItems, 
-            StartRow: skipItems, 
-            SelectProperties: { results: ["Tags", "Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] },          
-            HitHighlightedProperties:  {
-              results: ['Title']
-            }
-          } 
-        }),
-      });
+        const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
+        const response = await axios({
+          method: 'POST',
+          url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": cntxtX.data.FormDigestValue,
+          },
+          data: JSON.stringify({ 
+            'request': { 
+              '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
+              //your query text, change values here
+              // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
+              'Querytext': SearhcTerm + queryPath,
+              RowLimit: takeItems, 
+              StartRow: skipItems, 
+              SelectProperties: { results: ["Tags", "Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] },          
+              HitHighlightedProperties:  {
+                results: ['Title']
+              }
+            } 
+          }),
+        });
 
-      const resposeData = {
-        title: '',
-        TotalRows: response.data.PrimaryQueryResult.RelevantResults.TotalRowsIncludingDuplicates,
-        data: response.data.PrimaryQueryResult.RelevantResults.Table.Rows,
-      };
-      notification.destroy();
-      if(resposeData?.data?.length > 0) {
-        console.log(resposeData);
-        setData([resposeData]);
-        setCurrentPage(page);
-        setShowSearchResult(true);
-        setInAllSp(true);
-      } else {
+        const resposeData = {
+          title: '',
+          TotalRows: response.data.PrimaryQueryResult.RelevantResults.TotalRowsIncludingDuplicates,
+          data: response.data.PrimaryQueryResult.RelevantResults.Table.Rows,
+        };
         notification.destroy();
-        notification.error({message: 'No Data Match!', placement: 'topRight'});
+        if(resposeData?.data?.length > 0) {
+          console.log(resposeData);
+          setData([resposeData]);
+          setCurrentPage(page);
+          setShowSearchResult(true);
+          setInAllSp(true);
+        } else {
+          notification.destroy();
+          notification.error({message: 'No Data Match!', placement: 'topRight'});
+        }
       }
     }
     
@@ -148,11 +200,12 @@ const SpSearch = ({ query }) => {
         setShowSearchResult(false);
       } 
       matchRoute?.fetchOriginalData()
-      .then((response) => {
+      .then(async (response) => {
         console.log('OoOoOOoOoOoOoOoOoOOooOOo =====> ', response);
         if(matchRoute.route == "/community-news") {
           setGateNewsData(response);
         } else if(matchRoute.route == "/services-requests/service-requests-dashboard") {
+          const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id%20desc&start=0&length=20&search[value]=&search[regex]=false&email=${user_data?.Data?.Mail}&query=&_=1668265007659`);
           const withkeys = response.data?.data?.map(row => {
             row.key = row.Status.replace(/[ ]/g, '_');
             return row;
@@ -176,6 +229,19 @@ const SpSearch = ({ query }) => {
           setSalicAssetsData(response);
         } else if(matchRoute.route == "/asset/all#3") {
           setDeliveryLettersData(response);
+        } else if(matchRoute.route == "/services-requests/my-requests") {
+          const defualtData = await GetMyItServiceRequests(user_data.Data?.Mail);
+          setMyItRequestsData(defualtData.data.Data);
+          console.log(defualtData);
+        } else if(matchRoute.route == "/services-requests/requests-assigned-for-me") {
+          const defualtData = await GetITRequestsAssignedForMe(user_data.Data?.Mail);
+          setItRequestsAssignedForMeData(defualtData.data.Data);
+        } else if(boxsPagesRoutes.includes(matchRoute.route)) {
+          let titlesElements = document.getElementsByTagName("h3");
+          var divsList = Array.prototype.slice.call(titlesElements);
+          divsList.map(el => {
+            el.style.backgroundColor = 'transparent';
+          });
         }
       })
     } else {

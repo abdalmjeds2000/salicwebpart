@@ -16,7 +16,7 @@ const SalicProfile = () => {
           items={[
             {icon: '', isLink: false, to: '/salic-profile/', bgColor: '#43A2CC', text: 'Annual Reports'},
             {icon: '', isLink: false, to: '/salic-profile/', bgColor: '#FBBE82', text: 'SALIC Presentation'},
-            {icon: '', isLink: false, to: '/salic-profile/almira-magazine', bgColor: '#FD96A6', text: 'Al Mira Magazine'},
+            {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#FD96A6', text: 'Almira Versions'},
           ]}
         />
       </div>

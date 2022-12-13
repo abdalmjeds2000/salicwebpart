@@ -87,3 +87,4 @@ export { default as AssignedReports } from '../App/IncidentsCenter/components/As
 export { default as RequestsForReview } from '../App/IncidentsCenter/components/RequestsForReview';
 export { default as MyTeam } from '../App/MyTeam/MyTeam';
 export { default as SalicProfile } from '../App/SalicProfile/SalicProfile';
+export { default as AlmiraVersions} from '../App/SalicProfile/AlmiraVersions/AlmiraVersions';

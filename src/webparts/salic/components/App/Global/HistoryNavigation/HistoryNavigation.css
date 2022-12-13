@@ -41,6 +41,13 @@
   clear: both;
   transform: rotate(-90deg);
 }
+.app-clock .timezone-icon-span {
+  display: flex;
+}
+.app-clock .timezone-icon-span * {
+  fill: var(--main-color) !important;
+}
+
 
 @media screen and (max-width: 800px) {
   .history-navigation {

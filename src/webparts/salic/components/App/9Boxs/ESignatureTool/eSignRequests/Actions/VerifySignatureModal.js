@@ -1,4 +1,4 @@
-import { SearchOutlined } from '@ant-design/icons';
+import { ScheduleOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, message, Modal, Popover, Table } from 'antd';
 import axios from 'axios';
 import React, { useState } from 'react'
@@ -91,7 +91,7 @@ function VerifySignatureModal() {
       open={open}
       onOpenChange={handleOpenChange}
     >
-      <Button type="primary">Verify Signature</Button>
+      <Button type="primary" size='small'><ScheduleOutlined /> Verify Signature</Button>
     </Popover>
   )
 }

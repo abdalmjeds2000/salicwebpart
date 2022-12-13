@@ -73,7 +73,7 @@
   width: calc(100% - 33px);
   background-color: white;
 } */
-.home-container .person .person-control-buttons {
+.home-container .person .person-control-buttons .btns {
   display: flex;
   align-items: center;
   flex-wrap: wrap;

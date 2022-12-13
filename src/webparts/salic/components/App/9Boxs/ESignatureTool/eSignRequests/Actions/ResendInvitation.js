@@ -3,6 +3,7 @@ import { message, Modal, Table } from 'antd';
 import { useState } from 'react';
 import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 
 const ResendInvitation = (props) => {
   const [openModal, setOpenModal] = useState(false)
@@ -81,7 +82,7 @@ const ResendInvitation = (props) => {
               dataSource={data} 
               pagination={{position: ['none', 'bottomCenter'], pageSize: 10, hideOnSinglePage: true }} 
             />
-          : <div className='loader' style={{position: 'relative'}}><div style={{width: '40px', height: '40px'}}></div></div>
+          : <AntdLoader />
         }
       </Modal>
     </>

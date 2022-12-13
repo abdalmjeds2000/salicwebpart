@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Input, Space, Table, Tag, Typography } from 'antd';
+import { Button, Space, Typography } from 'antd';
 import { InfoCircleOutlined, PlusOutlined, RedoOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -15,7 +15,6 @@ function ITRequestsAssignedForMe() {
   const { it_requests_assigned_for_me_data, setItRequestsAssignedForMeData, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState(query ? query : '');
 
   async function GetRequests() {
     setLoading(true);
@@ -86,25 +85,10 @@ function ITRequestsAssignedForMe() {
     }
   ];
 
-  const filtered_it_requests_data = it_requests_assigned_for_me_data?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(query) {
-      if(row.Priority == "1" && searchWord=="1") { row.Priority = "Normal" }
-      else if(row.Priority == "2" && searchWord=="2") { row.Priority = "Critical" }
-    }
-    if(
-        row.Subject?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Priority?.toLowerCase().includes(searchWord) ||
-        row.Status?.toLowerCase().includes(searchWord) ||
-        row.RequestType?.toLowerCase().includes(searchWord)
-      ) return true
-        return false
-  });
+  
 
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' defaultValue={query ? query : ''} onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/services-requests/services-request')}><PlusOutlined /> New Request</Button>
     </Space>
@@ -122,7 +106,7 @@ function ITRequestsAssignedForMe() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={filtered_it_requests_data}
+        DataTable={it_requests_assigned_for_me_data}
       />
     </>
   )

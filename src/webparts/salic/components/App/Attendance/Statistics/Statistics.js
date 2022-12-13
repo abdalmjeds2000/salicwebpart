@@ -4,6 +4,7 @@ import { RadialBar, Column } from '@ant-design/plots';
 import axios from 'axios';
 import { AppCtx } from '../../App';
 import CustomSelect from '../components/CustomSelect';
+import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
 
 function removeDuplicates(arr) {
@@ -314,7 +315,7 @@ function Statistics() {
               }} 
             />
           </div>
-          {monthlyAttendanceLoader && <div className="loader small"><div></div></div>}
+          {monthlyAttendanceLoader && <AntdLoader />}
         </div>
       </div>
 
@@ -337,7 +338,7 @@ function Statistics() {
             }
           </select>
         </div>
-        {!annualAttendanceLoader ? <Column {...config} /> : <div className="loader small"><div></div></div>}
+        {!annualAttendanceLoader ? <Column {...config} /> : <AntdLoader />}
       </div>
 
       <div className='employees-availability-attendance'>
