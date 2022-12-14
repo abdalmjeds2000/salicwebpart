@@ -18,7 +18,7 @@ const AlmiraVersions = () => {
       
       <div className='standard-page it-center-container'>
         <ServicesSection
-          title="SALIC Profile"
+          title="Almira Versions"
           items={[
             {icon: '', isLink: false, to: '/salic-profile/almira-versions/almira-magazine', bgColor: '#7722ff', text: 'Version 1'},
             {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ff33ff', text: 'Version 2'},

@@ -13,7 +13,6 @@ function AllContentRequests() {
   const { content_requests_data, setContentRequestsData, user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
 
 
   async function GetRequests() {
@@ -66,21 +65,8 @@ function AllContentRequests() {
     }
   ];
 
-  const filtered_content_requests_data = content_requests_data?.filter(row => {
-    const searchWord = searchText?.toLowerCase();
-    if(
-        row.Title?.toLowerCase().includes(searchWord) || 
-        row.Id?.toString().includes(searchWord) || 
-        row.Status?.toLowerCase().includes(searchWord)
-      ) {
-          return true
-        }
-        return false
-  });
-
   const ControlPanel = (
     <Space direction='horizontal'>
-      <Input size='small' placeholder='Type To Search' onChange={e => setSearchText(e.target.value)} />
       <Button type='primary' size='small' onClick={GetRequests}><RedoOutlined /> Refresh</Button>
       <Button size='small' onClick={() => navigate(defualt_route+'/content-requests/new-request')}><PlusOutlined /> New Request</Button>
     </Space>
@@ -99,7 +85,7 @@ function AllContentRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={filtered_content_requests_data}
+        DataTable={content_requests_data}
       />
     </>
   )

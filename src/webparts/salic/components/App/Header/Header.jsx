@@ -11,6 +11,7 @@ import { SearchOutlined } from "@ant-design/icons";
 const Navbar = (props) => {
   const navigate = useNavigate();
   const { defualt_route } = useContext(AppCtx)
+  const [showSearch, setShowSearch] = useState(true);
   const [value, setValue] = useState('');
   const onchangeQuery = (value) => {
     setValue(value);
@@ -19,19 +20,25 @@ const Navbar = (props) => {
     <div className="navbar" style={props.style}>
 
       {/* Header Search INPUT */}
-      <div className="sp-search-input">
-        <Input.Search
-          suffix={<SearchOutlined />} 
-          enterButton={false}
-          placeholder="Search" 
-          style={{borderRadius: '7px', overflow: 'hidden', width: '100%'}}
-          onChange={e => {
-            (async () => {await onchangeQuery(e.target.value)})() 
-          }}
-        />
-      </div>
+      {
+        showSearch ? (
+        <div className="sp-search-input">
+          <Input.Search
+            suffix={<SearchOutlined />} 
+            enterButton={false}
+            placeholder="Search" 
+            style={{borderRadius: '7px', overflow: 'hidden', width: '100%'}}
+            onChange={e => {
+              (async () => {await onchangeQuery(e.target.value)})() 
+            }}
+          />
+        </div>
+        ) : (
+          null
+        )
+      }
       {/* Search Result */}
-      <SpSearch query={value} />
+      <SpSearch query={value} setShowSearch={(v) => setShowSearch(v)} />
       
       {/* SALIC Logo */}
       <img src={logo} alt="logo" className="logoSALIC" onClick={() => navigate(defualt_route+'/home')} />

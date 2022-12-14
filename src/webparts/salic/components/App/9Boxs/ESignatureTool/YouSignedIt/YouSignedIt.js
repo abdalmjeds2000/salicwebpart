@@ -45,13 +45,11 @@ function YouSignedIt() {
 
       <div className='table'>
         {
-          eSign_requests_you_signed_it?.length > 0 
-          ? <Table
-              columns={columns}
-              dataSource={eSign_requests_you_signed_it} 
-              pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
-            />
-          : <AntdLoader />
+          <Table
+            columns={columns}
+            dataSource={eSign_requests_you_signed_it} 
+            pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+          />
         }
       </div>
     </div>

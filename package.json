@@ -35,6 +35,7 @@
     "@pnp/spfx-controls-react": "3.12.0",
     "antd": "^4.24.1",
     "axios": "^0.27.2",
+    "country-flag-icons": "^1.5.5",
     "d3-org-chart": "^2.6.0",
     "infinite-react-carousel": "^1.2.11",
     "moment-hijri": "^2.1.2",

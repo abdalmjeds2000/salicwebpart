@@ -14,14 +14,13 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 
 
 const RequestsForReview = () => {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { user_data, defualt_route, incidentReportsForReview, setIncidentReportsForReview } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
 
   const FetchData = async () => {
     const response = await axios.get(`https://salicapi.com/api/Incidents/PendingForReview?draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669559950875`);
-    setData(response.data.Data);
+    setIncidentReportsForReview(response?.data?.Data);
     setLoading(false);
   }
 
@@ -99,7 +98,7 @@ const RequestsForReview = () => {
               HeaderControlPanel={ControlPanel}
               IsLoading={loading}
               Columns={columns}
-              DataTable={data}
+              DataTable={incidentReportsForReview}
             />
           </div>
         )

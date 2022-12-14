@@ -37,9 +37,11 @@ function ESignatureTool() {
           <div className="buttons">
             <ul>
               {subMenuItems.map((val, i) => (
-                <li key={i} onClick={() => {setActiveId(val.id); }} className={activeId === val.id ? "active" : ""}>
-                  {val.text}
-                </li>
+                <a href={`#${val.id}`}>
+                  <li key={i} onClick={() => {setActiveId(val.id); }} className={activeId === val.id ? "active" : ""}>
+                    {val.text}
+                  </li>
+                </a>
               ))}
             </ul>
           </div>

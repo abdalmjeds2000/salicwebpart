@@ -15,14 +15,13 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 
 
 const MyReports = () => {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { user_data, defualt_route, myIncidentReports, setMyIncidentReports } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-
+  
   const FetchData = async () => {
-    const response = await axios.get('https://salicapi.com/api/Incidents/Get?Email=Akmal.Eldahdouh@salic.com&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561213357');
-    setData(response.data.Data);
+    const response = await axios.get(`https://salicapi.com/api/Incidents/Get?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561213357`);
+    setMyIncidentReports(response.data.Data);
     setLoading(false);
   }
 
@@ -30,7 +29,9 @@ const MyReports = () => {
     if(Object.keys(user_data).length > 0) {
       FetchData();
     }
-  }, [user_data])
+  }, [user_data]);
+
+  
   const ControlPanel = (
     <Button 
       type='primary'
@@ -100,7 +101,7 @@ const MyReports = () => {
               HeaderControlPanel={ControlPanel}
               IsLoading={loading}
               Columns={columns}
-              DataTable={data}
+              DataTable={myIncidentReports}
             />
           </div>
         )

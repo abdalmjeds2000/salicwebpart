@@ -1,7 +1,7 @@
 .history-navigation {
   width: calc(100vw - 50px);
   height: 35px;
-  padding: 5px 25px;
+  padding: 2px 25px;
   border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -43,11 +43,23 @@
 }
 .app-clock .timezone-icon-span {
   display: flex;
+  cursor: pointer;
+  padding-right: 5px;
+  border-right: 1px solid var(--main-color);
 }
 .app-clock .timezone-icon-span * {
   fill: var(--main-color) !important;
 }
 
+
+
+.app-clock {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--main-color); 
+  opacity: 0.4;
+}
 
 @media screen and (max-width: 800px) {
   .history-navigation {

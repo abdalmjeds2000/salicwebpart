@@ -8,13 +8,7 @@ import pnp from 'sp-pnp-js';
 import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
-const getDataByPageNo = (list, pno) => {
-  if(list.length >= 19 && pno === 1) return list.slice(0, 20)
-  else if(list.length >= 39 && pno === 2) return list.slice(20, 40)
-  else if(list.length >= 59 && pno === 3) return list.slice(40, 60)
-  else if(list.length >= 79 && pno === 4) return list.slice(60, 80)
-  else if(list.length >= 99 && pno === 5) return list.slice(80, 100)
-}
+
 function CommunityNews() {
   const { gateNewsData, setGateNewsData } = useContext(AppCtx);
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +33,8 @@ function CommunityNews() {
   useEffect(() => {
     setFilteredNewslist(gateNewsData.slice(0, _pageSize))
   }, [gateNewsData]);
+  
+
   
   if(loading) {
     return <AntdLoader />

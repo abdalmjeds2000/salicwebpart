@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './ESignRequests.css';
-import { CheckOutlined, DeleteOutlined, DownOutlined, FileOutlined, FileTextOutlined, MoreOutlined, PlusOutlined, SearchOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
+import { CheckOutlined, DeleteOutlined, DownOutlined, FileOutlined, FileTextOutlined, MoreOutlined, PlusOutlined, RedoOutlined, SearchOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Input, Menu, message, Popconfirm, Space, Table, Typography } from 'antd'
 import { AppCtx } from '../../../App';
 import axios from 'axios';
@@ -18,10 +18,6 @@ function getWindowSize() {
 
 function ESignRequests() {
   const { eSign_requests, setESignRequests } = useContext(AppCtx)
-  // const [typeToSearch, setTypeToSearch] = useState('');
-  // const filterESign_requests = eSign_requests.filter(e => e.Subject.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.RequestDate.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.PendingWith.toLowerCase().includes(typeToSearch.toLowerCase().trim()) || e.Status.toLowerCase().includes(typeToSearch.toLowerCase().trim()) )
-
-
   // Get Window Size
   const [windowSize, setWindowSize] = useState(getWindowSize());
   useEffect(() => {
@@ -201,7 +197,7 @@ function ESignRequests() {
       <div className='header'>
         <h1>eSign Requests</h1>
         <div className='controls'>
-          {/* <Input placeholder="type to search" prefix={<SearchOutlined />} onChange={(e) => setTypeToSearch(e.target.value)} /> */}
+          {/* <Button type="primary" size='small' onClick={}><RedoOutlined /> Refresh</Button> */}
           <VerifySignatureModal />
           <Button size='small' href='https://salic.sharepoint.com/sites/newsalic/SitePages/eSign/NewRequest.aspx' target='blank'><PlusOutlined /> New Request</Button>
         </div>
@@ -209,34 +205,31 @@ function ESignRequests() {
 
       <div className='table'>
         {
-          eSign_requests?.length ? (
-            windowSize.innerWidth > 768 
-            ? <Table 
-                columns={columns} 
-                dataSource={eSign_requests} 
-                pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
-              />
-            : <Table 
-                columns={columns?.filter(r => r.dataIndex === 'Number' || r.dataIndex === 'Subject')} 
-                dataSource={eSign_requests} 
-                pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
-                expandable={{
-                  expandedRowRender: (record) => (
-                    <div style={{paddingLeft: '10px'}}>
-                      <><b>Status: </b>{<><span style={{ fontSize: '2.5rem', lineHeight: 0, position: 'relative', top: '7px', color: record.Status === 'Completed' ? 'rgb(39, 124, 98)' : 'rgb(233 155 77)'}}>•</span>{record.Status}</>}</><br/>
-                      <><b>Pending With: </b>{record.PendingWith}</><br/>
-                      <><b>Request Date: </b>{record.RequestDate}</><br/>
-                      <><b>Recipients: </b>{record.Recipients}</><br/>
-                      <><b>Is Parallel: </b>{record.IsParallel}</><br/>
-                      <><b>Has Reminder: </b>{record.HasReminder}</><br/>
-                      <><b>Signed Document: </b>{record.SignedDocument.length > 0 ? <a href={record.SignedDocument} target='blank'>Download</a> : ''}</><br/>
-                      <><b>Preview Version: </b>{record.PreviewVersion.length > 0 ? <a href={record.PreviewVersion} target='blank'>Download</a> : ''}</><br/>
-                    </div>
-                  ),
-                }}
-              />
-            )
-          : <AntdLoader />
+          windowSize.innerWidth > 768 
+          ? <Table 
+              columns={columns} 
+              dataSource={eSign_requests} 
+              pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+            />
+          : <Table 
+              columns={columns?.filter(r => r.dataIndex === 'Number' || r.dataIndex === 'Subject')} 
+              dataSource={eSign_requests} 
+              pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
+              expandable={{
+                expandedRowRender: (record) => (
+                  <div style={{paddingLeft: '10px'}}>
+                    <><b>Status: </b>{<><span style={{ fontSize: '2.5rem', lineHeight: 0, position: 'relative', top: '7px', color: record.Status === 'Completed' ? 'rgb(39, 124, 98)' : 'rgb(233 155 77)'}}>•</span>{record.Status}</>}</><br/>
+                    <><b>Pending With: </b>{record.PendingWith}</><br/>
+                    <><b>Request Date: </b>{record.RequestDate}</><br/>
+                    <><b>Recipients: </b>{record.Recipients}</><br/>
+                    <><b>Is Parallel: </b>{record.IsParallel}</><br/>
+                    <><b>Has Reminder: </b>{record.HasReminder}</><br/>
+                    <><b>Signed Document: </b>{record.SignedDocument.length > 0 ? <a href={record.SignedDocument} target='blank'>Download</a> : ''}</><br/>
+                    <><b>Preview Version: </b>{record.PreviewVersion.length > 0 ? <a href={record.PreviewVersion} target='blank'>Download</a> : ''}</><br/>
+                  </div>
+                ),
+              }}
+            />
         }
       </div>
 

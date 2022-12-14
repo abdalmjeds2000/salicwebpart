@@ -71,7 +71,10 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [allCountryData, setAllCountryData] = React.useState([]);
   const [salicAssetsData, setSalicAssetsData] = React.useState({});
   const [deliveryLettersData, setDeliveryLettersData] = React.useState({});
-  
+  const [myIncidentReports, setMyIncidentReports] = React.useState([]);
+  const [assignedIncidentReports, setAssignedIncidentReports] = React.useState([]);
+  const [incidentReportsForReview, setIncidentReportsForReview] = React.useState([]);
+
 
 
   React.useEffect(() => {
@@ -285,6 +288,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     eSign_requests: eSignRequests,
     setESignRequests,
     eSign_requests_you_signed_it: eSignRequestsYouSignedIt,
+    setESignRequestsYouSignedIt,
     departments_info: departmentsInfo,
     maintenance_data: maintenanceData,
     setMaintenanceData,
@@ -332,7 +336,11 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     allKnowledgeData, setAllKnowledgeData,
     allCountryData, setAllCountryData,
     salicAssetsData, setSalicAssetsData,
-    deliveryLettersData, setDeliveryLettersData
+    deliveryLettersData, setDeliveryLettersData,
+    myIncidentReports, setMyIncidentReports,
+    assignedIncidentReports, setAssignedIncidentReports,
+    incidentReportsForReview, setIncidentReportsForReview
+
   };
 
   let link: any = document.querySelector("link[rel~='icon']");

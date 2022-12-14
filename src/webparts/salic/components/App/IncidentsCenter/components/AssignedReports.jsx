@@ -8,21 +8,20 @@ import moment from 'moment';
 import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable';
 import axios from 'axios';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
-import { riskType } from '../risksTypes'
+import { riskType } from '../risksTypes';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 
 
 
 const AssignedReports = () => {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { user_data, defualt_route, assignedIncidentReports, setAssignedIncidentReports } = useContext(AppCtx);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-
+  
   const FetchData = async () => {
-    const response = await axios.get('https://salicapi.com/api/Incidents/AssignedToMe?Email=Akmal.Eldahdouh@salic.com&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561303011');
-    setData(response.data.Data);
+    const response = await axios.get(`https://salicapi.com/api/Incidents/AssignedToMe?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561303011`);
+    setAssignedIncidentReports(response.data.Data);
     setLoading(false);
   }
 
@@ -100,7 +99,7 @@ const AssignedReports = () => {
               HeaderControlPanel={ControlPanel}
               IsLoading={loading}
               Columns={columns}
-              DataTable={data}
+              DataTable={assignedIncidentReports}
             />
           </div>
         )

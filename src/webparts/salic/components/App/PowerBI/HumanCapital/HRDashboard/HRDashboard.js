@@ -25,7 +25,8 @@ function HRDashboard() {
             title="HR Dashboard" 
             width="100%" 
             height="80%" 
-            src="https://app.powerbi.com/reportEmbed?reportId=98ef1b34-ea61-46e4-9409-8384c406ca7e&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
+            // src="https://app.powerbi.com/reportEmbed?reportId=98ef1b34-ea61-46e4-9409-8384c406ca7e&autoAuth=true&ctid=bea1b417-4237-40b8-b020-57fce9abdb43" 
+            src="https://app.powerbi.com/reportEmbed?reportId=13877c4a-339a-46ba-90b6-429cf193f74a" 
             frameborder="0" 
             allowFullScreen="true"
           ></iframe>

@@ -21,8 +21,12 @@ import salicAsstesSearch from './searchQueries/salicAsstesSearch';
 import salicAsstes from './searchQueries/salicAsstes';
 import deliveryLettersSearch from './searchQueries/deliveryLettersSearch';
 import deliveryLetters from './searchQueries/deliveryLetters';
+import manageNewsSearch from './searchQueries/manageNewsSearch';
+import manageNews from './searchQueries/manageNews';
+import contentRequestsSearch from './searchQueries/contentRequestsSearch';
+import contentRequests from './searchQueries/contentRequests';
 
-
+var fakePromise = new Promise(function(resolve) {setTimeout(resolve, 0)});
 
 export var searchLocations = [
   /* START Research Routes */
@@ -129,6 +133,11 @@ export var searchLocations = [
     fetchData: (query) => newsSearch(query),
     fetchOriginalData: () => news()
   },{
+    route: "/manage-news-content",
+    path: [],
+    fetchData: (query) => manageNewsSearch(query),
+    fetchOriginalData: () => manageNews()
+  },{
     route: "/services-requests/service-requests-dashboard#2",
     path: [],
     fetchData: (query) => itRequestsSearch(query),
@@ -136,10 +145,25 @@ export var searchLocations = [
   },
 
   {
+    route: "/research-requests/my-research-requests",
+    path: [],
+    fetchData: (query) => researchRequestsSearch(query),
+    fetchOriginalData: () => researchRequests()
+  }, {
     route: "/research-requests/all-research-requests",
     path: [],
     fetchData: (query) => researchRequestsSearch(query),
     fetchOriginalData: () => researchRequests()
+  },{
+    route: "/content-requests/my-content-requests",
+    path: [],
+    fetchData: (query) => contentRequestsSearch(query),
+    fetchOriginalData: () => contentRequests()
+  }, {
+    route: "/content-requests/all-content-requests",
+    path: [],
+    fetchData: (query) => contentRequestsSearch(query),
+    fetchOriginalData: () => contentRequests()
   },
 
   {
@@ -155,72 +179,109 @@ export var searchLocations = [
   },{
     route: "/services-requests/my-requests",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/services-requests/requests-assigned-for-me",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/hc-services",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/admin-services",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/services-requests",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/e-invoicing",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/content-requests",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/research-requests",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/book-meeting-room",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/oracle-reports",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/power-bi-dashboards",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/power-bi-dashboards/human-capital",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/power-bi-dashboards/research",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },{
     route: "/incidents-center",
     path: [],
-    fetchData: () => new Promise(function(resolve) {setTimeout(resolve, 0)}),
-    fetchOriginalData: () => new Promise(function(resolve) {setTimeout(resolve, 0)})
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },
+
+
+  {
+    route: "/eSignature-document",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },{
+    route: "/eSignature-document#1",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },{
+    route: "/eSignature-document#2",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },
+
+
+
+  {
+    route: "/incidents-center/my-reports",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },{
+    route: "/incidents-center/assigned-reports",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
+  },{
+    route: "/incidents-center/request-for-review",
+    path: [],
+    fetchData: () => fakePromise,
+    fetchOriginalData: () => fakePromise
   },
 ];

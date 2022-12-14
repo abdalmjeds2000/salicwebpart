@@ -37,8 +37,6 @@ const MyTeam = () => {
       }).catch((err) => {
         console.log(err); 
       })
-  
-      console.log('user', user);
     }
   }
 
@@ -70,6 +68,7 @@ const MyTeam = () => {
       content: <Leaves />
     },
   ];
+
 
   return (
     <>

@@ -23,7 +23,7 @@ function PersonInfo() {
             <img 
               src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} 
               alt="" 
-              onClick={() => navigate(defualt_route + '/my-team')}
+              onClick={() => navigate(defualt_route + '/my-team', { replace: false, state: user_data.Data })}
             />
           </Tooltip>
         </div>
@@ -127,34 +127,40 @@ function PersonInfo() {
         </div>
 
 
-
-        <div className='co-workers'>
-          <div>
-            <Avatar.Group
-              maxCount={3}
-              maxPopoverTrigger="click"
-              size="3"
-              maxStyle={{
-                color: '#e7f0fe',
-                backgroundColor: '#3a9bcc',
-                cursor: 'pointer',
-              }}
-            >
-              {
-                user_data.Data?.DirectUsers?.map(user => (
-                  <Tooltip title={user.DisplayName}>
-                    <Avatar 
-                      key={user.Id}
-                      src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=l&username=${user.Mail}`} 
-                      onClick={() => navigate(defualt_route + '/my-team')} 
-                      style={{cursor: 'pointer'}}
-                    />
-                  </Tooltip>
-                ))
-              }
-            </Avatar.Group>
-          </div>
-        </div>
+        {
+          user_data.Data?.DirectUsers?.length > 0 ? (
+            <div className='co-workers'>
+              <div>
+                <Avatar.Group
+                  maxCount={3}
+                  maxPopoverTrigger="click"
+                  size="3"
+                  maxStyle={{
+                    color: '#e7f0fe',
+                    backgroundColor: '#3a9bcc',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {
+                    user_data.Data?.DirectUsers?.map(user => (
+                      <Tooltip title={user.DisplayName}>
+                        <Avatar 
+                          key={user.Id}
+                          src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=l&username=${user.Mail}`} 
+                          onClick={() => navigate(defualt_route + '/my-team', { replace: false, state: user })} 
+                          style={{cursor: 'pointer'}}
+                        />
+                      </Tooltip>
+                    ))
+                  }
+                </Avatar.Group>
+              </div>
+            </div>
+          ) : (
+            null
+          )
+        }
+        
       </div>
 
     </div>

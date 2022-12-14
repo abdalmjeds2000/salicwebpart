@@ -17,7 +17,7 @@ import GetITRequestsAssignedForMe from '../../9Boxs/ITServices/API/GetITRequests
   const boxsPagesRoutes = ['/hc-services', '/admin-services', '/services-requests', '/e-invoicing', '/content-requests', '/research-requests', '/book-meeting-room', '/oracle-reports', '/power-bi-dashboards', '/power-bi-dashboards/human-capital', '/power-bi-dashboards/research', '/incidents-center'];
 
 
-const SpSearch = ({ query }) => {
+const SpSearch = ({ query, setShowSearch }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [researchResultData, setResearchResultData] = useState([]);
@@ -38,7 +38,14 @@ const SpSearch = ({ query }) => {
     my_it_requests_data, 
     setMyItRequestsData,
     it_requests_assigned_for_me_data, 
-    setItRequestsAssignedForMeData
+    setItRequestsAssignedForMeData,
+    setNewsList,
+    setContentRequestsData,
+    eSign_requests, setESignRequests,
+    eSign_requests_you_signed_it, setESignRequestsYouSignedIt,
+    setMyIncidentReports,
+    setAssignedIncidentReports,
+    setIncidentReportsForReview
   } = useContext(AppCtx)
   const [currentPage, setCurrentPage] = useState(1);
   const [textQuery, setTextQuery] = useState('');
@@ -49,17 +56,23 @@ const SpSearch = ({ query }) => {
     let path = document.location.href.split(".aspx");
     return path[path.length-1]
   }
+  const currentRoute = getRoute();
+  const matchRoute = searchLocations.filter(route => currentRoute === route.route)[0];
 
-
-
+  useEffect(() => {
+    if(currentRoute != "/home" && !matchRoute) {
+      setShowSearch(false);
+    } else {
+      setShowSearch(true);
+    }
+  }, [currentRoute])
   // SEARCH FUNCTION
   const submitQuery = async (SearhcTerm, page, pageSize) => {
-    const currentRoute = getRoute();
-    const matchRoute = searchLocations.filter(route => currentRoute === route.route)[0];
+    const cRoute = getRoute();
     // console.log(matchRoute?.path);
     if(matchRoute && matchRoute.path?.length === 0) {
       matchRoute?.fetchData(SearhcTerm)
-      .then((response) => {
+      .then(async (response) => {
         console.log('newww seaech response =====> ', response);
         if(matchRoute.route == "/research-library") {
           setResearchResultData(response);
@@ -67,6 +80,8 @@ const SpSearch = ({ query }) => {
           setInAllSp(false);
         } else if(matchRoute.route == "/community-news") {
           setGateNewsData(response);
+        } else if(matchRoute.route == "/manage-news-content") {
+          setNewsList(response);
         } else if(matchRoute.route == "/services-requests/service-requests-dashboard#2") {
           const withkeys = response.data?.data?.map(row => {
             row.key = row.Status.replace(/[ ]/g, '_');
@@ -85,8 +100,14 @@ const SpSearch = ({ query }) => {
           setAllCountryData(response);
         } else if(matchRoute.route == "/research-library/knowledge") {
           setAllKnowledgeData(response);
+        } else if(matchRoute.route == "/research-requests/my-research-requests") {
+          setResearchRequestsData(response)
         } else if(matchRoute.route == "/research-requests/all-research-requests") {
           setResearchRequestsData(response)
+        } else if(matchRoute.route == "/content-requests/my-content-requests") {
+          setContentRequestsData(response)
+        } else if(matchRoute.route == "/content-requests/all-content-requests") {
+          setContentRequestsData(response)
         } else if(matchRoute.route == "/asset/all#2") {
           setSalicAssetsData(response);
         } else if(matchRoute.route == "/asset/all#3") {
@@ -130,63 +151,82 @@ const SpSearch = ({ query }) => {
               el.style.backgroundColor = 'transparent';
             }
           });
+        } else if(matchRoute.route == "/eSignature-document#1" || matchRoute.route == "/eSignature-document") {
+          const filteredData = eSign_requests.filter(row => {
+            if(row?.Subject?.toLowerCase()?.includes(SearhcTerm?.toLowerCase())) {
+              return true
+            } return false
+          })
+          
+          setESignRequests(filteredData);
+        } else if(matchRoute.route == "/eSignature-document#2") {
+          const filteredData = eSign_requests_you_signed_it.filter(row => {
+            if(row?.Subject?.toLowerCase()?.includes(SearhcTerm?.toLowerCase())) {
+              return true
+            } return false
+          })
+          setESignRequestsYouSignedIt(filteredData);
+        } else if(matchRoute.route == "/incidents-center/my-reports") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/Get?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=${SearhcTerm}&_=1669561213357`);
+          setMyIncidentReports(response.data.Data);
+        } else if(matchRoute.route == "/incidents-center/assigned-reports") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/AssignedToMe?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=${SearhcTerm}&_=1669561303011`);
+          setAssignedIncidentReports(response.data.Data);
+        } else if(matchRoute.route == "/incidents-center/request-for-review") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/PendingForReview?draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=${SearhcTerm}&_=1669559950875`);
+          setIncidentReportsForReview(response.data.Data);
         }
       })
 
       
-    } else {
-      const cRoute = getRoute();
-      console.log(cRoute);
-      if((matchRoute && matchRoute?.path?.length > 0) || cRoute == "/home") {
-        const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
-        const skipItems = pageSize * (page - 1);
-        const takeItems = pageSize;
-        setLoading(true);
+    } else if((matchRoute && matchRoute?.path?.length > 0) || cRoute == "/home") {
+      const queryPath = matchRoute ? `& (${matchRoute.path.join(' OR ')})` : '';
+      const skipItems = pageSize * (page - 1);
+      const takeItems = pageSize;
+      setLoading(true);
 
-        const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
-        const response = await axios({
-          method: 'POST',
-          url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": cntxtX.data.FormDigestValue,
-          },
-          data: JSON.stringify({ 
-            'request': { 
-              '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
-              //your query text, change values here
-              // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
-              'Querytext': SearhcTerm + queryPath,
-              RowLimit: takeItems, 
-              StartRow: skipItems, 
-              SelectProperties: { results: ["Tags", "Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] },          
-              HitHighlightedProperties:  {
-                results: ['Title']
-              }
-            } 
-          }),
-        });
+      const cntxtX = await axios.post(`${sp_context.pageContext.web.absoluteUrl}/_api/contextinfo`);
+      const response = await axios({
+        method: 'POST',
+        url: `${sp_context.pageContext.web.absoluteUrl}/_api/search/postquery`,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json;odata=verbose",
+          "X-RequestDigest": cntxtX.data.FormDigestValue,
+        },
+        data: JSON.stringify({ 
+          'request': { 
+            '__metadata': { 'type': 'Microsoft.Office.Server.Search.REST.SearchRequest' },
+            //your query text, change values here
+            // 'Querytext': SearhcTerm + "& (path:\"https://salic.sharepoint.com/sites/dev/Lists/Research Articles\" OR path:\"https://salic.sharepoint.com/sites/dev/Lists/Knowledge\")",
+            'Querytext': SearhcTerm + queryPath,
+            RowLimit: takeItems, 
+            StartRow: skipItems, 
+            SelectProperties: { results: ["Tags", "Body", "Title", "Path", "Size", "IsDocument","DefaultEncodingURL", "FileType", "HitHighlightedSummary", "HitHighlightedProperties", "AuthorOWSUSER", "owstaxidmetadataalltagsinfo", "Created", "UniqueID", "NormSiteID", "NormWebID", "NormListID", "NormUniqueID", "ContentTypeId", "contentclass", "UserName", "JobTitle", "WorkPhone", "SPSiteUrl", "SiteTitle", "CreatedBy", "HtmlFileType", "SiteLogo"] },          
+            HitHighlightedProperties:  {
+              results: ['Title']
+            }
+          } 
+        }),
+      });
 
-        const resposeData = {
-          title: '',
-          TotalRows: response.data.PrimaryQueryResult.RelevantResults.TotalRowsIncludingDuplicates,
-          data: response.data.PrimaryQueryResult.RelevantResults.Table.Rows,
-        };
+      const resposeData = {
+        title: '',
+        TotalRows: response.data.PrimaryQueryResult.RelevantResults.TotalRowsIncludingDuplicates,
+        data: response.data.PrimaryQueryResult.RelevantResults.Table.Rows,
+      };
+      notification.destroy();
+      if(resposeData?.data?.length > 0) {
+        console.log(resposeData);
+        setData([resposeData]);
+        setCurrentPage(page);
+        setShowSearchResult(true);
+        setInAllSp(true);
+      } else {
         notification.destroy();
-        if(resposeData?.data?.length > 0) {
-          console.log(resposeData);
-          setData([resposeData]);
-          setCurrentPage(page);
-          setShowSearchResult(true);
-          setInAllSp(true);
-        } else {
-          notification.destroy();
-          notification.error({message: 'No Data Match!', placement: 'topRight'});
-        }
+        notification.error({message: 'No Data Match!', placement: 'topRight'});
       }
     }
-    
     setLoading(false);
   }
 
@@ -204,6 +244,8 @@ const SpSearch = ({ query }) => {
         console.log('OoOoOOoOoOoOoOoOoOOooOOo =====> ', response);
         if(matchRoute.route == "/community-news") {
           setGateNewsData(response);
+        } else if(matchRoute.route == "/manage-news-content") {
+          setNewsList(response);
         } else if(matchRoute.route == "/services-requests/service-requests-dashboard") {
           const response = await axios.get(`https://salicapi.com/api/tracking/Get?draw=3&order=Id%20desc&start=0&length=20&search[value]=&search[regex]=false&email=${user_data?.Data?.Mail}&query=&_=1668265007659`);
           const withkeys = response.data?.data?.map(row => {
@@ -223,8 +265,14 @@ const SpSearch = ({ query }) => {
           setAllCountryData(response);
         } else if(matchRoute.route == "/research-library/knowledge") {
           setAllKnowledgeData(response);
+        } else if(matchRoute.route == "/research-requests/my-research-requests") {
+          setResearchRequestsData(response)
         } else if(matchRoute.route == "/research-requests/all-research-requests") {
           setResearchRequestsData(response)
+        } else if(matchRoute.route == "/content-requests/my-content-requests") {
+          setContentRequestsData(response)
+        } else if(matchRoute.route == "/content-requests/all-content-requests") {
+          setContentRequestsData(response)
         } else if(matchRoute.route == "/asset/all#2") {
           setSalicAssetsData(response);
         } else if(matchRoute.route == "/asset/all#3") {
@@ -236,12 +284,35 @@ const SpSearch = ({ query }) => {
         } else if(matchRoute.route == "/services-requests/requests-assigned-for-me") {
           const defualtData = await GetITRequestsAssignedForMe(user_data.Data?.Mail);
           setItRequestsAssignedForMeData(defualtData.data.Data);
-        } else if(boxsPagesRoutes.includes(matchRoute.route)) {
+        } else if(boxsPagesRoutes.includes(matchRoute.route) /* Highlight in boxs paged */) {
           let titlesElements = document.getElementsByTagName("h3");
           var divsList = Array.prototype.slice.call(titlesElements);
           divsList.map(el => {
             el.style.backgroundColor = 'transparent';
           });
+        } else if(matchRoute.route == "/eSignature-document#1" || matchRoute.route == "/eSignature-document") {
+          const response = await axios.get(`https://salicapi.com/api/signature/MyRequests?Email=${user_data?.Data?.Mail}`)
+          const eSignRequestsData = response.data?.Data?.map((row, i) => {
+            const newRow = { Number: `${i + 1}`, Key: row.Key, Id: row.Id, key: i, id: i, Subject: `${row.EmailSubject}__KEY__${row.Key}`, RequestDate: row.Created.replace('T', ' ').slice(0, -1), Recipients: row.NumOfRecipients, IsParallel: row.IsParallel ? 'True' : 'False', HasReminder: row.RemindUsers ? 'True' : 'False', PendingWith: row.PendingWith !== null ? (Array.isArray(JSON.parse(row.PendingWith)) ? JSON.parse(row.PendingWith).map((e) => e.Email).join(' - ') : JSON.parse(row.PendingWith).Email) : ' - ', Status: row.Status === "COMPLETED" ? 'Completed' : row.Status === "Draft" ? 'Pending' : null, SignedDocument: row.Status === "COMPLETED" ? `https://salicapi.com/api/Signature/Download?eDocumentId=${row.Id}` : '', PreviewVersion: row.Status === "Draft" ? `https://salicapi.com/api/Signature/DownloadCurrentVersion?eDocumentId=${row.Id}` : '', IsActive: row.IsActive }
+            return newRow
+          })
+          setESignRequests(eSignRequestsData);
+        } else if(matchRoute.route == "/eSignature-document#2") {
+          const response = await axios.get(`https://salicapi.com/api/signature/AllRequests?Email=${user_data?.Data?.Mail}`)
+          const eSignRequestsYouSignedIt = response.data?.Data?.map((row, i) => {
+            const newRow = { Number: `${i + 1}`, Id: row.Id, Key: row.Key, Action: row.Key, SignedDate: row.Created.replace('T', ' ').slice(0, -1), Invitor: row.Status === "COMPLETED" ? 'Completed' : row.Status, Subject: row.Title }
+            return newRow
+          })
+          setESignRequestsYouSignedIt(eSignRequestsYouSignedIt);
+        } else if(matchRoute.route == "/incidents-center/my-reports") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/Get?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561213357`);
+          setMyIncidentReports(response.data.Data);
+        } else if(matchRoute.route == "/incidents-center/assigned-reports") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/AssignedToMe?Email=${user_data?.Data?.Mail}&draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669561303011`);
+          setAssignedIncidentReports(response.data.Data);
+        } else if(matchRoute.route == "/incidents-center/request-for-review") {
+          const response = await axios.get(`https://salicapi.com/api/Incidents/PendingForReview?draw=1&order[0][column]=0&order[0][dir]=asc&start=0&length=-1&search[value]=&search[regex]=false&SortBy=CreatedAt&Method=desc&query=&_=1669559950875`);
+          setIncidentReportsForReview(response.data.Data);
         }
       })
     } else {
