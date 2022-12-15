@@ -1,6 +1,6 @@
 .three-divisions {
   /* min-height: calc(100vh - 85px); */
-  height: calc(100vh - 85px);
+  max-height: calc(100vh - 85px);
   display: flex;
   align-items: stretch;
   justify-content: stretch;
@@ -472,7 +472,7 @@
   height: 100%;
 }
 .three-divisions .twitter-wid iframe {
-  height: calc(100vh - 295px) !important;
+  maxheight: calc(100vh - 295px) !important;
   position: relative !important;
   /* top: -10px !important; */
 }
@@ -502,7 +502,7 @@
 @media screen and (max-width: 800px) {
   
   .three-divisions {
-    height: auto;
+    max-height: initial;
     flex-wrap: wrap;
     margin: 10px;
   }

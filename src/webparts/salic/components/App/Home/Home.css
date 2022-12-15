@@ -9,14 +9,14 @@
   width: 100%;
   display: flex;
   position: relative;
-  min-height: calc(100vh - 180px);
+  /* min-height: calc(100vh - 180px); */
 }
 .home-container .home-division .home-world-graph {
   max-height: calc(100vh - 180px);
 }
 @media screen and (max-width: 1499px) {
   .home-container .home-division {
-    min-height: calc(100vh - 125px);
+    /* min-height: calc(100vh - 125px); */
   }
   .home-container .home-division .home-world-graph {
     max-height: calc(100vh - 125px);

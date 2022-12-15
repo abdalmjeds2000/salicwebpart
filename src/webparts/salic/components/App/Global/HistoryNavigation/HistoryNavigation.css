@@ -20,7 +20,7 @@
 .history-navigation .links a,
 .history-navigation .links p {
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.6;
   color: #aaa !important;
   position: relative;
 }
@@ -76,7 +76,7 @@
   
   .history-navigation .links a, 
   .history-navigation .links p {
-    line-height: 1.8;
+    line-height: 1.2;
     font-size: 0.6rem;
   }
   .history-navigation .links a::after {
