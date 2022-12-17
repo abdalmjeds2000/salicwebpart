@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import './NewsDetails.css';
-import { AppCtx } from '../../App';
-import { useNavigate, useParams } from 'react-router-dom';
-import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
-import AntdLoader from '../../Global/AntdLoader/AntdLoader';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AppCtx } from '../../App';
+import AntdLoader from '../../Global/AntdLoader/AntdLoader';
+import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
+import './NewsDetails.css';
 
 
 

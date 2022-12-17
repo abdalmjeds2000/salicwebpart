@@ -20,7 +20,7 @@ function SimpleUserPanel() {
         />
         <p>{user_data?.Data?.DisplayName}</p>
         <div className='icons'>
-          <Tooltip title="Meetings Services Center" placement='bottom'>
+          <Tooltip title="Notification Center" placement='bottom'>
             <a onClick={() => navigate(`${defualt_route}/notification-center`)}>
               <svg id="Iconly_Light_Notification" data-name="Iconly/Light/Notification" xmlns="http://www.w3.org/2000/svg" width="24" height="23" viewBox="0 0 24 23">
                 <g id="Notification" transform="translate(3.413 1.95)">

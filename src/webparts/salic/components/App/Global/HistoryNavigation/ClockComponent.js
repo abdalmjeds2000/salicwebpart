@@ -45,7 +45,7 @@ const ClockComponent = (props) => {
 
 
   const columns = [
-    { title: 'Country', dataIndex: 'Country', width: '40%', render: (val) => <b style={{display: 'flex'}}>{val}</b> },
+    { title: 'Country', dataIndex: 'Country', ellipsis: true, width: '40%', render: (val) => <b style={{display: 'flex'}}>{val}</b> },
     { title: 'Timezone', dataIndex: 'Timezone', width: '20%' },
     { title: 'Time', dataIndex: 'Time', width: '40%' },
   ];
