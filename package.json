@@ -37,6 +37,7 @@
     "axios": "^0.27.2",
     "country-flag-icons": "^1.5.5",
     "d3-org-chart": "^2.6.0",
+    "html-react-parser": "^3.0.4",
     "infinite-react-carousel": "^1.2.11",
     "moment-hijri": "^2.1.2",
     "react": "^16.13.1",

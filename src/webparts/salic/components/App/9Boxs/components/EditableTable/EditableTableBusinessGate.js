@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Checkbox, Form, Input, message, Popconfirm, Table } from 'antd';
+import parse from 'html-react-parser';
+
+
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -93,18 +96,22 @@ const EditableTable = (props) => {
       title: () => <>Guest Name <span style={{color: 'red'}}>*</span></>,
       dataIndex: 'Name',
       editable: props.PreviewMode ? false : true,
+      render: (val) => props.PreviewMode ? parse(val) : val
     },{
       title: 'Guest Email',
       dataIndex: 'Email',
       editable: props.PreviewMode ? false : true,
+      render: (val) => props.PreviewMode ? parse(val) : val
     },{
       title: 'Mobile Number',
       dataIndex: 'Mobile',
       editable: props.PreviewMode ? false : true,
+      render: (val) => props.PreviewMode ? parse(val) : val
     },{
       title: 'Company',
       dataIndex: 'Company',
       editable: props.PreviewMode ? false : true,
+      render: (val) => props.PreviewMode ? parse(val) : val
     },{
       title: 'With Car',
       dataIndex: 'Car',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './CategoryPage.css';
-import { Button, Col, DatePicker, Divider, Form, Input, message, Row, Select, Tooltip, Typography } from 'antd';
+import { Button, Col, DatePicker, Divider, Form, message, Row, Select, Tooltip, Typography } from 'antd';
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../../../App';
@@ -8,13 +8,10 @@ import ArticleBox from '../../../../Global/ArticleBox/ArticleBox';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import moment from 'moment';
 import pnp from 'sp-pnp-js';
-import { SPHttpClient } from '@microsoft/sp-http'
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import CheckableTag from 'antd/lib/tag/CheckableTag';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
-import { CaretDownOutlined, CloseOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { CaretDownOutlined, CloseOutlined, FilterOutlined } from '@ant-design/icons';
 
 function CategoryPage() {
   const { byType } = useParams();

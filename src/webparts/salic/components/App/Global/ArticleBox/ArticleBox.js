@@ -4,6 +4,8 @@ import { Tag, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import './ArticleBox.css';
+import parse from 'html-react-parser';
+
 
 function ArticleBox(props) {
   const { defualt_route }  = useContext(AppCtx);
@@ -17,6 +19,7 @@ function ArticleBox(props) {
       </h2>
       {/* <p dangerouslySetInnerHTML={{__html: props.Description}}></p> */}
       <p><div dangerouslySetInnerHTML={{__html: props.Description?.replace(/<[^>]*>/g, '')}}></div></p>
+      {/* <p>{parse(props.Description)}</p> */}
       
       {props.date && <Typography.Text type='secondary'><CalendarOutlined /> {props.date}</Typography.Text>}
       <div>

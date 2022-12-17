@@ -18,6 +18,26 @@ const AdminServices = () => {
           headerIcon={<div style={{ backgroundColor: "#79D5A7" }}>{srvsIcons.adminServices}</div>}
           items={services}
         />
+
+        <ServicesSection
+          title="Request Center"
+          items={[
+            {
+              icon: srvsIcons.myRequests,
+              to: "/admin-services/my-requests",
+              bgColor: "#FF9e9B",
+              text: "My Requests",
+              isLink: false,
+            },
+            {
+              icon: srvsIcons.assignedRequests,
+              to: "/admin-services/assigned-requests",
+              bgColor: "#bbe",
+              text: "Assigned Requests",
+              isLink: false,
+            }
+          ]}
+        />
       </div>
     </>
   );
