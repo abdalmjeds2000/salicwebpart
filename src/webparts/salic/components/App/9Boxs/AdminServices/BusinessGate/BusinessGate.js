@@ -188,7 +188,8 @@ function BusinessGate() {
     
               <hr />
     
-              <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />
+              
+              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
 
             {id && <ActionsTable ActionData={requestData.Status || []} />}

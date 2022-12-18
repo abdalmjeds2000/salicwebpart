@@ -66,7 +66,7 @@ function HRSelf() {
           headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.Recruitment}</div>}
           items={[
             {icon: icons.RecruitmentRequst, bgColor: '#F7937B', text: 'Recruitment', isLink: true, to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1650137021932'},
-            {icon: icons.RecruitmentRequst, bgColor: '#EBD944', isLink: true, text: 'Recruitment Requst', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
+            {icon: icons.RecruitmentRequest, bgColor: '#EBD944', isLink: true, text: 'Recruitment Request', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1587224172941'},
           ]}
         />
 

@@ -118,7 +118,7 @@ const ClockComponent = (props) => {
             pagination={false}
             footer={() => (
               <div style={{textAlign: 'center', width: '100%'}}>
-                <Typography.Link href='' target='_blank'>
+                <Typography.Link href='https://www.timeanddate.com/worldclock/' target='_blank'>
                   <span>More</span> <FiExternalLink />
                 </Typography.Link>
               </div>

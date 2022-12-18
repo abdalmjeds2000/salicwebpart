@@ -207,7 +207,8 @@ function OfficeSupply() {
                     />
                   </Form.Item>
               }
-              <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />
+              
+              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>

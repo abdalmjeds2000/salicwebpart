@@ -115,7 +115,7 @@ export const icons = {
                         </g>
                       </g>
                     </svg>,
-  RecruitmentRequst: <svg xmlns="http://www.w3.org/2000/svg" width="37.075" height="37.075" viewBox="0 0 37.075 37.075">
+  RecruitmentRequest: <svg xmlns="http://www.w3.org/2000/svg" width="37.075" height="37.075" viewBox="0 0 37.075 37.075">
                         <g id="Group_222" data-name="Group 222" transform="translate(0 -0.002)">
                           <g id="Group_221" data-name="Group 221" transform="translate(0 0.002)">
                             <g id="Group_220" data-name="Group 220">

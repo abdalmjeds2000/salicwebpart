@@ -213,7 +213,8 @@ function Transportation() {
                 <EditableTable dataSource={passenger} setDataSource={setPassenger} PreviewMode={id ? true : false} />
                 <hr />
 
-                <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />
+                
+                {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
               </Form>
 
               {id && <ActionsTable ActionData={requestData.Status || []} />}

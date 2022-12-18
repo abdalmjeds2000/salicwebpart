@@ -157,7 +157,8 @@ function Shipment() {
                 <Input.TextArea rows={6} placeholder="write a brief description" disabled={id ? true : false} />
               </Form.Item>
 
-              <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />
+              
+              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {id && <ActionsTable ActionData={requestData.Status || []} />}
           </FormPage>
