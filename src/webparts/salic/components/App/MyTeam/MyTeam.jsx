@@ -45,7 +45,7 @@ const MyTeam = () => {
       key: 1, 
       icon: <UserOutlined />, 
       title: 'Information', 
-      content: <Information data={dataFor} />
+      content: <Information userData={dataFor} attendanceData={attendanceData?.slice(0, 7)} />
     },{
       key: 2, 
       icon: <CheckSquareOutlined />, 

@@ -20,7 +20,7 @@
 
 .google-translate-container .text-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   gap: 20px;
 }
 .google-translate-container .text-fields .field {
@@ -46,6 +46,7 @@
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.1;
+  min-height: 120px;
 }
 
 .google-translate-container .text-fields .field textarea::placeholder {
@@ -77,8 +78,8 @@
 
 
 
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1000px) {
   .google-translate-container .text-fields {
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(47%, 1fr));
   }
 }

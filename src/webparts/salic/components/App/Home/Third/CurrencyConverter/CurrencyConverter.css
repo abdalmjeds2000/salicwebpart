@@ -20,7 +20,7 @@
 }
 .currency-converter-container .fromToFields {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   gap: 20px;
 }
 .currency-converter-container .fromToFields .from input[name='from'],
@@ -29,7 +29,7 @@
   border: none;
   padding: 5px;
   width: 100%;
-  min-height: 62px;
+  min-height: 100px;
   border-radius: 10px;
   margin: 10px 0 0 0;
   outline: none;
@@ -79,8 +79,8 @@
 }
 
 
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1000px) {
   .currency-converter-container .fromToFields {
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(47%, 1fr));
   }
 }

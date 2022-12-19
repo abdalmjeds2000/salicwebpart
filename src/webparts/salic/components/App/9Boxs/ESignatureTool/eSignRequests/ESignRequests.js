@@ -131,14 +131,16 @@ function ESignRequests() {
       render: (text) => {
         const currentRow = eSign_requests.filter(r => r.Subject === text)[0];
         return (
-          <>
-            <Typography.Link href={`https://salicapi.com/eSign/Sign.html?key=${text.split('__KEY__')[1]}`} target='_blank'>
+          <div className='eSign-subject'>
+            <Typography.Link href={`https://salicapi.com/eSign/Sign.html?key=${text.split('__KEY__')[1]}`} target='_blank' style={{display: 'inline'}}>
               {currentRow.IsActive ? text.split('__KEY__')[0] : <> <StopOutlined style={{color: 'var(--brand-red-color)'}} /> {text.split('__KEY__')[0]}</> }
             </Typography.Link>
-            <Dropdown overlay={menu(currentRow.Id, currentRow.IsActive, currentRow.Status, currentRow.Key)} trigger={['click']}>
-              <Typography.Link strong style={{marginLeft: '15px'}}><MoreOutlined /></Typography.Link>
-            </Dropdown>
-          </>
+            <span className='eSign-more-btn'>
+              <Dropdown overlay={menu(currentRow.Id, currentRow.IsActive, currentRow.Status, currentRow.Key)} trigger={['click']}>
+                <Typography.Link strong style={{marginLeft: '15px'}}><MoreOutlined /></Typography.Link>
+              </Dropdown>
+            </span>
+          </div>
         )
       },
     },{

@@ -52,15 +52,15 @@ function Communication() {
 
 
 
-
-  useEffect(() => {
-    if(Object.keys(user_data).length > 0 && Object.keys(communicationList).length > 0) {
-      let root = communicationList.filter(emp => emp.id == "1")[0];
-      if(root?.email?.toLowerCase() !== user_data?.data?.Mail?.toLowerCase()) {
-        navigate(defualt_route);
-      }
-    }
-  }, [user_data, communicationList])
+  /* JUST FOR ROOT GATE */
+  // useEffect(() => {
+  //   if(Object.keys(user_data).length > 0 && Object.keys(communicationList).length > 0) {
+  //     let root = communicationList.filter(emp => emp.id == "1")[0];
+  //     if(root?.email?.toLowerCase() !== user_data?.Data?.Mail?.toLowerCase()) {
+  //       navigate(defualt_route);
+  //     }
+  //   }
+  // }, [user_data, communicationList])
 
 
 

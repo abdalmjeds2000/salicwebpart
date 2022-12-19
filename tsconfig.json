@@ -31,6 +31,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
-, "src/webparts/salic/SalicWebPart.ts"  ]
+    "src/**/*.tsx",
+    "src/webparts/salic/SalicWebPart.ts"  ]
 }

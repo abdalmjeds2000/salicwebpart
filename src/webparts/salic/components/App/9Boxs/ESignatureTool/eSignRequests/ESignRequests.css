@@ -28,6 +28,17 @@
 }
 
 
+.eSign-requests-container .table .eSign-subject {
+  display: flex;
+}
+.eSign-requests-container .table .eSign-subject .eSign-more-btn {
+  display: none;
+  transition: 0.5s;
+}
+.eSign-requests-container .table .eSign-subject:hover .eSign-more-btn {
+  display: flex;
+}
+
 
 
 

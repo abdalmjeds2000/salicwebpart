@@ -106,12 +106,12 @@ function NotificationCenter() {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      width: '4%',
+      width: '3%',
       render: (_, record) => `${data.indexOf(record) + 1}`
     },{
       title: 'Subject',
       key: 'subject',
-      width: '60%',
+      width: '62%',
       render: (_, record) => {
         return <div className='notification-subject'><Badge.Ribbon color='#eee' text={record.From}><h3>{record.Title}</h3>{record.BodyPreview}</Badge.Ribbon></div>
       }
@@ -145,7 +145,7 @@ function NotificationCenter() {
     },{
       title: 'Action',
       dataIndex: 'Body',
-      width: '12%',
+      width: '10%',
       render: (val, record) => (
         oracleFrom.includes(record.From?.toLowerCase())
           ? <div><a onClick={() => {setOpenModal(true); setModalData(val);}}>Details</a></div>

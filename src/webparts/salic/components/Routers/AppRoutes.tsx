@@ -91,7 +91,8 @@ import {
   ManageNews,
   MyTeam,
   SalicProfile,
-  AlmiraVersions
+  AlmiraVersions,
+  PageNotFound
 } from './ImportFiles';
 
 
@@ -277,6 +278,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/my-team`} element={<MyTeam />} />
 
+
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

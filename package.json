@@ -53,6 +53,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-scripts-ts": "^3.1.0",
+    "react-simple-image-viewer": "^1.2.2",
     "react-twitter-widgets": "^1.11.0",
     "sp-pnp-js": "^3.0.10",
     "tslib": "2.3.1"
