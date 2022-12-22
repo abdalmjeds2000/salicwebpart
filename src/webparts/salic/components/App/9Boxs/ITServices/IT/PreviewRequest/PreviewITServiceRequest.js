@@ -20,6 +20,7 @@ import DeleteAction from './helpers/DeleteAction';
 import ReOpenAction from './helpers/ReOpenAction';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 
+const { Title, Text } = Typography;
 
 function PreviewITServiceRequest() {
   let { id } = useParams();
@@ -99,10 +100,16 @@ function PreviewITServiceRequest() {
 
 
   // Get Current Assignee for current user
-  let PendingAssignee = false;
-  if(Object.keys(requestData).length > 0) {
-    PendingAssignee = requestData?.referingHistory[requestData?.referingHistory?.length-1]?.ToUser?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()
+  let pendingApprove = null;
+  if(Object.keys(user_data).length > 0 && Object.keys(requestData).length > 0) {
+    requestData?.referingHistory?.forEach(row => {
+      if(row?.Action == "APPROVE" && row?.Response == "PENDING" && row?.ToUser?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()) {
+        pendingApprove = row;
+      }
+    })
+    // showApproveBtn = requestData?.referingHistory[requestData?.referingHistory?.length-1]?.ToUser?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase()
   }
+
   // check if current user is requester or not
   let IfRequester = requester?.Mail?.toLowerCase() === user_data.Data?.Mail?.toLowerCase();
   // check if request pending with current loggin user or not
@@ -127,21 +134,21 @@ function PreviewITServiceRequest() {
     <>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
-        <p>Preview It Service Request</p>
+        <p>Preview IT Service Request</p>
       </HistoryNavigation>
       
       <div className='preview-request-container'>
         <div className="header">
-          <h1>It Service Request: [#{requestData?.Id || '###'}]</h1>
+          <h1>IT Service Request: [#{requestData?.Id || '###'}]</h1>
           <div>
-            {requestData?.Status === "Waiting For Approval" && IsPendingWith &&
-            <ApproveAction RequestId={requestData.Id} />}
+            {pendingApprove !== null &&
+            <ApproveAction ActionId={pendingApprove.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
             <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith &&
             <CloseAction RequestId={requestData.Id} />}
             {user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com' &&
-            <DeleteAction RequestId={requestData.Id} />}
+            <DeleteAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {requestData.Status === "CLOSED" && IfRequester &&
             <ReOpenAction RequestId={requestData.Id} />}
           </div>
@@ -169,7 +176,7 @@ function PreviewITServiceRequest() {
                         let files = JSON.parse(reply.Body).Attachment;
                         let Attachments = [];
                         if(typeof files != 'undefined' && Object.keys(files).length != 0) {
-                          files.forEach(file => {
+                          files?.forEach(file => {
                             Attachments.push({
                               fileType: file.File.split(".")[file.File.split(".").length-1],
                               fileName: file.OriginalFile,
@@ -277,7 +284,13 @@ function PreviewITServiceRequest() {
                               key={i}
                               title={<b>{assignee.ByUser?.DisplayName} <CaretRightOutlined /> {assignee.ToUser?.DisplayName} {ruleName}</b>} 
                               subTitle={<>at {new Date(assignee.CreatedAt).toLocaleString()}</>}
-                              description={["APPROVED", "REJECTED"].includes(assignee.Response) ? <>{assignee.Response} at {new Date(assignee.UpdatedAt).toLocaleString()}</> : null}
+                              description={ 
+                                assignee.Response === "APPROVED" 
+                                ? <><Text strong type='success'>{assignee.Response}</Text> at {new Date(assignee.UpdatedAt).toLocaleString()}</> 
+                                : assignee.Response === "REJECTED" 
+                                ? <><Text strong type='danger'>{assignee.Response}</Text> at {new Date(assignee.UpdatedAt).toLocaleString()}</> 
+                                : null
+                              }
                             />
                           )
                         })

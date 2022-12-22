@@ -53,6 +53,7 @@ const OrganizationalChart = (props) => {
         .container(d3Container.current)
         .data(props.data)
         .parentNodeId(d => d.pid)
+        .expandLevel(19)
         .nodeWidth((d) => {
           if(d.data.id == "0") {
             return 120
@@ -76,7 +77,7 @@ const OrganizationalChart = (props) => {
             toggleDetailsCard(d);
           }
         })
-        .initialZoom(0.25)
+        .initialZoom(0.35)
         .nodeContent((d) => {
           const dd = d.data;
           dd.depth = d.depth;
@@ -125,9 +126,10 @@ const OrganizationalChart = (props) => {
 
   useEffect(() => {
     if(props.data.length > 0) {
-      chart.expandAll();
+      // chart.expandAll();
+      chart.expandLevel(19)
     }
-  }, [props.data])
+  }, [chart, props, props.data, layout])
 
 
 
@@ -142,24 +144,27 @@ const OrganizationalChart = (props) => {
     />
   );
 
-
+  const toolbarBtnStyle = {
+    width: '30px',
+    height: '30px'
+  }
   return (
     <div style={styles.orgChart} ref={d3Container}>
       <div style={styles.orgChartToolbar}>
         <Tooltip title="Zoom In" placement="left">
-          <Button type="primary" shape="circle" onClick={() => chart.zoomIn()}><AiOutlineZoomIn /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.zoomIn()}><AiOutlineZoomIn /></Button>
         </Tooltip>
         <Tooltip title="Zoom Out" placement="left">
-          <Button type="primary" shape="circle" onClick={() => chart.zoomOut()}><AiOutlineZoomOut /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.zoomOut()}><AiOutlineZoomOut /></Button>
         </Tooltip>
         <Tooltip title="Full Screen" placement="left">
-          <Button type="primary" shape="circle" onClick={() => chart.fullscreen()}><MdOutlineZoomOutMap /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.fullscreen()}><MdOutlineZoomOutMap /></Button>
         </Tooltip>
         <Tooltip title="Expand All" placement="left">
-          <Button type="primary" shape="circle" onClick={() => chart.expandAll()}><SlOrganization /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.expandAll()}><SlOrganization /></Button>
         </Tooltip>
         <Tooltip title="Collapse All" placement="left">
-          <Button type="primary" shape="circle" onClick={() => chart.collapseAll()}><AiOutlineNodeCollapse /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.collapseAll()}><AiOutlineNodeCollapse /></Button>
         </Tooltip>
         
         <Tooltip title="Layout" placement="left">
@@ -170,6 +175,7 @@ const OrganizationalChart = (props) => {
             trigger={['click']}
           >
             <Button
+              style={toolbarBtnStyle}
               type="primary" 
               shape="circle" 
             >

@@ -49,3 +49,11 @@
 .profile-container .card-content svg {
   color: var(--link-text-color);
 }
+
+.profile-container .card-content .email-part .ant-statistic-content-value {
+    max-width: 150px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    display: inline-block !important;
+}

@@ -7,6 +7,10 @@
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
+    "webApiPermissionRequests": [{
+      "resource": "Microsoft Graph",
+      "scope": "Calendars.Read,Group.Read.All,Group.ReadWrite.All"
+    }],
     "developer": {
       "name": "",
       "websiteUrl": "",
@@ -36,5 +40,6 @@
   },
   "paths": {
     "zippedPackage": "solution/salic.sppkg"
-  }
+  },
+  
 }

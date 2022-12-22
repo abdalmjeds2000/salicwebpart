@@ -26,6 +26,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userData, setUserData]: any = React.useState({});
   const [notificationsCount, setNotificationsCount] = React.useState('');
+  const [notificationsData, setNotificationsData] = React.useState([]);
   const [mailCount, setMailCount] = React.useState('');
   const [latestAttendance, setLatestAttendance] = React.useState([]);
   const [communicationList, setCommunicationList] = React.useState([]);
@@ -271,6 +272,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const AppContextProviderSample: AppContext = {
     user_data: userData,
     notifications_count: notificationsCount,
+    notifications_data: notificationsData, setNotificationsData,
     mail_count: mailCount,
     latest_attendance: latestAttendance,
     communicationList: communicationList,

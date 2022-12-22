@@ -3,8 +3,8 @@ import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import TeamTree from './components/TeamTree/TeamTree';
 import Information from './components/Information/Information';
 import Attendance from './components/Attendance/Attendance';
-import Performance from './components/Performance';
-import GoogolCalendar from './components/GoogolCalendar';
+import KPIProgress from './components/Performance/KPIProgress';
+import Calendar from './components/Calendar/Calendar';
 import Leaves from './components/Leaves';
 import Tabs from '../Global/CustomTabs/Tabs';
 import { Col, Row } from 'antd';
@@ -17,26 +17,33 @@ const MyTeam = () => {
   const [performanceData, setPerformanceData] = useState([]);
   const [dataFor, setDataFor] = useState({});
   
-  const onChangeUser = (user) => {
+
+  const fetchData = async (user, signal) => {
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${user?.Mail}&startDate=&EndDate=&month=${new Date().getMonth() + 1}&year=${new Date().getYear() + 1900}`,
+      signal: signal
+    }).then((res) => {
+      setAttendanceData(res.data.Data);
+    }).catch((err) => {
+      console.log(err); 
+    });
+    
+
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/Integration/gate_statisiics?PIN=${user?.PIN}`,
+      signal: signal
+    }).then((res) => {
+      setPerformanceData(res.data?.performace?.data);
+    }).catch((err) => {
+      console.log(err); 
+    })
+  }
+
+  const onChangeUser = (user, signal) => {
     if(user) {
-      axios({
-        method: 'GET',
-        url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${user?.Mail}&startDate=&EndDate=&month=${new Date().getMonth() + 1}&year=${new Date().getYear() + 1900}`
-      }).then((res) => {
-        setAttendanceData(res.data.Data);
-      }).catch((err) => {
-        console.log(err); 
-      });
-      
-  
-      axios({
-        method: 'GET',
-        url: `https://salicapi.com/api/Integration/gate_statisiics?PIN=${user?.PIN}`
-      }).then((res) => {
-        setPerformanceData(res.data?.performace?.data);
-      }).catch((err) => {
-        console.log(err); 
-      })
+      fetchData(user, signal);
     }
   }
 
@@ -54,19 +61,19 @@ const MyTeam = () => {
     },{
       key: 3, 
       icon: <AreaChartOutlined />, 
-      title: 'Performance', 
-      content: <Performance data={performanceData} />
+      title: 'KPI Progress', 
+      content: <KPIProgress data={performanceData} />
     },{
       key: 4, 
       icon: <CalendarOutlined />, 
       title: 'Calendar', 
-      content: <GoogolCalendar />
-    },{
+      content: <Calendar />
+    },/* {
       key: 5, 
       icon: <LogoutOutlined />, 
       title: 'Leaves', 
       content: <Leaves />
-    },
+    }, */
   ];
 
 
@@ -79,8 +86,8 @@ const MyTeam = () => {
       <div className='standard-page my-team-page'>
         <Row gutter={[12, 12]}>
           <Col span={24}>
-            <TeamTree onChangeUser={(user) => {
-              onChangeUser(user); 
+            <TeamTree onChangeUser={(user, signal) => {
+              onChangeUser(user, signal); 
               setDataFor(user);
             }} />
           </Col>

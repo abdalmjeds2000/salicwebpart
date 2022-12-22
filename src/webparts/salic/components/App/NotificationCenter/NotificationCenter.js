@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './NotificationCenter.css';
-import { Badge, Checkbox, Modal, Spin, Table, Tag } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined, DownOutlined, FileDoneOutlined, LoadingOutlined, SyncOutlined } from '@ant-design/icons';
+import { Badge, Button, Checkbox, Modal, Spin, Table, Tag } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined, DownOutlined, FileDoneOutlined, LoadingOutlined, RedoOutlined, SyncOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
 import axios from 'axios';
@@ -10,20 +10,19 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 const oracleFrom = ['saas', 'paas'];
-
-
+const defualt_types = ['Oracle', 'eSign', 'SharedServices'];
 
 function NotificationCenter() {
-  const { user_data, defualt_route } = useContext(AppCtx);
+  const { user_data, defualt_route, notifications_data, setNotificationsData } = useContext(AppCtx);
   let navigate = useNavigate();
 
-  const [data, setData] = useState([]);
   const [dataCount, setDataCount] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState({});
-  const [selectedType, setSelectedType] = useState(['Oracle', 'eSign', 'SharedServices']);
-  const [selectedStatus, setSelectedStatus] = useState(['Pending,Submitted_By_IT,Submitted']);
-  const [loading, setLoading] = useState(true);
+  const [selectedType, setSelectedType] = useState(defualt_types);
+  const [selectedStatus, setSelectedStatus] = useState(['Pending,Submitted_By_IT']);
+  const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
 
   const redirectAction = (from, id) => {
@@ -66,40 +65,50 @@ function NotificationCenter() {
       setDataCount(response.data.Data);
     }
   }
-  const fetchData = async (types, status) => {
+  const fetchData = async (types, status, signal) => {
     setLoading(true);
     const _types = types.join(',');
     const _status = status.join(',');
     let url = `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=1&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=${_types.replace(/[,]/g, '%2C')}&Status=${_status.replace(/[,]/g, '%2C')}&_=1671286356550`;
-    const response = await axios.get(
-      // `https://salicapi.com/api/notificationcenter/Get?Email=${user_data?.Data?.Mail}&draw=9&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=-1&search%5Bvalue%5D=&search%5Bregex%5D=false&%24orderby=Created+desc&%24top=1&Type=${_types}&Status=${_status}&_=1666821907437`
-      // encodeURIComponent(url)
-      url
-    )
+    const response = await axios.get(url, {signal: signal})
     if(response.data.Status == 200 && response.data.Data) {
-      // const _data = response.data?.Data?.map((n, i) => {
-      //   const ViewDocumentUrl = n.From === "eSign" ? `https://salicapi.com/eSign/sign.html?key=${n.Body}` : oracleFrom.includes(n.From?.toLowerCase()) ? n.Body : null;
-      //   const newRow = { key: i, id: `${i+1}`, subject: <><h3>{n.Title}</h3>{n.BodyPreview}</>, dateTime: moment(n.Created).format('MM/DD/YYYY hh:mm'), status: n.Status, From: n.From, action: ViewDocumentUrl };
-      //   return newRow;
-      // })
-      setData(response.data?.Data);
-    } else setData([]);
+      setNotificationsData(response.data?.Data);
+    } else setNotificationsData([]);
     setLoading(false);
   }
 
   // Get Notification Center Data
   useEffect(() => {
-    if(Object.keys(user_data).length > 0) {
+    if(Object.keys(user_data).length > 0 && notifications_data.length == 0) {
       fetchData(selectedType, selectedStatus);
     }
-  }, [user_data, selectedType, selectedStatus]);
+  }, [user_data]);
 
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0 && notifications_data.length == 0) {
+      fetchRowsCount(selectedStatus);
+    }
+  }, [user_data]);
+
+  // Get Notification Center Data
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0) {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      fetchData(selectedType, selectedStatus, signal);
+      //cleanup function
+      return () => {controller.abort();};
+    }
+  }, [user_data, selectedType, selectedStatus, count]);
 
   useEffect(() => {
     if(Object.keys(user_data).length > 0) {
       fetchRowsCount(selectedStatus);
     }
-  }, [user_data, selectedStatus]);
+  }, [user_data, count]);
+
+
+
 
   const columns = [
     {
@@ -107,7 +116,7 @@ function NotificationCenter() {
       dataIndex: 'id',
       key: 'id',
       width: '3%',
-      render: (_, record) => `${data.indexOf(record) + 1}`
+      render: (_, record) => `${notifications_data.indexOf(record) + 1}`
     },{
       title: 'Subject',
       key: 'subject',
@@ -127,16 +136,17 @@ function NotificationCenter() {
       key: 'Status',
       width: '10%',
       render: (val) => {
-        switch(val) {
-          case "Pending":
+        const v = typeof val == "string" ? val?.toLowerCase() : "";
+        switch(v) {
+          case "pending":
             return <Tag icon={<SyncOutlined />} color="warning">Pending</Tag>
-          case "Approved":
+          case "approved":
             return <Tag icon={<CheckCircleOutlined />} color="success">Approved</Tag>
-          case "Rejected":
+          case "rejected":
             return <Tag icon={<CloseCircleOutlined />} color="error">Rejected</Tag>
-          case "CLOSED":
+          case "closed":
             return <Tag icon={<FileDoneOutlined />} color="default">Closed</Tag>
-          case "Submitted":
+          case "submitted":
             return <Tag icon={<SyncOutlined />} color="processing">Submitted</Tag>
           default:
             return <Tag color="default">{val}</Tag>;
@@ -249,26 +259,27 @@ function NotificationCenter() {
               })}</h1> */}
 
               <h1>{selectedType.length != 0 ? selectedType.map(r => {if(r=="SharedServices"){r = "Shared Services"} return r}).join(', ') + " Requests" : null}</h1>
-              <div className='status-bar'>
-                <b>Status:</b>
-                <Checkbox.Group 
-                  // options={['Pending', 'Approved', 'Rejected', 'Submitted By IT']} 
-                  defaultValue={['Pending,Submitted_By_IT,Submitted']} 
-                  onChange={checkedValues => setSelectedStatus(checkedValues)} 
-                >
-                  <Checkbox value="Pending,Submitted_By_IT,Submitted">Pending</Checkbox>
-                  <Checkbox value="Approved">Approved</Checkbox>
-                  <Checkbox value="Rejected">Rejected</Checkbox>
-                  {/* <Checkbox value="Submitted_By_IT">Submitted By IT</Checkbox> */}
-                  {/* <Checkbox value="Submitted">Submitted</Checkbox> */}
-                </Checkbox.Group>
+              <div style={{display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap'}}>
+                <div className='status-bar'>
+                  <b>Status:</b>
+                  <Checkbox.Group 
+                    defaultValue={['Pending,Submitted_By_IT']} 
+                    onChange={checkedValues => setSelectedStatus(checkedValues)} 
+                  >
+                    <Checkbox value="Pending,Submitted_By_IT">Pending</Checkbox>
+                    <Checkbox value="Submitted">Submitted By Me</Checkbox>
+                    {/* <Checkbox value="Approved">Approved</Checkbox> */}
+                    {/* <Checkbox value="Rejected">Rejected</Checkbox> */}
+                  </Checkbox.Group>
+                </div>
+                <Button type='primary' onClick={() => setCount(prev => prev += 1)}><RedoOutlined /> Refresh</Button>
               </div>
             </div>
 
             <div className='notifications-table'>
               <Table 
                 columns={columns} 
-                dataSource={data} 
+                dataSource={notifications_data} 
                 pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true, style: {paddingTop: '25px'} }} 
               />
             </div>
@@ -280,7 +291,7 @@ function NotificationCenter() {
           open={openModal}
           onCancel={() => setOpenModal(false)}
           okButtonProps={{ style: {display: 'none'}}}
-          className="performance-antd-modal"
+          className="more-width-antd-modal"
         >
           <div><div dangerouslySetInnerHTML={{__html: modalData}}></div></div>
         </Modal>

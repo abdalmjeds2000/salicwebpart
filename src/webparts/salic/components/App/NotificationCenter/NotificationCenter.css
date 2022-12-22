@@ -89,8 +89,8 @@
   gap: 20px;
   align-items: center;
   background-color: #fff;
-  padding: 5px 15px;
-  border-radius: 5px;
+  padding: 4px 12px;
+  border-radius: 2px;
 }
 .notification-center_content .status-bar * {
   color: #fff !important;

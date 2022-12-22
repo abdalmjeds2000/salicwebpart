@@ -54,8 +54,8 @@
 
 /* Increase Border Radius to antd Card */
 .ant-card {
-  border-radius: 15px !important;
-  overflow: hidden;
+  border-radius: 12px !important;
+  /* overflow: hidden; */
 }
 .service-requests-dashboard-container .ant-card-head {
   border-radius: 15px 15px 0 0 !important;

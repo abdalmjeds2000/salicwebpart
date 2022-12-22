@@ -52,10 +52,11 @@ const config = {
 
 const { Text, Title } = Typography;
 
+
 const Information = ({ userData, attendanceData }) => {
   return (
     <div className='profile-container'>
-      <Card style={{backgroundColor: '#f5f5f5'}}>
+      {/* <Card style={{backgroundColor: '#f5f5f5'}}>
         <div className="header">
           <Image
             width={115}
@@ -68,34 +69,38 @@ const Information = ({ userData, attendanceData }) => {
             <Tooltip title="Grade: B"><Rate disabled defaultValue={5} /></Tooltip>
           </div>
         </div>
-      </Card>
-
+      </Card> */}
 
 
 
       <Row gutter={[20, 20]}>
-        <Col sm={24} md={12} lg={8} xxl={6}>
-          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.4rem'}}><UserOutlined /> Personal</Text>}>
+        <Col sm={24} md={24} lg={12} xxl={12} /* sm={24} md={12} lg={12} xxl={6} */>
+          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><UserOutlined /> Summary</Text>}>
             <div className='card-content'>
-              <Statistic title="Department" groupSeparator=""value={userData?.Department || ' - '} prefix={<HiOutlineOfficeBuilding />} />
-              <Statistic title="Nationality" groupSeparator=""value={userData?.Nationality || ' - '} prefix={<BiWorld />} />
-              <Statistic title="Ext" groupSeparator=""value={userData?.Ext || ' - '} prefix={<CgHashtag />} />
-              <Statistic title="PIN" groupSeparator="" value={parseInt(userData?.PIN, 10) || ' - '} prefix={<FaRegIdCard />} />
-              <Statistic title="Manager" groupSeparator=""value={userData?.DirectManager?.DisplayName || ' - '} prefix={<RiUser6Line />} />
-              <Statistic title="HireDate" groupSeparator="" value={userData?.HireDate || ' - '} prefix={<AiOutlineCalendar />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Full Name" groupSeparator="" value={userData?.DisplayName || ' - '} prefix={<HiOutlineOfficeBuilding />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Job Title" groupSeparator="" value={userData?.Title || ' - '} prefix={<HiOutlineOfficeBuilding />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Department" groupSeparator="" value={userData?.Department || ' - '} prefix={<HiOutlineOfficeBuilding />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Nationality" groupSeparator="" value={userData?.Nationality || ' - '} prefix={<BiWorld />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Ext" groupSeparator="" value={userData?.Ext || ' - '} prefix={<CgHashtag />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="PIN" groupSeparator="" value={parseInt(userData?.PIN, 10) || ' - '} prefix={<FaRegIdCard />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Manager" groupSeparator="" value={userData?.DirectManager?.DisplayName || ' - '} prefix={<RiUser6Line />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="HireDate" groupSeparator="" value={userData?.HireDate || ' - '} prefix={<AiOutlineCalendar />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Mobile" groupSeparator="" value={userData?.Mobile || ' - '} prefix={<FaMobileAlt />} />
+              <a className='email-part' href={`mailto:${userData?.Mail}`} title={`Click to contact with ${userData?.DisplayName}`}><Statistic valueStyle={{fontSize: '1.2rem', display: 'flex'}} title="Mail" groupSeparator="" value={userData?.Mail || ' - '} prefix={<FiMail />} /></a>
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Grade" groupSeparator="" value={userData?.OfficeLocation || ' - '} prefix={<MdOutlineGrade />} />
             </div>
           </Card>
         </Col>
-        <Col sm={24} md={12} lg={8} xxl={6}>
+
+
+
+        {/* <Col sm={24} md={12} lg={12} xxl={6}>
           <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.4rem'}}><ContactsOutlined /> Contact</Text>}>
             <div className='card-content'>
-              <Statistic title="Mobile" groupSeparator="" value={userData?.Mobile || ' - '} prefix={<FaMobileAlt />} />
-              <Statistic title="Mail" groupSeparator=""value={userData?.Mail || ' - '} prefix={<FiMail />} />
-              <Statistic title="Grade" groupSeparator=""value={userData?.OfficeLocation || ' - '} prefix={<MdOutlineGrade />} />
             </div>
           </Card>
-        </Col>
-        <Col sm={24} md={12} lg={8} xxl={6}>
+        </Col> */}
+        {/* <Col sm={24} md={12} lg={8} xxl={6}>
           <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.4rem'}}><AiOutlineCheckCircle /> Latest Attendance</Text>} bodyStyle={{padding: 0}}>
             <Table
               size='small'
@@ -115,8 +120,6 @@ const Information = ({ userData, attendanceData }) => {
             />
           </Card>
         </Col>
-
-
         <Col sm={24} md={12} lg={8} xxl={6}>
           <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.4rem'}}><LogoutOutlined /> Latest Leaves</Text>} bodyStyle={{padding: 0}}>
             <Table
@@ -147,12 +150,12 @@ const Information = ({ userData, attendanceData }) => {
               pagination={false}
             />
           </Card>
-        </Col>
+        </Col> */}
 
 
 
-        <Col sm={24} md={24} lg={16} xxl={12}>
-          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.4rem'}}><AreaChartOutlined /> Performance</Text>} >
+        <Col sm={24} md={24} lg={12} xxl={12}>
+          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><AreaChartOutlined /> Performance</Text>} >
             <Bar {...config} />
           </Card>
         </Col>

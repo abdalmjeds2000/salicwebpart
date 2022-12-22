@@ -39,7 +39,10 @@ const TeamTree = ({ onChangeUser }) => {
   }, [user_data]);
 
   useEffect(() => {
-    onChangeUser(dataFor);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    onChangeUser(dataFor, signal);
+    return () => {controller.abort();};
   }, [dataFor]);
 
 

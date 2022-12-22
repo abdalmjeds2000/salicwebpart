@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import { Button, message } from 'antd';
+import { Button, notification, Popconfirm } from 'antd';
 import RejectSeriveRequest from '../../../API/RejectSeriveRequest';
 import ApproveSeriveRequest from '../../../API/ApproveSeriveRequest';
 
-function ApproveAction({ RequestId }) {
+function ApproveAction(props) {
   const [btnLoading, setBtnLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(true);
 
   const approveAction = async (status) => {
     setBtnLoading(true);
     if(status === "APPROVED") {
-      const ApproveRequest = await ApproveSeriveRequest(RequestId);
-      message.success("Service request has been accepted successfully");
-      console.log('request has been ===>', `#${RequestId}`, ApproveRequest);
+      const ApproveResponse = await ApproveSeriveRequest(props.ActionId);
+      notification.success({message: 'Service request has been accepted successfully'});
     } else if(status === "REJECTED") {
-      const RejectRequest = await RejectSeriveRequest(RequestId);
-      message.success("Service request has been rejected successfully");
-      console.log('request has been ===>', `#${RequestId}`, RejectRequest);
+      const RejectResponse = await RejectSeriveRequest(props.ActionId);
+      notification.success({message: 'Service request has been rejected successfully'});
     }
+
+    props.handelAfterAction();
     setIsShowing(false);
     setBtnLoading(false);
   }
@@ -25,8 +25,26 @@ function ApproveAction({ RequestId }) {
   return (
     <>
       {isShowing && <>
-        <Button disabled={btnLoading} size="middle" type='default' onClick={() => approveAction("APPROVED")}>Approve</Button>
-        <Button disabled={btnLoading} size="middle" type='primary' danger onClick={() => approveAction("REJECTED")}>Reject</Button>
+        <Popconfirm
+          placement="bottomRight"
+          title="Are you sure to Approve this Request?"
+          onConfirm={() => approveAction("APPROVED")}
+          okText="Approve"
+          cancelText="Cancel"
+        >
+          <Button disabled={btnLoading} size="middle" type='default'>Approve</Button>
+        </Popconfirm>
+
+        <Popconfirm
+          placement="bottomRight"
+          title="Are you sure to Reject this Request?"
+          onConfirm={() => approveAction("REJECTED")}
+          okText="Reject"
+          okButtonProps={{danger: true}}
+          cancelText="Cancel"
+        >
+          <Button disabled={btnLoading} size="middle" type='primary' danger>Reject</Button>
+        </Popconfirm>
       </>}
     </>
   )

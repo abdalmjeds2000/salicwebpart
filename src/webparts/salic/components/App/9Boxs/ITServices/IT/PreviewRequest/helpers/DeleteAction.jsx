@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Form, message, Modal, Popconfirm, Typography } from 'antd';
+import { Button, Form, message, Modal, notification, Popconfirm, Typography } from 'antd';
 import DeleteSeriveRequest from '../../../API/DeleteSeriveRequest';
 import { DeleteOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
 
 
-function DeleteAction({ RequestId }) {
+function DeleteAction( props ) {
   const [btnLoading, setBtnLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(true);
   const [openModal, setOpenModal] = useState(false);
@@ -13,15 +13,18 @@ function DeleteAction({ RequestId }) {
   
   
   const deleteAction = async () => {
-    if(reasonValue.length > 0) {
+    if(reasonValue.length >= 3) {
       setBtnLoading(true);
-      const DeleteRequest = await DeleteSeriveRequest(RequestId, reasonValue);
-      message.success("Service request has been deleted");
-      console.log('request has been cancelled ===>', `#${RequestId}`, DeleteRequest)
-      setIsShowing(false);
-      setBtnLoading(false);
-      setOpenModal("");
-      setReasonValue(false);
+      await DeleteSeriveRequest(props.RequestId, reasonValue)
+      .then((response) => {
+        props.handelAfterAction();
+        notification.success({message: 'Service request has been deleted successfully'});
+        setIsShowing(false);
+        setBtnLoading(false);
+        setOpenModal(false);
+        setReasonValue(false);
+      });
+      
     } else message.error("Please, write reason of canceled");
   }
   return (
@@ -31,7 +34,7 @@ function DeleteAction({ RequestId }) {
       <> 
         <Button size="middle" onClick={() => setOpenModal(true)} type='primary' danger>Cancel</Button>
         <Modal
-          title={<><DeleteOutlined /> Cancel Request #{RequestId}</>}
+          title={<><DeleteOutlined /> Cancel Request #{props.RequestId}</>}
           open={openModal} 
           onOk={deleteAction} 
           cancelButtonProps={{style: {display: 'none'}}}

@@ -115,12 +115,12 @@ const SidebarNav = ({spWebUrl}) => {
       icon: (<CalendarOutlined style={{ ...antdIconStyle }} />),
       text: "Manage Events",
       link: false,
-    }/* ,{
-      to: "/my-team",
+    },{
+      to: "/communication",
       icon: (<TeamOutlined style={{ ...antdIconStyle }} />),
-      text: "My Team",
+      text: "Communication",
       link: false,
-    } */,{
+    },{
       icon: svgIcons.SignOut,
       text: "Sign Out",
       link: true,
