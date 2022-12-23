@@ -54,7 +54,7 @@
   background-color: var(--third-color);
 }
 
-.services-body-container .services-boxs-container .box > div {
+.services-body-container .services-boxs-container .box .img-container {
   min-width: 45px;
   min-height: 45px;
   max-width: 45px;
@@ -65,8 +65,7 @@
   justify-content: center;
   align-items: center;
 }
-.services-body-container .services-boxs-container .box > div svg g * {
-}
+
 
 .services-body-container .services-boxs-container .box h3 {
   font-weight: 400;

@@ -206,6 +206,8 @@ img.img-bg {
 .ant-input {
   padding: 4px 11px !important;
   border: 1px solid #d9d9d9;
+}
+.ant-input:not([disabled]) {
   background-color: #fff !important;
 }
 .ant-input-lg {

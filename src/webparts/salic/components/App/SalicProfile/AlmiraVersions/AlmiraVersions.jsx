@@ -20,9 +20,9 @@ const AlmiraVersions = () => {
         <ServicesSection
           title="Almira Versions"
           items={[
-            {icon: '', isLink: false, to: '/salic-profile/almira-versions/almira-magazine', bgColor: '#7722ff', text: 'Version 1'},
-            {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ff33ff', text: 'Version 2'},
-            {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ffaa82', text: 'Version 3'},
+            {icon: '', isLink: false, to: '/salic-profile/almira-versions/almira-magazine', bgColor: '#7722ff', text: 'Version 1', description: "2020-2021"},
+            {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ff33ff', text: 'Version 2', description: "2021-2022"},
+            // {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ffaa82', text: 'Version 3'},
           ]}
         />
       </div>

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { FileProtectOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Form, message, Modal, Radio, Upload } from 'antd'
+import { Button, Col, Form, message, Modal, Radio, Row, Upload } from 'antd'
 import TextArea from 'antd/lib/input/TextArea';
 import { AppCtx } from '../../../App';
+import AddActionRequest from './AddActionRequest';
 
 
 function AddAction({ RequestType, ModalTitle }) {
@@ -27,8 +28,8 @@ function AddAction({ RequestType, ModalTitle }) {
       formValues.ByUser = user_data.Data.Mail;
       formValues.Files = files;
       formValues.OriginalFiles = "";
-      // const response = await AddActionRequest(RequestType, formValues);
-      // console.log(response);
+      const response = await AddActionRequest(RequestType, formValues);
+      console.log(response);
       console.log(RequestType, formValues)
       setOpenModal(false);
       form.resetFields();
@@ -48,8 +49,9 @@ function AddAction({ RequestType, ModalTitle }) {
       <Modal
         title={<><FileProtectOutlined /> {ModalTitle}</>}
         open={openModal} 
-        okButtonProps={{style: {display: 'none'}}}
         onCancel={() => setOpenModal(false)}
+        footer={false}
+        destroyOnClose
       >
         <Form
           name="admin-request-action" 
@@ -78,8 +80,14 @@ function AddAction({ RequestType, ModalTitle }) {
               <Button type='ghost' icon={<UploadOutlined />}>Attach Files</Button>
             </Upload>
           </Form.Item>
-
-          <Button type='primary' htmlType='submit' style={{width: '100%'}}>Send & Close</Button>
+          <Row justify="end" align="middle" gutter={[10, 10]}>
+            <Col>
+              <Button type='primary' htmlType='submit'>Send & Close</Button>
+            </Col>
+            <Col>
+              <Button type='default' onClick={() => setOpenModal(false)}>Cancel</Button>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

@@ -80,7 +80,7 @@ function Transportation() {
     setLoading(true);
     const response = await GetTransportationRequest(email, id);
     if(response.data.Status === 200 && response.data.Data.length > 0) {
-      console.log(response);
+      document.title = `.:: SALIC Gate | ${response.data.Data[0].ReferenceCode || "Transportation Request"} ::.`
       setRequestData(response.data.Data[0]);
       setPassenger(JSON.parse(response.data.Data[0].Passengers));
     } else {

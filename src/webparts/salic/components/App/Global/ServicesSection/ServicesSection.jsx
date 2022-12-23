@@ -30,10 +30,13 @@ const ServicesSection = ({ title, items, headerIcon }) => {
                   : navigate(defualt_route + service.to)
                 }}
               >
-                <div style={{ backgroundColor: service.bgColor }}>
+                <div className='img-container' style={{ backgroundColor: service.bgColor }}>
                   {service.icon}
                 </div>
-                <h3>{service.text}</h3>
+                <div>
+                  <h3>{service.text}</h3>
+                  { service.description ? <Typography.Text type='secondary'>{service.description}</Typography.Text> : null }
+                </div>
               </a>
             )
           })}

@@ -96,7 +96,7 @@ function Visitor() {
     setLoading(true);
     const response = await GetVisitorRequestById(email, id);
     if(response.data.Status === 200 && response.data.Data.length > 0) {
-      console.log(response.data.Data[0]);
+      document.title = `.:: SALIC Gate | ${response.data.Data[0].ReferenceCode || "Visitor Request"} ::.`
       setRequestData(response.data.Data[0])
     } else {
       message.error("Error Get Request Data")
