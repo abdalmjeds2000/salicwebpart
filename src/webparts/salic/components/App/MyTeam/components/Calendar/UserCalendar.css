@@ -1,19 +1,8 @@
 .my-team_calendar-container {
   position: relative;
-  padding: 50px;
+  padding: 15px;
 }
-@media screen and (max-width: 1200px) {
-  .my-team_calendar-container {
-    position: relative;
-    padding: 30px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .my-team_calendar-container {
-    position: relative;
-    padding: 10px;
-  }
-}
+
 
 .my-team_calendar-container a {
   color: #464646;
@@ -57,4 +46,52 @@
 .my-team_calendar-container .fc-theme-standard td, 
 .my-team_calendar-container .fc-theme-standard th {
   border: 0.5px solid var(--fc-border-color);
+}
+
+
+
+
+
+
+
+
+
+
+/* Cstom CSS for Antd Calendar */
+
+
+#my-team_calendar-container .events {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#my-team_calendar-container .event {
+  border-radius: 4px;
+  padding: 4px;
+  transition: .3s;
+}
+#my-team_calendar-container .event a {
+  line-height: 1;
+}
+#my-team_calendar-container .event:hover {
+  background-color: #fff;
+}
+
+#my-team_calendar-container .ant-picker-calendar-date-content::-webkit-scrollbar {
+  display: none;
+  width: 5px;
+  transition: .3s;
+}
+#my-team_calendar-container .ant-picker-calendar-date-content:hover::-webkit-scrollbar {
+  display: block;
+}
+#my-team_calendar-container .ant-picker-calendar-date-content::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+#my-team_calendar-container .ant-picker-calendar-date-content::-webkit-scrollbar-thumb {
+  background: rgb(212, 212, 212); 
+  border-radius: 3px;
+}
+#my-team_calendar-container .ant-picker-calendar-date-content::-webkit-scrollbar-thumb:hover {
+  background: rgb(153, 153, 153); 
 }

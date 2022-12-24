@@ -102,13 +102,13 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
       .then((user) => {
         axios({
           method: 'GET',
-          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
+          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=${user.Email}`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulmohsen.alaiban@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Abdullah.Alsuheem@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Akmal.Eldahdouh@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Sulaiman.AlRumaih@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=fawaz.aladhyani@salic.com`,
-          url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulaziz.alhaqbani@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulaziz.alhaqbani@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)

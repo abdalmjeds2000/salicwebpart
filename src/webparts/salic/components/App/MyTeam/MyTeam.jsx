@@ -4,7 +4,7 @@ import TeamTree from './components/TeamTree/TeamTree';
 import Information from './components/Information/Information';
 import Attendance from './components/Attendance/Attendance';
 import KPIProgress from './components/Performance/KPIProgress';
-import Calendar from './components/Calendar/Calendar';
+import UserCalendar from './components/Calendar/UserCalendar';
 import Leaves from './components/Leaves';
 import Tabs from '../Global/CustomTabs/Tabs';
 import { Col, Row } from 'antd';
@@ -67,7 +67,7 @@ const MyTeam = () => {
       key: 4, 
       icon: <CalendarOutlined />, 
       title: 'Calendar', 
-      content: <Calendar />
+      content: <UserCalendar userData={dataFor} />
     },/* {
       key: 5, 
       icon: <LogoutOutlined />, 
