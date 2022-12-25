@@ -9,7 +9,7 @@
 }
 
 .oracle-reports-container .departments-container {
-  width: 20%;
+  width: 30%;
 }
 
 .oracle-reports-container .departments-container ul.departments {
@@ -49,7 +49,7 @@
 .departments-container ul.departments .dep-root_L2 > a {
   display: block;
   text-align: left;
-  background-color: rgb(231 240 254 / 50%);
+  background-color: #fff;
   padding: 7px 7px 7px 28px;
   color: var(--main-color);
   font-size: .9rem;
@@ -60,7 +60,7 @@
 
 
 .oracle-reports-container .departments-content {
-  width: 80%;
+  width: 100%;
 }
 .oracle-reports-container .departments-content h1 {
   font-size: 1.7rem;
@@ -157,6 +157,9 @@
   .oracle-reports-container .departments-content .links-container {
     grid-template-columns: repeat(auto-fill, minmax(47%, 1fr));
   }
+  .departments-container ul.departments .dep-root_L0 > a {
+    font-size: 1.1rem;
+  }
 }
 @media screen and (max-width: 768px) {
   .oracle-reports-container {
@@ -165,11 +168,26 @@
   }
   .oracle-reports-container .departments-container {
     width: 100%;
+    position: absolute;
+    z-index: 1;
+    padding: 25px;
+    left: 0;
+    top: 60px;
+    overflow: auto;
+    height: calc(100% - 60px);
+    background: #000000b8;
+    background: linear-gradient(180deg,#00000045,rgb(0 0 0 / 68%));  
+  }
+  .oracle-reports-container .departments-container::-webkit-scrollbar {
+    display: none;
   }
   .oracle-reports-container .departments-content {
     width: 100%;
   }
   .oracle-reports-container .departments-content .links-container {
     grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+  }
+  .departments-container ul.departments .dep-root_L0 > a {
+    font-size: 1rem;
   }
 }

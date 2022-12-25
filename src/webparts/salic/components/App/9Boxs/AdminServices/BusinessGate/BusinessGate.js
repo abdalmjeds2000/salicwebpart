@@ -183,8 +183,10 @@ function BusinessGate() {
               </Form.Item>
     
               <hr />
-    
-              <EditableTable dataSource={dataSource} setDataSource={setDataSource} PreviewMode={id ? true : false} />
+              
+              <div className='admin-services-table'>
+                <EditableTable dataSource={dataSource} setDataSource={setDataSource} PreviewMode={id ? true : false} />
+              </div>
     
               <hr />
     
@@ -192,7 +194,12 @@ function BusinessGate() {
               {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
 
-            {id && <ActionsTable ActionData={requestData.Status || []} />}
+            {
+              id && 
+              <div className='admin-services-table'>
+                <ActionsTable ActionData={requestData.Status || []} />
+              </div>
+            }
           </FormPage>
         : <AntdLoader />
       }

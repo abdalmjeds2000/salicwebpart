@@ -92,7 +92,8 @@ import {
   MyTeam,
   SalicProfile,
   AlmiraVersions,
-  PageNotFound
+  PageNotFound,
+  PDFViewer
 } from './ImportFiles';
 
 
@@ -278,6 +279,7 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/my-team`} element={<MyTeam />} />
 
+      <Route path={`${defualtRoute}/pdf-viewer`} element={<PDFViewer />} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>

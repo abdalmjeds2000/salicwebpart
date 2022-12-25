@@ -5,11 +5,30 @@
   align-items: center;
   gap: 30px;
   margin: 0;
-  overflow: hidden;
+  overflow: auto;
 }
-.team-tree-container:hover {
-  overflow-x: auto;
+.team-tree-container::-webkit-scrollbar {
+  display: none;
+  width: 5px;
+  transition: .3s;
 }
+.team-tree-container:hover::-webkit-scrollbar {
+  display: block;
+}
+.team-tree-container::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+.team-tree-container::-webkit-scrollbar-thumb {
+  background: rgb(212, 212, 212); 
+  border-radius: 3px;
+}
+.team-tree-container::-webkit-scrollbar-thumb:hover {
+  background: rgb(153, 153, 153); 
+}
+
+
+
+
 .team-tree-container::before {
   content: "";
   position: absolute;
@@ -82,16 +101,22 @@
 
 .team-tree-container .parent img:hover,
 .team-tree-container .parent.active img {
-  border: 6px solid var(--main-color);
+  border-color:var(--main-color);
 }
 
-
+.team-tree-container .mobile-childrens {
+  display: none;
+  margin-left: 75px;
+}.team-tree-container .desktop-childrens {
+  display: block;
+}
 
 .team-tree-container .childrens {
   display: flex;
   gap: 12px;
   align-items: center;
 }
+
 .team-tree-container .childrens .child-item {
   position: relative;
   display: flex;
@@ -125,4 +150,63 @@
 }
 .team-tree-container .childrens .child-item.active img {
   border-color: var(--main-color);
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  /* .team-tree-container .parent .img::before, */
+  /* .team-tree-container .childrens .child-item::before, */
+  .team-tree-container::before {
+    display: none;
+  }
+  .team-tree-container .parent .img::before {
+    content: "";
+    height: 20px;
+    bottom: -20px;
+  }
+  .team-tree-container .parent .img::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 50px;
+    bottom: -20px;
+    left: 50%;
+    background-color: #ececec;
+  }
+  .team-tree-container .childrens .child-item::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: #ececec;
+    left: 0px;
+    top: calc(50% - 2px);
+  }
+
+  .team-tree-container .childrens .child-item img {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+    position: relative;
+  }
+  
+  .team-tree-container .mobile-childrens {
+    display: block;
+  }.team-tree-container .desktop-childrens {
+    display: none;
+  }
+  .team-tree-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0; 
+    background-color: #fff;
+    border-radius: 10px;
+  }
 }

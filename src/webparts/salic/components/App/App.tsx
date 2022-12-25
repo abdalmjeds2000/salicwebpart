@@ -346,6 +346,8 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
 
   };
 
+
+
   let link: any = document.querySelector("link[rel~='icon']");
   if (!link) {
     link = document.createElement('link');
@@ -358,13 +360,16 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   // if(!["stsadmin@salic.onmicrosoft.com", "Akmal.Eldahdouh@salic.com"].includes(userData?.Data?.Mail)) {
   //   spControlePanel.style.display = "none";
   // }
+
+
+
   
   return (
     <React.StrictMode>
       <AppCtx.Provider value={AppContextProviderSample}>
         <div style={{display: isLoading ? 'none' : ''}}>
           <Router>
-            <div className="app-container">
+            <div className="app-container" style={{}}>
               <SidebarNav spWebUrl={props.spWebUrl} />
               <div className="content-container">
                 <img src={require('../../assets/images/world.svg')} className='img-bg' />

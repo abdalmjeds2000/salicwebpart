@@ -210,7 +210,12 @@ function OfficeSupply() {
               
               {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
-            {id && <ActionsTable ActionData={requestData.Status || []} />}
+            {
+              id && 
+              <div className='admin-services-table'>
+                <ActionsTable ActionData={requestData.Status || []} />
+              </div>
+            }
           </FormPage>
         : <AntdLoader />
       }

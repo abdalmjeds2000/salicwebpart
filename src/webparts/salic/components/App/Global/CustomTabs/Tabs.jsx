@@ -12,7 +12,7 @@ const Tabs = ({items, loading}) => {
           {
             items.map((item, i) => (
               <a href={`#${item.key}`}><li key={i} onClick={() => setActiveTab(item.key)} className={activeTab == item.key ? 'active' : ''}>
-                {item.icon} {item.title}
+                {item.icon} <span className='title'>{item.title}</span>
               </li></a>
             ))
           }

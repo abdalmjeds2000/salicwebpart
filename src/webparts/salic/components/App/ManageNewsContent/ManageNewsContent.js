@@ -82,14 +82,14 @@ function ManageNewsContent() {
       title: 'Date & Time',
       dataIndex: 'Created',
       width: '15%',
-      render: (val) => val ? new Date(val).toLocaleString() : ' - '
+      render: (val) => val ? <div style={{minWidth: '120px'}}>{new Date(val).toLocaleString()}</div> : ' - '
     },{
       title: 'Title',
       dataIndex: 'Subject',
       width: '45%',
       render: (val, record) => (
         <Dropdown overlay={menu(record.Id)} trigger={['click']}>
-          <a onClick={(e) => e.preventDefault()}>
+          <a onClick={(e) => e.preventDefault()} style={{minWidth: '300px', display: 'block'}}>
             <span>{val}</span> <DownOutlined />
           </a>
         </Dropdown>
@@ -104,7 +104,7 @@ function ManageNewsContent() {
       title: 'Author',
       dataIndex: 'Author',
       width: '25%',
-      render: (val) => <UserColumnInTable Mail={val?.EMail} DisplayName={val?.Title}  />
+      render: (val) => <div style={{minWidth: '150px'}}><UserColumnInTable Mail={val?.EMail} DisplayName={val?.Title}  /></div>
     }
   ];
 

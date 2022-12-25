@@ -51,7 +51,8 @@ html {
 .app-container {
   display: flex;
   min-height: 100vh;
-  max-width: calc(100vw - 10px);
+  /* max-width: calc(100vw - 10px); */
+  max-width: 100%;
   position: relative;
 }
 .content-container {
@@ -361,7 +362,10 @@ img.img-bg {
 .rk_br_ada2ac09 {
   display: none !important;
 }
-
+/* hide header */
+.lj_at_ada2ac09, div[data-automation-id='pageHeader'], lm_at_ada2ac09  {
+    display: none !important;
+}
 /* .primarySet-94 {
   display: none !important;
 }

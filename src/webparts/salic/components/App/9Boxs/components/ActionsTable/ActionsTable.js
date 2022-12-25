@@ -1,4 +1,4 @@
-import { Divider, Table, Tabs, Tag } from 'antd';
+import { Table, Tabs, Tag } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons';
@@ -12,7 +12,7 @@ function ActionsTable(props) {
       title: 'Message',
       dataIndex: 'Description',
       width: '40%',
-      render: (val, record) => <div style={{display: 'grid', gap: '10px'}}>
+      render: (val, record) => <div style={{display: 'grid', gap: '10px', minWidth: '150px'}}>
         <div>
           {
             record.Type === "FYI"

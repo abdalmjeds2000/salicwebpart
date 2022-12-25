@@ -5,7 +5,7 @@ import { OrgChart } from "d3-org-chart";
 import '../Communication.css';
 import EmployeeDetailsCard from "./employeeDetailsCard";
 import { AiOutlineZoomIn, AiOutlineZoomOut, AiOutlineNodeCollapse } from "react-icons/ai";
-import { MdOutlineZoomOutMap } from "react-icons/md";
+import { MdOutlineZoomOutMap, MdOutlineFitScreen } from "react-icons/md";
 import { SlOrganization } from "react-icons/sl";
 import { Button, Dropdown, Menu, Tooltip } from "antd";
 import { TbLayoutBoardSplit } from "react-icons/tb";
@@ -77,7 +77,7 @@ const OrganizationalChart = (props) => {
             toggleDetailsCard(d);
           }
         })
-        .initialZoom(0.35)
+        // .initialZoom(0.35)
         .nodeContent((d) => {
           const dd = d.data;
           dd.depth = d.depth;
@@ -127,9 +127,10 @@ const OrganizationalChart = (props) => {
   useEffect(() => {
     if(props.data.length > 0) {
       // chart.expandAll();
-      chart.expandLevel(19)
+      // chart.expandLevel(19)
+      chart.fit()
     }
-  }, [chart, props, props.data, layout])
+  }, [])
 
 
 
@@ -166,7 +167,9 @@ const OrganizationalChart = (props) => {
         <Tooltip title="Collapse All" placement="left">
           <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.collapseAll()}><AiOutlineNodeCollapse /></Button>
         </Tooltip>
-        
+        <Tooltip title="Fit" placement="left">
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.fit()}><MdOutlineFitScreen /></Button>
+        </Tooltip>
         <Tooltip title="Layout" placement="left">
           <Dropdown
             overlay={menu}

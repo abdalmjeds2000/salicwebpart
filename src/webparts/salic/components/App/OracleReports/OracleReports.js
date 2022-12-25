@@ -3,17 +3,25 @@ import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation'
 import './OracleReports.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { Divider, message } from 'antd'
+import { Button, Divider, message, Tooltip } from 'antd'
 import axios from 'axios'
 import { AppCtx } from '../App'
 import AntdLoader from '../Global/AntdLoader/AntdLoader'
+import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from 'react-icons/tb';
+
+
 
 function OracleReports() {
+
   const { user_data, oracleReports, setOracleReports } = useContext(AppCtx);
   const [loading, setLoading] = React.useState(true);
   const [showHR, setShowHR] = useState(false)
   const [currentLinks, setCurrentLinks] = useState([])
   const [activeLink, setActiveLink] = useState('')
+  const [expandSideBar, setExpandSideBar] = useState(true);
+
+
+
 
   // Get Oracle Reports Data
   const fetchData = async () => {
@@ -27,11 +35,16 @@ function OracleReports() {
     })
     setLoading(false);
   }
+
   useEffect(() => {
     if(Object.keys(user_data).length > 0) {
       fetchData();
     }
   }, [user_data]);
+
+
+
+
 
   return (
     <>
@@ -43,7 +56,7 @@ function OracleReports() {
         !loading && oracleReports?.children?.length > 0
         ? (
           <div className='oracle-reports-container'>
-            <div className='departments-container'>
+            <div className='departments-container' style={{ display: expandSideBar ? 'block' : 'none' }}>
               <ul className='departments'>
                 {
                   oracleReports?.children?.map((level0, i) => {
@@ -95,7 +108,14 @@ function OracleReports() {
 
 
             <div className='departments-content'>
-            <h1>{activeLink || 'Reports'}</h1>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <h1>{activeLink || 'Reports'}</h1>
+                <Tooltip title="Toggle Sidebar">
+                  <Button type='primary' shape='circle' onClick={() => setExpandSideBar(prev => { return !prev })}>
+                    {expandSideBar ?  <TbLayoutSidebarLeftCollapse /> : <TbLayoutSidebarLeftExpand />}
+                  </Button>
+                </Tooltip>
+              </div>
 
               <Divider />
               

@@ -22,7 +22,7 @@ const LeavesDatesComponent = ({title, count, dates}) => (
 
 
 
-const Leaves = ({ reasonId, toUser }) => {
+const Leaves = (props) => {
   const { user_data } = useContext(AppCtx);
   const [loading, setLoading] = useState(false);
 
@@ -40,20 +40,44 @@ const Leaves = ({ reasonId, toUser }) => {
       case "1":
         setCurrent("1");
         await axios.get(url + `AnnualLeaveBalance?PIN=${toUser}`, { signal: signal })
-          .then(({ data }) => setAnnualData(data.Data || {}))
+          .then(({ data }) => {
+            if(!data.Data || data.Data.Count == 0) {
+              props.onChangeLeaves(false);
+            } else {
+              props.onChangeLeaves(true);
+            }
+            setAnnualData(data.Data || {})
+          })
         break;
       case "2":
         setCurrent("2");
         await axios.get(url + `BusinessBalance?PIN=${toUser}`, { signal: signal })
-          .then(({ data }) => setBusinessData(data.Data || []))
+          .then(({ data }) => {
+            if(data.Data && data.Data.length == 0) {
+              props.onChangeLeaves(true);
+            } else {
+              props.onChangeLeaves(false);
+            }
+            setBusinessData(data.Data || [])
+          })
         break;
       case "3":
         setCurrent("3");
         await axios.get(url + `TrainingBalance?PIN=${toUser}`, { signal: signal })
-          .then(({ data }) => setTrainingData(data.Data || []))
+          .then(({ data }) => {
+            if(data.Data && data.Data.length == 0) {
+              props.onChangeLeaves(true);
+            } else {
+              props.onChangeLeaves(false);
+            }
+            setTrainingData(data.Data || [])
+          })
         break;
       default:
     }
+
+
+    
     setLoading(false);
   }
 
@@ -62,10 +86,10 @@ const Leaves = ({ reasonId, toUser }) => {
     if(Object.keys(user_data).length > 0) {
       const controller = new AbortController();
       const signal = controller.signal;
-      handleReasonChange(reasonId, toUser, signal);
+      handleReasonChange(props.reasonId, props.toUser, signal);
       return () => {controller.abort();};
     }
-  }, [reasonId, toUser])
+  }, [props.reasonId, props.toUser])
 
 
   const NoRecords = () => <Typography.Text type='warning'>No Records</Typography.Text>;
@@ -110,7 +134,7 @@ const Leaves = ({ reasonId, toUser }) => {
       default:
     }
   }
-  return;
+  return <></>;
 }
 
 export default Leaves

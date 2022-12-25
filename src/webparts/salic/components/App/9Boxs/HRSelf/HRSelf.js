@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../../App';
 import { icons } from './boxsData';
@@ -38,6 +38,11 @@ function HRSelf() {
     {icon: icons.BusinessCard, bgColor: '#43A2CC', isLink: true, text: 'Professional Certificate Reimbursement', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1653797991863', 'PRC_URL')},
     {icon: icons.ClearanceRequest, bgColor: '#FF6666', isLink: true, text: 'Clearance Request', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1605716491054'},
   ];
+
+
+  useEffect(() => {
+    document.title = '.:: SALIC Gate | HC Services ::.'
+  }, [])
 
   return (
     <>

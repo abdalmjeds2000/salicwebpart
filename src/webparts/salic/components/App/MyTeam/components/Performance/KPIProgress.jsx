@@ -10,7 +10,7 @@ const KPIProgress = ({ data }) => {
     return <Empty />
   }
   return (
-    <div style={{padding: 30}}>
+    <div style={{padding: '10px 0'}}>
       <Row gutter={[20, 20]}>
           {
             data.map((row, i) => (

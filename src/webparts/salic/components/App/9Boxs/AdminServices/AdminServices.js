@@ -2,7 +2,7 @@ import React from "react";
 import HistoryNavigation from "../../Global/HistoryNavigation/HistoryNavigation";
 import { services, srvsIcons } from './boxsData';
 import ServicesSection from "../../Global/ServicesSection/ServicesSection";
-
+import './AdminServices.css';
 
 const AdminServices = () => {
 

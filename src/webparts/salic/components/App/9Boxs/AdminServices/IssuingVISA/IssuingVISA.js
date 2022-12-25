@@ -55,6 +55,7 @@ function IssuingVISA() {
   const [requestData, setRequestData] = useState({});
   const [approvals, setApprovals] = useState([]);
 
+  const [allowSubmit, setAllowSubmit] = useState(false);
 
 
   // GET VISA Request Approvals
@@ -210,7 +211,7 @@ function IssuingVISA() {
           {
             !id ? ( 
               <Form.Item label=" ">
-                <Leaves reasonId={visaReason} toUser={toUser} /> 
+                <Leaves reasonId={visaReason} toUser={toUser} onChangeLeaves={e => setAllowSubmit(e)} /> 
               </Form.Item>
             ) : null
           }
@@ -304,10 +305,15 @@ function IssuingVISA() {
           </Form.Item>}
 
           
-          {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+          {!id && !allowSubmit && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
         </Form>
 
-        {id && <ActionsTable ActionData={requestData.Status || []} />}
+        {
+          id && 
+          <div className='admin-services-table'>
+            <ActionsTable ActionData={requestData.Status || []} />
+          </div>
+        }
       </FormPage>
     </>
   )

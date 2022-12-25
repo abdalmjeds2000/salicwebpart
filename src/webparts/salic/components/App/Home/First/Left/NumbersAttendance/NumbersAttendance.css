@@ -25,6 +25,7 @@
 .home-info .numbers-attendance-container .div4 { 
   grid-area: 2 / 3 / 4 / 4; 
   position: relative; 
+  width: 100%;
 }
 .home-info .numbers-attendance-container .div4 .mid-total {
   position: absolute;

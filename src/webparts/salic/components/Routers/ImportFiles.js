@@ -89,3 +89,4 @@ export { default as MyTeam } from '../App/MyTeam/MyTeam';
 export { default as SalicProfile } from '../App/SalicProfile/SalicProfile';
 export { default as AlmiraVersions} from '../App/SalicProfile/AlmiraVersions/AlmiraVersions';
 export { default as PageNotFound} from '../App/PageNotFound/PageNotFound';
+export { default as PDFViewer} from '../App/PDF/PDFViewer';

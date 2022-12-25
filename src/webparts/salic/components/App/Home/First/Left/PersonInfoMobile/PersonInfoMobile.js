@@ -27,7 +27,7 @@ function PersonInfoMobile() {
               </a>
             )
           } */}
-          <a onClick={() => navigate(`${defualt_route}/my-team`)}>
+          <a onClick={() => window.open(`${defualt_route}/my-team`, '_blank')}>
             <svg style={{width: '1.5rem'}} xmlns="http://www.w3.org/2000/svg"width="35" height="35" x="0" y="0" viewBox="0 0 512 512"><g><g><circle cx="256" cy="119.631" r="87" fill="#B5CFED"></circle><circle cx="432" cy="151.63" r="55" fill="#B5CFED"></circle><circle cx="80" cy="151.63" r="55" fill="#B5CFED"></circle><path d="m134.19 256.021c-21.65-17.738-41.257-15.39-66.29-15.39-37.44 0-67.9 30.28-67.9 67.49v109.21c0 16.16 13.19 29.3 29.41 29.3 70.026 0 61.59 1.267 61.59-3.02 0-77.386-9.166-134.137 43.19-187.59z" fill="#B5CFED"></path><path d="m279.81 241.03c-43.724-3.647-81.729.042-114.51 27.1-54.857 43.94-44.3 103.103-44.3 175.48 0 19.149 15.58 35.02 35.02 35.02 211.082 0 219.483 6.809 232-20.91 4.105-9.374 2.98-6.395 2.98-96.07 0-71.226-61.673-120.62-111.19-120.62z" fill="#B5CFED"></path><path d="m444.1 240.63c-25.17 0-44.669-2.324-66.29 15.39 51.965 53.056 43.19 105.935 43.19 187.59 0 4.314-7.003 3.02 60.54 3.02 16.8 0 30.46-13.61 30.46-30.34v-108.17c0-37.21-30.46-67.49-67.9-67.49z" fill="#B5CFED"></path></g></g></svg>
           </a>
 
@@ -46,10 +46,10 @@ function PersonInfoMobile() {
           </a>
           
           <div className="person-img">
-            <img onClick={() => navigate(defualt_route + '/my-team')} src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} alt="Person" />
+            <img onClick={() => window.open(defualt_route + '/my-team', '_blank')} src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} alt="Person" />
           </div>
 
-          <a onClick={() => navigate(`${defualt_route}/notification-center`)}>
+          <a onClick={() => window.open(`${defualt_route}/notification-center`, '_blank')}>
             <svg id="Iconly_Bold_Notification" data-name="Iconly/Bold/Notification" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
               <g id="Notification" transform="translate(6.16 3.52)">
                 <path id="Notification-2" data-name="Notification" d="M14.049,35.139a6.37,6.37,0,0,1-3.016-1.289,2.73,2.73,0,0,1-1.224-2.064c0-.887.813-1.292,1.565-1.467a45.676,45.676,0,0,1,7.121,0c.752.174,1.565.58,1.565,1.467a2.734,2.734,0,0,1-1.223,2.065,6.4,6.4,0,0,1-3.014,1.288,7.03,7.03,0,0,1-.9.059A6.454,6.454,0,0,1,14.049,35.139ZM6.624,27.714a7.981,7.981,0,0,1-5.1-2.487A6.361,6.361,0,0,1,0,21.041a5.927,5.927,0,0,1,1.286-4.066A6.683,6.683,0,0,0,3.157,11.96v-.749a9.9,9.9,0,0,1,2.259-6.79A12.448,12.448,0,0,1,14.881,0h.158A12.392,12.392,0,0,1,24.66,4.619a9.76,9.76,0,0,1,2.1,6.592v.749a6.844,6.844,0,0,0,1.869,5.015,5.92,5.92,0,0,1,1.286,4.066A6.36,6.36,0,0,1,28.4,25.227a7.988,7.988,0,0,1-5.1,2.487c-2.766.234-5.533.434-8.336.434A73.368,73.368,0,0,1,6.624,27.714Z" transform="translate(0)" fill="#b5cfed"/>
@@ -63,7 +63,7 @@ function PersonInfoMobile() {
               </span> 
             }
           </a>
-          <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}>
+          <a onClick={() => window.open(`${defualt_route}/book-meeting-room`, '_blank')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 31.518 31.518">
               <g id="svgexport-10" transform="translate(-2 -2)">
                 <g id="Layer_2" data-name="Layer 2" transform="translate(2 2)">

@@ -5,7 +5,6 @@ import CustomSelect from '../components/CustomSelect';
 import './DailyAttendance.css';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 
-
 function DailyAttendance() {
   const { user_data } = useContext(AppCtx)
 
@@ -19,18 +18,6 @@ function DailyAttendance() {
   
   
 
-  // ...user_data?.Data?.DirectUsers?.map(u => {
-  //   let nestedUsers = [{value: u.Mail, name: u.DisplayName}]
-  //   if(u.DirectUsers.length > 0) {
-  //     for(let i=0; i <= u.DirectUsers.length; i++) {
-  //       nestedUsers.push({value: u.DirectUsers[i]?.Mail, name: u.DirectUsers[i]?.DisplayName})
-  //     }
-  //   }
-  //   return nestedUsers
-  // })
-
-
-  
   const [employeesOptions, setEmployeesOptions] = useState([]);
   useEffect(() => {
     const users = user_data?.Data?.DirectUsers?.map(u => {
@@ -55,22 +42,28 @@ function DailyAttendance() {
 
 
 
-  let filterResultsHandler = () => {
+  let filterResultsHandler = async (email) => {
     setLoader(true);
-
-    axios({
+    console.log(employees);
+    await axios({
       method: 'GET',
-      url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${employees.join()}&startDate=${startDate}&EndDate=${endDate}&month=${startDate !== '' || endDate !== '' ? 0 : (new Date().getMonth() + 1)}&year=${startDate !== '' || endDate !== '' ? 0 : (new Date().getFullYear())}`
+      url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${email.join() || employees.join()}&startDate=${startDate}&EndDate=${endDate}&month=${startDate !== '' || endDate !== '' ? 0 : (new Date().getMonth() + 1)}&year=${startDate !== '' || endDate !== '' ? 0 : (new Date().getFullYear())}`
     }).then((res) => {
       setTableData(res.data.Data);
-      setLoader(false);
     }).catch((err) => {
       console.log(err); 
-      setLoader(false);
     })
+    setLoader(false);
   }
 
 
+
+
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0) {
+      filterResultsHandler([user_data?.Data?.Mail])
+    }
+  }, [user_data])
 
 
   return (
@@ -112,7 +105,7 @@ function DailyAttendance() {
           </div>
           <div className="btns">
             <button>Export Data</button>
-            <button onClick={filterResultsHandler} disabled={loader}>Filter Results</button>
+            <button onClick={() => filterResultsHandler([])} disabled={loader}>Filter Results</button>
           </div>
         </div>
         <div className="table">

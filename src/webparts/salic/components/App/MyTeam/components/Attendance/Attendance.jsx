@@ -1,6 +1,6 @@
 import React from 'react';
 import './Attendance.css';
-import { Table } from 'antd';
+import { Empty, Table } from 'antd';
 
 
 const Attendance = ({ data }) => {
@@ -22,6 +22,11 @@ const Attendance = ({ data }) => {
     { title: 'Approval Status', dataIndex: 'JustificationStatus', render: (val) => val || ' - '},
   ]
 
+
+
+  if(!data || data.length == 0) {
+    return <Empty />
+  }
   return (
     <div className='my-team-attendance' style={{overflowX: 'auto'}}>
       <Table 
