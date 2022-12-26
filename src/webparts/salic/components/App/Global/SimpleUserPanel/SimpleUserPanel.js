@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './SimpleUserPanel.css';
 import UserSettingsPanel from '../UserSettingsPanel/UserSettingsPanel';
 import { AppCtx } from '../../App';
@@ -8,7 +7,6 @@ import { Tooltip } from 'antd';
 function SimpleUserPanel() {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const { defualt_route, user_data, notifications_count, mail_count } = useContext(AppCtx);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -18,7 +16,7 @@ function SimpleUserPanel() {
           alt=""
           onClick={() => setShowUserDetails(!showUserDetails)} 
         />
-        <p>{user_data?.Data?.DisplayName}</p>
+        <p title={user_data?.Data?.DisplayName}>{user_data?.Data?.DisplayName}</p>
         <div className='icons'>
           <Tooltip title="Notification Center" placement='bottom'>
             <a onClick={() => window.open(`${defualt_route}/notification-center`, '_blank')}>

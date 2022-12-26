@@ -3,6 +3,15 @@
   padding: 10px 25px;
   table-layout: fixed;
 }
+
+.latest-attendance-table-container .latest-attendance-table .desktop-body {
+  display: block;
+}
+.latest-attendance-table-container .latest-attendance-table .mobile-body {
+  display: none;
+}
+
+
 .latest-attendance-table-container .latest-attendance-table tr th,
 .latest-attendance-table-container .latest-attendance-table tr td:not(:first-child) {
   font-size: 0.7rem;
@@ -87,6 +96,13 @@
   .latest-attendance-table-container .latest-attendance-table td {
     padding: 2px 10px;
   }
+  .latest-attendance-table-container .latest-attendance-table .desktop-body {
+    display: none;
+  }
+  .latest-attendance-table-container .latest-attendance-table .mobile-body {
+    display: contents;
+  }
+  
 }
 @media screen and (min-width: 1500px) {
   .latest-attendance-table-container .latest-attendance-table td {

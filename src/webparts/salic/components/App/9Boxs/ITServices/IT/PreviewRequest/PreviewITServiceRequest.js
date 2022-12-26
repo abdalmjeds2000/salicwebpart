@@ -1,6 +1,6 @@
-import { CaretRightOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, message, Space, Spin, Steps, Timeline, Typography, Upload } from 'antd';
-import React, { useContext } from 'react';
+import { CaretRightOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, message, Space, Steps, Timeline, Typography, Upload } from 'antd';
+import React, { useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppCtx } from '../../../../App';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
@@ -19,6 +19,8 @@ import ApproveAction from './helpers/ApproveAction';
 import DeleteAction from './helpers/DeleteAction';
 import ReOpenAction from './helpers/ReOpenAction';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
+import ToggleButton from '../../../../Global/ToggleButton';
+import { CgMoreO } from 'react-icons/cg';
 
 const { Title, Text } = Typography;
 
@@ -130,6 +132,13 @@ function PreviewITServiceRequest() {
     }
   }
 
+
+  // Toggle Properties Section (show and hide in mobile size)
+  const propertiesSectionRef = useRef();
+  const handleShowDetails = (v) => {
+    propertiesSectionRef.current.style.display = 
+    propertiesSectionRef.current.style.display === "block" ? "none" : "block";
+  }
   return (
     <>
       <HistoryNavigation>
@@ -140,7 +149,7 @@ function PreviewITServiceRequest() {
       <div className='preview-request-container'>
         <div className="header">
           <h1>IT Service Request: [#{requestData?.Id || '###'}]</h1>
-          <div>
+          {Object.keys(requestData).length > 0 && <div>
             {pendingApprove !== null &&
             <ApproveAction ActionId={pendingApprove.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
@@ -151,7 +160,15 @@ function PreviewITServiceRequest() {
             <DeleteAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {requestData.Status === "CLOSED" && IfRequester &&
             <ReOpenAction RequestId={requestData.Id} />}
-          </div>
+
+            <span className='properties-toggle-btn'>
+              <ToggleButton 
+                icon={<CgMoreO />}
+                title="more information"
+                callback={handleShowDetails}
+              />
+            </span>
+          </div>}
         </div>
 
         <div className='content'>
@@ -242,7 +259,7 @@ function PreviewITServiceRequest() {
                   </Timeline>
                 </div>
 
-                <div className='properties'>
+                <div className='properties' ref={propertiesSectionRef}>
                   <UpdateRequestForm RequestData={requestData} />
                   <Section SectionTitle="Attached Files">
                     <div className='attachments-container'>

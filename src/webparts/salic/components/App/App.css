@@ -51,10 +51,14 @@ html {
 .app-container {
   display: flex;
   min-height: 100vh;
-  /* max-width: calc(100vw - 10px); */
-  max-width: 100%;
+  max-width: calc(100vw - 10px);
   position: relative;
 }
+/* @media screen and (max-width: 768px) {
+  .app-container {
+    max-width: 100vw;
+  }
+} */
 .content-container {
   position: relative;
   width: 100%;
@@ -166,16 +170,15 @@ img.img-bg {
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 5px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
   background: #D1E5FD;
-  border-radius: 50px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #9EBEE6;
-  border-radius: 50px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
@@ -214,7 +217,9 @@ img.img-bg {
 .ant-input-lg {
   padding: 6.5px 11px !important;
 }
-
+.ant-input {
+  border: 1px solid #d9d9d9 !important;
+}
 
 
 
@@ -237,8 +242,9 @@ img.img-bg {
 .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
   color: rgba(0,0,0,.75) !important;
 }
-
-
+.ant-btn-circle {
+  min-width: 32px !important;
+}
 
 
 /* Hide Sharepoint elements */

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Empty, Table } from 'antd';
 import AntdLoader from '../AntdLoader/AntdLoader';
 
 function RequestsTable(props) {
@@ -16,12 +16,16 @@ function RequestsTable(props) {
           <div className='form' style={{overflowX: 'auto'}}>
               {
                 !props.IsLoading
-                ? <Table
-                    columns={props.Columns} 
-                    dataSource={props.DataTable} 
-                    pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true, style: {marginTop: 25} }} 
-                    size="middle"
-                  />
+                ? (
+                  props.DataTable.length > 0
+                  ? <Table
+                      columns={props.Columns} 
+                      dataSource={props.DataTable} 
+                      pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true, style: {padding: '25px 0'} }} 
+                      size="middle"
+                    />
+                  : <Empty />
+                )
                 : <AntdLoader />
               }
           </div>

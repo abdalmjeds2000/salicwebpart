@@ -11,7 +11,7 @@ function Dashboard(props) {
   return (
     <div>
       <Row gutter={[8, 8]}>
-        <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: IsShowDepartmentSection ? 8 : 12}}>
+        <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: 12}} xl={{span: IsShowDepartmentSection ? 8 : 12}}>
           <UserSRSummary
             DataForUser={props.DataForUser}
             summaryByStatus={props.summaryByStatus}
@@ -22,7 +22,7 @@ function Dashboard(props) {
         {
           IsShowDepartmentSection
           ? (
-            <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: 8}}>
+            <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: 12}} xl={8}>
               <DepartmentSRSummary
                 DataForUser={props.DataForUser}
                 summaryByDepartment={props.summaryByDepartment}
@@ -32,7 +32,7 @@ function Dashboard(props) {
           : null
         }
         
-        <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: IsShowDepartmentSection ? 8 : 12}}>
+        <Col xs={{span: 24}} sm={{span: 24}} md={{span: 24}} lg={{span: 12}} xl={{span: IsShowDepartmentSection ? 8 : 12}}>
           <TypesSRSummary
             DataForUser={props.DataForUser}
             summaryByRequestType={props.summaryByRequestType}

@@ -41,7 +41,7 @@ const Leaves = (props) => {
         setCurrent("1");
         await axios.get(url + `AnnualLeaveBalance?PIN=${toUser}`, { signal: signal })
           .then(({ data }) => {
-            if(!data.Data || data.Data.Count == 0) {
+            if(!data.Data || data.Data.Count === 0) {
               props.onChangeLeaves(false);
             } else {
               props.onChangeLeaves(true);
@@ -53,10 +53,10 @@ const Leaves = (props) => {
         setCurrent("2");
         await axios.get(url + `BusinessBalance?PIN=${toUser}`, { signal: signal })
           .then(({ data }) => {
-            if(data.Data && data.Data.length == 0) {
-              props.onChangeLeaves(true);
-            } else {
+            if(!data.Data || data.Data.length === 0) {
               props.onChangeLeaves(false);
+            } else {
+              props.onChangeLeaves(true);
             }
             setBusinessData(data.Data || [])
           })
@@ -65,10 +65,10 @@ const Leaves = (props) => {
         setCurrent("3");
         await axios.get(url + `TrainingBalance?PIN=${toUser}`, { signal: signal })
           .then(({ data }) => {
-            if(data.Data && data.Data.length == 0) {
-              props.onChangeLeaves(true);
-            } else {
+            if(!data.Data || data.Data.length === 0) {
               props.onChangeLeaves(false);
+            } else {
+              props.onChangeLeaves(true);
             }
             setTrainingData(data.Data || [])
           })

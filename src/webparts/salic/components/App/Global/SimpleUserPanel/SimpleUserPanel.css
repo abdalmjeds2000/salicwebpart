@@ -50,8 +50,20 @@
 }
 
 
+@media screen and (max-width: 1200px) {
+  .simple-user-panel > p {
+    max-width: 80px!important;
+    overflow: hidden!important;
+    white-space: nowrap!important;
+    text-overflow: ellipsis!important;
+    display: inline-block!important;
+  }
+}
 @media screen and (max-width: 800px) {
   .simple-user-panel {
     display: none;
   }
 }
+
+
+

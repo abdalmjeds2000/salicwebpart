@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Input, message, Row, Space, Typography } from 'antd';
+import { Button, message, Row, Space, Typography } from 'antd';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../../../App';
 import UserColumnInTable from '../../../../../../Global/UserColumnInTable/UserColumnInTable';
 import RequestsTable from '../../../../../../Global/RequestsComponents/RequestsTable';
@@ -14,7 +13,6 @@ import AntdLoader from '../../../../../../Global/AntdLoader/AntdLoader';
 
 function ServicesRequests(props) {
   const { ITRequests, setITRequests, user_data, defualt_route } = useContext(AppCtx);
-  const navigate = useNavigate();
   const [isShowRemoveFilterBtn, setIsShowRemoveFilterBtn] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -96,7 +94,7 @@ function ServicesRequests(props) {
       dataIndex: 'Subject',
       width: '33%',
       render: (val, record) => (
-        <Space direction='horizontal'>
+        <Space direction='horizontal' style={{minWidth: 200}}>
           <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
           <Typography.Link onClick={() => window.open(defualt_route + `/services-requests/${record.Id}`, '_blank')}>{val}</Typography.Link>
         </Space>
@@ -105,18 +103,12 @@ function ServicesRequests(props) {
       title: 'Requester',
       dataIndex: 'Requester',
       width: '16%',
-      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
-    }/* ,{
-      title: 'Priority',
-      dataIndex: 'Priority',
-      width: '12%',
-      render: (val) => val == "1" ? <Tag color="#0c508c">Normal</Tag> : val == "2" ? <Tag color="#ff272b">Critical</Tag> : <Tag color="#bbb">Unknown</Tag>
-    } */,
-    {
+      render: (val) => <div style={{minWidth: 100}}><UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /></div>
+    },{
       title: 'Assgined To',
       dataIndex: 'PendingWith',
       width: '16%',
-      render: (val, record) => <UserColumnInTable Mail={val?.Mail || record.ClosedBy?.Mail} DisplayName={val?.DisplayName || record.ClosedBy?.DisplayName} />
+      render: (val, record) => <div style={{minWidth: 100}}><UserColumnInTable Mail={val?.Mail || record.ClosedBy?.Mail} DisplayName={val?.DisplayName || record.ClosedBy?.DisplayName} /></div>
     },{
       title: 'Status',
       dataIndex: 'Status',

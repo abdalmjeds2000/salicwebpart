@@ -8,9 +8,6 @@ function PersonInfoMobile() {
   let navigate = useNavigate();
 
 
-  let root = communicationList.filter(emp => emp.id == "1")[0];
-
-
 
   if(Object.keys(user_data).length === 0 && Object.keys(communicationList).length === 0) {
     return null
@@ -46,7 +43,7 @@ function PersonInfoMobile() {
           </a>
           
           <div className="person-img">
-            <img onClick={() => window.open(defualt_route + '/my-team', '_blank')} src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} alt="Person" />
+            <img onClick={() => navigate(defualt_route + '/my-team')} src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} alt="Person" />
           </div>
 
           <a onClick={() => window.open(`${defualt_route}/notification-center`, '_blank')}>

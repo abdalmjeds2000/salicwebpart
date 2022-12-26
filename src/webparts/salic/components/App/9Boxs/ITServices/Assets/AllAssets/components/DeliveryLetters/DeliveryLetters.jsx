@@ -16,7 +16,7 @@ const initialFilter = { email: '', Number: '', Department: 'All', Status: 'All',
 
 const DeliveryLetters = () => {
   const { user_data, salic_departments, deliveryLettersData, setDeliveryLettersData } = useContext(AppCtx);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const _pageSize = 20;
@@ -65,17 +65,17 @@ const DeliveryLetters = () => {
       title: 'Date',
       dataIndex: 'CreatedAt',
       width: '10%',
-      render: (date) => date ? moment(date).format('MM/DD/YYYY hh:mm') : ''
+      render: (date) => date ? <div style={{minWidth: 120}}>{moment(date).format('MM/DD/YYYY hh:mm')}</div> : ''
     },{
       title: 'Delivered To',
       dataIndex: 'DeliveredTo',
       width: '22%',
-      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
+      render: (val) => <div style={{minWidth: 120}}><UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /></div>
     },{
       title: 'Delivered By',
       dataIndex: 'Requester',
       width: '22%',
-      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
+      render: (val) => <div style={{minWidth: 120}}><UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /></div>
     },{
       title: 'Status',
       dataIndex: 'Status',

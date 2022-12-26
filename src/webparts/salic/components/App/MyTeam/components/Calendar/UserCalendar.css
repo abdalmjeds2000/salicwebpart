@@ -106,11 +106,11 @@
 
 #my-team_calendar-container .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end) .ant-picker-cell-inner {
   background: var(--third-color) !important;
-  border-top-color: var(--link-text-color) !important;
+  border-top-color: var(--main-color) !important;
 }
 
 #my-team_calendar-container .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-today {
-  border-top: 5px solid var(--link-text-color) !important;
+  border-top: 5px solid var(--main-color) !important;
 }
 
 

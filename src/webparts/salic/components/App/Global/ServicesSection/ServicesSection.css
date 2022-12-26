@@ -96,7 +96,7 @@
 }
 @media screen and (max-width: 890px) {
   .services-page-container {
-    padding: 25px 10px;
+    padding: 25px 0;
   }
   .services-body-container .services-boxs-container {
     display: grid;

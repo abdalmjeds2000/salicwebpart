@@ -18,7 +18,7 @@ const UserPanel = (props) => {
           {/* <a onClick={() => navigate(`${defualt_route}/book-meeting-room`)}> */}
           <a onClick={() => window.open(`${defualt_route}/book-meeting-room`, '_blank')}>
             {/* <img src={BookingIcon} alt="" /> */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 31.518 31.518">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 31.518 31.518" style={{fontSize: '17px'}}>
               <g id="svgexport-10" transform="translate(-2 -2)">
                 <g id="Layer_2" data-name="Layer 2" transform="translate(2 2)">
                   <path id="Path_5091" data-name="Path 5091" d="M33.518,11.005V7.628a3.377,3.377,0,0,0-3.377-3.377h-4.5V3.126a1.126,1.126,0,1,0-2.251,0V4.251H12.131V3.126a1.126,1.126,0,1,0-2.251,0V4.251h-4.5A3.377,3.377,0,0,0,2,7.628v3.377Z" transform="translate(-2 -2)" fill="#b5cfed"/>

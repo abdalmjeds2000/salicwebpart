@@ -9,6 +9,7 @@ import pnp from 'sp-pnp-js';
 import { createContext } from "react";
 import axios from 'axios';
 import GetPerformance from './Home/First/Left/NumbersAttendance/API/GetPerformance';
+import ScrollToTop from './Global/ScrollToTop/ScrollToTop';
 
 
 
@@ -369,6 +370,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
       <AppCtx.Provider value={AppContextProviderSample}>
         <div style={{display: isLoading ? 'none' : ''}}>
           <Router>
+            <ScrollToTop />
             <div className="app-container" style={{}}>
               <SidebarNav spWebUrl={props.spWebUrl} />
               <div className="content-container">
@@ -383,29 +385,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
           <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
           <div></div>
         </div>
-
-        {/* {
-          !isLoading
-            ? <Router>
-                <div className="app-container">
-                  <SidebarNav spWebUrl={props.spWebUrl} />
-                  <div className="content-container">
-                    <img src={require('../../assets/images/world.svg')} className='img-bg' />
-                    <Header />
-                    <AppRoutes {...props} />
-                  </div>
-                </div>
-              </Router>
-            : null
-        }
-        {
-          !isGlobeReady || Object.keys(performance).length === 0
-          ? <div className="loader">
-              <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
-              <div></div>
-            </div>
-          : null
-        } */}
       </AppCtx.Provider>
     </React.StrictMode>
   )

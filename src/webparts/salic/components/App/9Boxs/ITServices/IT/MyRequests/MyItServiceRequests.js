@@ -40,41 +40,39 @@ function MyItServiceRequests() {
       title: 'Date & Time',
       dataIndex: 'CreatedAt',
       width: '12%',
-      render: (val) => moment(val).format('MM/DD/YYYY hh:mm:ss')
+      render: (val) => <div style={{minWidth: 120}}>{moment(val).format('MM/DD/YYYY hh:mm:ss')}</div>
     },{
       title: 'Subject',
       dataIndex: 'Subject',
       width: '33%',
       render: (val, record) => (
-        <Space direction='horizontal'>
-          <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
-          <Typography.Link onClick={() => navigate(defualt_route + `/services-requests/${record.Id}`)}>{val}</Typography.Link>
-        </Space>
+        <div style={{minWidth: 250}}>
+          <Space direction='horizontal'>
+            <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
+            <Typography.Link onClick={() => navigate(defualt_route + `/services-requests/${record.Id}`)}>{val}</Typography.Link>
+          </Space>
+        </div>
       )
     },{
       title: 'Requester',
       dataIndex: 'Requester',
       width: '16%',
-      render: (val) => <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} />
-    }/* ,{
-      title: 'Priority',
-      dataIndex: 'Priority',
-      width: '12%',
-      render: (val) => val == "1" ? <Tag color="#0c508c">Normal</Tag> : val == "2" ? <Tag color="#ff272b">Critical</Tag> : <Tag color="#bbb">Unknown</Tag>
-    } */,
-    {
+      render: (val) => <div style={{minWidth: 100}}><UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /></div>
+    },{
       title: 'Pending With',
       dataIndex: 'PendingWith',
       width: '16%',
-      render: (val) => val ? <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /> : '-'
+      render: (val) => val ? <div style={{minWidth: 100}}><UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /></div> : '-'
     },{
       title: 'Status',
       dataIndex: 'Status',
       width: '8%',
+      render: (val) => <div style={{minWidth: 80}}>{val}</div>
     },{
       title: 'Request Type',
       dataIndex: 'RequestType',
       width: '10%',
+      render: (val) => <div style={{minWidth: 80}}>{val}</div>
     }
   ];
 

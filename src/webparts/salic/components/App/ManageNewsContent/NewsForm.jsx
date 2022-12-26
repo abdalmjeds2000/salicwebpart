@@ -67,7 +67,7 @@ const NewsForm = ({ openModal, isEditMode, item, setOpenModal }) => {
     <div>
       <Form form={form} layout='vertical' onFinish={SubmitForm} onFinishFailed={() => message.error("Please, fill out the form correctly")}>
         <Row gutter={[20, 20]}>
-          <Col md={24} lg={12}>
+          <Col sm={24} md={24} lg={12}>
             <Form.Item name="CreatedOn" label="Date & Time" initialValue={isEditMode ? moment(item.CreatedOn) : moment(new Date())} rules={[{required: true, message: false}]}>
               <DatePicker showTime format="MM/DD/YYYY HH:mm" />
             </Form.Item>
@@ -89,7 +89,7 @@ const NewsForm = ({ openModal, isEditMode, item, setOpenModal }) => {
             </Form.Item>
           </Col>
 
-          <Col md={24} lg={12}>
+          <Col sm={24} md={24} lg={12}>
             <Form.Item label="Add Photo">
               <Upload
                 accept=".jpg,.jpeg,.png"

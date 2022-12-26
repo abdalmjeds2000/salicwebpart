@@ -86,7 +86,7 @@ const Information = ({ userData }) => {
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="Ext" groupSeparator="" value={userData?.Ext || ' - '} prefix={<CgHashtag />} />
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="PIN" groupSeparator="" value={parseInt(userData?.PIN, 10) || ' - '} prefix={<FaRegIdCard />} />
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="Manager" groupSeparator="" value={userData?.DirectManager?.DisplayName || user_data?.Data?.DisplayName || ' - '} prefix={<RiUser6Line />} />
-              <Statistic valueStyle={{fontSize: '1.2rem'}} title="HireDate" groupSeparator="" value={userData?.HireDate || ' - '} prefix={<AiOutlineCalendar />} />
+              <Statistic valueStyle={{fontSize: '1.2rem'}} title="Hire Date" groupSeparator="" value={userData?.HireDate || ' - '} prefix={<AiOutlineCalendar />} />
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="Mobile" groupSeparator="" value={userData?.Mobile || ' - '} prefix={<FaMobileAlt />} />
               <a className='email-part' href={`mailto:${userData?.Mail}`} title={`Click to contact with ${userData?.DisplayName}`}><Statistic valueStyle={{fontSize: '1.2rem', display: 'flex'}} title="Mail" groupSeparator="" value={userData?.Mail || ' - '} prefix={<FiMail />} /></a>
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="Grade" groupSeparator="" value={userData?.OfficeLocation || ' - '} prefix={<MdOutlineGrade />} />

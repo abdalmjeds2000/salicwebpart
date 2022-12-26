@@ -34,6 +34,7 @@
     padding: 30px;
     background-color: #fff;
     border-radius: 0 0 10px 10px;
+    position: relative;
   }
   .preview-request-container .content .timeline {
     width: 75%;
@@ -91,28 +92,8 @@
   .preview-request-container textarea {
     border-radius: 5px;
   }
-  @media screen and (max-width: 800px) {
-    .preview-request-container {
-      padding: 20px 10px;
-    }
 
-    .preview-request-container .content {
-        flex-direction: column;
-    }
-    .preview-request-container .content .timeline {
-        width: 100%;
-    }
-    .preview-request-container .content .properties {
-        width: 100%;
-    }
 
-    .preview-request-container .content .timeline .ant-timeline-item-content {
-      padding: 10px !important;
-      margin: 0 0 0 40px !important;
-      width: auto !important;
-    }
-  }
-  
 
   .preview-request-container .attachments-container {
     display: flex;
@@ -149,3 +130,88 @@
   .ant-checkbox-wrapper {
     align-items: center !important;
   }
+
+
+
+
+
+
+.properties-toggle-btn {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .preview-request-container {
+    padding: 20px 10px;
+  }
+
+
+
+  .preview-request-container .header {
+    padding: 10px 15px;
+  }
+  .preview-request-container .header h1 {
+    font-size: 1rem;
+  }
+  .preview-request-container .header div {
+    gap: 3px;
+  }
+  .preview-request-container .header button.ant-btn:not(.ant-btn-circle) {
+    padding: 3px 6px !important;
+    height: 25px !important;
+    line-height: 1 !important;
+  }
+
+  .preview-request-container .content {
+    flex-direction: column;
+  }
+  .preview-request-container .content .timeline {
+    width: 100%;
+  }
+  .preview-request-container .content .properties {
+    display: none;
+    width: 100%;
+    position: absolute;
+    background-color: #fff;
+    left: 0;
+    top: 0;
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+    overflow: auto;
+    height: calc(100vh - 170px);
+    box-shadow: 0 10px 15px rgba(0 0 0 / 24%);
+  }
+  .preview-request-container .content .properties::-webkit-scrollbar {
+    display: none;
+    width: 5px;
+    transition: .3s;
+  }
+  .preview-request-container .content .properties:hover::-webkit-scrollbar {
+    display: block;
+  }
+  .preview-request-container .content .properties::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  .preview-request-container .content .properties::-webkit-scrollbar-thumb {
+    background: rgb(212, 212, 212); 
+    border-radius: 3px;
+  }
+  .preview-request-container .content .properties::-webkit-scrollbar-thumb:hover {
+    background: rgb(153, 153, 153); 
+  }
+  .preview-request-container .content .timeline .ant-timeline-item-content {
+    padding: 10px !important;
+    margin: 0 0 0 40px !important;
+    width: auto !important;
+  }
+
+
+  .properties-toggle-btn {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .preview-request-container .content .properties {
+    display: block !important;
+  }
+}

@@ -137,10 +137,10 @@ const OrganizationalChart = (props) => {
   const menu = (
     <Menu
       items={[
-        { onClick: () => setLayout('left'), label: 'Left', key: 'left' },
-        { onClick: () => setLayout('right'), label: 'Right', key: 'right' },
-        { onClick: () => setLayout('top'), label: 'Top', key: 'top' },
-        { onClick: () => setLayout('bottom'), label: 'Bottom', key: 'bottom' },
+        { onClick: () => {setLayout('left'); chart.fit();}, label: 'Left', key: 'left' },
+        { onClick: () => {setLayout('right'); chart.fit();}, label: 'Right', key: 'right' },
+        { onClick: () => {setLayout('top'); chart.fit();}, label: 'Top', key: 'top' },
+        { onClick: () => {setLayout('bottom'); chart.fit();}, label: 'Bottom', key: 'bottom' },
       ]}
     />
   );
@@ -159,13 +159,13 @@ const OrganizationalChart = (props) => {
           <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.zoomOut()}><AiOutlineZoomOut /></Button>
         </Tooltip>
         <Tooltip title="Full Screen" placement="left">
-          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.fullscreen()}><MdOutlineZoomOutMap /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => {chart.fullscreen(); chart.fit();}}><MdOutlineZoomOutMap /></Button>
         </Tooltip>
         <Tooltip title="Expand All" placement="left">
-          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.expandAll()}><SlOrganization /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => {chart.expandAll(); chart.fit();}}><SlOrganization /></Button>
         </Tooltip>
         <Tooltip title="Collapse All" placement="left">
-          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.collapseAll()}><AiOutlineNodeCollapse /></Button>
+          <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => {chart.collapseAll(); chart.fit();}}><AiOutlineNodeCollapse /></Button>
         </Tooltip>
         <Tooltip title="Fit" placement="left">
           <Button style={toolbarBtnStyle} type="primary" shape="circle" onClick={() => chart.fit()}><MdOutlineFitScreen /></Button>

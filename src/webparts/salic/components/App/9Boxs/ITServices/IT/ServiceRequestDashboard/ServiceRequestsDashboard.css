@@ -60,8 +60,12 @@
 .service-requests-dashboard-container .ant-card-head {
   border-radius: 15px 15px 0 0 !important;
 }
-
-
+.service-requests-dashboard-container .expand-tree-btn {
+  display: none;
+}
+.service-requests-dashboard-container .tree-container {
+  display: block;
+}
 
 @media screen and (min-width: 0px) and (max-width: 799px) {
   .service-requests-dashboard-container {
@@ -69,6 +73,19 @@
   }
   .service-requests-dashboard-container .employees-tree {
     width: 100%;
-    padding: 30px;
+    padding: 25px 15px;
+  }
+  .service-requests-dashboard-container .expand-tree-btn {
+    display: inline;
+  }
+  .service-requests-dashboard-container .tree-container {
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 800px) {
+  .service-requests-dashboard-container .tree-container {
+    display: block !important;
   }
 }

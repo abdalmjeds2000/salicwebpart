@@ -13,7 +13,7 @@ const initialFilter = { Name: '', CategoryType: '', Brand: '', Model: '', Delive
 
 const SalicAssets = () => {
   const { user_data, salicAssetsData, setSalicAssetsData } = useContext(AppCtx);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -62,11 +62,12 @@ const SalicAssets = () => {
       title: 'Date',
       dataIndex: 'CreatedAt',
       width: '10%',
-      render: (date) => date ? moment(date).format('MM/DD/YYYY hh:mm') : ''
+      render: (date) => date ? <div style={{minWidth: 120}}>{moment(date).format('MM/DD/YYYY hh:mm')}</div> : ''
     },{
       title: 'Name',
       dataIndex: 'Name',
       width: '25%',
+      render: (name) => <div style={{minWidth: 180}}>{name}</div>
     },{
       title: 'Category',
       dataIndex: 'CategoryType',
@@ -75,13 +76,14 @@ const SalicAssets = () => {
       title: 'Model',
       dataIndex: 'Model',
       width: '10%',
+      render: (val) => <div style={{minWidth: 110}}>{val}</div>
     },{
       title: 'Assign To',
       dataIndex: 'DeliveryNote',
       width: '15%',
       render: (_, record) => {
         if(record.DeliveryNote != null && record.DeliveryNote.Returned == null) {
-          return <UserColumnInTable Mail={record.DeliveryNote?.ToUser?.Mail} DisplayName={record.DeliveryNote?.ToUser?.DisplayName} />
+          return <div style={{minWidth: 120}}><UserColumnInTable Mail={record.DeliveryNote?.ToUser?.Mail} DisplayName={record.DeliveryNote?.ToUser?.DisplayName} /></div>
         }
         return 'IT Store';
       }
@@ -89,7 +91,7 @@ const SalicAssets = () => {
       title: '#Delivery Letters',
       dataIndex: 'DeliveryNotesCount',
       width: '10%',
-      render: (val) => <b>{val}</b>
+      render: (val) => <div style={{minWidth: 100}}>{val}</div>
     }
   ];
 

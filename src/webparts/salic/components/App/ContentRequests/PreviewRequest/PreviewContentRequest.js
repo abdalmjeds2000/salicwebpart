@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './PreviewRequest.css';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,8 @@ import FileIcon from '../../Global/RequestsComponents/FileIcon';
 import UpdateAssignee from '../API/UpdateAssignee';
 import moment from 'moment';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
+import ToggleButton from '../../Global/ToggleButton';
+import { CgMoreO } from 'react-icons/cg';
 
 function PreviewContentRequest() {
     let { id } = useParams();
@@ -338,6 +340,19 @@ function PreviewContentRequest() {
             return false;
         }
     })
+
+
+
+
+
+
+    // Toggle Properties Section (show and hide in mobile size)
+    const propertiesSectionRef = useRef();
+    const handleShowDetails = (v) => {
+        propertiesSectionRef.current.style.display = 
+        propertiesSectionRef.current.style.display === "block" ? "none" : "block";
+    }
+
     return (
     <>
         <HistoryNavigation>
@@ -378,6 +393,14 @@ function PreviewContentRequest() {
                             </>
                         :   null
                     }
+
+                    <span className='properties-toggle-btn'>
+                        <ToggleButton
+                            icon={<CgMoreO />}
+                            title="more information"
+                            callback={handleShowDetails}
+                        />
+                    </span>
                 </div>
             </div>
         {
@@ -444,7 +467,7 @@ function PreviewContentRequest() {
                                 </Timeline>
                             </div>
 
-                            <div className='properties'>
+                            <div className='properties' ref={propertiesSectionRef}>
                                 <Section SectionTitle="Request Type">
                                     <div>
                                         {requestData.RequestType}

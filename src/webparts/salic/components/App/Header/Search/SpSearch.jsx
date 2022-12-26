@@ -147,6 +147,8 @@ const SpSearch = ({ query, setShowSearch }) => {
           divsList.map(el => {
             if(el.innerHTML?.toLowerCase()?.includes(SearhcTerm.toLowerCase())) {
               el.style.backgroundColor = '#ffed00';
+              el.style.borderRadius = '5px';
+              el.style.padding = '0px 5px';
             } else {
               el.style.backgroundColor = 'transparent';
             }

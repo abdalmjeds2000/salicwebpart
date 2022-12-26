@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ServiceRequestsDashboard.css';
 import { DownOutlined, HomeOutlined, TableOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../../../../App';
-import { Tree, Typography } from 'antd';
+import { Col, Row, Tree, Typography } from 'antd';
 import Dashboard from './components/Dashboard/Dashboard';
 import ServicesRequests from './components/ServicesRequests/ServicesRequests';
 import GetSummaryByStatus from '../../API/GetSummaryByStatus';
@@ -12,6 +12,8 @@ import GetSummaryByPriority from '../../API/GetSummaryByPriority';
 import GetSummaryByDepartment from '../../API/GetSummaryByDepartment';
 import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
 import Tabs from '../../../../Global/CustomTabs/Tabs';
+import ToggleButton from '../../../../Global/ToggleButton';
+import { TiFlowChildren } from 'react-icons/ti';
 
 
 function ServiceRequestsDashboard() {
@@ -75,8 +77,12 @@ function ServiceRequestsDashboard() {
     })
   };
 
+  const treeRef = useRef();
+  const handleShowTree = (e) => {
+    treeRef.current.style.display = 
+    treeRef.current.style.display === "block" ? "none" : "block";
 
-
+  }
   return (
     <>
       <HistoryNavigation>
@@ -86,20 +92,38 @@ function ServiceRequestsDashboard() {
 
 
       <div className='standard-page service-requests-dashboard-container'>
-        {user_data.Data?.DirectUsers?.length > 0 && <div className='employees-tree'>
-          <Typography.Text strong style={{display: 'block', fontSize: '1rem', marginBottom: '10px'}}>
-            <UserSwitchOutlined /> Select Employee
-          </Typography.Text>
-          <Tree
-            showLine
-            showIcon
-            defaultExpandedKeys={[user_data?.Data?.DirectUsers[0]?.Mail]}
-            switcherIcon={<DownOutlined />}
-            onSelect={onSelect}
-            treeData={[user_data.Data]}
-            fieldNames={{ title: "DisplayName", key: "Mail", children: "DirectUsers"  }}
-          />
-        </div>}
+        {
+          user_data.Data?.DirectUsers?.length > 0 && <div className='employees-tree'>
+            <Row justify="space-between" align="middle" style={{marginBottom: '10px'}}>
+              <Col>
+                <Typography.Text strong style={{display: 'block', fontSize: '1rem'}}>
+                  <UserSwitchOutlined /> Select Employee
+                </Typography.Text>
+              </Col>
+              <Col>
+                <span className='expand-tree-btn'>
+                  <ToggleButton
+                    icon={<TiFlowChildren />}
+                    title="Show Employees Tree"
+                    btnSize="small"
+                    callback={handleShowTree}
+                  />
+                </span>
+              </Col>
+            </Row>
+            <div className='tree-container' ref={treeRef}>
+              <Tree
+                showLine
+                showIcon
+                defaultExpandedKeys={[user_data?.Data?.DirectUsers[0]?.Mail]}
+                switcherIcon={<DownOutlined />}
+                onSelect={onSelect}
+                treeData={[user_data.Data]}
+                fieldNames={{ title: "DisplayName", key: "Mail", children: "DirectUsers"  }}
+              />
+            </div>
+          </div>
+        }
         <Tabs 
           loading={pageLoading}
           items={[

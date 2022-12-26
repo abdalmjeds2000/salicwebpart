@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   height: 50px;
-  gap: 25px;
+  gap: 12px;
   position: fixed;
   top: 0;
   right: 0;
@@ -10,7 +10,7 @@
 }
 .user-panel-container .icons {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   position: relative;
 
 }
@@ -50,3 +50,12 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 1200px) {
+  .user-panel-container .user-info h2 {
+    max-width: 80px!important;
+    overflow: hidden!important;
+    white-space: nowrap!important;
+    text-overflow: ellipsis!important;
+    display: inline-block!important;
+  }
+}
