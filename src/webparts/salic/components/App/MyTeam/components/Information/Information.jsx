@@ -76,7 +76,7 @@ const Information = ({ userData }) => {
     <div className='profile-container'>
 
       <Row gutter={[20, 20]}>
-        <Col sm={24} md={24} lg={12} xxl={12} /* sm={24} md={12} lg={12} xxl={6} */>
+        <Col xs={24} sm={24} md={24} lg={12}>
           <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><UserOutlined /> Summary</Text>}>
             <div className='card-content'>
               <Statistic valueStyle={{fontSize: '1.2rem'}} title="Full Name" groupSeparator="" value={userData?.DisplayName || ' - '} prefix={<TbUserCircle />} />
@@ -95,7 +95,7 @@ const Information = ({ userData }) => {
           </Card>
         </Col>
 
-        <Col sm={24} md={24} lg={12} xxl={12}>
+        <Col xs={24} sm={24} md={24} lg={12}>
           <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><AreaChartOutlined /> Performance</Text>} >
             <Bar {...config} />
           </Card>

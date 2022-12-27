@@ -26,3 +26,12 @@
   cursor: pointer;
   transform: scale(1.015);
 }
+
+@media screen and (max-width: 768px) {
+  .research_header-container .header-item {
+    padding: 2px 4px;
+    border-radius: 4px;
+    gap: 3px;
+    font-size: 0.7rem;
+  }
+}

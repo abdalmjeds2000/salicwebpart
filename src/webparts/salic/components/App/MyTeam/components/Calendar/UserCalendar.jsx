@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Tooltip, Typography, Calendar } from 'antd';
+import { Tooltip, Typography, Calendar, Badge, Modal, message, Col, Row } from 'antd';
 import moment from 'moment';
 import './UserCalendar.css';
+import { BsCalendar3 } from 'react-icons/bs';
 
 
 let CancelToken = axios.CancelToken;
 
 const UserCalendar = ({ userData }) => {
   const [events, setEvents] = useState([]);
+  const [eventsModal, setEventsModal] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   let cancel;
   const fetchEventsData = async (email, sDate, eDate) => {
@@ -80,6 +83,31 @@ const UserCalendar = ({ userData }) => {
       </div>
     );
   };
+  const dateCellRenderMobile = (value) => {
+    const listData = getListData(value);
+    return (
+      <div 
+        className={`events ${listData.length > 0 ? 'events-mobile' : ''}`} 
+        onClick={() => {
+          if(listData.length > 0) {
+            setEventsModal(listData); 
+            setOpenModal(true); 
+          } else {
+            message.destroy();
+            message.info('There is No Events');
+          }
+        }}
+        >
+        {
+          listData.length > 0 
+          ? <span className='dot-btn' >
+              <Badge status="processing"></Badge>
+            </span>
+          : null
+        }
+      </div>
+    );
+  };
   const getMonthData = (value) => {
     let listData;
     let y = value.month();
@@ -107,14 +135,76 @@ const UserCalendar = ({ userData }) => {
       </div>
     );
   };
+  const monthCellRenderMobile = (value) => {
+    const listData = getMonthData(value);
+    return (
+      <div 
+        className={`events ${listData.length > 0 ? 'events-mobile' : ''}`} 
+        onClick={() => {
+          if(listData.length > 0) {
+            setEventsModal(listData); 
+            setOpenModal(true); 
+          } else {
+            message.destroy();
+            message.info('There is No Events');
+          }
+        }}
+        >
+        {
+          listData.length > 0 
+          ? <span className='dot-btn' >
+              <Badge status="processing"></Badge>
+            </span>
+          : null
+        }
+      </div>
+    );
+  };
+
+
 
   return (
     <div className='my-team_calendar-container' id='my-team_calendar-container'>
-      <Calendar 
-        dateCellRender={dateCellRender} 
-        monthCellRender={monthCellRender} 
-        onPanelChange={handleChangeDate}
-      />
+
+      <div className="desktop-calendar">
+        <Calendar 
+          dateCellRender={dateCellRender} 
+          monthCellRender={monthCellRender} 
+          onPanelChange={handleChangeDate}
+        />
+      </div>
+
+      <div className="mobile-calendar">
+        <Calendar 
+          dateCellRender={dateCellRenderMobile} 
+          monthCellRender={monthCellRenderMobile} 
+          onPanelChange={handleChangeDate}
+          fullscreen={false}
+        />
+      </div>
+
+
+
+
+      <Modal
+        title={<><BsCalendar3 /> My Calendar</>}
+        open={openModal}
+        onCancel={() => setOpenModal(false)}
+        footer={false}
+        destroyOnClose
+      >
+        <div className="events">
+          <Row gutter={[10, 10]}>
+            {
+              eventsModal.map((item) => (
+                <Col xs={24} sm={12}>
+                  <EventComponent {...item} mode="year" />
+                </Col>
+              ))
+            }
+          </Row>
+        </div>
+      </Modal>
     </div>
   )
 }
@@ -140,6 +230,18 @@ const EventComponent = (props) => {
       <Tooltip mouseEnterDelay={0.7} color={props.themeColor} title={props.bodyPreview}>
         <Typography.Link href={props.webLink} target="_blank">{props.subject}</Typography.Link>
       </Tooltip>
+
+      {
+        props.mode == "year"
+        ? (
+          <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+            {props.bodyPreview}
+          </Typography.Paragraph>
+        ) : (
+          null
+        )
+      }
+
     </div>
   );
 };

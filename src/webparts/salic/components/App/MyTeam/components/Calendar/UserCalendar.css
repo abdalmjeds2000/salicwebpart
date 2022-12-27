@@ -58,14 +58,39 @@
 
 
 /* Cstom CSS for Antd Calendar */
-
+#my-team_calendar-container .desktop-calendar {
+  display: block;
+}
+#my-team_calendar-container .mobile-calendar {
+  display: none;
+}
 
 #my-team_calendar-container .events {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+#my-team_calendar-container .events-mobile {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -2px;
+  display: flex;
+  align-items: end;
+  line-height: 0;
+}
+#my-team_calendar-container .events-mobile .dot-btn {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  position: relative;
+  right: -7px;
+  top: -5px;
+  height: 10.5px;
+}
 #my-team_calendar-container .event {
+  height: 100%;
   border-radius: 4px 4px 0 0;
   padding: 4px;
   transition: .3s;
@@ -116,4 +141,28 @@
 
 #my-team_calendar-container .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date-today, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date-today {
   background-color: var(--third-color)!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1000px) {
+  .my-team_calendar-container {
+    padding: 0;
+  }
+  #my-team_calendar-container .desktop-calendar {
+    display: none;
+  }
+  #my-team_calendar-container .mobile-calendar {
+    display: block;
+  }
+  
 }
