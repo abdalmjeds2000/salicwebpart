@@ -26,7 +26,7 @@ axios.interceptors.response.use(undefined, function (error) {
 const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userData, setUserData]: any = React.useState({});
-  const [notificationsCount, setNotificationsCount] = React.useState('');
+  const [notificationsCount, setNotificationsCount]: any = React.useState(0);
   const [notificationsData, setNotificationsData] = React.useState([]);
   const [mailCount, setMailCount] = React.useState('');
   const [latestAttendance, setLatestAttendance] = React.useState([]);
@@ -140,20 +140,36 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
           // Disable Loader
           .then((response) => {setIsLoading(false); return response})
 
+
+
+
           // GetNotifications Count #1
-          .then((response) => {
-            axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
-              .then((res) => { setNotificationsCount(res.data?.Data) })
-              .catch((error) => { console.log(error) })
-            return response
-          })
+          // .then((response) => {
+          //   axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
+          //     .then((res) => { setNotificationsCount(res.data?.Data) })
+          //     .catch((error) => { console.log(error) })
+          //   return response
+          // })
           // Get Notifications Count #2
+          // .then((response) => {
+          //   axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}` })
+          //     .then((res) => { setNotificationsCount(prev => prev + res.data?.Data) })
+          //     .catch((error) => { console.log(error) })
+          //   return response
+          // })
+          // (NEW) Get Notifications Count
           .then((response) => {
-            axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}` })
-              .then((res) => { setNotificationsCount(prev => prev + res.data?.Data) })
+            axios({ method: 'GET', url: `https://salicapi.com/api/NotificationCenter/Summary?Email=${response.data.Data?.Mail}` })
+              .then((res) => { 
+                const sumNotiTypes: any = Object.values(res.data?.Data).reduce((partialSum: any, a: any) => partialSum + a, 0);
+                setNotificationsCount(sumNotiTypes); 
+              })
               .catch((error) => { console.log(error) })
             return response
           })
+
+
+
           // Get Mail Count
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/User/GetUnReadMessags?UserId=${response.data.Data?.GraphId}` })

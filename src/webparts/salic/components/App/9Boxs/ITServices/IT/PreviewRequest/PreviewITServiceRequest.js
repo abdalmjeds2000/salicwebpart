@@ -21,8 +21,19 @@ import ReOpenAction from './helpers/ReOpenAction';
 import AntdLoader from '../../../../Global/AntdLoader/AntdLoader';
 import ToggleButton from '../../../../Global/ToggleButton';
 import { CgMoreO } from 'react-icons/cg';
+import { GetFormDataOracle, GetFormDataSharedEmail, GetFormDataUSB, GetFormDataDMS, GetFormDataPhone, GetFormDataSoftwareLic, GetFormDataNewAccount, GetFormDataGLAccount } from './helpers/RequestTabels'
 
 const { Title, Text } = Typography;
+function isEmpty(obj) {
+  for(var prop in obj) {
+      if(Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+      }
+  }
+  return JSON.stringify(obj) === JSON.stringify({});
+}
+
+
 
 function PreviewITServiceRequest() {
   let { id } = useParams();
@@ -154,7 +165,7 @@ function PreviewITServiceRequest() {
             <ApproveAction ActionId={pendingApprove.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
             <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />}
-            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) && IsPendingWith &&
+            {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
             <CloseAction RequestId={requestData.Id} />}
             {user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com' &&
             <DeleteAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
@@ -184,7 +195,32 @@ function PreviewITServiceRequest() {
                           Title={<>RE: {requestData?.Subject}</>}
                           Description={<>{requestData.Requester.DisplayName} {requestData.OnBehalfOf && <><Typography.Text type="danger" strong>on behalf of</Typography.Text> {requestData.OnBehalfOf?.DisplayName}</>} @ {moment(requestData?.CreatedAt).format('MM/DD/YYYY hh:mm:ss')}</>} 
                         >
-                          <div dangerouslySetInnerHTML={{__html: requestData?.Description}}></div>
+
+                          {
+                            requestData.FormData != null && !isEmpty(requestData.FormData)
+                            ? (
+                              requestData.IssueType === "Oracle"
+                                ? <GetFormDataOracle request={requestData} />
+                              : requestData.IssueType === "Unlock USB"
+                                ? <GetFormDataUSB request={requestData} />
+                              : requestData.IssueType === "DMS"
+                                ? <GetFormDataDMS request={requestData} />
+                              : requestData.IssueType === "Phone Extensions"
+                                ? <GetFormDataPhone request={requestData} />
+                              : requestData.IssueType === "New Account"
+                                ? <GetFormDataNewAccount request={requestData} />
+                              : requestData.IssueType === "GL Account"
+                                ? <GetFormDataGLAccount request={requestData} />
+                              : requestData.IssueType === "Shared Email"
+                                ? <GetFormDataSharedEmail request={requestData} />
+                              : requestData.IssueType === "Software Subscription & Licenses"
+                                ? <GetFormDataSoftwareLic request={requestData} />
+                              : null
+                            ) : (
+                              <div dangerouslySetInnerHTML={{__html: requestData?.Description}}></div>
+                            )
+                          }
+                          
                         </Reply>
                       </Timeline.Item>
                     </div>
