@@ -84,24 +84,37 @@
 
 
 
-.notification-center_content .status-bar {
+.notification-center_content .status-bar-desktop {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
   background-color: #fff;
   padding: 4px 12px;
   border-radius: 2px;
 }
-.notification-center_content .status-bar * {
+.notification-center_content .status-bar-desktop * {
   color: #fff !important;
 }
-.notification-center_content .status-bar b,
-  .notification-center_content .status-bar span {
+.notification-center_content .status-bar-desktop b,
+  .notification-center_content .status-bar-desktop span {
   color: var(--main-color) !important;
 }
 
+.notification-center_content .status-bar-mobile {
+  margin: 0 auto 25px auto;
+  width: 100%;
+  display: none;
+  gap: 7px;
 
-
+}
+@media screen and (max-width: 1000px) {
+  .notification-center_content .status-bar-mobile {
+    display: flex;
+  }
+  .notification-center_content .status-bar-desktop {
+    display: none;
+  }
+}
 .table .table-header {
   background-color: var(--main-color);
   padding: 12px 20px;
@@ -117,6 +130,9 @@
   font-size: 1.3rem;
   line-height: 1;
   font-weight: 400;
+}
+.notification-center-container .notification-subject {
+  min-width: 300px;
 }
 .notification-center-container .notification-subject .ant-ribbon-text {
   color: #b2b2b2 !important;
@@ -135,13 +151,17 @@
 
 @media screen and (max-width: 768px) {
   .notification-center-container {
-    padding: 20px;
+    padding: 10px;
   }
   .notification-center-container .notification-center_content {
-    padding: 20px;
+    padding: 35px 10px 10px 10px;
   }
   .notification-center_content .notification_type-container {
-    gap: 20px;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+  .table .table-header {
+    padding: 12px;
   }
 }
 @media screen and (max-width: 425px) {

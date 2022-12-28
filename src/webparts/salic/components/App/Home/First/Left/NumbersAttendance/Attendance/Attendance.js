@@ -70,7 +70,7 @@ function Attendance(props) {
 
         <tbody className='mobile-body'>
           <tr>
-            <td colSpan={4}><h2>Latest Attendance</h2></td>
+            <td colSpan={2}><h2>Latest Attendance</h2></td>
             <td colSpan={1}><a onClick={() => navigate(`${defualt_route}/attendance`)}>See All</a></td>
           </tr>  
           <tr>

@@ -5,7 +5,7 @@
 }
 
 .latest-attendance-table-container .latest-attendance-table .desktop-body {
-  display: block;
+  display: contents;
 }
 .latest-attendance-table-container .latest-attendance-table .mobile-body {
   display: none;

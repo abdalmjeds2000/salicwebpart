@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './NotificationCenter.css';
-import { Badge, Button, Checkbox, Modal, Spin, Table, Tag } from 'antd';
+import { Badge, Button, Checkbox, Col, Dropdown, Modal, Row, Select, Spin, Table, Tag } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined, DownOutlined, FileDoneOutlined, LoadingOutlined, RedoOutlined, SyncOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
@@ -20,7 +20,7 @@ function NotificationCenter() {
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [selectedType, setSelectedType] = useState(defualt_types);
-  const [selectedStatus, setSelectedStatus] = useState(['Pending,Submitted_By_IT']);
+  const [selectedStatus, setSelectedStatus] = useState(['Pending']);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
@@ -129,7 +129,7 @@ function NotificationCenter() {
       dataIndex: 'Created',
       key: 'dateTime',
       width: '15%',
-      render: (val) => moment(val.Created).format('MM/DD/YYYY hh:mm')
+      render: (val) => <div style={{minWidth: 120}}>{moment(val.Created).format('MM/DD/YYYY hh:mm')}</div>
     },{
       title: 'Status',
       dataIndex: 'Status',
@@ -157,15 +157,19 @@ function NotificationCenter() {
       dataIndex: 'Body',
       width: '10%',
       render: (val, record) => (
-        oracleFrom.includes(record.From?.toLowerCase())
-          ? <div><a onClick={() => {setOpenModal(true); setModalData(val);}}>Details</a></div>
-        : record.From === 'eSign'
-          ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>View Document</a>
-        : record.From === 'ServiceRequest'
-          ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View</a>
-        : record.From === 'DeliveryNote'
-          ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View Document</a>
-        : <a onClick={() => redirectAction(record.From, record.Id)}>Open Request</a>
+        <div style={{minWidth: 120}}>
+          {
+            oracleFrom.includes(record.From?.toLowerCase())
+              ? <div><a onClick={() => {setOpenModal(true); setModalData(val);}}>Details</a></div>
+            : record.From === 'eSign'
+              ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>View Document</a>
+            : record.From === 'ServiceRequest'
+              ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View</a>
+            : record.From === 'DeliveryNote'
+              ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View Document</a>
+            : <a onClick={() => redirectAction(record.From, record.Id)}>Open Request</a>
+          }
+        </div>
       )
     }
   ];
@@ -245,34 +249,34 @@ function NotificationCenter() {
           </div>
           
 
+          
+          <div className='status-bar-mobile'>
+            <Select
+              mode="tags"
+              placeholder="Select Status"
+              defaultValue={['Pending']}
+              onChange={checkedValues => setSelectedStatus(checkedValues)}
+              style={{width: '100%'}}
+              options={[{value: "Pending", label: "Pending"}, {value: "Approved", label: "Approved"}, {value: "Rejected", label: "Rejected"}]}
+            />
+            <Button type='primary' onClick={() => setCount(prev => prev += 1)}><RedoOutlined /></Button>
+          </div>
 
           <div className="table">
             <div className="table-header">
-              {/* <h1>{selectedType.map((r, i) => {
-                if(selectedType.length > 1) {
-                  if(i == selectedType.length-1) {
-                    return `and ${r}`
-                  } else {
-                    return `, ${r}`
-                  }
-                } else return r;
-              })}</h1> */}
-
               <h1>{selectedType.length != 0 ? selectedType.map(r => {if(r=="SharedServices"){r = "Shared Services"} return r}).join(', ') + " Requests" : null}</h1>
-              <div style={{display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap'}}>
-                <div className='status-bar'>
-                  <b>Status:</b>
-                  <Checkbox.Group 
-                    defaultValue={['Pending,Submitted_By_IT']} 
-                    onChange={checkedValues => setSelectedStatus(checkedValues)} 
-                  >
-                    <Checkbox value="Pending,Submitted_By_IT">Pending</Checkbox>
-                    <Checkbox value="Submitted">Submitted By Me</Checkbox>
-                    {/* <Checkbox value="Approved">Approved</Checkbox> */}
-                    {/* <Checkbox value="Rejected">Rejected</Checkbox> */}
-                  </Checkbox.Group>
-                </div>
-                <Button type='primary' onClick={() => setCount(prev => prev += 1)}><RedoOutlined /> Refresh</Button>
+              <div className='status-bar-desktop'>
+                <b className='status-title'>Status:</b>
+                <Checkbox.Group 
+                  defaultValue={['Pending']} 
+                  onChange={checkedValues => setSelectedStatus(checkedValues)} 
+                >
+                  {/* <Checkbox value="Pending,Submitted_By_IT">Pending</Checkbox>
+                  <Checkbox value="Submitted">Submitted By Me</Checkbox> */}
+                  <Checkbox value="Pending">Pending</Checkbox>
+                  <Checkbox value="Approved">Approved</Checkbox>
+                  <Checkbox value="Rejected">Rejected</Checkbox>
+                </Checkbox.Group>
               </div>
             </div>
 
