@@ -47,11 +47,11 @@ function HRSelf() {
   return (
     <>
       <HistoryNavigation>
-        <p>Human Self Services</p>
+        <p>Human Capital Services</p>
       </HistoryNavigation>
       <div className='standard-page'>
         <ServicesSection
-          title="Human Self Services"
+          title="Human Capital Services"
           headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.HRSelfServices}</div>}
           items={services}
         />

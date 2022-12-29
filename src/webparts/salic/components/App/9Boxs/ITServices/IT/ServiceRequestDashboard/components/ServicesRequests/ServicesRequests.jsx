@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, message, Row, Space, Typography } from 'antd';
+import { Button, message, Pagination, Row, Space, Typography } from 'antd';
 import moment from 'moment';
 import { AppCtx } from '../../../../../../App';
 import UserColumnInTable from '../../../../../../Global/UserColumnInTable/UserColumnInTable';
 import RequestsTable from '../../../../../../Global/RequestsComponents/RequestsTable';
 import { CloseCircleOutlined, FileExcelOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import AntdLoader from '../../../../../../Global/AntdLoader/AntdLoader';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,6 +17,7 @@ function ServicesRequests(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   let _pageSize = 24;
+  let navigate = useNavigate();
   
   const FetchData = async (page, pageSize) => {
     setLoading(true);
@@ -77,6 +78,7 @@ function ServicesRequests(props) {
   }
 
 
+  var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
 
   const columns = [
     {
@@ -88,15 +90,21 @@ function ServicesRequests(props) {
       title: 'Date & Time',
       dataIndex: 'CreatedAt',
       width: '12%',
-      render: (val) => moment(val).format('MM/DD/YYYY hh:mm:ss')
+      render: (val) => <div style={{minWidth: 120}}>{moment(val).format('MM/DD/YYYY hh:mm:ss')}</div>
     },{
       title: 'Subject',
       dataIndex: 'Subject',
       width: '33%',
       render: (val, record) => (
-        <Space direction='horizontal' style={{minWidth: 200}}>
+        <Space direction='horizontal' style={{minWidth: 220}}>
           <InfoCircleOutlined style={{color: record.Priority === "1" ? "#0c508c" : "#ff272b"}} /> 
-          <Typography.Link onClick={() => window.open(defualt_route + `/services-requests/${record.Id}`, '_blank')}>{val}</Typography.Link>
+          <Typography.Link onClick={() => {
+            if(mobile) {
+              navigate(defualt_route + `/services-requests/${record.Id}`);
+            } else {
+              window.open(defualt_route + `/services-requests/${record.Id}`, '_blank');
+            }
+          }}>{val}</Typography.Link>
         </Space>
       )
     },{
@@ -161,10 +169,11 @@ function ServicesRequests(props) {
       }
       <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
         <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(ITRequests?.recordsTotal / _pageSize)}
+          current={currentPage}
+          total={ITRequests?.recordsTotal}
           onChange={(page) => FetchData(page, _pageSize)}
-          limiter={3}
+          pageSize={_pageSize}
+          showTitle
         />
       </Row>
     </>

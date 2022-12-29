@@ -111,12 +111,12 @@ const NewsForm = ({ openModal, isEditMode, item, setOpenModal }) => {
               </Upload>
             </Form.Item>
             <Row gutter={10}>
-              <Col span={12}>
+              <Col xs={24} md={12}>
                 <Form.Item name="IsPerson" label="Is this Person Photo ?" initialValue={isEditMode ? item.IsPerson : ''} rules={[{required: true, message: false}]}>
                   <Radio.Group options={[{value: true, label: 'Yes'}, {value: false, label: 'No'}]} />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xs={24} md={12}>
                 <Form.Item name="IsDraft" label="Is Draft ?" initialValue={isEditMode ? item.IsDraft : ''} rules={[{required: true, message: false}]}>
                   <Radio.Group options={[{value: true, label: 'Yes'}, {value: false, label: 'No'}]} />
                 </Form.Item>
@@ -128,7 +128,7 @@ const NewsForm = ({ openModal, isEditMode, item, setOpenModal }) => {
             <img
               src={
                 isEditMode
-                ? filesList[0]?.response?.uploadedFiles[0]?.Path || item.Photos
+                ? filesList[0]?.response?.uploadedFiles[0]?.Path || item?.AttachmentFiles[0]?.ServerRelativeUrl || item.Photos
                 : filesList[0]?.response?.uploadedFiles[0]?.Path || `https://salic.sharepoint.com/sites/newsalic/SiteAssets/images/no_preview.png`}
               alt=''
               style={{width: 'auto', height: '210px'}}

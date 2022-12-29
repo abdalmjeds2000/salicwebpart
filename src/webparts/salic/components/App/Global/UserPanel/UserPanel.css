@@ -59,3 +59,11 @@
     display: inline-block!important;
   }
 }
+
+
+
+@media screen and (max-width: 800px) {
+  .user-panel-container {
+    display: none;
+  }
+}

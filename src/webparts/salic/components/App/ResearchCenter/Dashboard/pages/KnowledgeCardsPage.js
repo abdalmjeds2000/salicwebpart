@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Button, Col, Input, message, Row, Typography } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import Card from '../components/Card/Card';
-import { SPHttpClient } from '@microsoft/sp-http'
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination'
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
 
 
 function KnowledgeCardsPage() {
@@ -35,14 +32,12 @@ function KnowledgeCardsPage() {
 
   const FetchNextData = async () => {
     setLoading(true);
-
     allKnowledgeData.getNext().then(response => {
       setAllKnowledgeData(prev => {
         response.results = [...prev.results, ...response.results]
         return response
       });
     });
-
     setLoading(false);
   }
 

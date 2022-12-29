@@ -4,7 +4,11 @@
   background: linear-gradient(0deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 80%);
   position: relative;
 }
-
+/* @media screen and (max-width: 600px) {
+  .home-container {
+    background: transparent;
+  }
+} */
 .home-container .home-division {
   width: 100%;
   display: flex;

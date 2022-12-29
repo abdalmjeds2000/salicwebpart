@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Row, Col, Typography, Form, Input, Select, Button, message } from 'antd';
+import { Table, Row, Col, Typography, Form, Input, Select, Button, message, Pagination } from 'antd';
 import axios from 'axios';
 import { AppCtx } from '../../../../../App';
 import moment from 'moment';
@@ -7,7 +7,6 @@ import UserColumnInTable from '../../../../../Global/UserColumnInTable/UserColum
 import DropdownSelectUser from '../../../../../Global/DropdownSelectUser/DropdownSelectUser';
 import { FilterOutlined } from '@ant-design/icons';
 import AntdLoader from '../../../../../Global/AntdLoader/AntdLoader';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 
 const initialFilter = { Name: '', CategoryType: '', Brand: '', Model: '', DeliveredTo: '', Available: 'All', Type: '', Tag: '', SN: '' };
 
@@ -114,27 +113,27 @@ const SalicAssets = () => {
             {
               showFilterPanel &&
               <>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Name" label="Asset Name">
                     <Input placeholder="write here" size='large' />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="CategoryType" label="Category">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Brand" label="Brand">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Model" label="Model">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item label="Delivered To">
                     <DropdownSelectUser
                       name="DeliveredTo"
@@ -142,22 +141,22 @@ const SalicAssets = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Available" label="Available" initialValue="All">
                     <Select defaultValue="All" size='large' options={[{value: 'All'}, {value: 'Yes'}, {value: 'No'}]} />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Type" label="Type">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Tag" label="Tag Number">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="SN" label="Serial Number">
                     <Input placeholder="write here" size='large'/>
                   </Form.Item>
@@ -190,19 +189,13 @@ const SalicAssets = () => {
             <Col span={24} style={{overflow: 'auto'}}>
               <Table columns={columns} size="large" dataSource={salicAssetsData?.data} pagination={false} />
             </Col>
-
             <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
-              {/* <Pagination 
-                size="small" 
-                current={currentPage}
-                total={data.recordsTotal / 2} 
-                onChange={(page) => {setCurrentPage(page); console.log(defualtFilterData, page, _pageSize);}}
-              /> */}
               <Pagination
-                currentPage={currentPage}
-                totalPages={Math.ceil(salicAssetsData.recordsTotal / _pageSize)}
+                current={currentPage}
+                total={salicAssetsData?.recordsTotal}
                 onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
-                limiter={3}
+                pageSize={_pageSize}
+                showTitle
               />
             </Row>
           </>

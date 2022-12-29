@@ -44,17 +44,17 @@
 
 
 .navbar .sp-search-input {
+  z-index: 1;
   width: 450px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(calc(-50% - 25px),-50%);
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 28px;
-  opacity: .8 !important;
   transition: .3s;
   overflow: hidden;
-  box-shadow: 0 2px 7px #00000030;
+  box-shadow: 0 0 8px rgba(0,0,0,.05);
 }
 @media screen and (max-width: 1200px) {
   .navbar .sp-search-input {
@@ -73,16 +73,24 @@
 }
 @media screen and (max-width: 800px) {
   .navbar .sp-search-input {
-    display: none;
+    width: 75% !important;
+    transform: translate(-50%,-50%);  
   }
 }
+@media screen and (min-width: 800px){
+  .navbar .sp-search-input {
+    top: 50% !important;
+  }
+}
+
+
 .navbar .sp-search-input .ant-input-affix-wrapper {
   padding: 0 10px !important;
   border-radius: 28px !important;
 }
 .navbar .sp-search-input:hover,
   .navbar .sp-search-input:focus {
-  opacity: 1 !important;
+  box-shadow: 0 0 8px rgba(0,0,0,.15);
 }
 
 .navbar .sp-search-input .ant-input-group-addon {
@@ -119,9 +127,6 @@
     justify-content: center;
     padding: 0 !important;
   }
-  .navbar > div {
-    display: none;
-  }
   .navbar img.logoSALIC {
     position: relative;
     top: -2px;
@@ -135,3 +140,10 @@
 }
 
 
+
+.navbar .toggle-btn-search-mobile {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}

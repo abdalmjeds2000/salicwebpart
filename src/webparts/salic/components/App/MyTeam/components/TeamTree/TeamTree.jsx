@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Badge, Tooltip, Typography } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppCtx } from '../../../App';
 import './TeamTree.css';
@@ -49,6 +49,7 @@ const TeamTree = ({ onChangeUser }) => {
 
 
 
+
 const Childrens = () => {
   return <div className='childrens'>
     {
@@ -82,7 +83,7 @@ const Childrens = () => {
     return null
   }
   return (
-    <div className='team-tree-container'>
+    <div className='team-tree-container' data-has-childrens={activeUser?.DirectUsers?.length > 0 ? "true" : "false"}>
       {
         user_data.Data?.Mail?.toLowerCase() !== dataFor?.Mail?.toLowerCase()
         ? (
@@ -104,7 +105,7 @@ const Childrens = () => {
       }
       
       <div className={`parent ${dataFor?.Mail === activeUser?.Mail ? 'active' : ''}`}>
-        <span className='img'>
+        <span className='img' data-has-childrens={activeUser?.DirectUsers?.length > 0 ? "true" : "false"}>
           <img
             src={userAvatarURL + activeUser?.Mail}
             alt=''
@@ -119,8 +120,8 @@ const Childrens = () => {
           />
         </span>
         <div className='desc'>
-          <Typography.Title level={4}>{activeUser?.DisplayName}</Typography.Title>
-          <Typography.Text>{activeUser?.Title}</Typography.Text>
+          <Typography.Title level={4} title={activeUser?.DisplayName} ellipsis={{rows: 1, expandable: false}}>{activeUser?.DisplayName}</Typography.Title>
+          <Typography.Text title={activeUser?.Title} ellipsis={{rows: 2, expandable: false}}>{activeUser?.Title}</Typography.Text>
         </div>
       </div>
       <div className='mobile-childrens'>

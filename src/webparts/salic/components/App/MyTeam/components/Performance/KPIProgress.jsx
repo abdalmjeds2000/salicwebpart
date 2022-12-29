@@ -7,7 +7,11 @@ const KPIProgress = ({ data }) => {
 
 
   if(!data || data.length == 0) {
-    return <Empty />
+    return (
+      <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
+        <Empty />
+      </div>
+    )
   }
   return (
     <div style={{padding: '10px 0'}}>

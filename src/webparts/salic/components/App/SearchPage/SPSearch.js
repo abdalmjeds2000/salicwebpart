@@ -6,7 +6,7 @@ import Result from './components/Result';
 import axios from 'axios';
 import { AppCtx } from '../App';
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
+// import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import { message } from 'antd';
 
 
@@ -80,14 +80,14 @@ function SPSearch() {
             data.Table?.Rows?.length > 0 
             ? <>
                 <Result data={data.Table.Rows} totalItems={data.TotalRowsIncludingDuplicates} query={textQuery} />
-                {pageCount > 1 && <Pagination
+                {/* {pageCount > 1 && <Pagination
                   currentPage={currentPage}
                   totalPages={pageCount}
                   onChange={(page) => submitQuery(textQuery, page, _pageSize)}
                   limiter={3}
                   hideFirstPageJump
                   hideLastPageJump
-                />}
+                />} */}
               </>
             : null
           }

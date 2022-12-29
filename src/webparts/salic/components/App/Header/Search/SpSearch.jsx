@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './searchStyle.css';
-import { Col, notification, Row, Tooltip, Typography } from 'antd';
+import { Col, notification, Pagination, Row, Tooltip, Typography } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { AppCtx } from '../../App';
 import Result from './components/Result';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 import { searchLocations } from './searchLocations'
 import FileCardRow from '../../Global/FileCard/FileCardRow';
@@ -14,7 +13,7 @@ import GetMyItServiceRequests from '../../9Boxs/ITServices/API/GetMyItServiceReq
 import GetITRequestsAssignedForMe from '../../9Boxs/ITServices/API/GetITRequestsAssignedForMe';
 
 
-  const boxsPagesRoutes = ['/hc-services', '/admin-services', '/services-requests', '/e-invoicing', '/content-requests', '/research-requests', '/book-meeting-room', '/oracle-reports', '/power-bi-dashboards', '/power-bi-dashboards/human-capital', '/power-bi-dashboards/research', '/incidents-center'];
+const boxsPagesRoutes = ['/hc-services', '/admin-services', '/services-requests', '/e-invoicing', '/content-requests', '/research-requests', '/book-meeting-room', '/oracle-reports', '/power-bi-dashboards', '/power-bi-dashboards/human-capital', '/power-bi-dashboards/research', '/incidents-center'];
 
 
 const SpSearch = ({ query, setShowSearch }) => {
@@ -326,7 +325,7 @@ const SpSearch = ({ query, setShowSearch }) => {
 
 
 
-  const pageCount = Math.ceil(data[0]?.TotalRows / _pageSize);
+  const pageCount = data[0]?.TotalRows;
 
 
 
@@ -341,85 +340,83 @@ const SpSearch = ({ query, setShowSearch }) => {
   useEffect(() => {onchangeQuery(query)}, [query])
   return (
     <>
-      
-      {/* <div className='sp-search-container' style={{visibility: showSearchResult ? "visible" : "hidden"}}>
-        <div> */}
-          
-          <div className='result-container' style={{width: 'calc(100vw - 50px)', visibility: showSearchResult ? "visible" : "hidden"}}>
-              <Tooltip title="Close Search">
-                <span 
-                  className='closeBtn' 
-                  onClick={() => {
-                    setShowSearchResult(false);
-                    setData([]);
-                    setTextQuery('');
-                  }}
-                >
-                  <CloseCircleOutlined />
-                </span>
-              </Tooltip>
-              {
-                !loading && inAllSp
-                  ? <>
-                      <Result data={data} query={textQuery} showTotalRows={true} />
-                      {pageCount > 1 && <Pagination
-                        currentPage={currentPage}
-                        totalPages={pageCount}
-                        onChange={(page) => submitQuery(textQuery, page, _pageSize)}
-                        limiter={3}
-                        hideFirstPageJump
-                        hideLastPageJump
-                      />}
-                    </>
-                  : loading ? <AntdLoader /> 
-                  : null
-              }
+      <div className='result-container' style={{width: 'calc(100vw - 50px)', visibility: showSearchResult ? "visible" : "hidden"}}>
+          <Tooltip title="Close Search">
+            <span 
+              className='closeBtn' 
+              onClick={() => {
+                setShowSearchResult(false);
+                setData([]);
+                setTextQuery('');
+              }}
+            >
+              <CloseCircleOutlined />
+            </span>
+          </Tooltip>
+          {
+            inAllSp
+              ? <>
+                <Result data={data} query={textQuery} showTotalRows={true} />
+                  {pageCount > _pageSize && 
+                    <Row justify="center">
+                      <Col>
+                        <Pagination
+                          current={currentPage}
+                          total={pageCount}
+                          onChange={(page) => submitQuery(textQuery, page, _pageSize)}
+                          pageSize={_pageSize}
+                          showTitle
+                        />
+                      </Col>
+                    </Row>
+                  }
+                </>
+              : null
+          }
 
 
-              {
-                !loading && !inAllSp
-                  ? (
-                    <div style={{padding: '40px 0 0 0', height: '100%', position: 'relative', overflowX: 'auto'}}>
-                      {
-                        researchResultData?.map((section, i) => {
-                          return (
-                            section.data?.length > 0
-                            ? (
-                              <Row key={i} gutter={[0, 8]} justify="center" style={{maxHeight: 'calc(100vh - 140px)', overflow: 'auto', padding: '5px', marginBottom: '20px'}}>
-                                {section.title && <Col span={24}><Typography.Title level={3}>{section.title}</Typography.Title></Col>}
-                                <Col span={24} style={{padding: '5px 10px 5px 62px', minWidth: '650px', display: 'flex', alignItems: 'center'}}>
-                                  <Typography.Text type='secondary' style={{width: '43.3%'}}>Name</Typography.Text>
-                                  <Typography.Text type='secondary' style={{width: '18.4%'}}>Created At</Typography.Text>
-                                </Col>
-                                {
-                                  section.data?.map((row, i) => {
-                                    return (
-                                      <Col key={i} span={24}>
-                                        <FileCardRow
-                                          icon={<FileIcon FileType={null} FileName={row.Title} IconWidth={40} />}
-                                          name={row.Title}
-                                          createdDate={row.Created}
-                                          // filePath={Path}
-                                        />
-                                      </Col>
-                                    )
-                                  })
-                                }
-                              </Row>
-                            ) : (
-                              null
-                            )
-                          )
-                        })
-                      }
-                    </div>
-                  ) : (
-                    null
-                  )
-              }
-          </div>
-        {/* </div>
-      </div> */}
+          {
+            !loading && !inAllSp
+              ? (
+                <div style={{padding: '40px 0 0 0', height: '100%', position: 'relative', overflowX: 'auto'}}>
+                  {
+                    researchResultData?.map((section, i) => {
+                      return (
+                        section.data?.length > 0
+                        ? (
+                          <Row key={i} gutter={[0, 8]} justify="center" style={{maxHeight: 'calc(100vh - 140px)', overflow: 'auto', padding: '5px', marginBottom: '20px'}}>
+                            {section.title && <Col span={24}><Typography.Title level={3}>{section.title}</Typography.Title></Col>}
+                            <Col span={24} style={{padding: '5px 10px 5px 62px', minWidth: '650px', display: 'flex', alignItems: 'center'}}>
+                              <Typography.Text type='secondary' style={{width: '43.3%'}}>Name</Typography.Text>
+                              <Typography.Text type='secondary' style={{width: '18.4%'}}>Created At</Typography.Text>
+                            </Col>
+                            {
+                              section.data?.map((row, i) => {
+                                return (
+                                  <Col key={i} span={24}>
+                                    <FileCardRow
+                                      icon={<FileIcon FileType={null} FileName={row.Title} IconWidth={40} />}
+                                      name={row.Title}
+                                      createdDate={row.Created}
+                                      // filePath={Path}
+                                    />
+                                  </Col>
+                                )
+                              })
+                            }
+                          </Row>
+                        ) : (
+                          null
+                        )
+                      )
+                    })
+                  }
+                </div>
+              ) : (
+                null
+              )
+          }
+      </div>
     </>
   )
 }

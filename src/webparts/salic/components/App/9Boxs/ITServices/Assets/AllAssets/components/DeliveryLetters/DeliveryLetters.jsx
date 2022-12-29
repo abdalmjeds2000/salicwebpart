@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Row, Col, Typography, Form, Input, Select, Button, message } from 'antd';
+import { Table, Row, Col, Typography, Form, Input, Select, Button, message, Pagination } from 'antd';
 import axios from 'axios';
 import { AppCtx } from '../../../../../../App';
 import moment from 'moment';
@@ -9,7 +9,6 @@ import { FilterOutlined } from '@ant-design/icons';
 import Preview from './Preview';
 import NewDeliveryLetter from './NewDeliveryLetter';
 import AntdLoader from '../../../../../../Global/AntdLoader/AntdLoader';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 
 
 const initialFilter = { email: '', Number: '', Department: 'All', Status: 'All', AssetName: '' };
@@ -118,12 +117,12 @@ const DeliveryLetters = () => {
             {
               showFilterPanel && 
               <>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Number" label="Delivery Letter Number">
                     <Input placeholder="write here" size='large' />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Department" label="Department" initialValue="All">
                     <Select 
                       defaultValue="All" 
@@ -131,7 +130,7 @@ const DeliveryLetters = () => {
                       options={[{value: 'All', label: 'All'}, ...departments]} />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="Status" label="Status" initialValue="All">
                     <Select 
                       defaultValue="All" 
@@ -143,12 +142,12 @@ const DeliveryLetters = () => {
                       ]} />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item name="AssetName" label="Asset Name">
                     <Input placeholder="write here" size='large' />
                   </Form.Item>
                 </Col>
-                <Col sm={24} md={12} lg={6}>
+                <Col xs={24} md={12} lg={6}>
                   <Form.Item label="Email Address">
                     <DropdownSelectUser
                       name="email"
@@ -184,10 +183,11 @@ const DeliveryLetters = () => {
 
             <Row justify="center" align="middle" style={{width: '100%', marginTop: 25}}>
               <Pagination
-                currentPage={currentPage}
-                totalPages={Math.ceil(deliveryLettersData.recordsTotal / _pageSize)}
+                current={currentPage}
+                total={deliveryLettersData?.recordsTotal}
                 onChange={(page) => ApplyFilter(defualtFilterData, page, _pageSize)}
-                limiter={3}
+                pageSize={_pageSize}
+                showTitle
               />
             </Row>
           </>

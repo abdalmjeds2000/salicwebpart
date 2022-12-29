@@ -15,6 +15,7 @@ import axios from 'axios';
 const MyTeam = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [performanceData, setPerformanceData] = useState([]);
+  const [yearsPerformanceData, setYearsPerformanceData] = useState([]);
   const [dataFor, setDataFor] = useState({});
   
 
@@ -39,6 +40,16 @@ const MyTeam = () => {
     }).catch((err) => {
       console.log(err); 
     })
+
+    axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/User/performance?Email=${user?.Mail}`,
+      signal: signal
+    }).then((res) => {
+      setYearsPerformanceData(res.data);
+    }).catch((err) => {
+      console.log(err); 
+    })
   }
 
   const onChangeUser = (user, signal) => {
@@ -52,7 +63,7 @@ const MyTeam = () => {
       key: 1, 
       icon: <UserOutlined />, 
       title: 'Information', 
-      content: <Information userData={dataFor} attendanceData={attendanceData?.slice(0, 7)} />
+      content: <Information userData={dataFor} performanceData={yearsPerformanceData} />
     },{
       key: 2, 
       icon: <CheckSquareOutlined />, 

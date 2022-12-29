@@ -83,6 +83,7 @@
 }
 #my-team_calendar-container .events-mobile .dot-btn {
   border: 3px solid #fff;
+  background-color: #fff;
   border-radius: 50%;
   position: relative;
   right: -7px;

@@ -3,9 +3,8 @@ import './CommunityNews.css';
 import ArticleBox from '../Global/ArticleBox/ArticleBox';
 import { AppCtx } from '../App';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
-import { Row } from 'antd';
+import { Pagination, Row } from 'antd';
 import pnp from 'sp-pnp-js';
-import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
 
 
@@ -63,14 +62,15 @@ function CommunityNews() {
 
       <Row justify="center" style={{margin: 25}}>
         <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(gateNewsData.length / _pageSize)}
+          current={currentPage}
+          total={gateNewsData.length}
           onChange={(page) => {
             const skipItems = _pageSize * (page - 1);
             setCurrentPage(page);
             setFilteredNewslist(gateNewsData.slice(skipItems, skipItems+_pageSize));
           }}
-          limiter={3}
+          pageSize={_pageSize}
+          showTitle
         />
       </Row>
     </div>

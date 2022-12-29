@@ -19,47 +19,12 @@ import { calcDate } from './datesCalc'
 
 
 
-const data = [
-  {
-    year: '2018',
-    value: 55,
-  },
-  {
-    year: '2019',
-    value: 70,
-  },
-  {
-    year: '2020',
-    value: 85,
-  },
-  {
-    year: '2021',
-    value: 130,
-  },
-  {
-    year: '2022',
-    value: 100,
-  },
-];
-const config = {
-  data,
-  xField: 'value',
-  yField: 'year',
-  barWidthRatio: 0.75,
-  height: 300,
-  seriesField: 'year',
-  legend: {
-    position: 'top-right',
-  },
-};
-
-
 const { Text } = Typography;
 
 
 
 
-const Information = ({ userData }) => {
+const Information = ({ userData, performanceData }) => {
   const { user_data } = useContext(AppCtx);
 
 
@@ -71,7 +36,23 @@ const Information = ({ userData }) => {
     workingYears = calcDate(moment(dateObject).format('MM-DD-YYYY'), moment(new Date()).format('MM-DD-YYYY'))
   }
 
-
+  const mappingChartData = performanceData?.map(row => {
+    return {
+      year: row.Year,
+      value: row.performance,
+    }
+  });
+  const config = {
+    data: performanceData,
+    xField: 'performance',
+    yField: 'Year',
+    barWidthRatio: 0.75,
+    height: 300,
+    seriesField: 'Year',
+    legend: {
+      position: 'top-right',
+    },
+  };
   return (
     <div className='profile-container'>
 
@@ -108,73 +89,3 @@ const Information = ({ userData }) => {
 }
 
 export default Information
-
-
-
-
-
-
-
-
-
-/* <div className='profile-information'>
-            <div className="header">
-              <Title level={2}>{userData?.DisplayName || ' - '}</Title>
-              <Text style={{fontSize: '1.3rem'}}>{userData?.Title || ' - '}</Text>
-            </div>
-            
-            <div className='personal'>
-              <Divider orientation="left" orientationMargin="0" style={{fontSize: '1.3rem'}}>
-                Personal
-              </Divider>
-
-              <div style={{padding: '0 20px'}}>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Department</Text></Col>
-                  <Col><Text>{userData?.Department || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Nationality</Text></Col>
-                  <Col><Text>{userData?.Nationality || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>PIN</Text></Col>
-                  <Col><Text>{userData?.PIN || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Ext</Text></Col>
-                  <Col><Text>{userData?.Ext || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Manager</Text></Col>
-                  <Col><Text>{userData?.DirectManager?.DisplayName || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Hire Date</Text></Col>
-                  <Col><Text>11-1-2021</Text></Col>
-                </Row>
-              </div>
-            </div>
-
-
-
-            <div className='contact'>
-              <Divider orientation="left" orientationMargin="0" style={{fontSize: '1.3rem'}}>
-                Contact
-              </Divider>
-                <div style={{padding: '0 20px'}}>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Mobile</Text></Col>
-                  <Col><Text>{userData?.Mobile || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Mail</Text></Col>
-                  <Col><Text>{userData?.Mail || ' - '}</Text></Col>
-                </Row>
-                <Row justify="space-between" align="middle" style={{fontSize: '1.3rem'}}>
-                  <Col><Text strong>Grade</Text></Col>
-                  <Col><Text>{userData?.OfficeLocation || ' - '}</Text></Col>
-                </Row>
-              </div>
-            </div>
-          </div> */

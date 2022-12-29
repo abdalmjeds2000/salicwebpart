@@ -59,7 +59,7 @@ function ManageNewsContent() {
     <Menu items={[
         { key: '1', label: <a onClick={() => navigate(defualt_route + `/community-news/${id}`)}>Open</a>  , icon: <FileTextOutlined /> },
         { key: '2', label: ( <a onClick={async  () => {
-            await pnp.sp.web.lists.getByTitle('News').items.select('AttachmentFiles,Author,*').expand('AttachmentFiles,Author').getById(id).get()
+            await pnp.sp.web.lists.getByTitle('News').items.getById(id).select('AttachmentFiles,Author/Title,Author/EMail,*').expand('AttachmentFiles,Author').get()
             .then((response) => {
               console.log(response);
               setItem(response); 
