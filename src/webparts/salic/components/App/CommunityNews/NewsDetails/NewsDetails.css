@@ -44,9 +44,8 @@
 .news-details-page-container .OutlineElement *,
 .news-details-page-container .news-description * {
   color: var(--bodyText) !important;
-  /* font-weight: 400 !important; */
-  /* font-size: 1.2rem !important; */
-  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: Arial,Helvetica,sans-serif !important;
+  margin: 0 !important;
 } 
 .news-details-page-container .news-description a {
   color: var(--link-text-color) !important;

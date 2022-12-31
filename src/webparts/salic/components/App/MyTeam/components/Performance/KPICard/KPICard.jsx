@@ -11,20 +11,20 @@ const KPICard = (props) => {
 
   const colorByRate = (number) => {
     let num = +number;
-    if(num > 0 && num < 50) return "#74c4ff"
+    if(num > 0 && num < 50) return "#ff4477"
     else if(num >= 50 && num < 70) return "#ffb864"
     else if(num >= 70) return "#05d17c"
-    else return "#be78c7"
+    else return "#74c4ff"
   }
 
 
-  let _Type = valueType;
-  let _MaxValue = +maxVal;
-  let _Value = +value;
-  if(_Type == '#') {
-    _Value = Number((+value / _MaxValue) * 100).toFixed(3).replace(/\.?0*$/,'');
-    _MaxValue = 100;
-  }
+  // let _Type = valueType;
+  // let _MaxValue = +maxVal;
+  // let _Value = +value;
+  // if(_Type == '#') {
+  //   _Value = Number((+value / _MaxValue) * 100).toFixed(3).replace(/\.?0*$/,'');
+  //   _MaxValue = 100;
+  // }
 
 
 
@@ -33,9 +33,9 @@ const KPICard = (props) => {
   const dataChart = [
     {
       title: 'KPI',
-      ranges: [+_MaxValue+10],
-      Measure: [+_Value],
-      Target: +_MaxValue,
+      ranges: [+maxVal+10],
+      Measure: [+value],
+      Target: +maxVal,
     },
   ];
   const configChart = {
@@ -47,8 +47,8 @@ const KPICard = (props) => {
     xField: 'title',
     color: {
       range: '#ffffff',
-      measure: colorByRate(_Value),
-      target: colorByRate(_Value),
+      measure: colorByRate(value),
+      target: colorByRate(value),
     },
     xAxis: false,
     yAxis: false,
@@ -61,8 +61,8 @@ const KPICard = (props) => {
       <div className='kpi-card-container'>
         <div>
           <div className='card-header'>
-            <div className='value-type' style={{backgroundColor: colorByRate(_Value)}}>
-              <span>{_Type}</span>
+            <div className='value-type' style={{backgroundColor: colorByRate(value)}}>
+              <span>{valueType}</span>
             </div>
             <div className='s-e-dates' title="Start & End Date">
               <span>{`${sDate} - ${eDate}`}</span>
@@ -71,7 +71,7 @@ const KPICard = (props) => {
 
 
           <div className='card-body'>
-            {achieveDate ? <span className='achieve-date' title='Achieve Date' style={{color: colorByRate(_Value)}}><AiFillCheckCircle /> {achieveDate}</span> : null}
+            {achieveDate ? <span className='achieve-date' title='Achieve Date' style={{color: colorByRate(value)}}><AiFillCheckCircle /> {achieveDate}</span> : null}
             <p className='title' title={title}>{title}</p>
             <p className='description' title={description}>{description}</p>
           </div>

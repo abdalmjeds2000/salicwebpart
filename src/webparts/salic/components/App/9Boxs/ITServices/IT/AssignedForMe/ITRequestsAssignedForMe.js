@@ -8,6 +8,7 @@ import { AppCtx } from '../../../../App';
 import GetITRequestsAssignedForMe from '../../API/GetITRequestsAssignedForMe';
 import RequestsTable from '../../../../Global/RequestsComponents/RequestsTable';
 import moment from 'moment';
+import ProtectRouteIT from '../../../../../Routers/ProtectRoutes/ProtectRouteIT';
 
 function ITRequestsAssignedForMe() {
   const { query } = useParams();
@@ -94,7 +95,7 @@ function ITRequestsAssignedForMe() {
   )
   
   return (
-    <>
+    <ProtectRouteIT>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Services Center</a>
         <p>Requests Assigned For Me</p>
@@ -107,7 +108,7 @@ function ITRequestsAssignedForMe() {
         Columns={columns}
         DataTable={it_requests_assigned_for_me_data}
       />
-    </>
+    </ProtectRouteIT>
   )
 }
 

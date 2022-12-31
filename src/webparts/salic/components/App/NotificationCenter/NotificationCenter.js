@@ -120,15 +120,22 @@ function NotificationCenter() {
     },{
       title: 'Subject',
       key: 'subject',
-      width: '62%',
+      width: '57%',
       render: (_, record) => {
-        return <div className='notification-subject'><Badge.Ribbon color='#eee' text={record.From}><h3>{record.Title}</h3>{record.BodyPreview}</Badge.Ribbon></div>
+        return <div className='notification-subject'><h3>{record.Title}</h3>{record.BodyPreview}</div>
+      }
+    },{
+      title: 'From',
+      key: 'from',
+      width: '10%',
+      render: (_, record) => {
+        return <div style={{minWidth: 120}}>{record.Title}</div>
       }
     },{
       title: 'Date Time',
       dataIndex: 'Created',
       key: 'dateTime',
-      width: '15%',
+      width: '10%',
       render: (val) => <div style={{minWidth: 120}}>{moment(val.Created).format('MM/DD/YYYY hh:mm')}</div>
     },{
       title: 'Status',
@@ -160,14 +167,14 @@ function NotificationCenter() {
         <div style={{minWidth: 120}}>
           {
             oracleFrom.includes(record.From?.toLowerCase())
-              ? <div><a onClick={() => {setOpenModal(true); setModalData(val);}}>Details</a></div>
+              ? <div><a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* Details */}</a></div>
             : record.From === 'eSign'
-              ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>View Document</a>
+              ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>Take an action{/* View Document */}</a>
             : record.From === 'ServiceRequest'
-              ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View</a>
+              ? <a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* View */}</a>
             : record.From === 'DeliveryNote'
-              ? <a onClick={() => {setOpenModal(true); setModalData(val);}}>View Document</a>
-            : <a onClick={() => redirectAction(record.From, record.Id)}>Open Request</a>
+              ? <a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* View Document */}</a>
+            : <a onClick={() => redirectAction(record.From, record.Id)}>Take an action{/* Open Request */}</a>
           }
         </div>
       )
@@ -291,13 +298,13 @@ function NotificationCenter() {
         </div>
 
         <Modal
-          title="Oracle Notification"
+          title={`${modalData.From}: ${modalData.Title}`}
           open={openModal}
           onCancel={() => setOpenModal(false)}
           okButtonProps={{ style: {display: 'none'}}}
-          className="more-width-antd-modal"
+          className="more-width-antd-modal notifications-modal"
         >
-          <div><div dangerouslySetInnerHTML={{__html: modalData}}></div></div>
+          <div className='body-content'><div dangerouslySetInnerHTML={{__html: modalData.Body}}></div></div>
         </Modal>
       </div>
     </>

@@ -138,7 +138,7 @@ function SalicGlobe() {
           })
         }
       </Slider>
-    } else if(currentCountryData.length === 1) {
+    } else if(currentCountryData?.length === 1) {
         const card = currentCountryData[0];
         const companyLogo = card.AttachmentFiles.length == 0 ? null : `https://salic.sharepoint.com/${card.AttachmentFiles[0].ServerRelativeUrl}`
         const products = card.Products?.replace(' and',',').split(', ')

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AppCtx } from "../App";
 import HistoryNavigation from "../Global/HistoryNavigation/HistoryNavigation";
 import ServicesSection from "../Global/ServicesSection/ServicesSection";
+import pnp from 'sp-pnp-js';
 
 
 function ContentRequests() {
+  const { user_data, defualt_route } = useContext(AppCtx);
+  const [communicationAdmins, setCommunicationAdmins] = useState([]);
 
 
   const srvsIcons = {
@@ -14,6 +18,29 @@ function ContentRequests() {
   const services = [
     {icon: srvsIcons.iTServices, isLink: false, to: '/content-requests/new-request', bgColor: '#70CFAF', text: 'New Content Request'},
   ];
+
+  const ContentRequestsNoAdmin = [
+    {icon: srvsIcons.myRequest, isLink: false, to: '/content-requests/my-content-requests', bgColor: '#43A2CC', text: 'My Requests'},
+  ];
+  const ContentRequestsAdmin = [
+    {icon: srvsIcons.contentRequests, isLink: false, to: '/content-requests/all-content-requests', bgColor: '#FD96A6', text: 'Content Requests'},
+  ];
+  const fetchCommunicationAdmins = async () => {
+    const groupName = 'Communication_Admin';
+    const users = await pnp.sp.web.siteGroups.getByName(groupName).users.get();
+    setCommunicationAdmins(users);
+  }
+  useEffect(() => {
+    if(Object.keys(user_data).length > 0) {
+      fetchCommunicationAdmins();
+    }
+  }, [user_data])
+  let isAdmin = false;
+  communicationAdmins.map(user => {
+    if(user?.Email?.toLowerCase() === user_data?.Data?.Mail?.toLowerCase()) {
+      isAdmin = true;
+    }
+  });
 
 
   return (
@@ -30,10 +57,16 @@ function ContentRequests() {
         />
         <ServicesSection
           title="Request Center"
-          items={[
-            {icon: srvsIcons.myRequest, isLink: false, to: '/content-requests/my-content-requests', bgColor: '#43A2CC', text: 'My Requests'},
-            {icon: srvsIcons.contentRequests, isLink: false, to: '/content-requests/all-content-requests', bgColor: '#FD96A6', text: 'Content Requests'},
-          ]}
+          items={
+            isAdmin
+            ? [
+                ...ContentRequestsNoAdmin,
+                ...ContentRequestsAdmin
+              ]
+            : [
+                ...ContentRequestsNoAdmin,
+              ]
+          }
         />
       </div>
     </>

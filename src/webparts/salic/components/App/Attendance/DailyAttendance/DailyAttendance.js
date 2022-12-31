@@ -144,7 +144,7 @@ function DailyAttendance() {
                       <td>{row.Late}</td>
                       <td>{row.EarlyLeave || ' - '}</td>
                       <td>{row.OverTime}</td>
-                      <td>{row.IsAbsent ? 'Absent' : 'Delayed or Early Leave'}</td>
+                      <td>{row.Reason}</td>
                       <td>{row.Justification || ' - '}</td>
                       <td>{row.ManagerFeedback || ' - '}</td>
                       <td>{row.JustificationStatus || ' - '}</td>

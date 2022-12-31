@@ -8,6 +8,7 @@ import { AppCtx } from '../../../../App';
 import GetITRequestsAssignedForMe from '../../API/GetITRequestsAssignedForMe';
 import RequestsTable from '../../../../Global/RequestsComponents/RequestsTable';
 import moment from 'moment';
+import ProtectRouteIT from '../../../../../Routers/ProtectRoutes/ProtectRouteIT';
 
 function CancelledRequests() {
   const { it_cancelled_requests, setitCancelledRequests, user_data, defualt_route } = useContext(AppCtx);
@@ -86,7 +87,7 @@ function CancelledRequests() {
   )
   
   return (
-    <>
+    <ProtectRouteIT>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Services Center</a>
         <p>Cancelled Requests</p>
@@ -99,7 +100,7 @@ function CancelledRequests() {
         Columns={columns}
         DataTable={it_cancelled_requests}
       />
-    </>
+    </ProtectRouteIT>
   )
 }
 

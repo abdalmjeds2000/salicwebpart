@@ -13,6 +13,7 @@ import TranslateConverterNotes from './Third/TranslateConverterNotes';
 
 import { AppCtx } from '../App';
 import ClockComponent from "../Global/HistoryNavigation/ClockComponent";
+import WelcomeMessage from "../Global/WelcomeMessage";
 
 function getScrollY() {
   const isScroll = typeof window !== "undefined" && window.scrollY > 0 ? true : false;
@@ -58,6 +59,7 @@ function Home() {
         </div>
 
         <div className="container" style={{margin: '50px auto' /* THIS IS FOR HEADER IN TOP */}}>
+          <WelcomeMessage /> {/* Welcome Message */}
           <PersonInfo />
           <PersonInfoMobile />
           <div className="home-division">

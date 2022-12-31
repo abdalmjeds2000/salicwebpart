@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ProtectRouteResearch from '../../../../../../Routers/ProtectRoutes/ProtectRouteResearch';
 import { AppCtx } from '../../../../../App';
 import HistoryNavigation from '../../../../../Global/HistoryNavigation/HistoryNavigation';
 
@@ -9,7 +10,7 @@ function KnowledgeCenter() {
   let navigate = useNavigate();
 
   return (
-    <>
+    <ProtectRouteResearch>
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <a onClick={() => navigate(defualt_route + '/manage-research-library')}>Manage Research Library Content</a>
@@ -24,7 +25,7 @@ function KnowledgeCenter() {
         >
         </iframe>
       </div>
-    </>
+    </ProtectRouteResearch>
   )
 }
 

@@ -20,9 +20,8 @@ const AlmiraVersions = () => {
         <ServicesSection
           title="Almira Versions"
           items={[
-            {icon: '', isLink: false, to: '/salic-profile/almira-versions/almira-magazine', bgColor: '#7722ff', text: 'Version 1', description: "2020-2021"},
-            {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ff33ff', text: 'Version 2', description: "2021-2022"},
-            // {icon: '', isLink: false, to: '/salic-profile/almira-versions', bgColor: '#ffaa82', text: 'Version 3'},
+            {icon: '1', isLink: false, to: '/salic-profile/almira-versions/almira-magazine', bgColor: '#7722ff', text: 'Version 1', description: "2020-2021"},
+            {icon: '2', isLink: true, bgColor: '#ff33ff', text: 'Version 2', description: "2021-2022", to: 'https://salic-my.sharepoint.com/personal/hassan_alshaiekh_salic_com/_layouts/15/onedrive.aspx?ga=1&id=/personal/hassan_alshaiekh_salic_com/Documents/Desktop/Salic Onedrive/Media/to Abdulmohsen/AlMira/مجلة-الميرة-العدد-الثاني-s.pdf&parent=/personal/hassan_alshaiekh_salic_com/Documents/Desktop/Salic Onedrive/Media/to Abdulmohsen/AlMira'},
           ]}
         />
       </div>

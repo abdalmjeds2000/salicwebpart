@@ -24,7 +24,7 @@ function PersonInfo() {
         <div className="person-img">
           <Tooltip title="Click here to View your Team">
             <img 
-              src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=${user_data.Data?.Mail}`} 
+              src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=l&username=${user_data.Data?.Mail}`} 
               alt="" 
               onClick={() => navigate(defualt_route + '/my-team', { replace: false, state: user_data.Data })}
             />

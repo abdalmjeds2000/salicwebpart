@@ -1,5 +1,6 @@
 import React from 'react';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
+import ProtectRouteCommunication from '../../Routers/ProtectRoutes/ProtectRouteCommunication';
 
 
 function ManageEvents() {
@@ -12,7 +13,7 @@ function ManageEvents() {
 
 
   return (
-    <>
+    <ProtectRouteCommunication>
       <HistoryNavigation>
         <p>Manage Saudi Arabia Events</p>
       </HistoryNavigation>
@@ -27,7 +28,7 @@ function ManageEvents() {
         >
         </iframe>
       </div>
-    </>
+    </ProtectRouteCommunication>
   )
 }
 

@@ -7,6 +7,7 @@ import { AppCtx } from '../../../../App';
 import Dashboard from './components/Dashboard';
 import SalicAssets from './components/SalicAssets';
 import DeliveryLetters from './components/DeliveryLetters/DeliveryLetters';
+import ProtectRouteIT from '../../../../../Routers/ProtectRoutes/ProtectRouteIT';
 
 
 const AllAssets = () => {
@@ -18,7 +19,7 @@ const AllAssets = () => {
   }, []);
   
   return (
-    <>
+    <ProtectRouteIT>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>SALIC's Assets</p>
@@ -33,7 +34,7 @@ const AllAssets = () => {
           ]}
         />
       </div>
-    </>
+    </ProtectRouteIT>
   )
 }
 

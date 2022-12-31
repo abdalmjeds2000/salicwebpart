@@ -25,8 +25,10 @@ const KPIProgress = ({ data }) => {
                   sDate={new Date(row.START_DATE).toLocaleDateString()}
                   eDate={new Date(row.END_DATE).toLocaleDateString()}
                   achieveDate={row.ACHIEVE_DATE ? new Date(row.ACHIEVE_DATE).toLocaleDateString() : null}
-                  value={row.MEASURE_ACHIEVE}
-                  maxVal={row.TARGET.replace(/[%#]/g, '').trim()}
+                  // value={row.MEASURE_ACHIEVE}
+                  value={row.per <= 100 ? row.per : 100}
+                  // maxVal={row.TARGET.replace(/[%#]/g, '').trim()}
+                  maxVal={100}
                   valueType={
                     ["number", "#"].includes(row.UOM?.toLowerCase()) 
                       ? "#" 
@@ -37,23 +39,6 @@ const KPIProgress = ({ data }) => {
                   }
                   // themeColor={row.UOM == "Number" ? "#b58bff" : row.UOM == "Percentage" ? "#ffb864" : "#74c4ff"}
                 />
-                {/* <Card style={{height: '100%'}}>
-                  <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-
-                    <div style={{marginBottom: 15}}>
-                      <Progress 
-                        type="circle" 
-                        percent={row?.MEASURE_ACHIEVE} 
-                        format={(percent) => `${percent}%`}
-                        width={75}
-                      />
-                    </div>
-
-                    <Typography.Title level={4} title='KPI Name'>{row?.KPI_NAME}</Typography.Title>
-                    <Typography.Text type='secondary' title='Start & End Date' style={{display: 'block'}}>{new Date(row?.START_DATE).toLocaleDateString()} <CaretRightOutlined /> {new Date(row?.END_DATE).toLocaleDateString()}</Typography.Text>
-                    {row?.ACHIEVE_DATE ? <Typography.Text type='success' title='Achieve Date'><CheckCircleOutlined /> {new Date(row?.ACHIEVE_DATE).toLocaleDateString()}</Typography.Text> : null}
-                  </div>
-                </Card> */}
               </Col>
             ))
           }

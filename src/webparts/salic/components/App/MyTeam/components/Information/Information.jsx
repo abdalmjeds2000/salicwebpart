@@ -37,18 +37,19 @@ const Information = ({ userData, performanceData }) => {
   }
 
   const mappingChartData = performanceData?.map(row => {
-    return {
-      year: row.Year,
-      value: row.performance,
-    }
+    row.performance = Number(row.performance).toFixed(2).replace(/\.?0*$/,'');
+    return row;
   });
   const config = {
-    data: performanceData,
+    data: mappingChartData,
     xField: 'performance',
     yField: 'Year',
+    seriesField: 'Year',
+    label: {
+      position: 'right',
+    },
     barWidthRatio: 0.75,
     height: 300,
-    seriesField: 'Year',
     legend: {
       position: 'top-right',
     },

@@ -8,6 +8,7 @@ import { AppCtx } from '../../App';
 import GetAllContentRequests from '../API/GetAllContentRequests';
 import StatusTag from '../../Global/RequestsComponents/StatusTag';
 import RequestsTable from '../../Global/RequestsComponents/RequestsTable';
+import ProtectRouteCommunication from '../../../Routers/ProtectRoutes/ProtectRouteCommunication';
 
 function AllContentRequests() {
   const { content_requests_data, setContentRequestsData, user_data, defualt_route } = useContext(AppCtx);
@@ -73,7 +74,7 @@ function AllContentRequests() {
   )
 
   return (
-    <>
+    <ProtectRouteCommunication>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/content-requests`)}>Content Requests</a>
         <p>Content Requests</p>
@@ -87,7 +88,7 @@ function AllContentRequests() {
         Columns={columns}
         DataTable={content_requests_data}
       />
-    </>
+    </ProtectRouteCommunication>
   )
 }
 

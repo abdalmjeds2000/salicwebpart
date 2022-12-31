@@ -21,7 +21,7 @@ function HRSelf() {
   const services = [
     {icon: icons.BusinessTrip, bgColor: '#43A2CC', isLink: true, text: 'Business Trip', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720725439', 'BUSINESS_TRIP')},
     {icon: icons.BusinessTripCompletion, bgColor: '#EBD944', isLink: true, text: 'Business Trip Completion', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521720887453', 'BUSINESS_TRIP_COMPLETION')},
-    {isMark: true, icon: icons.TrainingRequest, bgColor: '#9BC9ED', isLink: true, text: 'Training Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1580212664537', 'TRAINING')},
+    {icon: icons.TrainingRequest, bgColor: '#9BC9ED', isLink: true, text: 'Training Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1580212664537', 'TRAINING')},
     {icon: icons.LeaveRequest, bgColor: '#FBBE82', isLink: true, text: 'Leave Request', to: 'https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ADD_ABSENCE&action=NONE'},
     {icon: icons.OverTimeRequest, bgColor: '#70CFAF', isLink: true, text: 'OverTime Request', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521037486455', 'OVERTIME')},
     {icon: icons.SalaryInAdvance, bgColor: '#F7937B', isLink: true, text: 'Salary In Advance', to: checkMobile('https://hen.fa.em2.oraclecloud.com/fscmUI/faces/FuseOverview?fndGlobalItemNodeId=EXT_EXTN1521037485862_MENU_1521747065911', 'SALARY')},
@@ -41,7 +41,7 @@ function HRSelf() {
 
 
   useEffect(() => {
-    document.title = '.:: SALIC Gate | HC Services ::.'
+    document.title = '.:: SALIC Gate | Human Capital Services ::.'
   }, [])
 
   return (
@@ -51,7 +51,7 @@ function HRSelf() {
       </HistoryNavigation>
       <div className='standard-page'>
         <ServicesSection
-          title="Human Capital Services"
+          title="Employee Self Services"
           headerIcon={<div style={{backgroundColor: '#0A89C1'}}>{icons.HRSelfServices}</div>}
           items={services}
         />

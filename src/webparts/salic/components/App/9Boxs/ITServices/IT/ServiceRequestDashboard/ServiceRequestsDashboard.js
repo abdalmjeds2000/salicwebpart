@@ -14,6 +14,7 @@ import GetSummaryByRequestType from '../../API/GetSummaryByRequestType';
 import Tabs from '../../../../Global/CustomTabs/Tabs';
 import ToggleButton from '../../../../Global/ToggleButton';
 import { TiFlowChildren } from 'react-icons/ti';
+import ProtectRouteIT from '../../../../../Routers/ProtectRoutes/ProtectRouteIT';
 
 
 function ServiceRequestsDashboard() {
@@ -84,7 +85,7 @@ function ServiceRequestsDashboard() {
 
   }
   return (
-    <>
+    <ProtectRouteIT>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/services-requests`)}>IT Service Center</a>
         <p>Service Requests Dashboard</p>
@@ -142,7 +143,7 @@ function ServiceRequestsDashboard() {
           ]}
         />
       </div>
-    </>
+    </ProtectRouteIT>
   )
 }
 

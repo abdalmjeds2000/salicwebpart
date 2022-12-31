@@ -3,6 +3,7 @@ import HistoryNavigation from "../../../../Global/HistoryNavigation/HistoryNavig
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../../App'
 import ServicesSection from "../../../../Global/ServicesSection/ServicesSection";
+import ProtectRouteResearch from "../../../../../Routers/ProtectRoutes/ProtectRouteResearch";
 
 
 function ManageDashboardData() {
@@ -22,7 +23,7 @@ function ManageDashboardData() {
 
 
   return (
-    <>
+    <ProtectRouteResearch>
       <HistoryNavigation>
         <a onClick={() => navigate(defualt_route + '/research-library')}>Research Library</a>
         <p>Manage Research Library Content</p>
@@ -35,7 +36,7 @@ function ManageDashboardData() {
           items={services}
         />
       </div>
-    </>
+    </ProtectRouteResearch>
   )
 }
 

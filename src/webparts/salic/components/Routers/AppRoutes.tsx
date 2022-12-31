@@ -93,14 +93,17 @@ import {
   SalicProfile,
   AlmiraVersions,
   PageNotFound,
-  PDFViewer
+  PDFViewer,
+  AnnualReports,
+  SALICPresentation,
 } from './ImportFiles';
-
 
 
 
 const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
   const defualtRoute: string = props.spWebUrl;
+
+
   return (
     <Routes>
       <Route path={`${defualtRoute}/home`} element={<Home />} />
@@ -113,6 +116,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
 
       <Route path={`${defualtRoute}/salic-profile`}>
         <Route index element={<SalicProfile />} />
+        <Route path={`${defualtRoute}/salic-profile/annual-reports`} element={<AnnualReports />} />
+        <Route path={`${defualtRoute}/salic-profile/salic-presentation`} element={<SALICPresentation />} />
       
         <Route path={`${defualtRoute}/salic-profile/almira-versions`}>
           <Route index element={<AlmiraVersions />} />
@@ -120,7 +125,6 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         </Route>
       </Route>
 
-      SalicProfile
       <Route path={`${defualtRoute}/oracle-reports`} element={<OracleReports />} />
       <Route path={`${defualtRoute}/attendance`} element={<Attendance />} />
 
@@ -258,7 +262,6 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
         <Route path={`${defualtRoute}/manage-research-library/research-country`} element={<ResearchCountry />} />
         <Route path={`${defualtRoute}/manage-research-library/commodity-prices`} element={<CommodityPrices />} />
         <Route path={`${defualtRoute}/manage-research-library/knowledge-center`} element={<KnowledgeCenter />} />
-        
       </Route>
       
       <Route path={`${defualtRoute}/manage-news-content`} element={<ManageNewsContent />} />

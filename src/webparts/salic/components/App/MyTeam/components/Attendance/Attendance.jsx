@@ -16,7 +16,7 @@ const Attendance = ({ data }) => {
     { title: 'Late', dataIndex: 'Late' },
     { title: 'Early Leave', dataIndex: 'EarlyLeave', render: (val) => val || ' - '},
     { title: 'Overtime', dataIndex: 'OverTime', render: (val) => val || ' - '},
-    { title: 'Attendance Status', dataIndex: 'IsAbsent', render: (val) => val ? 'Absent' : 'Delayed or Early Leave'},
+    { title: 'Attendance Status', dataIndex: 'Reason'},
     { title: 'Emp. Justification', dataIndex: 'Justification', render: (val) => val || ' - '},
     { title: 'Manager Feedback', dataIndex: 'ManagerFeedback', render: (val) => val || ' - '},
     { title: 'Approval Status', dataIndex: 'JustificationStatus', render: (val) => val || ' - '},

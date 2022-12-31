@@ -13,8 +13,8 @@ import ScrollToTop from './Global/ScrollToTop/ScrollToTop';
 
 
 
-interface AppContext { }
-export const AppCtx = createContext<AppContext | null>(null);
+interface AppContext {}
+export const AppCtx = createContext<AppContext | {}>(null);
 
 
 axios.interceptors.response.use(undefined, function (error) {
@@ -77,9 +77,12 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   const [assignedIncidentReports, setAssignedIncidentReports] = React.useState([]);
   const [incidentReportsForReview, setIncidentReportsForReview] = React.useState([]);
 
+  const [showWelcomeMessage, setShowWelcomeMessage] = React.useState(true);
 
+  
 
   React.useEffect(() => {
+
     if(userData.Data?.Mail !== null) {
       if(userData.Data?.Mail !== "stsadmin@salic.onmicrosoft.com") {
         let element = document.getElementById("spCommandBar");
@@ -112,6 +115,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=abdulaziz.alhaqbani@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Sultan.Bintayyash@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Fawaz.Aladhyani@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=sultan.aldawood@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)
@@ -288,6 +292,12 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     
   }, []);
 
+
+
+
+
+
+
   // Context Provider
   const AppContextProviderSample: AppContext = {
     user_data: userData,
@@ -304,8 +314,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     media_center: mediaCenter,
     notes_list: notesList,
     setNotesList,
-    // defualt_route: '/sites/newSalic/_layouts/15/workbench.aspx',
-    // defualt_route: '/sites/dev/SitePages/Home.aspx',
     defualt_route: props.spWebUrl,
     eSign_requests: eSignRequests,
     setESignRequests,
@@ -361,9 +369,12 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
     deliveryLettersData, setDeliveryLettersData,
     myIncidentReports, setMyIncidentReports,
     assignedIncidentReports, setAssignedIncidentReports,
-    incidentReportsForReview, setIncidentReportsForReview
-
+    incidentReportsForReview, setIncidentReportsForReview,
+    showWelcomeMessage, setShowWelcomeMessage,
   };
+
+
+
 
 
 
@@ -375,31 +386,25 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   }
   link.href = 'https://salicapi.com/File/9244ecd5-d273-4ee9-bffe-2a8fcb140860.png';
 
-  // let spControlePanel: any = document.getElementById('s4-ribbonrow');
-  // if(!["stsadmin@salic.onmicrosoft.com", "Akmal.Eldahdouh@salic.com"].includes(userData?.Data?.Mail)) {
-  //   spControlePanel.style.display = "none";
-  // }
 
-
-
-  
   return (
     <React.StrictMode>
       <AppCtx.Provider value={AppContextProviderSample}>
         <div style={{display: isLoading ? 'none' : ''}}>
           <Router>
-            <ScrollToTop />
             <div className="app-container" style={{}}>
               <SidebarNav spWebUrl={props.spWebUrl} />
               <div className="content-container">
                 <img src={require('../../assets/images/world.svg')} className='img-bg' />
                 <Header />
                 <AppRoutes {...props} />
+
+                <ScrollToTop /> {/* Component for scroll to top every change in route */}
               </div>
             </div>
           </Router>
         </div>
-        <div className="loader" style={{display: !isLoading ? 'none' : ''}}>
+        <div className="loader" style={{height: !isLoading ? 0 : null}}>
           <img src={require('../../assets/images/logo.jpg')} alt="salic logo" style={{ maxWidth: '250px', textAlign: 'center' }} />
           <div></div>
         </div>

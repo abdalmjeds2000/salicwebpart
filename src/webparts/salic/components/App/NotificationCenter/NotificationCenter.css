@@ -107,6 +107,13 @@
   gap: 7px;
 
 }
+
+.notifications-modal .body-content p {
+  margin: inherit !important;
+}
+
+
+
 @media screen and (max-width: 1000px) {
   .notification-center_content .status-bar-mobile {
     display: flex;

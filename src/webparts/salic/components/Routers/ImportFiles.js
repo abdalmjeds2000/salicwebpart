@@ -90,3 +90,5 @@ export { default as SalicProfile } from '../App/SalicProfile/SalicProfile';
 export { default as AlmiraVersions} from '../App/SalicProfile/AlmiraVersions/AlmiraVersions';
 export { default as PageNotFound} from '../App/PageNotFound/PageNotFound';
 export { default as PDFViewer} from '../App/PDF/PDFViewer';
+export { default as AnnualReports} from '../App/SalicProfile/AnnualReports';
+export { default as SALICPresentation} from '../App/SalicProfile/SALICPresentation';

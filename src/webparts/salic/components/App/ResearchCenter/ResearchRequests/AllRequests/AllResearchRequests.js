@@ -8,6 +8,7 @@ import RequestsTable from '../../../Global/RequestsComponents/RequestsTable';
 import UserColumnInTable from '../../../Global/UserColumnInTable/UserColumnInTable';
 import GetAllResearchRequests from '../API/GetAllResearchRequests';
 import StatusTag from '../../../Global/RequestsComponents/StatusTag';
+import ProtectRouteResearch from '../../../../Routers/ProtectRoutes/ProtectRouteResearch';
 
 function AllResearchRequests() {
   const { defualt_route, user_data, research_requests_data, setResearchRequestsData } = useContext(AppCtx);
@@ -80,7 +81,7 @@ function AllResearchRequests() {
   )
 
   return (
-    <>
+    <ProtectRouteResearch>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/research-requests`)}>Research Requests</a>
         <p>Research Request</p>
@@ -94,7 +95,7 @@ function AllResearchRequests() {
         Columns={columns}
         DataTable={research_requests_data}
       />
-    </>
+    </ProtectRouteResearch>
     
   )
 }
