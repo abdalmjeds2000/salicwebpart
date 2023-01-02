@@ -23,8 +23,8 @@ function AssignAction(props) {
       }
       const AssignRequest = await AssignSeriveRequest(payload);
       if(AssignRequest) {
-        message.success("Service request has assigned")
-        console.log('Assign Request', AssignRequest)
+        message.success("Service request has assigned");
+        props.handelAfterAction();
         setIsShowing(false);
         setSelectedEmp(null);
         setOpenModal(false);

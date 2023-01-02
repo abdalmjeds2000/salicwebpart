@@ -125,11 +125,11 @@ function NotificationCenter() {
         return <div className='notification-subject'><h3>{record.Title}</h3>{record.BodyPreview}</div>
       }
     },{
-      title: 'From',
+      title: 'Source',
       key: 'from',
       width: '10%',
       render: (_, record) => {
-        return <div style={{minWidth: 120}}>{record.Title}</div>
+        return <div style={{minWidth: 120}}>{record.From}</div>
       }
     },{
       title: 'Date Time',

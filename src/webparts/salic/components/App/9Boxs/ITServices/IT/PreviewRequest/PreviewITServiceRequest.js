@@ -150,6 +150,9 @@ function PreviewITServiceRequest() {
     propertiesSectionRef.current.style.display = 
     propertiesSectionRef.current.style.display === "block" ? "none" : "block";
   }
+
+
+
   return (
     <>
       <HistoryNavigation>
@@ -164,13 +167,13 @@ function PreviewITServiceRequest() {
             {pendingApprove !== null &&
             <ApproveAction ActionId={pendingApprove.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
-            <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} />}
+            <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
-            <CloseAction RequestId={requestData.Id} />}
+            <CloseAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com' &&
             <DeleteAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {requestData.Status === "CLOSED" && IfRequester &&
-            <ReOpenAction RequestId={requestData.Id} />}
+            <ReOpenAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
 
             <span className='properties-toggle-btn'>
               <ToggleButton 

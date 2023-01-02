@@ -109,7 +109,8 @@
 }
 
 .notifications-modal .body-content p {
-  margin: inherit !important;
+  margin-bottom: 30px !important;
+  color: #000 !important;
 }
 
 

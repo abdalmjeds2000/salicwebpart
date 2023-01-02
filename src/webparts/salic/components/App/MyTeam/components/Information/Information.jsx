@@ -37,7 +37,7 @@ const Information = ({ userData, performanceData }) => {
   }
 
   const mappingChartData = performanceData?.map(row => {
-    row.performance = Number(row.performance).toFixed(2).replace(/\.?0*$/,'');
+    row.performance = Number(row.performance)?.toFixed(2)?.replace(/\.?0*$/,'');
     return row;
   });
   const config = {
@@ -46,14 +46,36 @@ const Information = ({ userData, performanceData }) => {
     yField: 'Year',
     seriesField: 'Year',
     label: {
+      formatter: (obj) => obj.performance != 0 ? obj.performance : '',
       position: 'right',
     },
     barWidthRatio: 0.75,
     height: 300,
     legend: {
-      position: 'top-right',
+      position: 'top-right'
     },
-  };
+    xAxis: {
+      label: false
+    },
+    theme: {
+      colors10: [
+        '#99bbdd',
+        '#44aa88',
+        '#8888FF',
+        '#ffcc00',
+        '#0C508C',
+        '#ff5555',
+        '#44ff88',
+        '#ff77aa',
+        '#4098FF',
+      ]
+    },
+    animation: {
+      appear: {
+        animation: 'none',
+      },
+    },
+  }
   return (
     <div className='profile-container'>
 

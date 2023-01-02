@@ -6,7 +6,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { AppCtx } from '../../../../../App';
 
 
-function ReOpenAction({ RequestId }) {
+function ReOpenAction({ RequestId, handelAfterAction }) {
   const { user_data } = useContext(AppCtx);
   const [btnLoading, setBtnLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(true);
@@ -22,8 +22,8 @@ function ReOpenAction({ RequestId }) {
     }
     if(reOpenReason.length > 0) {
       const ReOpenRequest = await ReOpenSeriveRequest(payload);
-      console.log('request has been ===>', `#${RequestId}`, ReOpenRequest)
       message.success("Service request has been reopened")
+      handelAfterAction();
     } else {
       message.error("Write Re-Open Reason")
     }

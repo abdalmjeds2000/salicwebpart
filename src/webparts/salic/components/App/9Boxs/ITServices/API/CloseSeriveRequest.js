@@ -6,7 +6,7 @@ export default async function CloseSeriveRequest(data) {
       {
         method: 'POST',
         url: "https://salicapi.com/api/tracking/CloseServiceRequest",
-        data: JSON.stringify(data)
+        data: data
       }
     )
     let response = request;

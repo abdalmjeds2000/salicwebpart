@@ -6,7 +6,7 @@ export default async function ReOpenSeriveRequest(data) {
       {
         method: 'POST',
         url: "https://salicapi.com/api/tracking/ReOpenServiceRequest",
-        data: JSON.stringify(data)
+        data: data
       }
     )
     let response = request;

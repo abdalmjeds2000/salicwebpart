@@ -93,6 +93,7 @@ function CloseAction(props) {
           }
           const CloseRequest = await CloseSeriveRequest(payload);
           message.success("Service request has been closed");
+          props.handelAfterAction();
           // reset modal fields
           setOpenModal(false); setSelectedType(null); setClassification("Major"); setCloseReason(null); setFileList([]); setBIAFiles([]); setSCRFiles([]); setCONFFiles([]); setUATiles([]); setUGFiles([]);
           setIsShowing(false);
