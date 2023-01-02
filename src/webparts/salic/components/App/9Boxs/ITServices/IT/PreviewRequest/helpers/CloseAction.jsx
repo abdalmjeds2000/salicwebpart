@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, message, Modal, Select, Space, Table, Typography, Upload } from 'antd';
+import { Button, message, Modal, Select, Space, Table, Tooltip, Typography, Upload } from 'antd';
 import { AppCtx } from '../../../../../App';
 import { SendOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
@@ -113,14 +113,21 @@ function CloseAction(props) {
     <>
       {
         isShowing && <>
-          <Button size="middle" type='primary' danger onClick={() => setOpenModal(true)}>Close</Button>
+          <Tooltip title={props.disableMessage}>
+            <Button size="middle" type='primary' disabled={props.isDisable} danger onClick={() => setOpenModal(true)}>Close</Button>
+          </Tooltip>
           <Modal 
             title={<><SendOutlined /> Close Service Request</>}
             open={openModal} 
-            onOk={closeAction} 
             onCancel={() => setOpenModal(false)}
-            okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
-            okText="Close"
+            footer={[
+              <Button type='primary' disabled={btnLoading} danger onClick={closeAction}>
+                Close
+              </Button>,
+              <Button onClick={() => setOpenModal(false)}>
+                Cancel
+              </Button>,
+            ]}
           >
             
             <Space direction='vertical' style={{width: '100%', gap: '25px'}}>

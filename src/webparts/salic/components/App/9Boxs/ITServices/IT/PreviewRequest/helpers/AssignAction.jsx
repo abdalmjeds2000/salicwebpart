@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, message, Modal, Select, Typography } from 'antd';
+import { Button, message, Modal, Select, Tooltip, Typography } from 'antd';
 import { AppCtx } from '../../../../../App';
 import { SendOutlined } from '@ant-design/icons';
 import AssignSeriveRequest from '../../../API/AssignSeriveRequest';
@@ -40,22 +40,27 @@ function AssignAction(props) {
   return (
     <>
       {isShowing && <>
-        <Button size="middle" type='default' onClick={() => setOpenModal(true)}>Assign</Button>
+        <Tooltip title={props.disableMessage}>
+          <Button size="middle" type='default' disabled={props.isDisable}  onClick={() => setOpenModal(true)}>Assign</Button>
+        </Tooltip>
         <Modal 
           title={<><SendOutlined /> Assign Service Request</>}
           open={openModal} 
-          onOk={assignAction} 
           onCancel={() => setOpenModal(false)}
-          okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
-          okText="Assign"
+          footer={[
+            <Button type='primary' onClick={assignAction}>
+              Assign
+            </Button>,
+            <Button onClick={() => setOpenModal(false)}>
+              Cancel
+            </Button>,
+          ]}
         >
           <Typography.Text strong>Select Employee</Typography.Text>
           <Select value={selectedEmp} size="large" placeholder="Select Employee" onChange={value => setSelectedEmp(value)} style={{width: '100%'}}>
             {
               props.EmployeesList?.map((emp, i) => {
-                if(emp.Mail !== user_data.Data?.Mail) {
-                  return <Select.Option value={emp.Mail} key={i}>{emp.DisplayName}</Select.Option>
-                }
+                return <Select.Option value={emp.Mail} key={i}>{emp.DisplayName}</Select.Option>
               })
             }
           </Select>

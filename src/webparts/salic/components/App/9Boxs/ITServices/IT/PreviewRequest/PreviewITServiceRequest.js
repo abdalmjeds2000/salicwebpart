@@ -152,7 +152,10 @@ function PreviewITServiceRequest() {
   }
 
 
-
+  let disableAssignClose = false;
+  if(!requestData?.Category || requestData?.Category === "" || !requestData?.IssueType || requestData?.IssueType === "") {
+    disableAssignClose = true;
+  }
   return (
     <>
       <HistoryNavigation>
@@ -167,9 +170,20 @@ function PreviewITServiceRequest() {
             {pendingApprove !== null &&
             <ApproveAction ActionId={pendingApprove.Id} handelAfterAction={GetRequest} />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
-            <AssignAction EmployeesList={requestData.EmployeeList} RequestId={requestData.Id} handelAfterAction={GetRequest} />}
+            <AssignAction 
+              EmployeesList={requestData.EmployeeList} 
+              RequestId={requestData.Id} 
+              handelAfterAction={GetRequest} 
+              isDisable={disableAssignClose} 
+              disableMessage={disableAssignClose ? "Please Update Ticket Information" : null}
+            />}
             {!["CLOSED", "Waiting For Approval"].includes(requestData?.Status) &&
-            <CloseAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
+            <CloseAction 
+              RequestId={requestData.Id} 
+              handelAfterAction={GetRequest} 
+              isDisable={disableAssignClose} 
+              disableMessage={disableAssignClose ? "Please Update Ticket Information" : null}
+            />}
             {user_data.Data?.Mail === 'abdulmohsen.alaiban@salic.com' &&
             <DeleteAction RequestId={requestData.Id} handelAfterAction={GetRequest} />}
             {requestData.Status === "CLOSED" && IfRequester &&
@@ -351,6 +365,9 @@ function PreviewITServiceRequest() {
                           )
                         })
                       }
+                      {requestData?.Status === "CLOSED"
+                        ? <Steps.Step title={<>Closed By <b>{requestData?.ClosedBy?.DisplayName}</b></>} subTitle={`at ${new Date(requestData?.UpdatedAt).toLocaleString()}`} /> 
+                      : null}
                     </Steps>
                   </Section>
                 </div>

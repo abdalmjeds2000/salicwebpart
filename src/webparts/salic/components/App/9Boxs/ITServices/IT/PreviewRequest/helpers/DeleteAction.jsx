@@ -32,14 +32,14 @@ function DeleteAction( props ) {
       {
       isShowing &&
       <> 
-        <Button size="middle" onClick={() => setOpenModal(true)} type='primary' danger>Cancel</Button>
+        <Button size="middle" onClick={() => setOpenModal(true)} type='primary'>Cancel</Button>
         <Modal
           title={<><DeleteOutlined /> Cancel Request #{props.RequestId}</>}
           open={openModal} 
           onOk={deleteAction} 
           cancelButtonProps={{style: {display: 'none'}}}
           onCancel={() => setOpenModal(false)}
-          okButtonProps={{type: 'primary', danger: true, disabled: btnLoading}} 
+          okButtonProps={{type: 'primary', disabled: btnLoading}} 
           okText="Cancel Request"
           destroyOnClose
         >
