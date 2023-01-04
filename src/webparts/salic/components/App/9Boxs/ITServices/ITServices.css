@@ -9,7 +9,7 @@
 
 
 
-/* .ant-table-tbody tr[data-row-key="PROCESSING"] { 
+.ant-table-tbody tr[data-row-key="PROCESSING"] { 
   background: rgb(255,245,229) !important;
   background: linear-gradient(90deg, #d5ffe6 0%, rgba(255,255,255,1) 100%) !important;
 }
@@ -20,4 +20,4 @@
 .ant-table-tbody tr[data-row-key="Waiting_For_Approval"] { 
   background: rgb(255,245,229) !important;
   background: linear-gradient(90deg, #fff0db 0%, rgba(255,255,255,1) 100%) !important;
-} */
+}
