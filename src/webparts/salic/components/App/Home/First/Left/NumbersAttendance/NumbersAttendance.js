@@ -4,9 +4,10 @@ import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
 import GetPerformance from './API/GetPerformance'
-import { RadialBar } from '@ant-design/plots';
+import { Bullet, RadialBar } from '@ant-design/plots';
 import moment from 'moment';
-import { Tooltip } from 'antd';
+import { Tooltip, Typography } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 
 const performaceGrade = (grade) => {
@@ -27,18 +28,9 @@ function NumbersAttendance() {
   const { latest_attendance, user_data, performance, all_events } = useContext(AppCtx);
   const [nextEvents, setNextEvents] = useState([]);
   
-  // async function fetchData() {
-  //   const response = await GetPerformance(user_data.Data?.PIN);
-  //   if(response.status === 200) {
-  //     setPerformance(response?.data)
-  //   }
-  // }
+
   useEffect(() => {
     setNextEvents( all_events?.filter(e => new Date(e.Date).toJSON().slice(0, 10) > new Date().toJSON().slice(0, 10)).reverse() )
-
-    // if(Object.keys(performance).length === 0 && Object.keys(user_data).length !== 0) {
-    //   fetchData();
-    // }
   }, [user_data, all_events])
 
 
@@ -47,8 +39,6 @@ function NumbersAttendance() {
   const configRadialBar = {
     data: [
       { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
-      // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-(performance?.leaves?.total-15) : performance?.leaves?.total, type: "Available Balance This Year" },
-      // { name: "Total Balance", value: performance?.leaves?.total > 15 ? performance?.leaves?.total-15 : 0, type: "Expire in This Year" },
       { name: "Leave Balance", value: totalBalance, type: `Total balance till end of the year.` },
     ],
     xField: 'name',
@@ -90,17 +80,88 @@ function NumbersAttendance() {
     },
   };
 
+
+  const colorByRate = (number) => {
+    let num = +number;
+    if(num > 0 && num < 50) return "#ff4477"
+    else if(num >= 50 && num < 70) return "#ffb864"
+    else if(num >= 70) return "#05d17c"
+    else return "#74c4ff"
+  }
+
   const PerformanceColumns = [
-    { title: 'KPI', dataIndex: 'KPI_NAME', width: '15%' },
-    { title: 'Objectives', dataIndex: 'OBJECTIVES', width: '15%' },
-    { title: '%', dataIndex: 'MEASURE_ACHIEVE', width: '10%', render: (val) => val ? `${val}%` : ' - ' },
-    { title: 'Target', dataIndex: 'TARGET', width: '10%' },
-    { title: 'UOM', dataIndex: 'UOM', width: '10%', render: (val) => val !== '%' && val !== '#' ? val : ' - ' },
-    { title: 'Weightage', dataIndex: 'WEIGHTAGE', width: '5%'},
-    { title: 'Manager KPI', dataIndex: 'Manager_KPI', width: '5%', render: (val) => val ? val : '-' },
-    { title: 'Start Day', dataIndex: 'START_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
-    { title: 'End Day', dataIndex: 'END_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
-    { title: 'Achieve Date', dataIndex: 'ACHIEVE_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' }
+    { 
+      title: 'Objective / KPI', 
+      dataIndex: 'KPI_NAME', 
+      width: '55%', 
+      render: (v, r) => {
+        if(r.groupBy === "KPI") { 
+          return <div style={{marginLeft: '15px'}}>
+            <Typography.Text strong style={{fontSize: '0.9rem'}}>{v}</Typography.Text> <br />
+            <Tooltip title="Start & End Dates" mouseEnterDelay={1}><Typography.Text type='secondary'>{new Date(r.START_DATE).toLocaleDateString()} <ArrowRightOutlined /> {new Date(r.END_DATE).toLocaleDateString()}</Typography.Text></Tooltip>
+          </div>
+        } else {
+          // console.log(chartValue);
+          const chartValue = typeof r.Obj_MEASURE_ACHIEVE === "number" ? r.Obj_MEASURE_ACHIEVE.toFixed(1).replace(/\.?0*$/,'') : 0;
+          console.log(chartValue);
+          console.log(r.Obj_MEASURE_ACHIEVE);
+          const dataChart = [
+            {
+              title: 'KPI',
+              ranges: [+100+10],
+              Measure: [+chartValue],
+              Target: +chartValue,
+            },
+          ];
+          const configChart = {
+            data: dataChart,
+            height: 30,
+            width: 300,
+            measureField: 'Measure',
+            rangeField: 'ranges',
+            targetField: 'Target',
+            xField: 'title',
+            color: {
+              range: '#ffffff',
+              measure: colorByRate(chartValue),
+              target: colorByRate(chartValue),
+            },
+            xAxis: false,
+            yAxis: false,
+            legend: false,
+          };
+          return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+            <Typography.Text strong style={{fontSize: '1.1rem', lineHeight: 2.5}}>{r.header}</Typography.Text>
+            <Bullet {...configChart} />
+          </div>
+        }
+      },
+      onCell: (record, index) => {
+        // record.Unit => to check if record just a title or full record
+        return { colSpan: record.KPI_NAME ? 1 : 6 };
+      },
+    },
+    // { title: 'Objectives', dataIndex: 'OBJECTIVES', width: '15%' },
+    { title: '%', dataIndex: 'MEASURE_ACHIEVE', width: '10%', render: (val, r) => val ? <Tooltip title={`You have achieved ${val}% of target`} mouseEnterDelay={.5}><>{val}% ({r.WEIGHTAGE})</></Tooltip> : ' - ', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
+    { title: 'Target', dataIndex: 'TARGET', width: '10%', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
+    { 
+      title: 'UOM', 
+      dataIndex: 'UOM', 
+      width: '10%', 
+      render: (val) => (
+        ["number", "#"].includes(val?.toLowerCase()) 
+          ? "#" 
+        : ["percentage", "%"].includes(val?.toLowerCase())
+          ? "%"
+        : "%"
+      ),
+      onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }}
+    },
+    // { title: 'Weightage', dataIndex: 'WEIGHTAGE', width: '5%'},
+    { title: 'Manager KPI', dataIndex: 'Manager_KPI', width: '5%', render: (val) => val ? val : '-', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
+    // { title: 'Start Day', dataIndex: 'START_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
+    // { title: 'End Day', dataIndex: 'END_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
+    { title: 'Achieve Date', dataIndex: 'ACHIEVE_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} }
   ];
   const EventsColumns = [
     { title: 'Event', dataIndex: 'Subject', width: '40%' },
@@ -115,6 +176,49 @@ function NumbersAttendance() {
     }, 2000);
   }, []);
 
+
+
+  const mappingPerfomanceData = (data) => {
+    let groups = data.reduce((r, a) => {
+      r[a.OBJECTIVES] = [...(r[a.OBJECTIVES] || []), a];
+      return r;
+    }, {});
+
+    let result = [];
+    Object.values(groups).map((row, i) => {
+      let rowKPIs = Object.values(row).reduce((r, a) => {
+        r[a.KPI_NAME.toLowerCase()] = [
+          ...(r[a.KPI_NAME.toLowerCase()] || []),
+          a,
+        ];
+        return r;
+      }, {});
+
+
+      // get average of MEASURE_ACHIEVE for each objective
+      const x = data.filter(item => item?.OBJECTIVES?.toLowerCase() === Object.keys(groups)[i].toLowerCase());
+      const y = x.reduce((a, b) => a + b.MEASURE_ACHIEVE, 0) / x.length;
+      result.push({
+        key: 'row-level-1',
+        header: Object.keys(groups)[i],
+        Obj_MEASURE_ACHIEVE: y,
+      });
+      Object.values(rowKPIs).map((k, ki) => {
+        result.push({
+          key: k[0].ID,
+          parent: Object.keys(groups)[i],
+          header: Object.keys(rowKPIs)[ki],
+          groupBy: "KPI",
+          ...k[0]
+        });
+      });
+    })
+    return result;
+  };
+
+
+
+
   return (
     <div className="numbers-attendance-container">
       <div className="div1">
@@ -128,7 +232,7 @@ function NumbersAttendance() {
           minValue='0'
           maxValue='100'
           numberType="performance"
-          PerformanceDataTable={performance?.performace?.data}
+          PerformanceDataTable={mappingPerfomanceData(performance?.performace?.data || [])}
           PerformanceColumns={PerformanceColumns}
         />
       </div>

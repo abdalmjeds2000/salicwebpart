@@ -25,9 +25,7 @@ const KPIProgress = ({ data }) => {
                   sDate={new Date(row.START_DATE).toLocaleDateString()}
                   eDate={new Date(row.END_DATE).toLocaleDateString()}
                   achieveDate={row.ACHIEVE_DATE ? new Date(row.ACHIEVE_DATE).toLocaleDateString() : null}
-                  // value={row.MEASURE_ACHIEVE}
-                  value={row.per <= 100 ? row.per : 100}
-                  // maxVal={row.TARGET.replace(/[%#]/g, '').trim()}
+                  value={row?.MEASURE_ACHIEVE && row?.MEASURE_ACHIEVE <= 100 ? row?.MEASURE_ACHIEVE : 100}
                   maxVal={100}
                   valueType={
                     ["number", "#"].includes(row.UOM?.toLowerCase()) 
@@ -35,9 +33,7 @@ const KPIProgress = ({ data }) => {
                     : ["percentage", "%"].includes(row.UOM?.toLowerCase())
                       ? "%"
                     : "%"
-                    // : row?.KPI_NAME?.trim()[0]
                   }
-                  // themeColor={row.UOM == "Number" ? "#b58bff" : row.UOM == "Percentage" ? "#ffb864" : "#74c4ff"}
                 />
               </Col>
             ))

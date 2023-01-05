@@ -136,7 +136,7 @@ function NotificationCenter() {
       dataIndex: 'Created',
       key: 'dateTime',
       width: '10%',
-      render: (val) => <div style={{minWidth: 120}}>{moment(val.Created).format('MM/DD/YYYY hh:mm')}</div>
+      render: (val) => <div style={{minWidth: 120}}>{moment(val).format('MM/DD/YYYY hh:mm')}</div>
     },{
       title: 'Status',
       dataIndex: 'Status',

@@ -51,6 +51,17 @@
   font-size: 1.8rem !important;
   transform: translateY(3px);
 }
+
+
+.ant-table-tbody tr[data-row-key=row-level-1] {
+  background-color: #efefef!important;
+}
+
+
+
+
+
+
 /* for mobile */
 @media screen and (max-width: 600px) {
   .home-info .numbers-attendance-container {
