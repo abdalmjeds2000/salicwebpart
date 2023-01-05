@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
-import { Card, Col, Row, Statistic, Typography } from 'antd';
+import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
 import './Information.css';
 import { AreaChartOutlined, UserOutlined } from '@ant-design/icons';
-import { BiWorld } from 'react-icons/bi';
+import { BiUserCheck, BiWorld } from 'react-icons/bi';
 import { CgHashtag } from 'react-icons/cg';
 import { RiUser6Line, RiUserStarLine } from 'react-icons/ri';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FaMobileAlt, FaRegIdCard } from 'react-icons/fa';
 import { RxIdCard } from 'react-icons/rx';
 import { TiFlowChildren } from 'react-icons/ti';
-import { TbUserCircle } from 'react-icons/tb';
+import { TbChartArcs, TbUserCircle } from 'react-icons/tb';
 import { FiMail } from 'react-icons/fi';
 import { MdOutlineGrade } from 'react-icons/md';
-import { Bar } from '@ant-design/plots';
+import { Bar, RadialBar } from '@ant-design/plots';
 import { AppCtx } from '../../../App';
 import moment from 'moment';
 import { calcDate } from './datesCalc'
@@ -24,7 +24,7 @@ const { Text } = Typography;
 
 
 
-const Information = ({ userData, performanceData }) => {
+const Information = ({ userData, yearsPerformanceData, attendanceData, performanceData }) => {
   const { user_data } = useContext(AppCtx);
 
 
@@ -36,7 +36,7 @@ const Information = ({ userData, performanceData }) => {
     workingYears = calcDate(moment(dateObject).format('MM-DD-YYYY'), moment(new Date()).format('MM-DD-YYYY'))
   }
 
-  const mappingChartData = performanceData?.map(row => {
+  const mappingChartData = yearsPerformanceData?.map(row => {
     row.performance = Number(row.performance)?.toFixed(2)?.replace(/\.?0*$/,'');
     return row;
   });
@@ -76,6 +76,53 @@ const Information = ({ userData, performanceData }) => {
       },
     },
   }
+
+  const totalBalance = ((12-(new Date().getMonth()+1))*2.5)+performanceData?.leaves?.total;
+  const configRadialBar = {
+    data: [
+      { name: "Consumed This Year", value: performanceData?.leaves?.consumedThisYear, type: "Consumed" },
+      { name: "Leave Balance", value: totalBalance, type: `Total balance till end of the year.` },
+    ],
+    width: 220,
+    height: 150,
+    xField: 'name',
+    yField: 'value',
+    radius: 1,
+    innerRadius: 0.5,
+    colorField: 'name',
+    tooltip: {
+      formatter: (label) => {
+        if(label.name === "Leave Balance") {
+          return { name: `Total balance is ${totalBalance} days till end of the year, ${totalBalance-15} days of them must consumed this year`, value: `` };
+        }
+        return label
+      },
+    },
+    color: ({ name }) => {
+      if (name === 'Consumed This Year') {
+        return '#F9A654'; 
+      } else if (name === 'Available Balance This Year') {
+        return '#E7F0FE';
+      } else if (name === 'Leave Balance') {
+        return '#43A2CC';
+      }
+      return '#FD96A6';
+    },
+    isStack: true,
+    maxAngle: 270,
+    animation: {appear: {animation: 'none'}},
+  };
+
+
+
+  const attendanceTableColumns = [
+    { title: 'Name', dataIndex: 'Name', render: (val) => <div style={{minWidth: 150}}>{val}</div> || ' - '},
+    { title: 'Date', dataIndex: 'Date', render: (val) => val || ' - '},
+    { title: 'Day', dataIndex: 'Day', render: (val) => val || ' - '},
+    { title: 'W.Time', dataIndex: 'ActualHours', render: (val) => val || ' - '},
+    { title: 'Status', dataIndex: 'Reason'},
+  ]
+
   return (
     <div className='profile-container'>
 
@@ -105,6 +152,24 @@ const Information = ({ userData, performanceData }) => {
           </Card>
         </Col>
 
+
+        <Col xs={24} sm={24} md={24} lg={8}>
+          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><TbChartArcs /> Attendance Overview</Text>}>
+            <div style={{maxWidth: 280, maxHeight: 280, margin: '0 auto'}}>
+              <RadialBar {...configRadialBar} style={{width: '100%'}} />
+            </div>
+          </Card>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={16}>
+          <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><BiUserCheck /> Latest Leaves</Text>} bodyStyle={{padding: 0}}>
+            <Table 
+              columns={attendanceTableColumns} 
+              dataSource={attendanceData} 
+              pagination={false} 
+              size="small"
+            />
+          </Card>
+        </Col>
       </Row>
 
     </div>

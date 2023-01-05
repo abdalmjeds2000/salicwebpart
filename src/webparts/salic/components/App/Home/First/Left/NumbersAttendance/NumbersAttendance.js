@@ -96,7 +96,7 @@ function NumbersAttendance() {
       width: '55%', 
       render: (v, r) => {
         if(r.groupBy === "KPI") { 
-          return <div style={{marginLeft: '15px'}}>
+          return <div style={{marginLeft: '15px', minWidth: 150}}>
             <Typography.Text strong style={{fontSize: '0.9rem'}}>{v}</Typography.Text> <br />
             <Tooltip title="Start & End Dates" mouseEnterDelay={1}><Typography.Text type='secondary'>{new Date(r.START_DATE).toLocaleDateString()} <ArrowRightOutlined /> {new Date(r.END_DATE).toLocaleDateString()}</Typography.Text></Tooltip>
           </div>

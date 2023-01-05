@@ -14,13 +14,17 @@ import axios from 'axios';
 
 const MyTeam = () => {
   const [attendanceData, setAttendanceData] = useState([]);
-  const [performanceData, setPerformanceData] = useState([]);
+  const [performanceData, setPerformanceData] = useState({});
   const [yearsPerformanceData, setYearsPerformanceData] = useState([]);
   const [dataFor, setDataFor] = useState({});
+  const [loading, setLoading] = useState(false);
   
 
   const fetchData = async (user, signal) => {
-    axios({
+    setLoading(true);
+
+    /* fetch attendance of user ( last month ) */
+    await axios({
       method: 'GET',
       url: `https://salicapi.com/api/attendance/GetByEmail?Email=-1,${user?.Mail}&startDate=&EndDate=&month=${new Date().getMonth() + 1}&year=${new Date().getYear() + 1900}`,
       signal: signal
@@ -30,18 +34,18 @@ const MyTeam = () => {
       console.log(err); 
     });
     
-
-    axios({
+    /* fetch kpi performance of user */
+    await axios({
       method: 'GET',
       url: `https://salicapi.com/api/Integration/gate_statisiics?PIN=${user?.PIN}`,
       signal: signal
     }).then((res) => {
-      setPerformanceData(res.data?.performace?.data);
+      setPerformanceData(res.data);
     }).catch((err) => {
       console.log(err); 
     })
-
-    axios({
+    /* fetch performance of years */
+    await axios({
       method: 'GET',
       url: `https://salicapi.com/api/User/performance?Email=${user?.Mail}`,
       signal: signal
@@ -50,6 +54,8 @@ const MyTeam = () => {
     }).catch((err) => {
       console.log(err); 
     })
+
+    setLoading(false);
   }
 
   const onChangeUser = (user, signal) => {
@@ -63,7 +69,7 @@ const MyTeam = () => {
       key: 1, 
       icon: <UserOutlined />, 
       title: 'Information', 
-      content: <Information userData={dataFor} performanceData={yearsPerformanceData} />
+      content: <Information userData={dataFor} yearsPerformanceData={yearsPerformanceData} performanceData={performanceData} attendanceData={attendanceData?.slice(0, 5)} />
     },{
       key: 2, 
       icon: <CheckSquareOutlined />, 
@@ -73,7 +79,7 @@ const MyTeam = () => {
       key: 3, 
       icon: <AreaChartOutlined />, 
       title: 'KPI Progress', 
-      content: <KPIProgress data={performanceData} />
+      content: <KPIProgress total={performanceData?.performace?.count} kpiItems={performanceData?.performace?.data} userData={dataFor} />
     },{
       key: 4, 
       icon: <CalendarOutlined />, 
@@ -104,7 +110,7 @@ const MyTeam = () => {
           </Col>
 
           <Col span={24}>
-            <Tabs items={tabsItems} />
+            <Tabs items={tabsItems} loading={loading} />
           </Col>
         </Row>
       </div>

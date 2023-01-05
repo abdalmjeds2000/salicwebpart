@@ -87,12 +87,12 @@ const Dashboard = () => {
         </Col>
         <Col span={12}>
           <Card>
-          <Statistic
-              title="Delivery Letters"
-              value={data?.DeliveryNoteCount}
-              prefix={<MailOutlined />}
-              valueStyle={{ fontWeight: 700, fontSize: '2rem' }}
-            />
+            <Statistic
+                title="Delivery Letters"
+                value={data?.DeliveryNoteCount}
+                prefix={<MailOutlined />}
+                valueStyle={{ fontWeight: 700, fontSize: '2rem' }}
+              />
           </Card>
         </Col>
         <Col span={24}>

@@ -17,19 +17,6 @@ const KPICard = (props) => {
     else return "#74c4ff"
   }
 
-
-  // let _Type = valueType;
-  // let _MaxValue = +maxVal;
-  // let _Value = +value;
-  // if(_Type == '#') {
-  //   _Value = Number((+value / _MaxValue) * 100).toFixed(3).replace(/\.?0*$/,'');
-  //   _MaxValue = 100;
-  // }
-
-
-
-
-
   const dataChart = [
     {
       title: 'KPI',

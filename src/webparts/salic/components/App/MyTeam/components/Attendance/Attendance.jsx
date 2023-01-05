@@ -6,7 +6,7 @@ import { Empty, Table } from 'antd';
 const Attendance = ({ data }) => {
 
   const columns = [
-    { title: 'Employee Name', dataIndex: 'Name', render: (val) => val || ' - '},
+    { title: 'Employee Name', dataIndex: 'Name', render: (val) => <div style={{minWidth: 200}}>{val}</div> || ' - '},
     { title: 'Date', dataIndex: 'Date', render: (val) => val || ' - '},
     { title: 'Day', dataIndex: 'Day', render: (val) => val || ' - '},
     { title: 'Check-In', dataIndex: 'CheckInTime', render: (val) => val || ' - '},
