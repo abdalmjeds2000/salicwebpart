@@ -53,12 +53,10 @@
 
 
 .three-divisions .community-news .news-list {
-  /* padding: 20px 15px 10px 15px; */
-  /* background-color: #fff; */
   position: relative;
   border-radius: 10px;
   height: 90%;
-  /* overflow: auto; */
+  overflow: auto;
   scroll-behavior: smooth;
 }
 .three-divisions .community-news .news-list::-webkit-scrollbar {

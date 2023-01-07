@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
 import OrganizationalChart from "./D3OrgChart/orgChart";
 import AntdLoader from '../Global/AntdLoader/AntdLoader';
-import { useNavigate } from 'react-router-dom';
 
 
 
@@ -24,9 +23,7 @@ function appendChild (n, all, index){
 
 
 function Communication() {
-  const { user_data, communicationList, defualt_route } = useContext(AppCtx);
-  let navigate = useNavigate();
-  
+  const { user_data, communicationList } = useContext(AppCtx);
 
   const gate = {
     "id": "0",
@@ -47,20 +44,6 @@ function Communication() {
     }
     return r;
   });
-
-
-
-
-
-  /* JUST FOR ROOT GATE */
-  // useEffect(() => {
-  //   if(Object.keys(user_data).length > 0 && Object.keys(communicationList).length > 0) {
-  //     let root = communicationList.filter(emp => emp.id == "1")[0];
-  //     if(root?.email?.toLowerCase() !== user_data?.Data?.Mail?.toLowerCase()) {
-  //       navigate(defualt_route);
-  //     }
-  //   }
-  // }, [user_data, communicationList])
 
 
 

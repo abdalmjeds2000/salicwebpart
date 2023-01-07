@@ -16,6 +16,7 @@ const MyTeam = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [performanceData, setPerformanceData] = useState({});
   const [yearsPerformanceData, setYearsPerformanceData] = useState([]);
+  const [latestLeaves, setLatestLeaves] = useState([]);
   const [dataFor, setDataFor] = useState({});
   const [loading, setLoading] = useState(false);
   
@@ -55,6 +56,17 @@ const MyTeam = () => {
       console.log(err); 
     })
 
+    /* fetch latest leaves data (always return 5 rows) */
+    await axios({
+      method: 'GET',
+      url: `https://salicapi.com/api/User/latest_leaves?Email=${user?.Mail}`,
+      signal: signal
+    }).then((res) => {
+      setLatestLeaves(res.data);
+    }).catch((err) => {
+      console.log(err); 
+    })
+
     setLoading(false);
   }
 
@@ -69,7 +81,7 @@ const MyTeam = () => {
       key: 1, 
       icon: <UserOutlined />, 
       title: 'Information', 
-      content: <Information userData={dataFor} yearsPerformanceData={yearsPerformanceData} performanceData={performanceData} attendanceData={attendanceData?.slice(0, 5)} />
+      content: <Information userData={dataFor} yearsPerformanceData={yearsPerformanceData} performanceData={performanceData} latestLeavesData={latestLeaves} />
     },{
       key: 2, 
       icon: <CheckSquareOutlined />, 

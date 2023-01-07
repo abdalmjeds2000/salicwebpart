@@ -88,7 +88,7 @@ function Attendance(props) {
                 ? <tr key={i} /* style={{background: 'linear-gradient(90deg,#e7f0fe,hsla(0,0%,100%,0))'}} */>
                     <td><span>•</span>{day.Day}</td>
                     <td>{day.Date || '-'}</td>
-                    <td colSpan={3}>{day.Reason}</td>
+                    <td>{day.Reason}</td>
                   </tr>
                 : <tr key={i} style={{background: `linear-gradient(270deg, transparent 0%, ${day.IsDelayed ? '#fff0dd' : ''} 100%)`}}>
                     <td><span style={{color: day.IsAbsent ? 'rgb(255, 39, 43)' : (day.IsDelayed ? 'rgb(233 155 77)' : 'rgb(39, 124, 98)') }}>•</span>{day.Day}</td>

@@ -28,18 +28,17 @@ const styles = {
 
 const OrganizationalChart = (props) => {
   const { user_data } = useContext(AppCtx);
-
+  const [cardShow, setCardShow] = useState(false);
+  const [employeeId, setEmployeeId] = useState("");
+  const [layout, setLayout] = useState('left');
+  
   const d3Container = useRef(null);
   const chart = useMemo(() => {
     return new OrgChart()
   }, []);
-  const [cardShow, setCardShow] = useState(false);
-  const [employeeId, setEmployeeId] = useState("");
-  const [layout, setLayout] = useState('top');
-  
+
   const handleShow = () => setCardShow(true);
   const handleClose = () => setCardShow(false);
-
 
 
 
@@ -123,12 +122,15 @@ const OrganizationalChart = (props) => {
   }, [chart, props, props.data, layout]);
 
 
-
+  var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
   useEffect(() => {
     if(props.data.length > 0) {
-      // chart.expandAll();
-      // chart.expandLevel(19)
-      chart.fit()
+      if(mobile) {
+        setLayout('top');
+      } else {
+        setLayout('left');
+      }
+      chart.fit();
     }
   }, [])
 

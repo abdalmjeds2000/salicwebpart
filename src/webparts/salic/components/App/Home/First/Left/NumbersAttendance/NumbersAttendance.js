@@ -3,11 +3,11 @@ import './NumbersAttendance.css';
 import Number from './Number/Number';
 import Attendance from './Attendance/Attendance';
 import {AppCtx} from '../../../../App';
-import GetPerformance from './API/GetPerformance'
-import { Bullet, RadialBar } from '@ant-design/plots';
+import { Bullet } from '@ant-design/plots';
 import moment from 'moment';
 import { Tooltip, Typography } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import AttendanceChart from '../../../../Global/AttendanceChart/AttendanceChart';
 
 
 const performaceGrade = (grade) => {
@@ -35,50 +35,10 @@ function NumbersAttendance() {
 
 
   const totalBalance = ((12-(new Date().getMonth()+1))*2.5)+performance?.leaves?.total;
-
-  const configRadialBar = {
-    data: [
-      { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
-      { name: "Leave Balance", value: totalBalance, type: `Total balance till end of the year.` },
-    ],
-    xField: 'name',
-    yField: 'value',
-    radius: 1,
-    innerRadius: 0.5,
-    colorField: 'name',
-    tooltip: {
-      formatter: (label) => {
-        if(label.name === "Leave Balance") {
-          return { name: `Total balance is ${totalBalance} days till end of the year, ${totalBalance-15} days of them must consumed this year`, value: `` };
-        }
-        return label
-      },
-    },
-    color: ({ name }) => {
-      if (name === 'Consumed This Year') {
-        return '#F9A654'; 
-      } else if (name === 'Available Balance This Year') {
-        return '#E7F0FE';
-      } else if (name === 'Leave Balance') {
-        return '#43A2CC';
-      }
-      return '#FD96A6';
-    },
-    isStack: true,
-    maxAngle: 270,
-    animation: {appear: {animation: 'none'}},
-    onReady: (plot) => {
-      // Axis-label adds click events
-      // plot.on('axis-label:click', (...args) => {
-      //   const ClickedName = args[0].gEvent.target.attrs.text;
-      //   if(ClickedName === "Total Balance") {
-      //     window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE", "_blank");
-      //   } else if(ClickedName === "Consumed This Year") {
-      //     window.open("https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=EXISTING_ABSENCES&action=NONE", "_blank");
-      //   }
-      // })
-    },
-  };
+  const attendancChartData = [
+    { name: "Consumed This Year", value: performance?.leaves?.consumedThisYear, type: "Consumed" },
+    { name: "Leave Balance", value: totalBalance, type: `Total balance till end of the year.` },
+  ];
 
 
   const colorByRate = (number) => {
@@ -110,7 +70,7 @@ function NumbersAttendance() {
               title: 'KPI',
               ranges: [+100+10],
               Measure: [+chartValue],
-              Target: +chartValue,
+              Target: 100,
             },
           ];
           const configChart = {
@@ -141,7 +101,6 @@ function NumbersAttendance() {
         return { colSpan: record.KPI_NAME ? 1 : 6 };
       },
     },
-    // { title: 'Objectives', dataIndex: 'OBJECTIVES', width: '15%' },
     { title: '%', dataIndex: 'MEASURE_ACHIEVE', width: '10%', render: (val, r) => val ? <Tooltip title={`You have achieved ${val}% of target`} mouseEnterDelay={.5}><>{val}% ({r.WEIGHTAGE})</></Tooltip> : ' - ', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
     { title: 'Target', dataIndex: 'TARGET', width: '10%', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
     { 
@@ -157,10 +116,7 @@ function NumbersAttendance() {
       ),
       onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }}
     },
-    // { title: 'Weightage', dataIndex: 'WEIGHTAGE', width: '5%'},
     { title: 'Manager KPI', dataIndex: 'Manager_KPI', width: '5%', render: (val) => val ? val : '-', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} },
-    // { title: 'Start Day', dataIndex: 'START_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
-    // { title: 'End Day', dataIndex: 'END_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ' },
     { title: 'Achieve Date', dataIndex: 'ACHIEVE_DATE', width: '10%', render: (val) => val ? new Date(val).toLocaleDateString() : ' - ', onCell: (record, index) => { return { colSpan: record.KPI_NAME ? 1 : 0 }} }
   ];
   const EventsColumns = [
@@ -236,18 +192,7 @@ function NumbersAttendance() {
           PerformanceColumns={PerformanceColumns}
         />
       </div>
-      <div className="div2">
-        {/* <Number 
-          pathColor='#277C62' 
-          header="Leaves Balance" 
-          description={`${(isNaN(performance?.leaves - 15)) || (performance?.leaves - 15 < 0) ? '0' : performance?.leaves - 15 } expire at 1/1/${new Date().getYear() + 1901}`}
-          value={performance?.leaves ? performance?.leaves : '0'}
-          minValue='0'
-          maxValue='30'
-          text={performance?.leaves ? `${performance?.leaves}` : '?'}
-          textColor='#277C62' 
-        /> */}
-      </div>
+      <div className="div2"></div>
       <div className="div3">
         <Tooltip title="See Future Events">
           <Number
@@ -266,32 +211,15 @@ function NumbersAttendance() {
         </Tooltip>
       </div>
       <div className="div4">
-        {/* <Number 
-          pathColor='#ff272b' 
-          header="Employment Period" 
-          description="5 Days" 
-          value='5'
-          minValue='0'
-          maxValue='24'
-          text='5'
-          textColor='#ff272b'
-        /> */}
-        {
-          // (Object.keys(performance).length !== 0) && (performance?.leaves?.consumedThisYear + performance?.leaves?.total !== 0) 
-          <div id='home-chart' style={{opacity: 0, transition: '0.5s'}}>
-            <Tooltip placement="top" title="Current Balance">
-              <a className='mid-total' href='https://hen.fa.em2.oraclecloud.com/fscmUI/faces/deeplink?objType=ABSENCE_BALANCE&action=NONE' target='_blank'>{performance?.leaves?.total}</a>
-            </Tooltip>
-            <RadialBar 
-              {...configRadialBar}
-              style={{
-                width: '100%',
-                margin: '20px 0 40px 0',
-              }} 
-              
-            />
-          </div>
-        }
+        <div>
+          <AttendanceChart
+            data={attendancChartData}
+            totalBalance={totalBalance}
+            total={performance?.leaves?.total}
+            width={250}
+            height={150}
+          />
+        </div>
       </div>
       <div className="div5">
         <Attendance latestAttendance={latest_attendance} />

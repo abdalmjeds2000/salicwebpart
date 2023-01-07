@@ -82,7 +82,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
   
 
   React.useEffect(() => {
-
     if(userData.Data?.Mail !== null) {
       if(userData.Data?.Mail !== "stsadmin@salic.onmicrosoft.com") {
         let element = document.getElementById("spCommandBar");
@@ -145,24 +144,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
           })
           // Disable Loader
           .then((response) => {setIsLoading(false); return response})
-
-
-
-
-          // GetNotifications Count #1
-          // .then((response) => {
-          //   axios({ method: 'GET', url: `https://salicapi.com/api/Integration/ERPApprovalCount?PIN=${response.data.Data?.PIN}` })
-          //     .then((res) => { setNotificationsCount(res.data?.Data) })
-          //     .catch((error) => { console.log(error) })
-          //   return response
-          // })
-          // Get Notifications Count #2
-          // .then((response) => {
-          //   axios({ method: 'GET', url: `https://salicapi.com/api/Integration/PendingApprovalCount?PIN=${response.data.Data?.Mail}` })
-          //     .then((res) => { setNotificationsCount(prev => prev + res.data?.Data) })
-          //     .catch((error) => { console.log(error) })
-          //   return response
-          // })
           // (NEW) Get Notifications Count
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/NotificationCenter/Summary?Email=${response.data.Data?.Mail}` })
@@ -173,9 +154,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
               .catch((error) => { console.log(error) })
             return response
           })
-
-
-
           // Get Mail Count
           .then((response) => {
             axios({ method: 'GET', url: `https://salicapi.com/api/User/GetUnReadMessags?UserId=${response.data.Data?.GraphId}` })
@@ -183,7 +161,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
               .catch((error) => { console.log(error) })
             return response
           })
-          
           //Get eSign Requests
           .then((response) => {
             axios({
@@ -246,8 +223,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
             .catch((error) => { console.log(error) })
             return response
           })
-          
-          
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
@@ -265,7 +240,6 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
       })
       .then(res => setGlobeData(res.data?.features))
       .catch((error) => { console.log(error) })
-
 
     // Get All News
     pnp.sp.web.lists.getByTitle('News').items.select('Author/Title,Author/EMail,Author/JobTitle,Subject,Photos,Id,ID,IsDraft,Description,CreatedOn,Created,IsPerson,AttachmentFiles').expand('Author,AttachmentFiles').top(500).orderBy("CreatedOn", false).get()

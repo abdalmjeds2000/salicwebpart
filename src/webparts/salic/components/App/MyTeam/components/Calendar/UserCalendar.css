@@ -151,8 +151,10 @@
 
 
 
-
-
+/* hide [month | year] view in mobile */
+.my-team_calendar-container .mobile-calendar .ant-picker-calendar-header .ant-picker-calendar-mode-switch {
+  display: none !important;
+}
 
 
 @media screen and (max-width: 1000px) {

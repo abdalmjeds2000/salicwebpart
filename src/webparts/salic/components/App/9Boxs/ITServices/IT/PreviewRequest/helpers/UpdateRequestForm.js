@@ -44,7 +44,7 @@ function UpdateRequestForm(props) {
   var onbehalf = props.RequestData?.OnBehalfOf;
   if (onbehalf != null){ requester = onbehalf; }
 
-  const IsUpdatable = props.RequestData?.EmployeeList?.findIndex(e => e.Mail == user_data?.Data?.Mail);
+  const IsUpdatable = props.RequestData?.EmployeeList?.findIndex(e => e.Mail?.toLowerCase() === user_data?.Data?.Mail?.toLowerCase());
 
   return (
     <Form

@@ -27,16 +27,20 @@
   position: relative; 
   width: 100%;
 }
-.home-info .numbers-attendance-container .div4 .mid-total {
+
+.attendance-chart-container {
+  position: relative;
+}
+.attendance-chart-container .mid-total {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-70%);
+  transform: translate(-50%,-50%);
   font-size: 1.5rem;
   color: #8c8c8c;
   z-index: 1;
 }
-.home-info .numbers-attendance-container .div4 .mid-total:hover {
+.attendance-chart-container .mid-total:hover {
   text-decoration: underline;
 }
 .home-info .numbers-attendance-container .div4 > div {

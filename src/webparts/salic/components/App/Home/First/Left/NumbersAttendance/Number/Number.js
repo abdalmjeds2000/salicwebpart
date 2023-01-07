@@ -1,15 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import './Number.css';
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { Modal, Table } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { AppCtx } from '../../../../../App';
 
 
 function Number(props) {
-  const navigate = useNavigate();
-  const { defualt_route } = useContext(AppCtx);
   const [openPerformanceModal, setOpenPerformanceModal] = useState(false)
   const [openEventsModal, setOpenEventsModal] = useState(false)
   
