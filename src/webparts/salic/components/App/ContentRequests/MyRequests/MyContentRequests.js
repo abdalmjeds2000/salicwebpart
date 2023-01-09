@@ -85,7 +85,7 @@ function MyContentRequests() {
         HeaderControlPanel={ControlPanel}
         IsLoading={loading}
         Columns={columns}
-        DataTable={content_requests_data/* .filter(row => row.Author.EMail === user_data.Data.Mail) */}
+        DataTable={content_requests_data.filter(row => row?.Author?.EMail === user_data?.Data?.Mail)}
       />
     </>
   )

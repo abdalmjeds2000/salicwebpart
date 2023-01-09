@@ -32,7 +32,7 @@ const WelcomeMessage = () => {
     return (
       <Alert
         message={<span>Hello <b>{user_data?.Data?.DisplayName}</b>, welcome to the new SALIC Gate</span>}
-        description={<span>This is SALIC's new Gate. If you want to browse the old Gate, <a href='https://salic.sharepoint.com/sites/newsalic' target='_blank'><b>click here</b></a>. The previous SALIC gate will be deactivated after 30 days.</span>}
+        description={<span>This is SALIC's new Gate. If you want to browse the old Gate, <a href='https://salic.sharepoint.com/sites/newsalic' target='_blank'><b>click here</b></a>. The previous SALIC gate will be deactivated at the end of this month.</span>}
         type="success"
         closable
         showIcon

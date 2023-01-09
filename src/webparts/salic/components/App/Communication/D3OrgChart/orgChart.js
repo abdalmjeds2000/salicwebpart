@@ -151,8 +151,14 @@ const OrganizationalChart = (props) => {
   
 
   const toolbarBtnStyle = {
-    width: '30px',
-    height: '30px'
+    width: '35px',
+    height: '35px',
+    backgroundColor: 'var(--main-color)',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.2rem',
   }
   return (
     <div style={styles.orgChart} ref={d3Container}>

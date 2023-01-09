@@ -3,7 +3,9 @@
   flex-direction: column;
 }
 
-
+.globe .scene-container {
+  margin: 0 auto;
+}
 
 
 
