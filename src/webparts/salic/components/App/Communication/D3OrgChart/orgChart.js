@@ -91,7 +91,8 @@ const OrganizationalChart = (props) => {
             '#e05d2b',
             '#4098ff',
           ];
-          const color = colors[d.depth-1 % colors.length];
+          // const color = colors[d.depth-1 % colors.length];
+          const color = colors[d.depth % colors.length];
           let isMe = false;
           if(Object.keys(user_data).length > 0) {
             isMe = user_data.Data?.Mail === d.data?.email;

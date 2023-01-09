@@ -49,27 +49,27 @@ function NewITRequest() {
     if (isFilesFinishUpload) {
       switch (issueTypeField) {
         case 'Oracle':
-          const OracleFormDataProp = { Enviroment: FormData.Enviroment, NewAccount: FormData.NewAccount, Module: FormData.Module, Rules: FormData.Rules, AccessFrom: moment(FormData.TemporaryAccess[0]).format('MM/DD/YYYY'), AccessTo: moment(FormData.TemporaryAccess[1]).format('MM/DD/YYYY') };
+          var OracleFormDataProp = { Enviroment: FormData.Enviroment, NewAccount: FormData.NewAccount, Module: FormData.Module, Rules: FormData.Rules, AccessFrom: moment(FormData.TemporaryAccess[0]).format('MM/DD/YYYY'), AccessTo: moment(FormData.TemporaryAccess[1]).format('MM/DD/YYYY') };
           FormData.FormData = JSON.stringify(OracleFormDataProp);
           break;
         case 'DMS':
-          const DMSFormDataProp = { PermissionType: FormData.PermissionType, MainFolder: FormData.MainFolder, };
+          var DMSFormDataProp = { PermissionType: FormData.PermissionType, MainFolder: FormData.MainFolder, };
           FormData.FormData = JSON.stringify(DMSFormDataProp);
           break;
         case 'Unlock USB':
-          const USBFormDataProp = { USBAccessType: FormData.USBAccessType, USBAccessFrom: moment(FormData?.USBAccessDates[0]).format('MM/DD/YYYY'), USBAccessTo: moment(FormData?.USBAccessDates[1]).format('MM/DD/YYYY') };
+          var USBFormDataProp = { USBAccessType: FormData.USBAccessType, USBAccessFrom: moment(FormData?.USBAccessDates[0]).format('MM/DD/YYYY'), USBAccessTo: moment(FormData?.USBAccessDates[1]).format('MM/DD/YYYY') };
           FormData.FormData = JSON.stringify(USBFormDataProp);
           break;
         case 'Software Subscription & Licenses':
-          const SoftwareFormDataProp = { SoftwareName: FormData.SoftwareName };
+          var SoftwareFormDataProp = { SoftwareName: FormData.SoftwareName };
           FormData.FormData = JSON.stringify(SoftwareFormDataProp);
           break;
         case 'Phone Extensions':
-          const PhoneFormDataProp = { Extensions: FormData.Extensions, Scope: FormData.Scope };
+          var PhoneFormDataProp = { Extensions: FormData.Extensions, Scope: FormData.Scope };
           FormData.FormData = JSON.stringify(PhoneFormDataProp);
           break;
         case 'New Account':
-          const NewAccountFormDataProp = { 
+          var NewAccountFormDataProp = { 
             FirstName: FormData.FirstName,
             LastName: FormData.LastName, 
             Company: FormData.Company, 
@@ -85,26 +85,27 @@ function NewITRequest() {
             NewUserStartDate: moment(FormData.StartEndDate[0]).format('MM/DD/YYYY'), 
             NewUserEndDate: moment(FormData.StartEndDate[1]).format('MM/DD/YYYY'), 
             WithLaptop: FormData.WithLaptop, 
-            Gender: FormData.Gender
+            Gender: FormData.Gender,
           };
           FormData.FormData = JSON.stringify(NewAccountFormDataProp);
           break;
         case 'Shared Email':
-          const SharedEmailFormDataProp = { SenderName: FormData.SenderName, EmailAddress: FormData.EmailAddress, BusinessOwner: FormData.BusinessOwner, Members: FormData.Members.join() };
+          var SharedEmailFormDataProp = { SenderName: FormData.SenderName, EmailAddress: FormData.EmailAddress, BusinessOwner: FormData.BusinessOwner, Members: FormData.Members.join() };
           FormData.FormData = JSON.stringify(SharedEmailFormDataProp);
           break;
         case 'GL Account':
-          const GLAccountFormDataProp = { AccountCode: FormData.AccountCode, AccountDescription: FormData.AccountDescription, Summary: FormData.Summary, AllowPosting: FormData.AllowPosting, AllowBudgeting: FormData.AllowBudgeting, GLParentCode: FormData.GLParentCode, IntercompanyAccount: FormData.IntercompanyAccount, EliminationRequired: FormData.EliminationRequired, FinancialStatement: FormData.FinancialStatement, MappingUnderFSLI: FormData.MappingUnderFSLI, AccountType: FormData.AccountType };
+          var GLAccountFormDataProp = { AccountCode: FormData.AccountCode, AccountDescription: FormData.AccountDescription, Summary: FormData.Summary, AllowPosting: FormData.AllowPosting, AllowBudgeting: FormData.AllowBudgeting, GLParentCode: FormData.GLParentCode, IntercompanyAccount: FormData.IntercompanyAccount, EliminationRequired: FormData.EliminationRequired, FinancialStatement: FormData.FinancialStatement, MappingUnderFSLI: FormData.MappingUnderFSLI, AccountType: FormData.AccountType };
           FormData.FormData = JSON.stringify(GLAccountFormDataProp);
           break;
       }
       // Final Form Data Object (this object will be send to server)
+      FormData.AccountType = "AccountType";
       const formData = { 
         Email: user_data?.Data?.Mail, 
         IQAMA: user_data?.Data?.Iqama || "", 
         Id: user_data?.Data?.Id.toString(), 
         Source: "WEB", 
-        FileNames: files, 
+        FileNames: files,
         ...FormData, 
       };
       // Delete some unnecessary propraties after take need from them
@@ -114,8 +115,7 @@ function NewITRequest() {
       delete formData["DateOfEmployee"];
       
       const _response = await AddItServiceRequest(formData)
-      console.log(_response);
-
+      
       message.success("The request has been sent successfully.");
       navigate(defualt_route + '/services-requests/my-requests');
       // Reset form & attachments list
@@ -123,8 +123,6 @@ function NewITRequest() {
       setFileList([]);
       setCategoryTypeField("");
       setIssueTypeField("");
-
-      console.log(formData);
     } else {
       message.error("Wait for Uploading...");
     }

@@ -12,11 +12,11 @@ function NewAccountFields() {
       <Form.Item name="AccountType" label="Account Type" rules={[{ required: true, message: '' }]}>
         <Radio.Group>
           <Space direction="vertical">
-            <Radio value="AccountType">Email Account</Radio>
-            <Radio value="AccountType">Employee Account (Active Directory)</Radio>
-            <Radio value="AccountType">Contractor</Radio>
-            <Radio value="AccountType">Consultant</Radio>
-            <Radio value="AccountType">Trainee</Radio>
+            <Radio value="AccountType1">Email Account</Radio>
+            <Radio value="AccountType2">Employee Account (Active Directory)</Radio>
+            <Radio value="AccountType3">Contractor</Radio>
+            <Radio value="AccountType4">Consultant</Radio>
+            <Radio value="AccountType5">Trainee</Radio>
           </Space>
         </Radio.Group>
       </Form.Item>

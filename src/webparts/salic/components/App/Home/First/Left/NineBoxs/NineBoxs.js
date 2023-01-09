@@ -78,7 +78,7 @@ const services = [
   {header: 'Research Library', link: false, to: '/research-library', icon: icons.ResearchCenter},
   // {header: 'Performance Managment', link: false, to: '/performance-managment', icon: icons.Performance},
   {header: 'e-Signature Document', link: false, to: '/eSignature-document', icon: icons.ESignatureTool},
-  {header: 'eDocument System', link: false, to: '/dms', icon: icons.DMS},
+  {header: 'e-Document System', link: false, to: '/dms', icon: icons.DMS},
 ];
 
 

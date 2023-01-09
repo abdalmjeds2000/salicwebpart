@@ -92,6 +92,8 @@ function CloseAction(props) {
             change_classification: classification
           }
           const CloseRequest = await CloseSeriveRequest(payload);
+          //
+          
           message.success("Service request has been closed");
           props.handelAfterAction();
           // reset modal fields

@@ -25,25 +25,25 @@ function appendChild (n, all, index){
 function Communication() {
   const { user_data, communicationList } = useContext(AppCtx);
 
-  const gate = {
-    "id": "0",
-    "pid": null,
-    "name": null,
-    "title": null,
-    "email": null,
-    "img": "https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=stsadmin@salic.onmicrosoft.com",
-    "department": null,
-    "Ext": null,
-    "Mobile": null,
-    "assistance": false
-  }
-  const datawithsalic = [gate , ...communicationList];
-  const data = datawithsalic.map(r => {
-    if(r.id == "1") {
-      r.pid = "0";
-    }
-    return r;
-  });
+  // const gate = {
+  //   "id": "0",
+  //   "pid": null,
+  //   "name": null,
+  //   "title": null,
+  //   "email": null,
+  //   "img": "https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=M&username=stsadmin@salic.onmicrosoft.com",
+  //   "department": null,
+  //   "Ext": null,
+  //   "Mobile": null,
+  //   "assistance": false
+  // }
+  // const datawithsalic = [gate , ...communicationList];
+  // const data = datawithsalic.map(r => {
+  //   if(r.id == "1") {
+  //     r.pid = "0";
+  //   }
+  //   return r;
+  // });
 
 
 
@@ -58,7 +58,7 @@ function Communication() {
 
 
       <div style={{position: 'relative', top: '85px', minHeight: 'calc(100vh - 85px)'}}>
-        <OrganizationalChart data={data} />
+        <OrganizationalChart data={communicationList} />
       </div>
     </>
   );

@@ -15,12 +15,12 @@ const FolderExplorerPage = () => {
   const [currentItem, setCurrentItem] = useState(1);
 
   useEffect(() => {
-    document.title = '.:: SALIC Gate | eDocument System ::.';
+    document.title = '.:: SALIC Gate | e-Document System ::.';
   }, []);
   return (
     <>
       <HistoryNavigation>
-        <p>eDocument System</p>
+        <p>e-Document System</p>
       </HistoryNavigation>
 
       <div className='folder-explorer-container' style={{marginBottom: '85px'}}>  

@@ -143,7 +143,7 @@ const Information = ({ userData, yearsPerformanceData, latestLeavesData, perform
           ? (
             <>
               <Col xs={24} sm={24} md={24} lg={8}>
-                <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><TbChartArcs /> Attendance Overview</Text>}>
+                <Card style={{height: '100%'}} title={<Text style={{fontSize: '1.2rem'}}><TbChartArcs /> Leaves Balance</Text>}>
                   <div>
                     <AttendanceChart 
                       data={attendancChartData}
