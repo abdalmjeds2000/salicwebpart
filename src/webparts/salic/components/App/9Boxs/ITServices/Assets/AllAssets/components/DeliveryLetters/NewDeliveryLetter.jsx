@@ -93,7 +93,7 @@ const NewDeliveryLetter = () => {
       const data = {
         Email: user_data.Data.Mail,
         ToUser: assetsTo,
-        Assets: Assets
+        Assets: JSON.stringify(Assets)
       }
       axios({
         method: 'POST',

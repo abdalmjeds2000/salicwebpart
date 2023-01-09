@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './ServicesSection.css';
 import { AppCtx } from "../../App";
 import { Typography } from 'antd';
+import { MdOpenInNew } from 'react-icons/md';
 
 const ServicesSection = ({ title, items, headerIcon }) => {
   const { defualt_route } = useContext(AppCtx)
@@ -34,7 +35,7 @@ const ServicesSection = ({ title, items, headerIcon }) => {
                   {service.icon}
                 </div>
                 <div>
-                  <h3>{service.text}</h3>
+                  <h3>{service.text} {service.isLink ? <span className='open-in-new'><MdOpenInNew /></span> : ''}</h3>
                   { service.description ? <Typography.Text type='secondary'>{service.description}</Typography.Text> : null }
                 </div>
               </a>

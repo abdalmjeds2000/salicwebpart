@@ -53,6 +53,14 @@
 .services-body-container .services-boxs-container .box:hover {
   background-color: var(--third-color);
 }
+.services-body-container .services-boxs-container .box .open-in-new {
+  display: none;
+}
+.services-body-container .services-boxs-container .box:hover .open-in-new {
+  display: inline;
+}
+
+
 
 .services-body-container .services-boxs-container .box .img-container {
   min-width: 45px;

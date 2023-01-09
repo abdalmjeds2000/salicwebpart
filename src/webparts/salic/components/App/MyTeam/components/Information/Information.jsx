@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Card, Col, Row, Statistic, Table, Tag, Typography } from 'antd';
+import { Card, Col, Row, Statistic, Table, Tag, Tooltip, Typography } from 'antd';
 import './Information.css';
 import { AreaChartOutlined, CheckCircleOutlined, CloseCircleOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import { BiUserCheck, BiWorld } from 'react-icons/bi';
@@ -122,8 +122,10 @@ const Information = ({ userData, yearsPerformanceData, latestLeavesData, perform
               <Statistic className='ticket' valueStyle={{fontSize: '1.2rem'}} title="Manager" groupSeparator="" value={userData?.DirectManager?.DisplayName || user_data?.Data?.DisplayName || ' - '} prefix={<RiUser6Line />} />
               <Statistic className='ticket' valueStyle={{fontSize: '1.2rem'}} title="Hire Date" groupSeparator="" value={userData?.HireDate || ' - '} prefix={<AiOutlineCalendar />} />
               <Statistic className='ticket' valueStyle={{fontSize: '1.2rem'}} title="Mobile" groupSeparator="" value={userData?.Mobile || ' - '} prefix={<FaMobileAlt />} />
-              <a className='email-part ticket' href={`mailto:${userData?.Mail}`} title={`Click to contact with ${userData?.DisplayName}`}>
-                <Statistic valueStyle={{fontSize: '1.2rem', display: 'flex'}} title="Mail" groupSeparator="" value={userData?.Mail || ' - '} prefix={<FiMail />} />
+              <a className='email-part ticket' href={`mailto:${userData?.Mail}`}>
+                <Tooltip title={`Click to contact with ${userData?.DisplayName}`}>
+                  <Statistic valueStyle={{fontSize: '1.2rem', display: 'flex'}} title="Mail" groupSeparator="" value={userData?.Mail || ' - '} prefix={<FiMail />} />
+                </Tooltip>
               </a>
               <Statistic className='ticket' valueStyle={{fontSize: '1.2rem'}} title="Grade" groupSeparator="" value={userData?.OfficeLocation || ' - '} prefix={<MdOutlineGrade />} />
               <Statistic className='ticket' valueStyle={{fontSize: '1.2rem'}} title="Working Years" groupSeparator="" value={workingYears?.result || ' - '} prefix={<RiUserStarLine />} />

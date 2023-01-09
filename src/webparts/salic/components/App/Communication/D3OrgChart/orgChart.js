@@ -131,22 +131,24 @@ const OrganizationalChart = (props) => {
       } else {
         setLayout('left');
       }
-      chart.fit();
     }
   }, [])
-
+  useEffect(() => {
+    chart.fit();
+  }, [layout])
 
 
   const menu = (
     <Menu
       items={[
-        { onClick: () => {setLayout('left'); chart.fit();}, label: 'Left', key: 'left' },
-        { onClick: () => {setLayout('right'); chart.fit();}, label: 'Right', key: 'right' },
-        { onClick: () => {setLayout('top'); chart.fit();}, label: 'Top', key: 'top' },
-        { onClick: () => {setLayout('bottom'); chart.fit();}, label: 'Bottom', key: 'bottom' },
+        { onClick: () => {setLayout('left'); }, label: 'Left', key: 'left' },
+        { onClick: () => {setLayout('right'); }, label: 'Right', key: 'right' },
+        { onClick: () => {setLayout('top'); }, label: 'Top', key: 'top' },
+        { onClick: () => {setLayout('bottom'); }, label: 'Bottom', key: 'bottom' },
       ]}
     />
   );
+  
 
   const toolbarBtnStyle = {
     width: '30px',

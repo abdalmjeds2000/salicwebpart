@@ -1,29 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import './ESignRequests.css';
-import { CheckOutlined, DeleteOutlined, DownOutlined, FileOutlined, FileTextOutlined, MoreOutlined, PlusOutlined, RedoOutlined, SearchOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Input, Menu, message, Popconfirm, Space, Table, Typography } from 'antd'
+import { CheckCircleOutlined, CheckOutlined, DeleteOutlined, FileTextOutlined, MoreOutlined, PlusOutlined, StopOutlined, SyncOutlined } from '@ant-design/icons'
+import { Button, Col, Dropdown, Menu, message, Popconfirm, Row, Table, Tag, Typography } from 'antd'
 import { AppCtx } from '../../../App';
 import axios from 'axios';
 import VerifySignatureModal from './Actions/VerifySignatureModal';
 import ResendInvitation from './Actions/ResendInvitation';
 import ShareWith from './Actions/ShareWith';
-import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+import { GoCheck } from 'react-icons/go';
+import { VscChromeClose } from 'react-icons/vsc';
 
 
-function getWindowSize() {
-  const {innerWidth, innerHeight} = typeof window !== "undefined" && window;
-  return {innerWidth, innerHeight};
-}
+
 
 
 function ESignRequests() {
   const { eSign_requests, setESignRequests } = useContext(AppCtx)
-  // Get Window Size
-  const [windowSize, setWindowSize] = useState(getWindowSize());
-  useEffect(() => {
-    function handleWindowResize() {setWindowSize(getWindowSize());}
-    window.addEventListener('resize', handleWindowResize);
-  }, []);
+
 
 
   // Row Menu Withdraw Or Enable
@@ -122,12 +115,12 @@ function ESignRequests() {
       title: '#',
       dataIndex: 'Number',
       key: 'Number',
-      width: windowSize.innerWidth <= 768 ? '5%' : '3%',
+      width: '3%',
     },{
       title: 'Subject',
       dataIndex: 'Subject',
       key: 'Subject',
-      width: windowSize.innerWidth <= 768 ? '95%' : '22%',
+      width: '100%',
       render: (text) => {
         const currentRow = eSign_requests.filter(r => r.Subject === text)[0];
         return (
@@ -148,22 +141,25 @@ function ESignRequests() {
       dataIndex: 'RequestDate',
       key: 'RequestDate',
       width: '10%',
+      render: v => <div style={{minWidth: 170}}>{v}</div>
     },{
       title: 'Recipients',
       dataIndex: 'Recipients',
       key: 'Recipients',
       width: '5%',
-      // ellipsis: true,
+      render: v => <div style={{textAlign: 'center'}}>{v}</div>
     },{
       title: 'Is Parallel',
       dataIndex: 'IsParallel',
       key: 'IsParallel',
       width: '5%',
+      render: val => <div style={{minWidth: 90}}>{val === "True" ? <span><GoCheck style={{color: 'var(--brand-green-color)'}} /> True</span> : <span><VscChromeClose style={{color: 'var(--brand-red-color)'}} /> False</span>}</div>
     },{
       title: 'Has Reminder',
       dataIndex: 'HasReminder',
       key: 'HasReminder',
       width: '5%',
+      render: val => <div style={{minWidth: 110}}>{val === "True" ? <span><GoCheck style={{color: 'var(--brand-green-color)'}} /> True</span> : <span><VscChromeClose style={{color: 'var(--brand-red-color)'}} /> False</span>}</div>
     },{
       title: 'Pending With',
       dataIndex: 'PendingWith',
@@ -174,19 +170,29 @@ function ESignRequests() {
       dataIndex: 'Status',
       key: 'Status',
       width: '14%',
-      render: (val) => <><span style={{ fontSize: '2.5rem', lineHeight: 0, position: 'relative', top: '7px', color: val === 'Completed' ? 'rgb(39, 124, 98)' : 'rgb(233 155 77)'}}>•</span>{val}</>
+      render: (val) => {
+        const v = typeof val == "string" ? val?.toLowerCase() : "";
+        switch(v) {
+          case "completed":
+            return <div style={{minWidth: 100}}><Tag icon={<CheckCircleOutlined />} color="success">Completed</Tag></div>
+          case "pending":
+            return <div style={{minWidth: 100}}><Tag icon={<SyncOutlined />} color="warning">Pending</Tag></div>
+          default:
+            return <div style={{minWidth: 100}}><Tag color="default">{val}</Tag></div>
+        }
+      }
     },{
       title: 'Signed Document',
       dataIndex: 'SignedDocument',
       key: 'SignedDocument',
       width: '8%',
-      render: (val) => val.length > 0 ? <a href={val} target='blank'>Download</a> : ''
+      render: (val) => val.length > 0 ? <a style={{textAlign: 'center', minWidth: 140, display: 'block'}} href={val} target='blank'>Download</a> : ''
     },{
       title: 'Preview Version',
       dataIndex: 'PreviewVersion',
       key: 'PreviewVersion',
       width: '8%',
-      render: (val) => val.length > 0 ? <a href={val} target='blank'>Download</a> : ''
+      render: (val) => val.length > 0 ? <a style={{textAlign: 'center', minWidth: 120, display: 'block'}} href={val} target='blank'>Download</a> : ''
     }
   ];
 
@@ -206,14 +212,16 @@ function ESignRequests() {
       </div>
 
       <div className='table'>
-        {
-          windowSize.innerWidth > 768 
-          ? <Table 
+        <Row>
+          <Col xs={0} md={24}>
+            <Table 
               columns={columns} 
               dataSource={eSign_requests} 
               pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
             />
-          : <Table 
+          </Col>
+          <Col xs={24} md={0}>
+            <Table 
               columns={columns?.filter(r => r.dataIndex === 'Number' || r.dataIndex === 'Subject')} 
               dataSource={eSign_requests} 
               pagination={{position: ['none', 'bottomCenter'], pageSize: 50, hideOnSinglePage: true }} 
@@ -232,7 +240,8 @@ function ESignRequests() {
                 ),
               }}
             />
-        }
+          </Col>
+        </Row>
       </div>
 
     </div>

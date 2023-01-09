@@ -1071,7 +1071,7 @@ export const services = [
     icon: srvsIcons.receiptConfitmation,
     to: "https://hen.fa.em2.oraclecloud.com/analytics/saw.dll?bipublisherEntry&Action=open&itemType=.xdo&bipPath=%2FCustom%2FProcurement%2FSALIC%20Receipt%20Confirmation%20Note.xdo&bipParams=%7b%22_xmode%22:%222%22,%22_sTkn%22:%22742f0868180f61bd0c9%22,%22_xiasynch%22:%22%22,%22_xpf%22:%22%22,%22_xpt%22:%220%22,%22_dFlag%22:%22false%22,%22_edIndex%22:%220%22,%22_dIndex%22:%220%22,%22_rToken%22:%22%22,%22_ranDiag%22:%22false%22,%22_xdo%22:%22%2FCustom%2FProcurement%2FSALIC%20Receipt%20Confirmation%20Note.xdo%22,%22xdo%3Axdo%3A_paramsP_PO_NUMBER_div_input%22:%22All%22,%22_paramsP_PO_NUMBER%22:%22*%22,%22xdo%3Axdo%3A_paramsP_Document_Status_div_input%22:%22OPEN%22,%22_paramsP_Document_Status%22:%22OPEN%22,%22xdo%3Axdo%3A_paramsP_Inv_Org_div_input%22:%22Riyadh%20INV%22,%22_paramsP_Inv_Org%22:%22300000000910312%22,%22xdo%3Axdo%3A_paramsP_Uninvoiced_receipts_div_input%22:%22No%22,%22_paramsP_Uninvoiced_receipts%22:%22N%22,%22xdo%3Axdo%3A_paramsP_Receipt_Number_div_input%22:%22All%22,%22_paramsP_Receipt_Number%22:%22*%22,%22xdo%3Axdo%3A_paramsP_Purchasing_Category_div_input%22:%22All%22,%22_paramsP_Purchasing_Category%22:%22*%22,%22_xt%22:%22Receipt%20New%20Report%22,%22_xf%22:%22analyze%22,%22_xana%22:%22view%22%7d&_linkToReport=true",
     bgColor: "#9BC9ED",
-    text: "Receipt Confitmation",
+    text: "Receipt Confirmation",
     isLink: true,
   },
   {

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import './NineBoxs.css';
 import { useNavigate } from "react-router-dom";
 import { AppCtx } from '../../../../App';
+import { MdOpenInNew } from 'react-icons/md';
 
 
 const icons = {
@@ -97,7 +98,7 @@ function NineBoxs() {
                 {/* <img src= alt='' /> */}
                 {service.icon}
               </div>
-              <h3>{service.header}</h3>
+              <h3>{service.header} {service.link ? <span className='open-in-new'><MdOpenInNew /></span> : ''}</h3>
             </div>
           </a>
 

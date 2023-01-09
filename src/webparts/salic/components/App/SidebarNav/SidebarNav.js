@@ -7,6 +7,7 @@ import { CalendarOutlined, CloseOutlined, MenuOutlined, SearchOutlined, TeamOutl
 import { svgIcons } from './icons';
 import { AppCtx } from "../App";
 import pnp from 'sp-pnp-js';
+import { MdOpenInNew } from "react-icons/md";
 
 
 
@@ -164,7 +165,7 @@ const SidebarNav = ({spWebUrl}) => {
             .map((item, i) => {
               return (
                 <li key={i}>
-                  <Tooltip placement="right" title={item?.text}>
+                  <Tooltip placement="right" title={item?.link ? <>{item?.text} <MdOpenInNew /></> : item?.text}>
                     <a
                       onClick={() => {
                         isNavBarLarge ? setIsNavBarLarge(false) : null;

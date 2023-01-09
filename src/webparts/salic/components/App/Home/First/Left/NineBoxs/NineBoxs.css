@@ -18,6 +18,15 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
 }
 
+.services-container .service-box .open-in-new {
+  display: none;
+  transition: all .3s;
+}
+
+.services-container .service-box:hover .open-in-new {
+  display: inline;
+}
+
 .services-container .service-box:hover {
   background-color: var(--third-color) !important;
 }

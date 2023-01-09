@@ -30,6 +30,7 @@
 
 .eSign-requests-container .table .eSign-subject {
   display: flex;
+  min-width: 200px;
 }
 .eSign-requests-container .table .eSign-subject .eSign-more-btn {
   display: none;
