@@ -88,7 +88,7 @@ const EditableTable = (props) => {
 
   const [count, setCount] = useState(1);
   const handleDelete = (key) => {
-    const newData = props.dataSource.length === 1 ? props.dataSource : props.dataSource?.filter((item) => item.key !== key);
+    const newData = props.dataSource.length === 1 ? props.dataSource : props.dataSource?.filter((item) => item.key != key);
     props.setDataSource(newData);
   };
   const defaultColumns = [
@@ -154,6 +154,9 @@ const EditableTable = (props) => {
       setCount(count + 1);
     }
   };
+  useEffect(() => {
+    !props.PreviewMode ? handleAdd() : null
+  }, [])
   const handleSave = (row) => {
     const newData = [...props.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);

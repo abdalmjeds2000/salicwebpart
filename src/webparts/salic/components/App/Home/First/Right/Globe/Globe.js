@@ -39,8 +39,6 @@ function SalicGlobe() {
   // Get Subsidiary
   useEffect(() => {
     GetSubsidiary().then(res => setSubsidiary(res))
-    const x = <script src="https://salic.sharepoint.com/sites/newsalic/SiteAssets/js/pages/communication/orgchart.js"></script>;
-    document.getElementsByTagName('head')[0].innerHTML += x;
   }, [])
 
 

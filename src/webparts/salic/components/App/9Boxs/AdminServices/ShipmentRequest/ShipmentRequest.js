@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Form, Input, message, Spin } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import moment from 'moment';
+import { Form, Input, message, notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
 import { AppCtx } from '../../../App';
-import moment from 'moment';
 import ShipmentRequest from './API/ShipmentRequest';
-import { LoadingOutlined } from '@ant-design/icons';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import GetShipmentRequestById from './API/GetShipmentRequestById'
 import AddAction from '../AddAction/AddAction';
@@ -23,6 +22,7 @@ function Shipment() {
   let navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true)
+  const [btnLoading, setBtnLoading] = useState(false)
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
   const [approvals, setApprovals] = useState([]);
@@ -32,32 +32,35 @@ function Shipment() {
     const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Shipment'").expand('Email').get();
     setApprovals(response);
   }
+
   async function CreateShipmentRequest(values) {
-    setLoading(true);
-    const formData = {
+    setBtnLoading(true);
+    const form_values = {
       Email: user_data?.Data?.Mail,
       Requester: user_data?.Data?.Mail,
       ReferenceCode: "auto generated",
       Files: "",
-      Id: 0,
+      Id: "0",
       ...values
     }
-    if(values) {
-      const response = await ShipmentRequest(formData);
-      if(response.data) {
-        form.resetFields();
-        message.success("The request has been sent successfully.")
-        console.log(formData);
-      } else {
-        message.success("Failed to send request.")
-        setLoading(false);
-      }
-      
-    } else {
-      message.error("Failed to send request.")
+    var form_data = new FormData();
+    for ( var key in form_values ) {
+      form_data.append(key, form_values[key]);
     }
-    setLoading(false);
+    const response = await ShipmentRequest(form_data);
+    if(response?.status == 200) {
+      form.resetFields();
+      notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+      if(response?.data?.Data) {
+        window.open(defualt_route + '/admin-services/shipment/' + response?.data?.Data);
+      }
+    } else {
+      message.success("Failed to send request.")
+    }
+    setBtnLoading(false);
   }
+
+
   async function GetShipmentRequestData(email, id) {
     setLoading(true);
     const response = await GetShipmentRequestById(email, id);
@@ -79,7 +82,7 @@ function Shipment() {
     } else {
       setLoading(false);
     }
-  }, [user_data]);
+  }, [user_data, btnLoading]);
 
 
 
@@ -114,13 +117,13 @@ function Shipment() {
               id && requestStatus !== "FIN" && IsApproval &&
               <AddAction RequestType="BusniessGate" ModalTitle="Approve Busniess Gate Request" /> 
             }
-            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
-            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
-            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
-            EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
-            Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}    
+            Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+            UserNationality={id ? ' - ' : user_data?.Data?.Nationality || ' - '}
+            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data?.Data?.Iqama || ' - '}
+            EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data?.Data?.PIN, 10) || ' - '}
+            Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data?.Data?.Ext || ' - '}    
             tipsList={[
               "Fill out required fields carefully.",
               "Check your email regularly. You will receive a notification on every future actions",
@@ -136,8 +139,7 @@ function Shipment() {
               onFinishFailed={() => message.error("Please, fill out the form correctly.")}
               layout="horizontal"
             >
-
-              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? requestData.Date : new Date()).format('MM/DD/YYYY hh:mm')} >
+              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? new Date(requestData.CreatedAt) : new Date()).format('MM/DD/YYYY hh:mm')} >
                 <Input placeholder='Date' size='large' disabled />
               </Form.Item>
               
@@ -160,7 +162,7 @@ function Shipment() {
               </Form.Item>
 
               
-              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+              {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {
               id && 

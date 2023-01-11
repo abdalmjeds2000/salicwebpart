@@ -11,7 +11,7 @@ function SubmitCancel(props) {
       {
         !props.isUpdate
         ? <Col>
-            <Button type="primary" htmlType='submit' loading={props.loaderState ? true : false} onClick={props.formSubmitHandler}>
+            <Button type="primary" htmlType='submit' loading={props.loaderState} onClick={props.formSubmitHandler}>
               {props.isUpdate ? "Update" : "Submit"}
             </Button>
           </Col>

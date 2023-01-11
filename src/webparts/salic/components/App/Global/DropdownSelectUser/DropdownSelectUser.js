@@ -46,7 +46,7 @@ function DropdownSelectUser(props) {
   }
 
   return (
-    <Form.Item name={props.name} style={{marginBottom: 0}} rules={[{ required: props.required, message: false }]}>
+    <Form.Item name={props.name} style={{marginBottom: 0}} initialValue={props.initialValue || ""} rules={[{ required: props.required, message: false }]}>
       <AutoComplete
         disabled={props.isDisabled}
         size='large'

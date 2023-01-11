@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../App';
 import { Table, Tooltip } from 'antd';
 import axios from 'axios';
+import UserColumnInTable from '../../Global/UserColumnInTable/UserColumnInTable';
 
 
 
@@ -104,10 +105,7 @@ function MyMeetings() {
       title: 'Organizer',
       dataIndex: 'Organizer',
       key: 'Organizer',
-      render: (val) =>  <a onClick={() => window.open(`https://salic.sharepoint.com/_layouts/15/me.aspx/?p=${val.Email}&v=work`, "_blank")} style={{display: 'flex', alignItems: 'center', gap: '7px'}}>
-                          <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=S&username=${val.Email}`} style={{borderRadius: '50%', width: '40px', border: '2px solid #fff'}} alt=''/>
-                          {val.DisplayName}
-                        </a>
+      render: (val) =>  <UserColumnInTable Mail={val.Email} DisplayName={val.DisplayName} />
     },
   ];
 

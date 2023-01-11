@@ -114,8 +114,8 @@ const Leaves = (props) => {
           return (
             <LeavesDatesComponent 
               title="Business Trip"
-              count={businessData.Count}
-              dates={businessData.Data}
+              count={businessData.length}
+              dates={`${new Date(businessData[0]?.Date).toLocaleDateString()} - ${new Date(businessData[businessData.length-1]?.Date).toLocaleDateString()}`}
             />
           )
         }

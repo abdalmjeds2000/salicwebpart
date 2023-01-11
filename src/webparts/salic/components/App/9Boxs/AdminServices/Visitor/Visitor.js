@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Form, Input, Upload, Select, DatePicker, InputNumber, Modal, message, Spin } from 'antd';
+import { Form, Input, Upload, Select, DatePicker, InputNumber, Modal, message, Spin, notification } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -11,7 +11,7 @@ import VisitorRequest from './API/VisitorRequest';
 import GetVisitorRequestById from './API/GetVisitorRequestById';
 import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import FileIcon from '../../../Global/RequestsComponents/FileIcon';
-import NationaltiesOptions from '../../../Global/NationaltiesOptions/NationaltiesOptions'
+import {NationaltiesOptions} from '../../../Global/NationaltiesOptions/NationaltiesOptions'
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
@@ -32,7 +32,8 @@ function Visitor() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
 
@@ -58,40 +59,46 @@ function Visitor() {
     const response = await pnp.sp.web.lists.getByTitle('Admin Services Approvals').items.select('Email/Title,Email/EMail,*').filter("Title eq 'Visitor VISA'").expand('Email').get();
     setApprovals(response);
   }
+
   async function CreateVisitorRequest(values) {
-    setLoading(true);
+    setBtnLoading(true);
+
     let isFilesFinishUpload = true;
     const files = fileList.map(file => {
       if(file.status === "uploading") isFilesFinishUpload = false
       return file.response?.uploadedFiles[0]?.Name
-    }).join();
+    }).join(",");
 
     if(values && isFilesFinishUpload) {
-      values.ExpectedDateArrival = new Date(values.ExpectedDateArrival).toLocaleDateString();
-      const formData = {
+      values.ExpectedDateArrival = moment(values.ExpectedDateArrival).format('MM/DD/YYYY');
+      const form_values = {
         Email: user_data?.Data?.Mail,
         ReferenceCode: "auto generated",
         Files: files,
-        Id: 0,
+        Id: "0",
         ...values
       }
-
-      const response = await VisitorRequest(formData);
-      if(response.data) {
+      var form_data = new FormData();
+      for ( var key in form_values ) {
+        form_data.append(key, form_values[key]);
+      }
+      const response = await VisitorRequest(form_data);
+      if(response?.status == 200) {
         form.resetFields();
-        message.success("The request has been sent successfully.")
-        setLoading(false);
         setFileList([]);
-        console.log(formData);
+        notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+        if(response?.data?.Data) {
+          window.open(defualt_route + '/admin-services/visitor/' + response?.data?.Data);
+        }
       } else {
         message.error("Failed to send request.")
-        setLoading(false);
       }
     } else {
       message.error("Wait for upload")
-      setLoading(false);
     }
+    setBtnLoading(false);
   }
+
   async function GetVisitorRequestData(email, id) {
     setLoading(true);
     const response = await GetVisitorRequestById(email, id);
@@ -131,6 +138,10 @@ function Visitor() {
   }
 
 
+
+
+
+
   return (
     <>
       <HistoryNavigation>
@@ -146,10 +157,10 @@ function Visitor() {
               id && requestStatus !== "FIN" && IsApproval &&
               <AddAction RequestType="Visitor" ModalTitle=" Approve Visitor Visa Request" /> 
             }
-            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
-            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
+            Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+            UserNationality={id ? ' - ' : user_data?.Data?.Nationality || ' - '}
             UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
             EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
             Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}    
@@ -169,7 +180,7 @@ function Visitor() {
               onFinishFailed={() => message.error("Please, fill out the form correctly.")}
             >
 
-              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
+              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? new Date(requestData.CreatedAt) : new Date()).format('MM/DD/YYYY hh:mm')} >
                 <Input placeholder='Date' size='large' disabled />
               </Form.Item>
               
@@ -187,7 +198,7 @@ function Visitor() {
                   disabled={id ? true : false}
                   defaultValue={id ? requestData.Nationality : ''}
                 >
-                  <NationaltiesOptions />
+                  {NationaltiesOptions.map((item, i) => <Select.Option key={i} value={item.value}>{item.label}</Select.Option>)}
                 </Select>
               </Form.Item>
               <Form.Item name="Profession" label="Profession" rules={[{required: true}]} initialValue={id ? requestData.Profession : ''}>
@@ -260,7 +271,7 @@ function Visitor() {
 
 
               
-              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+              {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {
               id && 

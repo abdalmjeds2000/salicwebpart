@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
-import { Form, DatePicker, message, Input } from 'antd';
+import { Form, DatePicker, message, Input, notification } from 'antd';
 import moment from 'moment';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -23,10 +23,11 @@ function BusinessGate() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
-  const [dataSource, setDataSource] = useState([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
+  const [dataSource, setDataSource] = useState([]);
   const [approvals, setApprovals] = useState([]);
 
   async function GetApprovals() {
@@ -35,39 +36,54 @@ function BusinessGate() {
   }
 
   async function CreateBusinessGateRequest(values) {
-    setLoading(true);
+    setBtnLoading(true);
     let validation = true;
     for(let key in dataSource) {
       if(dataSource[key].Name === "") validation = false
     }
     if(validation) {
-      values.Date = new Date(values.Date).toLocaleDateString();
-      values.EndDate = new Date(values.EndDate).toLocaleDateString();
+      values.Date = moment(new Date(values.Date)).format('MM/DD/YYYY hh:mm');
+      values.EndDate = moment(new Date(values.EndDate)).format('MM/DD/YYYY hh:mm');
       const guests = dataSource.map(g => {
         delete g.key
         return {...g}
       })
-      const formData = {
+      let ifPass_VISAType_prop = false;
+      guests.forEach(item => {
+        if(item.Car === true) {
+          ifPass_VISAType_prop = true;
+        }
+      })
+      if(ifPass_VISAType_prop) {
+        values.VISAType = "1";
+      }
+      const form_values = {
         Email: user_data?.Data?.Mail,
         ReferenceCode: "auto generated",
-        Id: 0,
+        Id: "0",
         Files: "",
         ...values,
-        Guest: guests
+        Guest: JSON.stringify(guests)
       }
-      const response = await BusinessGateRequest(formData);
-      if(response) {
+      var form_data = new FormData();
+      for ( var key in form_values ) {
+        form_data.append(key, form_values[key]);
+      }
+      const response = await BusinessGateRequest(form_data);
+      if(response?.status == 200) {
         form.resetFields();
-        setDataSource([{ key: 0, Name: "", Email: "", Mobile: "", Company: "", Car: false }]);
-        message.success("The request has been sent successfully.")
-        console.log(formData);
+        setDataSource([]);
+        notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+        if(response?.data?.Data) {
+          window.open(defualt_route + '/admin-services/business-gate/' + response?.data?.Data);
+        }
       } else {
         message.error("Failed to send request.")
       }
     } else {
       message.error("Please Fill Form Correctly.")
     }
-    setLoading(false);
+    setBtnLoading(false);
   }
 
   async function GetBusinessGateRequestData(email, id) {
@@ -128,10 +144,10 @@ function BusinessGate() {
               id && requestStatus !== "FIN" && IsApproval &&
               <AddAction RequestType="BusniessGate" ModalTitle="Approve Busniess Gate Request" /> 
             }
-            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
-            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
+            Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+            UserNationality={id ? ' - ' : user_data.Data?.Nationality || ' - '}
             UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
             EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
             Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}
@@ -193,7 +209,7 @@ function BusinessGate() {
               <hr />
     
               
-              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+              {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
 
             {

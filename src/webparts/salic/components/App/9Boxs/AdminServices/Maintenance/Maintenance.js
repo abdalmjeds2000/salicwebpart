@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form, Input, message } from 'antd';
+import { Form, Input, message, notification } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
@@ -12,6 +12,7 @@ import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+
 moment.locale('en');
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -21,6 +22,8 @@ function Maintenance() {
   const [form] = Form.useForm();
   const { user_data, defualt_route } = useContext(AppCtx);
   const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+
   let navigate = useNavigate();
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
@@ -32,30 +35,31 @@ function Maintenance() {
   }
 
   async function CreateMaintenanceRequest(values) {
-    setLoading(true);
-    const formData = {
+    setBtnLoading(true);
+
+    const form_values = {
       Email: user_data?.Data?.Mail,
       ReferenceCode: "auto generated",
       Files: "",
       Id: 0,
       ...values
     }
-    if(values) {
-      const response = await MaintenanceRequest(formData);
-      if(response) {
-        form.resetFields();
-        message.success("The request has been sent successfully.");
-        console.log(formData)
-        setLoading(false);
-      } else {
-        setLoading(false);
-        message.success("Failed to send request.")
+    var form_data = new FormData();
+    for ( var key in form_values ) {
+      form_data.append(key, form_values[key]);
+    }
+    const response = await MaintenanceRequest(form_data);
+    if(response?.status == 200) {
+      form.resetFields();
+      notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+      if(response?.data?.Data) {
+        window.open(defualt_route + '/admin-services/maintenance/' + response?.data?.Data);
       }
-      
     } else {
       message.error("Failed to send request.")
-      setLoading(false);
     }
+
+    setBtnLoading(false);
   }
 
   async function GetMaintenanceRequestData(email, id) {
@@ -107,16 +111,16 @@ function Maintenance() {
       {
         !loading
         ? <FormPage
-            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
+            Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
             pageTitle={!id ? 'New Maintenance Request' : 'Maintenance Request'}
             Header={
               id && requestStatus !== "FIN" && IsApproval &&
               <AddAction RequestType="Maintenance" ModalTitle=" Approve Maintenance Request" /> 
             }
-            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
-            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+            UserNationality={id ? ' - ' : user_data?.Data?.Nationality || ' - '}
+            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data?.Data?.Iqama || ' - '}
             EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
             Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}    
             tipsList={[
@@ -135,7 +139,7 @@ function Maintenance() {
               layout="horizontal"
             >
 
-              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? requestData.Date : new Date()).format("MM/DD/YYYY hh:mm")} >
+              <Form.Item name='Date' label="Date" rules={[{required: true,}]} initialValue={moment(id ? new Date(requestData.CreatedAt) : new Date()).format("MM/DD/YYYY hh:mm")} >
                 <Input placeholder='Date' size='large' disabled />
               </Form.Item>
               
@@ -152,7 +156,7 @@ function Maintenance() {
               </Form.Item>
 
               
-              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+              {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {
               id && 

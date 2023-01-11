@@ -273,13 +273,13 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       {/* <Route path={`${defualtRoute}/corporate-objective`} element={<CorporateObjectiveKPIs />} /> */}
       {/* <Route path={`${defualtRoute}/corporate-objective/:kpi`} element={<KPIChildrens />} /> */}
       
-      <Route path={`${defualtRoute}/incidents-center`}>
+{/*       <Route path={`${defualtRoute}/incidents-center`}>
         <Route index element={<IncidentsCenter />} />
         <Route path={`${defualtRoute}/incidents-center/new-report`} element={<NewIncidentReport />} />
         <Route path={`${defualtRoute}/incidents-center/my-reports`} element={<MyReports />} />
         <Route path={`${defualtRoute}/incidents-center/assigned-reports`} element={<AssignedReports />} />
         <Route path={`${defualtRoute}/incidents-center/request-for-review`} element={<RequestsForReview />} />
-      </Route>
+      </Route> */}
 
 
       <Route path={`${defualtRoute}/my-team`} element={<MyTeam />} />

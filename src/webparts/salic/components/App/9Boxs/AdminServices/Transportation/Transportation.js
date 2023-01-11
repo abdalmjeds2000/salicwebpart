@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Form, Input, Radio, Row, DatePicker, message, Spin } from 'antd';
+import { Form, Input, Radio, Row, DatePicker, message, Spin, notification } from 'antd';
 import { EnvironmentOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom'
 import moment from 'moment';
@@ -26,7 +26,9 @@ function Transportation() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+  
   const [passenger, setPassenger] = useState([{ key: 0, Name: '', Phone: '', Reason: '' }]);
   const [requestData, setRequestData] = useState({});
   const [serivceType, setSerivceType] = useState(id ? requestData.ToLink : 'OneWay');
@@ -38,42 +40,49 @@ function Transportation() {
   }
 
   async function CreateBusinessGateRequest(values) {
-    setLoading(true);
+    setBtnLoading(true);
+
     let validation = true;
     for(let key in passenger) {
       if(passenger[key].Name === "" || passenger[key].Phone === "" || passenger[key].Reason === "") validation = false
     }
 
     if(validation) {
-      values.Date = new Date(values.Date).toLocaleDateString();
+      values.Date = moment(values.Date).format('MM/DD/YYYY hh:mm');
       // reset editable table
       const passengers = passenger.map(p => {
         delete p.key
         return {...p}
       })
       // request payload
-      const formData = {
+      const form_values = {
         Email: user_data?.Data?.Mail,
         ReferenceCode: "auto generated",
         Files: "",
-        Id: 0,
+        Id: "0",
+        Passenger: JSON.stringify(passengers),
         ...values,
-        Passenger: passengers
       }
-      const response = await TransportationRequest(formData);
-      if(response.data) {
+      var form_data = new FormData();
+      for ( var key in form_values ) {
+        form_data.append(key, form_values[key]);
+      }
+      const response = await TransportationRequest(form_data);
+      if(response?.status == 200) {
         form.resetFields();
         setSerivceType("OneWay")
         setPassenger([{ key: 0, Name: '', Phone: '', Reason: '' }]);
-        message.success("The request has been sent successfully.")
-        console.log(formData);
+        notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+        if(response?.data?.Data) {
+          window.open(defualt_route + '/admin-services/transportation/' + response?.data?.Data);
+        }
       } else {
         message.error("Failed to send request.")
       }
     } else {
       message.error("Passenger Informations is required")
     }
-    setLoading(false);
+    setBtnLoading(false);
   }
 
   async function GetBusinessGateRequestData(email, id) {
@@ -135,10 +144,10 @@ function Transportation() {
                 id && requestStatus !== "FIN" && IsApproval &&
                 <AddAction RequestType="Transportation" ModalTitle="Approve Transportation Request" /> 
               }
-              Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
-              UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-              UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-              UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
+              Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
+              UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+              UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+              UserNationality={id ? ' - ' : user_data?.Data?.Nationality || ' - '}
               UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
               EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
               Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}      
@@ -218,7 +227,7 @@ function Transportation() {
                 <hr />
 
                 
-                {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+                {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
               </Form>
 
               {

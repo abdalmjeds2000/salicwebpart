@@ -6,6 +6,7 @@ import { Button, message, Spin, Table } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import GetMyRequests from './GetMyRequests';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+import UserColumnInTable from '../../../Global/UserColumnInTable/UserColumnInTable';
 
 
 
@@ -80,10 +81,7 @@ function MyRequests() {
     },{
       title: 'Requester Name',
       dataIndex: 'ByUser',
-      render: (val) =>  <div style={{display: 'flex', alignItems: 'center', gap: '7px'}}>
-                          <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=S&username={val.Mail || ''}`} alt='' style={{borderRadius: '50%', width: '40px', border: '2px solid rgb(255, 255, 255)'}}/>
-                          <a href={`https://salic.sharepoint.com/_layouts/15/me.aspx/?p={val.Mail}&v=work`} target='_blank'>Name of Pending With{/* {val.DisplayName || ' - '} */}</a>
-                        </div>
+      render: (val) =>  val ? <UserColumnInTable Mail={''} DisplayName={''} /> : ' - '
     },{
       title: 'Created At',
       dataIndex: 'Date',

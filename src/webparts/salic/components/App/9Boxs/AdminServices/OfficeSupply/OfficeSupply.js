@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
-import { Button, Form, Input, message, Select, Spin, Table } from 'antd';
-import { LoadingOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, notification, Select, Table } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import FormPage from '../../components/FormPageTemplate/FormPage';
 import SubmitCancel from '../../components/SubmitCancel/SubmitCancel';
@@ -13,6 +13,8 @@ import ActionsTable from '../../components/ActionsTable/ActionsTable';
 import AddAction from '../AddAction/AddAction';
 import pnp from 'sp-pnp-js';
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+
+
 const { Option } = Select;
 const layout = { labelCol: { span: 6 }, wrapperCol: { span: 12 } };
 
@@ -24,7 +26,8 @@ function OfficeSupply() {
   const { user_data, defualt_route } = useContext(AppCtx);
   let navigate = useNavigate();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
   const [approvals, setApprovals] = useState([]);
@@ -35,30 +38,32 @@ function OfficeSupply() {
   }
 
   async function CreateOfficeSupplyRequest(values) {
-    setLoading(true);
-    const formData = {
+    setBtnLoading(true);
+
+    values.Items = JSON.stringify(values.Items);
+    const form_values = {
       CreatedBy: user_data?.Data?.Mail,
       ReferenceCode: "auto generated",
       Files: "",
       Id: 0,
       ...values
     }
-    if(values) {
-      const response = await OfficeRequest(formData);
-      if(response.data) {
-        form.resetFields();
-        message.success("The request has been sent successfully.")
-        setLoading(false);
-        console.log(formData);
-      } else {
-        message.success("Failed to send request.")
-        setLoading(false);
+    var form_data = new FormData();
+    for ( var key in form_values ) {
+      form_data.append(key, form_values[key]);
+    }
+    const response = await OfficeRequest(form_data);
+    if(response?.status == 200) {
+      form.resetFields();
+      notification.success({message: response?.data?.Message || "Your Application has been submitted successfully."})
+      if(response?.data?.Data) {
+        window.open(defualt_route + '/admin-services/office-supply/' + response?.data?.Data);
       }
-      
     } else {
       message.error("Failed to send request.")
-      setLoading(false);
     }
+
+    setBtnLoading(false);
   }
 
   async function GetOfficeSupplyRequestData(email, id) {
@@ -104,6 +109,18 @@ function OfficeSupply() {
 
 
 
+  /* Fetch Items from sp list */
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if(!id) {
+      pnp.sp.web.lists.getByTitle('Office Supply Items').items.get()
+      .then((data) => {
+        setItems(data);
+      })
+    }
+  }, [])
+
+
   return (
     <>
       <HistoryNavigation>
@@ -120,11 +137,11 @@ function OfficeSupply() {
               id && requestStatus !== "FIN" && IsApproval &&
               <AddAction RequestType="Office" ModalTitle=" Approve Office Request" /> 
             }
-            Email={id ? requestData?.ByUser?.Mail : user_data.Data.Mail}
-            UserName={id ? requestData?.ByUser?.DisplayName : user_data.Data.DisplayName}
-            UserDept={id ? requestData?.ByUser?.Title : user_data.Data.Title}
-            UserNationality={id ? ' - ' : user_data.Data.Nationality || ' - '}
-            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
+            Email={id ? requestData?.ByUser?.Mail : user_data?.Data?.Mail}
+            UserName={id ? requestData?.ByUser?.DisplayName : user_data?.Data?.DisplayName}
+            UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
+            UserNationality={id ? ' - ' : user_data.Data?.Nationality || ' - '}
+            UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data?.Data?.Iqama || ' - '}
             EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
             Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}    
             tipsList={[
@@ -142,7 +159,7 @@ function OfficeSupply() {
               onFinishFailed={() => message.error("Please, fill out the form correctly.")}
             >
 
-              <Form.Item name="Date" label="Date" rules={[{required: true,}]} initialValue={moment().format('MM-DD-YYYY hh:mm')} >
+              <Form.Item name="Date" label="Date" rules={[{required: true,}]} initialValue={moment(id ? new Date(requestData.CreatedAt) : new Date()).format('MM/DD/YYYY hh:mm')} >
                 <Input placeholder='Date' size='large' disabled />
               </Form.Item>
               
@@ -154,7 +171,9 @@ function OfficeSupply() {
 
               {
                 !id
-                ? <Form.Item label="Items" required>
+                ? (
+                  items.length > 0 &&
+                  <Form.Item label="Items" required>
                     <Form.List
                       name="Items"
                       rules={[{
@@ -173,15 +192,13 @@ function OfficeSupply() {
                                   placeholder="select one value"
                                   size="large"
                                 >
-                                  <Option value="Laptop">Laptop</Option>
-                                  <Option value="Monitor">Monitor</Option>
-                                  <Option value="Printer">Printer</Option>
+                                  {items.map(item => <Option value={item.Title}>{item.Title}</Option>)}
                                 </Select>
                               </Form.Item>
                               <Form.Item name={[field.name, 'Value']} style={{width: '30%', margin: 0}} rules={[{required: true, message: 'Required'}]}>
                                 <Input placeholder='Quantity' size='large' />
                               </Form.Item>
-                              {fields.length > 1 ? (<MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />) : null}
+                              {fields.length > 1 ? (<MinusCircleOutlined style={{color: 'var(--brand-red-color)'}} className="dynamic-delete-button" onClick={() => remove(field.name)} />) : null}
                             </div>
                           ))}
                             <Button
@@ -197,6 +214,7 @@ function OfficeSupply() {
                       )}
                     </Form.List>
                   </Form.Item>
+                )
                 : <Form.Item label="Items" required>
                     <Table
                       size='small'
@@ -210,7 +228,7 @@ function OfficeSupply() {
                   </Form.Item>
               }
               
-              {!id && <SubmitCancel loaderState={loading} isUpdate={id ? true : false} backTo="/admin-services" />}
+              {!id && <SubmitCancel loaderState={btnLoading} isUpdate={id ? true : false} backTo="/admin-services" />}
             </Form>
             {
               id && 

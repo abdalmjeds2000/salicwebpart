@@ -1,10 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppCtx } from '../../../App'
 import HistoryNavigation from '../../../Global/HistoryNavigation/HistoryNavigation';
 import { Button, message, Table } from 'antd';
 import GetAssignedRequests from './GetAssignedRequests'
 import AntdLoader from '../../../Global/AntdLoader/AntdLoader';
+import UserColumnInTable from '../../../Global/UserColumnInTable/UserColumnInTable';
+import moment from 'moment';
+
+
+
 function AssignedRequests() {
   const { admin_assigned_requests, setAdminAssignedRequests, defualt_route, user_data } = useContext(AppCtx);
   let navigate = useNavigate();
@@ -59,11 +64,11 @@ function AssignedRequests() {
     },{
       title: 'Application Name',
       dataIndex: 'ApplicationName',
-      render: (code, record) => <a onClick={() => ToUpdatePage(code, record.Id)}>{code}</a>
+      render: (name, record) => <a onClick={() => ToUpdatePage(record.ReferenceCode, record.Id)}>{name}</a>
     },{
       title: 'Created',
       dataIndex: 'CreatedAt',
-      render: (val) => new Date(val).toLocaleString() || ' - '
+      render: (val) => moment(val).format('MM/DD/YYYY hh:mm') || ' - '
     },{
       title: 'Ref. Code',
       dataIndex: 'ReferenceCode',
@@ -71,10 +76,7 @@ function AssignedRequests() {
     },{
       title: 'Requester Name',
       dataIndex: 'ByUser',
-      render: (val) =>  <div style={{display: 'flex', alignItems: 'center', gap: '7px'}}>
-                          <img src={`https://salic.sharepoint.com/sites/newsalic/_layouts/15/userphoto.aspx?size=S&username=${val?.Mail || ' - '}`} alt='' style={{borderRadius: '50%', width: '40px', border: '2px solid rgb(255, 255, 255)'}}/>
-                          <a href={`https://salic.sharepoint.com/_layouts/15/me.aspx/?p=${val?.Mail}&v=work`} target='_blank'>{val?.DisplayName || ' - '}</a>
-                        </div>
+      render: (val) => val ? <UserColumnInTable Mail={val?.Mail} DisplayName={val?.DisplayName} /> : '-'
     },{
       title: 'Status',
       dataIndex: 'Status',

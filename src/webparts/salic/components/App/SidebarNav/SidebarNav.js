@@ -135,12 +135,12 @@ const SidebarNav = ({spWebUrl}) => {
       icon: svgIcons.ManageNewsContent,
       text: "Manage News Content",
       link: false,
-    },{
+    }/* ,{
       to: "/incidents-center",
       icon: <WarningOutlined style={{ ...antdIconStyle }} />,
       text: "Incidents Center",
       link: false,
-    },{
+    } */,{
       to: "/manage-events",
       icon: (<CalendarOutlined style={{ ...antdIconStyle }} />),
       text: "Manage Events",
