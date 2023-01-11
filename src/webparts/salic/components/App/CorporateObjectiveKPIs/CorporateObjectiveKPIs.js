@@ -1,320 +1,161 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./EditableForm.css";
-import { AppCtx } from "../App";
-import {
-  Collapse,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Popconfirm,
-  Table,
-  Typography,
-} from "antd";
+import { Button, Checkbox, Collapse, Dropdown, Form, InputNumber, message, Select, Spin, Table } from "antd";
 import GetObjectivesData from "./API/GetObjectivesData";
 import UpdateItem from "./API/UpdateItem";
 
 import HistoryNavigation from "../Global/HistoryNavigation/HistoryNavigation";
-import { ConsoleListener } from "sp-pnp-js";
+import { CaretDownOutlined, CaretUpOutlined, FilterOutlined, LoadingOutlined } from "@ant-design/icons";
 
+import KpiComment from './KpiComment';
+
+
+const EditableContext = React.createContext(null);
 const EditableCell = ({
-  editing,
-  dataIndex,
   title,
+  editable,
   inputType,
-  record,
-  index,
   children,
+  dataIndex,
+  record,
+  handleSave,
   ...restProps
 }) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef(null);
+  const form = useContext(EditableContext);
+  useEffect(() => {
+    if (editing) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form.setFieldsValue({
+      [dataIndex]: record[dataIndex],
+    });
+  };
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+      toggleEdit();
+      handleSave({
+        ...record,
+        ...values,
+      });
+    } catch (errInfo) {
+      console.log('Save failed:', errInfo);
+    }
+  };
+  let childNode = children;
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: false
+          },
+        ]}
+      >
+        {
+          inputType === 'select' 
+          ? <Select ref={inputRef} onPressEnter={save} onBlur={save}>
+              <Select.Option value="Investment">Investment</Select.Option>
+              <Select.Option value="Commercial">Commercial</Select.Option>
+              <Select.Option value="Finance">Finance</Select.Option>
+              <Select.Option value="Corporate Communication">Corporate Communication</Select.Option>
+              <Select.Option value="Shared Services">Shared Services</Select.Option>
+              <Select.Option value="Strategy & Risk">Strategy & Risk</Select.Option>
+              <Select.Option value="Legal & Corporate G&C">Legal & Corporate G&C</Select.Option>
+            </Select>
+          : <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} step={0.01} min={0} max={100000000} />
+        }
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{
+          paddingRight: 24,
+        }}
+        onClick={toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  }
+  return <td {...restProps}>{childNode}</td>;
+};
+const EditableRow = ({ index, ...props }) => {
+  const [form] = Form.useForm();
   return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
   );
 };
 
-const sharedOnCell = (record, index) => {
-  return {
-    colSpan: !record.Unit ? 0 : {},
-  };
+
+
+
+
+
+
+
+const CarouselData = (props) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+      }}
+    >
+      <div>Perspective :: {props.CarouselTitle}</div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          fontSize: "0.9rem",
+        }}
+      >
+        <div>
+          <label htmlFor="ObjectiveProgress">{props.ObjectiveProgress && 'Objective Progress: '}</label>{" "}
+          <b id="ObjectiveProgress">{props.ObjectiveProgress}</b>
+        </div>
+        <div>
+          <label htmlFor="ProspectiveProgress">{props.ProspectiveProgress && 'Prospective Progress: '}</label>{" "}
+          <b id="ProspectiveProgress">{props.ProspectiveProgress}</b>
+        </div>
+        <div>
+          <label htmlFor="SALICProgress">{props.SALICProgress && 'SALIC Progress: '}</label>{" "}
+          <b id="SALICProgress">{props.SALICProgress}</b>
+        </div>
+      </div>
+    </div>
+  );
 };
+
 
 function CorporateObjectiveKPIs() {
   const [form] = Form.useForm();
-  const [editingKey, setEditingKey] = useState("");
   const [data, setData] = useState([]);
-  const [obj, setObj] = useState([]);
-
   async function GetData() {
     const response = await GetObjectivesData();
-    if (response) {
-      setObj(response);
-      console.log(response);
-    }
     return response;
   }
-
-  const isEditing = (record) => record.key === editingKey;
-  const edit = (record) => {
-    form.setFieldsValue({
-      Unit: "",
-      Trend: "",
-      KPIType: "",
-      Owner: "",
-      KPIWeights: "",
-      KPIProspectiveWeights: "",
-      Annual2022Target: "",
-      ActualFullYear: "",
-      KPIPerformanceProgress: "",
-      ObjectiveProgress: "",
-      ProspectiveProgress: "",
-      SALICProgress: "",
-      ...record,
-    });
-    setEditingKey(record.key);
-  };
-  const cancel = () => {
-    setEditingKey("");
-  };
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-
-        const newUpdateData = {
-          field_5: newData[index].Unit,
-          field_6: newData[index].Trend,
-          field_7: newData[index].KPIType,
-          field_8: newData[index].Owner,
-          field_9: newData[index].KPIWeights,
-          field_10: newData[index].KPIProspectiveWeights,
-          field_11: newData[index].Annual2022Target,
-          field_12: newData[index].ActualFullYear,
-          field_13: newData[index].KPIPerformanceProgress,
-          field_14: newData[index].ObjectiveProgress,
-          field_15: newData[index].ProspectiveProgress,
-          field_16: newData[index].SALICProgress,
-        };
-        const updateResponse = await UpdateItem(
-          newData[index].key,
-          newUpdateData
-        );
-        message.success("The item has been modified successfully");
-        console.log("updateResponse", updateResponse);
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
-    }
-  };
-
-  const columns = [
-    {
-      title: "",
-      key: "1",
-      dataIndex: "header",
-      render: (val, record) =>
-        record.Unit ? (
-          <span
-            style={{
-              paddingLeft: "40px",
-            }}
-          >
-            {val}
-          </span>
-        ) : (
-          <span
-            style={{
-              paddingLeft: record.groupBy === "Enabler" ? "0px" : "20px",
-              textTransform: "capitalize",
-              fontSize: "1rem",
-              fontWeight: record.groupBy === "Enabler" ? "500" : "400",
-            }}
-          >
-            {val}
-          </span>
-        ),
-      onCell: (record, index) => {
-        // record.Unit => to check if record just a title or full record
-        return { colSpan: record.Unit ? 1 : 14 };
-      },
-      width: "41.5%",
-    },
-    {
-      key: "2",
-      title: "Unit",
-      dataIndex: "Unit",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "3",
-      title: "Trend",
-      dataIndex: "Trend",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "4",
-      title: "KPI Type",
-      dataIndex: "KPIType",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "5",
-      title: "Owner",
-      dataIndex: "Owner",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "6",
-      title: "KPI Weights",
-      dataIndex: "KPIWeights",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "7",
-      title: "KPI Prospective Weights",
-      dataIndex: "KPIProspectiveWeights",
-      width: "4.5%",
-      editable: true,
-      render: (val) => (val ? parseFloat(val).toFixed(3) : ""),
-    },
-    {
-      key: "8",
-      title: "Annual 2022 Target",
-      dataIndex: "Annual2022Target",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "9",
-      title: "Actual Full Year",
-      dataIndex: "ActualFullYear",
-      width: "4.5%",
-      editable: true,
-    },
-    {
-      key: "10",
-      title: "KPI Performance Progress",
-      dataIndex: "KPIPerformanceProgress",
-      width: "4.5%",
-      editable: true,
-      render: (val) => (val ? parseFloat(val).toFixed(3) : ""),
-    },
-    {
-      key: "11",
-      title: "Objective Progress",
-      dataIndex: "ObjectiveProgress",
-      width: "4.5%",
-      editable: true,
-      render: (val) => (val ? parseFloat(val).toFixed(3) : ""),
-    },
-    {
-      key: "12",
-      title: "Prospective Progress",
-      dataIndex: "ProspectiveProgress",
-      width: "4.5%",
-      editable: true,
-      onCell: sharedOnCell,
-      render: (val) => (val ? parseFloat(val).toFixed(3) : ""),
-    },
-    {
-      key: "13",
-      title: "SALIC Progress",
-      dataIndex: "SALICProgress",
-      width: "4.5%",
-      editable: true,
-      render: (val) => (val ? parseFloat(val).toFixed(3) : ""),
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      width: "4.5%",
-      onCell: (record, index) => {
-        // record.Unit => to check if record just a title or full record
-        return { colSpan: record.Unit ? 1 : 0 };
-      },
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable && record.groupBy === "KPI" ? (
-          <span>
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
-        );
-      },
-    },
-  ];
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-        colSpan: !record.Unit ? 0 : {},
-      }),
-    };
-  });
-
+  // Get Data Table
   const setArraySData = (data) => {
     let groups = data.reduce((r, a) => {
-      r[a.Title] = [...(r[a.Title] || []), a];
+      r[a.field_1] = [...(r[a.field_1] || []), a];
       return r;
     }, {});
 
@@ -333,7 +174,7 @@ function CorporateObjectiveKPIs() {
           return r;
         }, {});
         wwe.push({
-          key: Math.random(),
+          key: 'row-level-1',
           parent: Object.keys(groups)[i],
           header: `${index + 1}- ${Object.keys(rowEnabler)[index]}`,
           groupBy: "Enabler",
@@ -348,7 +189,7 @@ function CorporateObjectiveKPIs() {
             return r;
           }, {});
           wwe.push({
-            key: Math.random(),
+            key: 'row-level-2',
             parent: Object.keys(groups)[i],
             header: Object.keys(rowObjectives)[ii],
             groupBy: "Objective",
@@ -359,108 +200,292 @@ function CorporateObjectiveKPIs() {
               parent: Object.keys(groups)[i],
               header: Object.keys(rowKPIs)[ki],
               groupBy: "KPI",
-              Unit: k[0].field_5,
-              Trend: k[0].field_6,
-              KPIType: k[0].field_7,
-              Owner: k[0].field_8,
-              KPIWeights: k[0].field_9,
-              KPIProspectiveWeights: k[0].field_10,
-              Annual2022Target: k[0].field_11,
-              ActualFullYear: k[0].field_12,
-              KPIPerformanceProgress: k[0].field_13,
-              ObjectiveProgress: k[0].field_14,
-              ProspectiveProgress: k[0].field_15,
-              SALICProgress: k[0].field_16,
+              ...k[0]
             });
           });
         });
       });
     });
-    console.log("........wwe........", wwe);
+    console.log("........CustomData........", wwe);
     setData(wwe);
   };
 
+  
   useEffect(() => {
     GetData().then((res) => {
       setArraySData(res);
     });
   }, []);
 
+  let Titles = data?.map((r) => r.parent)
+  .filter(function (item, pos, self) {
+    return self.indexOf(item) == pos;
+  });
+
+
+  const handleSave = async (row) => {
+    const newData = [...data];
+    const index = newData.findIndex((item) => row.key === item.key);
+    const item = newData[index];
+    newData.splice(index, 1, { ...item, ...row, });
+    if(
+        newData[index].Q1Target == data[index].Q1Target && 
+        newData[index].Q2Target == data[index].Q2Target &&
+        newData[index].Q3Target == data[index].Q3Target &&
+        newData[index].Q4Target == data[index].Q4Target && 
+        newData[index].field_22 == data[index].field_22 
+      ) {
+        console.log('No Changes')
+      } else {
+        const newUpdateData = {
+          Q1Target: newData[index].Q1Target,
+          Q2Target: newData[index].Q2Target,
+          Q3Target: newData[index].Q3Target,
+          Q4Target: newData[index].Q4Target,
+          field_22: newData[index].field_22,
+        };
+
+        const updateResponse = await UpdateItem(newData[index].key, newUpdateData);
+        message.success("The item has been modified successfully", 1);
+        setData(newData);
+        console.log('newUpdateData', newUpdateData)
+      }
+  };
+
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell,
+    },
+  };
+
+  const [defaultColumns, setDefaultColumns] = useState([
+    {
+      title: "KPI Information",
+      key: "1",
+      dataIndex: "header",
+      showColumn: true,
+      render: (val, record) =>
+        record.field_1 ? (
+          <span
+            style={{
+              paddingLeft: "40px",
+              lineHeight: "1.2",
+              textAlign: 'left'
+            }}
+          >
+            {record.field_22 === "Ascend" ? <><CaretUpOutlined style={{color: 'green'}} /> {val}</> : <><CaretDownOutlined style={{color: 'red'}} /> {val}</>}
+          </span>
+        ) : (
+          <span
+            style={{
+              paddingLeft: record.groupBy === "Enabler" ? "0px" : "20px",
+              lineHeight: record.groupBy === "Enabler" ? "1.7" : "1.4",
+              textTransform: "capitalize",
+              fontSize: "1rem",
+              fontWeight: record.groupBy === "Enabler" ? "500" : "400",
+              textAlign: 'left'
+            }}
+          >
+            {val}
+          </span>
+        ),
+      onCell: (record, index) => {
+        // record.Unit => to check if record just a title or full record
+        return { colSpan: record.field_1 ? 1 : defaultColumns.filter(c=>c.showColumn).length };
+      },
+      width: "45%",
+    },
+    {
+      key: "2",
+      title: "KPI Weights",
+      dataIndex: "field_6",
+      width: "10%",
+      editable: true,
+      showColumn: false,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "4",
+      title: "Owner",
+      dataIndex: "field_16",
+      width: "7%",
+      showColumn: false,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "5",
+      title: "Target Q1",
+      dataIndex: "Q1Target",
+      width: "7%",
+      showColumn: true,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "6",
+      title: "Target Q2",
+      dataIndex: "Q2Target",
+      width: "7%",
+      showColumn: true,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "7",
+      title: "Target Q3",
+      dataIndex: "Q3Target",
+      width: "7%",
+      showColumn: true,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "8",
+      title: "Target Q4",
+      dataIndex: "Q4Target",
+      width: "7%",
+      showColumn: true,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "10",
+      title: "Actual Full Year",
+      dataIndex: "field_22",
+      width: "10%",
+      showColumn: true,
+      editable: true,
+      render: (val) => <span style={{textAlign: 'center'}}>{val}</span>
+    },
+    {
+      key: "12",
+      title: "",
+      width: "3%",
+      showColumn: true,
+      onCell: (record, index) => {
+        // record.Unit => to check if record just a title or full record
+        return {colSpan: record.field_4 ? 1 : 0} 
+      },
+      render: (_, record) => (
+        <KpiComment 
+          getNewCommentValue={(newComment) => setData(prev => {prev.filter(row => row.Id===record.Id)[0].Comment = newComment; return [...prev]})} 
+          KpiTitle={record.field_4} 
+          KpiId={record.Id} 
+          CurrentComment={record.Comment} 
+        />
+      )
+    },
+    /* {
+      key: "13",
+      title: "",
+      width: "5%",
+      showColumn: true,
+      onCell: (record, index) => {
+        // record.Unit => to check if record just a title or full record
+        return {colSpan: record.field_4 ? 1 : 0} 
+      },
+      render: (_, record) => <a onClick={() => navigate(defualt_route+`/corporate-objective/${record.header.slice(2).replace(/ /g, '')}-${record.key}`)} style={{textAlign: 'center', display: 'block'}}>Details</a>
+    } */
+  ]);
+  const columns = defaultColumns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        editable: col.editable,
+        inputType: col.dataIndex === 'field_16' ? 'select' : 'number',
+        dataIndex: col.dataIndex,
+        title: col.title,
+        handleSave,
+        colSpan: !record.field_1 ? 0 : 1,
+      }),
+    };
+  });
+
+  const onChange = (e, column) => {
+    setDefaultColumns(prev => {
+      prev.filter(c => c.dataIndex === column)[0]
+      .showColumn = e.target.checked;
+      return [... prev]
+    })
+  };
+
+
+
+
+
+
   return (
-    <Form form={form} component={false}>
-      <HistoryNavigation>
-        <p>Corporate Objective KPIs</p>
-      </HistoryNavigation>
+    <div className="corporate-page-container">
+      <Form form={form} component={false}>
+        <HistoryNavigation>
+          <p>Corporate Objective KPIs</p>
+        </HistoryNavigation>
 
-      <div className="table-page-container">
-        <div className="content">
-          <div className="header">
-            <h1>Corporate Objective KPIs</h1>
-          </div>
+        <div className="table-page-container">
+          <div className="content">
+            <div className="header">
+              <h1>Corporate Objective KPIs</h1>
+              <Dropdown 
+                trigger={['click']}
+                dropdownRender={(menu) => (
+                  <div className="custom-dropdown-render">
+                    <Checkbox onChange={e => onChange(e, "field_6")}>KPI Weights</Checkbox>
+                    <Checkbox onChange={e => onChange(e, "field_16")}>Owner</Checkbox>
+                    <Checkbox defaultChecked={true} onChange={e => onChange(e, "Q1Target")}>Target Q1</Checkbox>
+                    <Checkbox defaultChecked={true} onChange={e => onChange(e, "Q2Target")}>Target Q2</Checkbox>
+                    <Checkbox defaultChecked={true} onChange={e => onChange(e, "Q3Target")}>Target Q3</Checkbox>
+                    <Checkbox defaultChecked={true} onChange={e => onChange(e, "Q4Target")}>Target Q4</Checkbox>
+                    <Checkbox defaultChecked={true} onChange={e => onChange(e, "field_22")}>Actual Full Year</Checkbox>
+                  </div>
+                )}
+              >
+                <Button size="small"><FilterOutlined /> Filter Columns</Button>
+              </Dropdown>
+            </div>
 
-          <div className="form">
-            {data.length > 0 ? (
-              <Collapse defaultActiveKey={["1"]}>
-                <Collapse.Panel header="Food Security" key="1">
-                  <div style={{ overflowX: "auto" }}>
-                    <Table
-                      columns={mergedColumns}
-                      dataSource={data?.filter(
-                        (r) => r.parent === "Food Security"
-                      )}
-                      pagination={false}
-                      size="small"
-                      components={{
-                        body: {
-                          cell: EditableCell,
-                        },
-                      }}
-                      rowClassName="editable-row"
-                    />
+            <div className="form">
+              {data.length > 0 ? (
+                <Collapse defaultActiveKey={["1"]}>
+                  {Titles.map((row, i) => {
+                    return (
+                      <Collapse.Panel
+                        key={i + 1}
+                        header={
+                          <CarouselData
+                            CarouselTitle={row}
+                          />
+                        }
+                      >
+                        <div style={{ overflowX: "auto" }}>
+                          <Table
+                            columns={columns.filter(c => c.showColumn)}
+                            dataSource={data?.filter((r) => r.parent === row && !r.ParentKPIId)}
+                            pagination={false}
+                            size="small"
+                            components={components}
+                            rowClassName="editable-row"
+                          />
+                        </div>
+                      </Collapse.Panel>
+                    );
+                  })}
+                </Collapse>
+              ) : (
+                  <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <Spin indicator={<LoadingOutlined spin />} />
                   </div>
-                </Collapse.Panel>
-                <Collapse.Panel header="Financial" key="2">
-                  <div style={{ overflowX: "auto" }}>
-                    <Table
-                      columns={mergedColumns}
-                      dataSource={data?.filter((r) => r.parent === "Financial")}
-                      pagination={false}
-                      size="small"
-                      components={{
-                        body: {
-                          cell: EditableCell,
-                        },
-                      }}
-                      rowClassName="editable-row"
-                    />
-                  </div>
-                </Collapse.Panel>
-                <Collapse.Panel header="Internal Enablers" key="3">
-                  <div style={{ overflowX: "auto" }}>
-                    <Table
-                      columns={mergedColumns}
-                      dataSource={data?.filter(
-                        (r) => r.parent === "Internal Enablers"
-                      )}
-                      pagination={false}
-                      size="small"
-                      components={{
-                        body: {
-                          cell: EditableCell,
-                        },
-                      }}
-                      rowClassName="editable-row"
-                    />
-                  </div>
-                </Collapse.Panel>
-              </Collapse>
-            ) : (
-              "LOADING...."
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </Form>
+      </Form>
+    </div>
   );
 }
 

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import RequestsTable from '../Global/RequestsComponents/RequestsTable';
 import NewsForm from './NewsForm';
 import pnp from 'sp-pnp-js';
+import ProtectRouteCommunication from '../../Routers/ProtectRoutes/ProtectRouteCommunication';
 
 
 
@@ -108,8 +109,14 @@ function ManageNewsContent() {
     }
   ];
 
+
+
+
+
+
+
   return (
-    <>
+    <ProtectRouteCommunication>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/community-news`)}>SALIC Community News</a>
         <p>Manage SALIC News</p>
@@ -138,7 +145,7 @@ function ManageNewsContent() {
           />
         </Modal>
       </div>
-    </>
+    </ProtectRouteCommunication>
   )
 }
 

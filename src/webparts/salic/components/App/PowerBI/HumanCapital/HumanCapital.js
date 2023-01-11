@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import ProtectRoutePowerBI from '../../../Routers/ProtectRoutes/ProtectRoutePowerBI';
 import { AppCtx } from '../../App';
 import HistoryNavigation from '../../Global/HistoryNavigation/HistoryNavigation';
 import ServicesSection from '../../Global/ServicesSection/ServicesSection';
@@ -20,7 +21,7 @@ function HumanCapital() {
 
 
   return (
-    <>
+    <ProtectRoutePowerBI>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards`)}>Power BI Interactive Dashboards</a>
         <p>Human Capital</p>
@@ -32,7 +33,7 @@ function HumanCapital() {
           items={services}
         />
       </div>
-    </>
+    </ProtectRoutePowerBI>
   )
 }
 

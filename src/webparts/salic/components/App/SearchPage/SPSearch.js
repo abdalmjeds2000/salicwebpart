@@ -5,8 +5,6 @@ import Header from './components/Header';
 import Result from './components/Result';
 import axios from 'axios';
 import { AppCtx } from '../App';
-import AntdLoader from '../Global/AntdLoader/AntdLoader';
-// import { Pagination } from '@pnp/spfx-controls-react/lib/Pagination';
 import { message } from 'antd';
 
 

@@ -173,6 +173,8 @@ function IssuingVISA() {
         UserDept={id ? requestData?.ByUser?.Title : user_data?.Data?.Title}
         UserNationality={id ? ' - ' : user_data?.Data?.Nationality || ' - '}
         UserId={id ? requestData.ByUser?.Iqama || ' - ' : user_data.Data?.Iqama || ' - '}
+        EmployeeId={id ? parseInt(requestData.ByUser?.PIN, 10) || ' - ' : parseInt(user_data.Data?.PIN, 10) || ' - '}
+        Extension={id ? requestData.ByUser?.Ext || ' - ' : user_data.Data?.Ext || ' - '}
         tipsList={[
           "Fill out required fields carefully.",
           "Before refer the enrollment to the users, please read it carefully and refer it to all participants.",

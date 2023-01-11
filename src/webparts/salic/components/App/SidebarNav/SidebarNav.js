@@ -27,11 +27,12 @@ const capitalize = (s) => s[0]?.toUpperCase() + s.slice(1);
 
 
 const SidebarNav = ({spWebUrl}) => {
-  const [isNavBarLarge, setIsNavBarLarge] = useState(false);
   const { user_data, defualt_route } = useContext(AppCtx);
   const navigate = useNavigate();
+  const [isNavBarLarge, setIsNavBarLarge] = useState(false);
 
   const [communicationAdmins, setCommunicationAdmins] = useState([]);
+  const [powerBIAdmins, setPowerBIAdmins] = useState([]);
 
 
   // read window size
@@ -46,11 +47,11 @@ const SidebarNav = ({spWebUrl}) => {
     };
   }, []);
 
+
   const location = useLocation();
   const [activeRoute, setActiveRoute] = useState(location.pathname);
   useEffect(() => {
     setActiveRoute(location.pathname);
-
     // change site title based on current location pathname
     const title = location.pathname.split("/");
     document.title = `.:: SALIC Gate | ${capitalize(
@@ -58,6 +59,7 @@ const SidebarNav = ({spWebUrl}) => {
     ).replace("-", " ")} ::.`;
   }, [location.pathname]);
 
+  
   const antdIconStyle = {
     minWidth: "35px",
     fontSize: isNavBarLarge ? "2.2rem" : "1.7rem"
@@ -68,23 +70,39 @@ const SidebarNav = ({spWebUrl}) => {
 
 
 
-
+  /* fetch Communication Admins & PowerBI Admins */
   const fetchCommunicationAdmins = async () => {
     const groupName = 'Communication_Admin';
     const users = await pnp.sp.web.siteGroups.getByName(groupName).users.get();
     setCommunicationAdmins(users);
   }
+  const fetchPowerBIAdmins = async () => {
+    const groupName = 'HR_Power_BI';
+    const users = await pnp.sp.web.siteGroups.getByName(groupName).users.get();
+    setPowerBIAdmins(users);
+  }
+
   useEffect(() => {
     if(Object.keys(user_data).length > 0) {
       fetchCommunicationAdmins();
+      fetchPowerBIAdmins();
     }
   }, [user_data])
+
+  /* Check is Admins */
   let isAdmin = false;
   communicationAdmins.map(user => {
     if(user?.Email?.toLowerCase() === user_data?.Data?.Mail?.toLowerCase()) {
       isAdmin = true;
     }
   });
+  let isPowerBIAdmin = false;
+  powerBIAdmins.map(user => { 
+    if(user?.Email?.toLowerCase() === user_data?.Data?.Mail?.toLowerCase()) {
+      isPowerBIAdmin = true;
+    }
+  });
+
   const listItems = [
     { to: "/home", icon: svgIcons.home, text: "Home", link: false },
     {
@@ -140,11 +158,17 @@ const SidebarNav = ({spWebUrl}) => {
     },
   ];
 
-
+  /* is not admin ? filter sidebar items : return all items */
   let protectedListItems = listItems;
   if(!isAdmin) {
-    protectedListItems = listItems.filter(item => !["/manage-events", "/manage-news-content"].includes(item.to))
+    protectedListItems = protectedListItems.filter(item => !["/manage-events", "/manage-news-content"].includes(item.to))
   }
+  if(!isPowerBIAdmin) {
+    protectedListItems = protectedListItems.filter(item => !["/power-bi-dashboards"].includes(item.to))
+  }
+
+
+
 
   return (
     <>

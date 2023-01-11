@@ -115,6 +115,7 @@ const App: React.FunctionComponent<AppProps> = (props: any) => {
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Sultan.Bintayyash@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=Fawaz.Aladhyani@salic.com`,
           // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=sultan.aldawood@salic.com`,
+          // url: `https://salicapi.com/api/User/GetUserByEmail?Expand=manager&Email=ibrahim.basfar@salic.com`,
         })
           .then((response) => {
             setUserData(response.data)

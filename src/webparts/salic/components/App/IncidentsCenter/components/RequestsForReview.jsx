@@ -10,6 +10,7 @@ import axios from 'axios';
 import AntdLoader from '../../Global/AntdLoader/AntdLoader';
 import { riskType } from '../risksTypes'
 import { PlusCircleOutlined } from '@ant-design/icons';
+import ProtectRouteIncident from '../../../Routers/ProtectRoutes/ProtectRouteIncident';
 
 
 
@@ -83,7 +84,7 @@ const RequestsForReview = () => {
 
   
   return (
-    <>
+    <ProtectRouteIncident>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/incidents-center`)}>Risk Center</a>
         <p>Requests For Review</p>
@@ -106,7 +107,7 @@ const RequestsForReview = () => {
       }
       
 
-    </>
+    </ProtectRouteIncident>
   )
 }
 

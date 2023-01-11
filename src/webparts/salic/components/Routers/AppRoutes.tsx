@@ -96,6 +96,7 @@ import {
   PDFViewer,
   AnnualReports,
   SALICPresentation,
+  KPIChildrens
 } from './ImportFiles';
 
 
@@ -269,7 +270,8 @@ const AppRoutes: React.FunctionComponent<RoutersProps> = (props) => {
       <Route path={`${defualtRoute}/manage-media-center`} element={<ManageNews />} />
       <Route path={`${defualtRoute}/manage-events`} element={<ManageEvents />} />
       <Route path={`${defualtRoute}/sp-search`} element={<SPSearch />} />
-      <Route path={`${defualtRoute}/corporate-objective`} element={<CorporateObjectiveKPIs />} />
+      {/* <Route path={`${defualtRoute}/corporate-objective`} element={<CorporateObjectiveKPIs />} /> */}
+      {/* <Route path={`${defualtRoute}/corporate-objective/:kpi`} element={<KPIChildrens />} /> */}
       
       <Route path={`${defualtRoute}/incidents-center`}>
         <Route index element={<IncidentsCenter />} />

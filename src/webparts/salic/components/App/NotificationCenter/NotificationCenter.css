@@ -108,11 +108,14 @@
 
 }
 
-.notifications-modal .body-content p {
+.notifications-modal .body-content .fix-margin p {
   margin-bottom: 30px !important;
   color: #000 !important;
 }
+.notification-center_content .action-link a:visited {
+  color: green !important;
 
+}
 
 
 @media screen and (max-width: 1000px) {

@@ -63,10 +63,10 @@ function SalicGlobe() {
   // Globe Ref
   useEffect(() => {
     if(windowSize.innerWidth > 990) {
-      globeEl.current.controls().autoRotate = true;
-      globeEl.current.controls().enableZoom = false;
-      globeEl.current.controls().autoRotateSpeed = 1;
-      globeEl.current.pointOfView({ lat: 30, lng: 45, altitude: 1.7 }, 5000);
+      globeEl.current?.controls().autoRotate = true;
+      globeEl.current?.controls().enableZoom = false;
+      globeEl.current?.controls().autoRotateSpeed = 1;
+      globeEl.current?.pointOfView({ lat: 30, lng: 45, altitude: 1.7 }, 5000);
     }
   }, [rotation]);
   
@@ -75,11 +75,11 @@ function SalicGlobe() {
     if (polygon !== null) {
       setHover(polygon.properties.ISO_A3);
       // setRotation(false);
-      globeEl.current.controls().autoRotate = false;
+      globeEl.current?.controls().autoRotate = false;
     } else {
       setHover(null);
       // setRotation(true);
-      globeEl.current.controls().autoRotate = true;
+      globeEl.current?.controls().autoRotate = true;
     }
   }, []);
 

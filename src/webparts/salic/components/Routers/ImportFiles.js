@@ -75,6 +75,7 @@ export { default as ManageNewsContent } from '../App/ManageNewsContent/ManageNew
 export { default as ManageEvents } from '../App/ManageEvents/ManageEvents';
 export { default as SPSearch } from '../App/SearchPage/SPSearch';
 export { default as CorporateObjectiveKPIs } from '../App/CorporateObjectiveKPIs/CorporateObjectiveKPIs';
+export { default as KPIChildrens } from '../App/CorporateObjectiveKPIs/KPIChildrens';
 export { default as ResearchDashboard } from '../App/ResearchCenter/Dashboard/ResearchDashboard';
 export { default as CategoryPage } from '../App/ResearchCenter/Dashboard/pages/CategoryPage/CategoryPage';
 export { default as PulseSection } from '../App/ResearchCenter/Dashboard/pages/PulseCardsPage';

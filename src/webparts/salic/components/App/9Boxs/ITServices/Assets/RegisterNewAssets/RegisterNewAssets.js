@@ -106,11 +106,6 @@ function RegisterNewAssets() {
 
       <FormPage
         pageTitle='VISA Visitor Request'
-        Email={user_data.Data.Mail}
-        UserName={user_data.Data.DisplayName}
-        UserDept={user_data.Data.Title}
-        UserNationality={user_data.Data.Nationality || ' - '}
-        UserId={user_data.Data?.Iqama || ' - '}
         tipsList={[
           "Fill out required fields carefully.",
           "If Possile upload captured images for the problem.",

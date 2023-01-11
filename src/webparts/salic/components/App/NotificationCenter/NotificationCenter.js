@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './NotificationCenter.css';
-import { Badge, Button, Checkbox, Col, Dropdown, Modal, Row, Select, Spin, Table, Tag } from 'antd';
+import { Button, Checkbox, Modal, Select, Spin, Table, Tag, Tooltip } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined, DownOutlined, FileDoneOutlined, LoadingOutlined, RedoOutlined, SyncOutlined } from '@ant-design/icons';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { AppCtx } from '../App';
 import axios from 'axios';
-import AntdLoader from '../Global/AntdLoader/AntdLoader';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
@@ -126,7 +125,7 @@ function NotificationCenter() {
       }
     },{
       title: 'Source',
-      key: 'from',
+      key: 'TypeLabel',
       width: '10%',
       render: (_, record) => {
         return <div style={{minWidth: 120}}>{record.From}</div>
@@ -163,21 +162,23 @@ function NotificationCenter() {
       title: 'Action',
       dataIndex: 'Body',
       width: '10%',
-      render: (val, record) => (
-        <div style={{minWidth: 120}}>
+      render: (val, record) => {
+        const status = typeof record.Status == "string" ? record.Status?.toLowerCase() : "";
+        const linkLabel = status === 'pending' ? "Take an action" : "View";
+        return <div style={{minWidth: 120}} className={status === "pending" ? "action-link" : ""}>
           {
             oracleFrom.includes(record.From?.toLowerCase())
-              ? <div><a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* Details */}</a></div>
+              ? <div><a href="#" onClick={() => {setOpenModal(true); setModalData(record);}}>{linkLabel}</a></div>
             : record.From === 'eSign'
-              ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>Take an action{/* View Document */}</a>
+              ? <a href={`https://salicapi.com/eSign/sign.html?key=${val}`} target='_blank'>{linkLabel}</a>
             : record.From === 'ServiceRequest'
-              ? <a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* View */}</a>
+              ? <a href="#" onClick={() => {setOpenModal(true); setModalData(`<div class="fix-margin">${record}</div>`);}}>{linkLabel}</a>
             : record.From === 'DeliveryNote'
-              ? <a onClick={() => {setOpenModal(true); setModalData(record);}}>Take an action{/* View Document */}</a>
-            : <a onClick={() => redirectAction(record.From, record.Id)}>Take an action{/* Open Request */}</a>
+              ? <a href="#" onClick={() => {setOpenModal(true); setModalData(record);}}>{linkLabel}</a>
+            : <a href="#" onClick={() => redirectAction(record.From, record.Id)}>{linkLabel}</a>
           }
         </div>
-      )
+      }
     }
   ];
 
@@ -202,57 +203,60 @@ function NotificationCenter() {
           }
 
           <div className="notification_type-container">
-            <div className="notification_type"
-              style={{backgroundColor: selectedType.includes('Oracle') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('Oracle')) {
-                  return prev.filter(t => t !== 'Oracle')
-                } else {
-                  return [...prev, 'Oracle']
-                }
-              })}
-            >
-              <div className='text'>
-                {/* <h1>{selectedType.includes('Oracle') ? data.filter(r => oracleFrom.includes(r.From?.toLowerCase())).length : ' - '}</h1> */}
-                <h1>{dataCount.Oracle || '0'}</h1>
-                <h2>Oracle</h2>
+            <Tooltip title="Oracle SaaS, Oracle PaaS">
+              <div className="notification_type"
+                style={{backgroundColor: selectedType.includes('Oracle') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
+                onClick={() => setSelectedType(prev => {
+                  if(prev.includes('Oracle')) {
+                    return prev.filter(t => t !== 'Oracle')
+                  } else {
+                    return [...prev, 'Oracle']
+                  }
+                })}
+              >
+                <div className='text'>
+                  <h1>{dataCount.Oracle || '0'}</h1>
+                  <h2>Oracle</h2>
+                </div>
+                <DownOutlined />
               </div>
-              <DownOutlined />
-            </div>
-            <div className="notification_type"
-              style={{backgroundColor: selectedType.includes('eSign') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('eSign')) {
-                  return prev.filter(t => t !== 'eSign')
-                } else {
-                  return [...prev, 'eSign']
-                }
-              })}
-            >
-              <div className='text'>
-                {/* <h1>{selectedType.includes('eSign') ? data.filter(r => r.From == "eSign").length : ' - '}</h1> */}
-                <h1>{dataCount.eSign || '0'}</h1>
-                <h2>eSign Tool</h2>
+            </Tooltip>
+            <Tooltip title="eSign Requests">
+              <div className="notification_type"
+                style={{backgroundColor: selectedType.includes('eSign') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
+                onClick={() => setSelectedType(prev => {
+                  if(prev.includes('eSign')) {
+                    return prev.filter(t => t !== 'eSign')
+                  } else {
+                    return [...prev, 'eSign']
+                  }
+                })}
+              >
+                <div className='text'>
+                  <h1>{dataCount.eSign || '0'}</h1>
+                  <h2>eSign Tool</h2>
+                </div>
+                <DownOutlined />
               </div>
-              <DownOutlined />
-            </div>
-            <div className="notification_type"
-              style={{backgroundColor: selectedType.includes('SharedServices') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
-              onClick={() => setSelectedType(prev => {
-                if(prev.includes('SharedServices')) {
-                  return prev.filter(t => t !== 'SharedServices')
-                } else {
-                  return [...prev, 'SharedServices']
-                }
-              })}
-            >
-              <div className='text'>
-                {/* <h1>{selectedType.includes('SharedServices') ? data.filter(r => r.From == "SharedServices").length : ' - '}</h1> */}
-                <h1>{dataCount.SharedService || '0'}</h1>
-                <h2>Shared Services</h2>
+            </Tooltip>
+            <Tooltip title="IT Service, Admin Service Requests and IT Delivery Note">
+              <div className="notification_type"
+                style={{backgroundColor: selectedType.includes('SharedServices') ? 'var(--main-color)' : 'var(--brand-orange-color)'}}
+                onClick={() => setSelectedType(prev => {
+                  if(prev.includes('SharedServices')) {
+                    return prev.filter(t => t !== 'SharedServices')
+                  } else {
+                    return [...prev, 'SharedServices']
+                  }
+                })}
+              >
+                <div className='text'>
+                  <h1>{dataCount.SharedService || '0'}</h1>
+                  <h2>Shared Services</h2>
+                </div>
+                <DownOutlined />
               </div>
-              <DownOutlined />
-            </div>
+            </Tooltip>
           </div>
           
 

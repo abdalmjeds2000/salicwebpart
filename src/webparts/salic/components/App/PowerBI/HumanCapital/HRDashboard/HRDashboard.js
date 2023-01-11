@@ -7,6 +7,7 @@ import { PowerBIEmbed } from 'powerbi-client-react';
 import { models } from 'powerbi-client';
 import { BearerToken } from "@pnp/queryable";
 import axios from 'axios';
+import ProtectRoutePowerBI from '../../../../Routers/ProtectRoutes/ProtectRoutePowerBI';
 
 
 
@@ -16,37 +17,40 @@ function HRDashboard() {
   const { defualt_route, sp_context } = useContext(AppCtx);
   
 
-  useEffect(async () => {
+  // useEffect(async () => {
 
-    var data = new FormData();
-    data.append('grant_type', 'client_credentials');
-    data.append('client_secret', 'Acx3jHswzYXrK4fkVy+QO1ZMYssXwKwgmmb0TVmgjDI=');
-    data.append('client_id', '8993b048-de71-4fed-98b8-6dae2c6d7503');
-    data.append('resource', 'https://analysis.windows.net/powerbi/api');
+  //   var data = new FormData();
+  //   data.append('grant_type', 'client_credentials');
+  //   data.append('client_secret', 'Acx3jHswzYXrK4fkVy+QO1ZMYssXwKwgmmb0TVmgjDI=');
+  //   data.append('client_id', '8993b048-de71-4fed-98b8-6dae2c6d7503');
+  //   data.append('resource', 'https://analysis.windows.net/powerbi/api');
     
-    var config = {
-      method: 'post',
-      url: 'https://login.microsoftonline.com/bea1b417-4237-40b8-b020-57fce9abdb43/oauth2/token',
-      headers: { 
-        'Cookie': 'fpc=AgKyHCSxG0ZOlC4qHxBT4XGAjGf5AwAAAFJINdsOAAAA; stsservicecookie=estsfd; x-ms-gateway-slice=estsfd', 
-      },
-      data : data
-    };
+  //   var config = {
+  //     method: 'post',
+  //     url: 'https://login.microsoftonline.com/bea1b417-4237-40b8-b020-57fce9abdb43/oauth2/token',
+  //     headers: { 
+  //       'Cookie': 'fpc=AgKyHCSxG0ZOlC4qHxBT4XGAjGf5AwAAAFJINdsOAAAA; stsservicecookie=estsfd; x-ms-gateway-slice=estsfd', 
+  //     },
+  //     data : data
+  //   };
     
-    axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  //   axios(config)
+  //   .then(function (response) {
+  //     console.log(JSON.stringify(response.data));
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
 
 
 
 
-  }, [])
+  // }, []);
+
+
+
   return (
-    <>
+    <ProtectRoutePowerBI>
       <HistoryNavigation>
         <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards`)}>Power BI Interactive Dashboards</a>
         <a onClick={() => navigate(`${defualt_route}/power-bi-dashboards/human-capital`)}>Human Capital</a>
@@ -103,7 +107,7 @@ function HRDashboard() {
         /> */}
 
       </div>
-    </>
+    </ProtectRoutePowerBI>
   )
 }
 

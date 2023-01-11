@@ -3,6 +3,7 @@ import './PowerBIInteractiveDashboards.css';
 import HistoryNavigation from '../Global/HistoryNavigation/HistoryNavigation';
 import { icons } from './boxesData';
 import ServicesSection from '../Global/ServicesSection/ServicesSection';
+import ProtectRoutePowerBI from '../../Routers/ProtectRoutes/ProtectRoutePowerBI';
 
 
 function PowerBIInteractiveDashboards() {
@@ -12,7 +13,7 @@ function PowerBIInteractiveDashboards() {
   ];
   
   return (
-    <>
+    <ProtectRoutePowerBI>
       <HistoryNavigation>
         <p>Power BI Interactive Dashboards</p>
       </HistoryNavigation>
@@ -22,7 +23,7 @@ function PowerBIInteractiveDashboards() {
           items={services}
         />
       </div>
-    </>
+    </ProtectRoutePowerBI>
   )
 }
 
